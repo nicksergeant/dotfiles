@@ -24,3 +24,5 @@
     tool = Kaleidoscope
 [core]
     excludesfile = /Users/Nick/.gitignore
+[github]
+	user = nicksergeant
