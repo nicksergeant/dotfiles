@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<root>
+    <appdef>
+        <appname>FIREFOX</appname>
+        <equal>org.mozilla.firefox</equal>
+    </appdef>
+    <appdef>
+        <appname>CHROME</appname>
+        <equal>com.google.Chrome</equal>
+    </appdef>
+    <appdef>
+        <appname>ITERM</appname>
+        <equal>com.googlecode.iterm2</equal>
+    </appdef>
+    <list> 
+        <item> 
+            <name>Firefox</name> 
+            <identifier>private.firefox</identifier>
+            <list> 
+                <item>
+                    <appendix>Change Cmd+D to Cmd+T</appendix>
+                    <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::COMMAND_L, KeyCode::T, ModifierFlag::COMMAND_L</autogen>
+                    <only>FIREFOX</only>
+                </item>
+                <item>
+                    <appendix>Change Cmd+quote to F12</appendix>
+                    <autogen>--KeyToKey-- KeyCode::QUOTE, ModifierFlag::COMMAND_L, KeyCode::F12</autogen>
+                    <only>FIREFOX</only>
+                </item>
+                <item>
+                    <appendix>Force Cmd+Opt+K (bypass Vim mode)</appendix>
+                    <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L, KeyCode::K, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+                    <only>FIREFOX</only>
+                </item>
+            </list>
+        </item>
+        <item> 
+            <name>Terminal</name> 
+            <identifier>private.terminal</identifier>
+            <list> 
+                <item>
+                    <appendix>Change Cmd+Shift+Ctrl+[ to Opt+Shift+,</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L, KeyCode::COMMA, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
+                    <only>TERMINAL</only>
+                </item>
+                <item>
+                    <appendix>Change Cmd+Shift+Ctrl+] to Opt+A</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L, KeyCode::A, ModifierFlag::OPTION_L</autogen>
+                    <only>TERMINAL</only>
+                </item>
+                <item>
+                    <appendix>Change Cmd+Shift+] to Opt+Down</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L</autogen>
+                    <only>TERMINAL</only>
+                </item>
+                <item>
+                    <appendix>Change Cmd+Shift+[ to Opt+Up</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::CURSOR_UP, ModifierFlag::OPTION_L</autogen>
+                    <only>TERMINAL</only>
+                </item>
+                <item>
+                    <appendix>Change Cmd+Shift+D to Opt+Shift+Delete</appendix>
+                    <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::DELETE, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
+                    <only>TERMINAL</only>
+                </item>
+                <item>
+                    <appendix>Change Cmd+[ to Opt+Shift+,</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L, KeyCode::COMMA, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
+                    <only>TERMINAL</only>
+                </item>
+                <item>
+                    <appendix>Change Cmd+] to Opt+Shift+.</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L, KeyCode::DOT, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
+                    <only>TERMINAL</only>
+                </item>
+            </list>
+        </item>
+    </list>
+</root>

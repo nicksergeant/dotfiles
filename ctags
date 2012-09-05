@@ -1,0 +1,15 @@
+--python-kinds=cfm
+
+--exclude=*.min.js
+--exclude=jquery.*.js
+--exclude=jquery-*.js
+--exclude=.hg
+--exclude=.git
+--exclude=libs
+--exclude=build
+--exclude=dist
+--exclude=user-data
+--exclude=venv
+--exclude=static-cache
+--exclude=static
+--exclude=migrations
