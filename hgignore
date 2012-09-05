@@ -1,0 +1,21 @@
+syntax: glob
+
+.DS_Store
+.git
+.netrwhist
+.sass-cache
+*.db
+*.dump
+*.log
+*.pid
+*.pyc
+*.swo
+*.swp
+*.un~
+*.sql
+local_settings.py
+local_fabfile.py
+media/admin
+media/logs
+tmp
+static

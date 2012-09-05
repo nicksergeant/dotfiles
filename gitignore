@@ -1,0 +1,9 @@
+*.pyc
+*.swo
+*.swp
+*.un~
+.DS_Store
+.hg
+.hgignore
+.sass-cache
+tags

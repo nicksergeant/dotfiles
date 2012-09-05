@@ -1,0 +1,5 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=1394
+
+This is a first attempt to offer a color syntax for fish. It is heavily based on the zsh.vim file. I hope it will become as good :)
+
+please feel free to report any problems at the email indicated inside the file.

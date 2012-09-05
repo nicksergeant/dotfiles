@@ -1,0 +1,1 @@
+/Users/Nick/Sources/dotfiles/.vim/bundle/PeepOpen-EditorSupport/vim-peepopen/plugin/peepopen.vim

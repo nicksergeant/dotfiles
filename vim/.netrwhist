@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/Users/Nick/Code/snipt'
+let g:netrw_dirhist_2='/Users/Nick/Code/unisubs'
+let g:netrw_dirhist_3='/Users/Nick/Code/snipt'
+let g:netrw_dirhist_4='/Users/Nick/Dropbox/Code/snipt'
+let g:netrw_dirhist_5='/Users/Nick/Code/snipt'
+let g:netrw_dirhist_6='/Users/Nick/Code/unisubs'
+let g:netrw_dirhist_7='/Users/Nick/Code/snipt'
+let g:netrw_dirhist_8='/Users/Nick/Code/unisubs'
+let g:netrw_dirhist_9='/Users/Nick/Sources/dotfiles'

@@ -1,0 +1,76 @@
+[ui]
+username = Nick Sergeant <nick@nicksergeant.com>
+editor = mate -w
+ignore = ~/.hgignore
+
+[extensions]
+hgext.bookmarks =
+#hggit = $HOME/Sources/hg-git/hggit
+graphlog =
+purge = 
+color = 
+parentrevspec =
+schemes = 
+bookmarks =
+record = 
+mq =
+inotify=!
+hgext.extdiff =
+hgext.convert =
+hgext.imerge = !
+
+[extdiff]
+cmd.ksdiff = /usr/local/bin/ksdiff-wrapper
+opts.ksdiff = hg
+
+[schemes]
+bbs = ssh://hg@bitbucket.org/
+gh = git://github.com/
+ghs = git+ssh://git@github.com/
+
+[diff]
+git = True
+
+[color]
+status.modified = cyan
+status.added = green
+status.removed = red
+status.deleted = yellow bold underline
+status.unknown = magenta bold underline
+status.ignored = black bold
+diff.diffline = none
+diff.extended = cyan
+diff.file_a = red
+diff.file_b = green
+diff.hunk = yellow bold
+diff.deleted = red
+diff.inserted = green
+diff.changed = white
+diff.trailingwhitespace = white_background
+
+[defaults]
+diff   = --color auto
+status = --color auto
+serve  = --style=gitweb
+addremove = --similarity 100
+
+[alias]
+nudge = push --rev .
+tmd = diff --no-color -U 10
+st = status -C
+? = summary
+
+cm = commit -m
+
+slog = log --style=$HOME/sources/mercurial-cli-templates/map-cmdline.slog
+. = slog -l15
+.. = . -l100000000
+
+sglog = glog --style=$HOME/sources/mercurial-cli-templates/map-cmdline.sglog
+, = sglog -l10
+,, = , -l100000000
+
+nlog = log --style=$HOME/sources/mercurial-cli-templates/map-cmdline.nlog
+n = nlog -vr
+show = nlog --color=always -vpr
+
