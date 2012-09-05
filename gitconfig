@@ -25,4 +25,4 @@
 [core]
     excludesfile = /Users/Nick/.gitignore
 [github]
-	user = nicksergeant
+    user = nicksergeant
