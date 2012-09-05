@@ -12,24 +12,34 @@
         <appname>ITERM</appname>
         <equal>com.googlecode.iterm2</equal>
     </appdef>
+    <appdef>
+        <appname>LINKINUS</appname>
+        <equal>net.conceited.Linkinus</equal>
+    </appdef>
     <list> 
+        <item> 
+            <name>Linkinus</name> 
+            <identifier>private.linkinus</identifier>
+            <list> 
+                <item>
+                    <appendix>Cmd+Control+U for Page Up</appendix>
+                    <autogen>--KeyToKey-- KeyCode::U, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L, KeyCode::PAGEUP</autogen>
+                    <only>LINKINUS</only>
+                </item>
+                <item>
+                    <appendix>Cmd+Control+D for Page Down</appendix>
+                    <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L, KeyCode::PAGEDOWN</autogen>
+                    <only>LINKINUS</only>
+                </item>
+            </list>
+        </item>
         <item> 
             <name>Firefox</name> 
             <identifier>private.firefox</identifier>
             <list> 
                 <item>
-                    <appendix>Change Cmd+D to Cmd+T</appendix>
+                    <appendix>Cmd+D for New Tab</appendix>
                     <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::COMMAND_L, KeyCode::T, ModifierFlag::COMMAND_L</autogen>
-                    <only>FIREFOX</only>
-                </item>
-                <item>
-                    <appendix>Change Cmd+quote to F12</appendix>
-                    <autogen>--KeyToKey-- KeyCode::QUOTE, ModifierFlag::COMMAND_L, KeyCode::F12</autogen>
-                    <only>FIREFOX</only>
-                </item>
-                <item>
-                    <appendix>Force Cmd+Opt+K (bypass Vim mode)</appendix>
-                    <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L, KeyCode::K, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
                     <only>FIREFOX</only>
                 </item>
             </list>
