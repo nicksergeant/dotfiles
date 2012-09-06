@@ -15,7 +15,7 @@ def main():
     except ImportError:
         sys.stderr.write('%s' % title)
 
-    sys.stdout.write('https://github.com/pculture/unisubs/commit/%s' % hash)
+    sys.stdout.write(hash)
 
 if __name__ == '__main__':
     main()
