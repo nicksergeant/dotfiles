@@ -4,3 +4,6 @@
 [submodule "vim/bundle/PeepOpen-EditorSupport"]
 	path = vim/bundle/PeepOpen-EditorSupport
 	url = git://github.com/topfunky/PeepOpen-EditorSupport.git
+[submodule "vim/bundle/ack.vim"]
+	path = vim/bundle/ack.vim
+	url = git://github.com/mileszs/ack.vim.git
