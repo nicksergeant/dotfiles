@@ -1,3 +1,6 @@
 [submodule "vim/bundle/numbers.vim"]
 	path = vim/bundle/numbers.vim
 	url = git://github.com/myusuf3/numbers.vim.git
+[submodule "vim/bundle/PeepOpen-EditorSupport"]
+	path = vim/bundle/PeepOpen-EditorSupport
+	url = git://github.com/topfunky/PeepOpen-EditorSupport.git
