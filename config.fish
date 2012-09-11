@@ -77,7 +77,8 @@ alias gl 'git pull'
 alias gll 'git submodule foreach git pull'
 alias glc '/Users/Nick/Sources/dotfiles/bin/get_last_commit | pbcopy'
 alias glco 'git browse -- commit/(/Users/Nick/Sources/dotfiles/bin/get_last_commit)'
-alias gp 'git push'
+alias gp 'git push; glco'
+alias gpp 'git push'
 alias gst 'git status'
 alias hgc 'hg commit'
 alias hgs 'hg st'
@@ -88,6 +89,7 @@ alias hglu 'hg pull -u'
 # }}}
 # Program aliases {{{
 
+alias ce '/Users/Nick/Code/unisubs/media/js/embedder/compile-embedder.sh'
 alias deact 'deactivate'
 alias es 'elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.19.8/config/elasticsearch.yml'
 alias go 'vagrant ssh;'
