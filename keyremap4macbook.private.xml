@@ -16,6 +16,10 @@
         <appname>LINKINUS</appname>
         <equal>net.conceited.Linkinus</equal>
     </appdef>
+    <appdef>
+        <appname>ITUNES</appname>
+        <equal>com.apple.iTunes</equal>
+    </appdef>
     <list> 
         <item> 
             <name>Linkinus</name> 
@@ -30,6 +34,17 @@
                     <appendix>Cmd+Control+D for Page Down</appendix>
                     <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L, KeyCode::PAGEDOWN</autogen>
                     <only>LINKINUS</only>
+                </item>
+            </list>
+        </item>
+        <item> 
+            <name>iTunes</name> 
+            <identifier>private.itunes</identifier>
+            <list> 
+                <item>
+                    <appendix>Cmd+F for Search Music</appendix>
+                    <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::COMMAND_L, KeyCode::F, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+                    <only>ITUNES</only>
                 </item>
             </list>
         </item>
