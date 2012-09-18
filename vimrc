@@ -21,6 +21,9 @@ nnoremap Vat vatV
 
 " Ack {{{
 
+" Use Ag instead of Ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
 " Ack for last search.
 nnoremap <silent> <leader>A :execute "Ack! -i '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 nnoremap <leader>a :Ack! -i<space>
