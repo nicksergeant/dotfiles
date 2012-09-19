@@ -106,6 +106,7 @@ alias ul 'unlink'
 alias vu 'vagrant up'
 alias vh 'vagrant halt'
 alias vs 'vagrant suspend'
+alias wo 'workon (cat .venv)'
 
 # }}}
 # Prompt {{{
