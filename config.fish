@@ -162,7 +162,6 @@ alias air 'ssh Nick@air.local'
 alias afa 'ssh nick@afeedapart.com'
 alias pro 'ssh Nick@pro.local'
 alias sn 'ssh nick@snipt.net'
-alias go 'ssh vagrant@unisubs.example.com'
 
 # }}}
 # Z {{{
