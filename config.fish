@@ -185,7 +185,12 @@ alias j 'z'
 # Init {{{
 
 if status --is-interactive
-    command fortune -s | cowsay -n | lolcat
+    switch (hostname)
+        case 'air.local'
+            command fortune -s | cowsay -n | lolcat
+        case 'pro.local'
+            command fortune -s | cowsay -n | lolcat
+    end
 end
 
 # }}}
