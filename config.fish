@@ -79,7 +79,9 @@ set -g -x NODE_PATH "/usr/local/lib/jsctags/" $NODE_PATH
 # }}}
 # Git and Mercurial aliases {{{
 
-alias git 'hub'
+if test $IS_SERVER = 'false'
+    alias git 'hub'
+end
 alias gca 'git commit -a'
 alias gd 'git difftool'
 alias gl 'git pull'
