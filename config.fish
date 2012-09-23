@@ -1,3 +1,12 @@
+# Server or not?
+set IS_SERVER 'false'
+switch (hostname)
+    case 'ec2.nicksergeant.com'
+        set IS_SERVER 'true'
+    case 'snipt.net'
+        set IS_SERVER 'true'
+end
+
 # Ctags {{{
 
 function atags
@@ -133,15 +142,10 @@ end
 function fish_prompt
     z --add "$PWD"
     echo
-    switch (hostname)
-        case 'air.local'
-            printf '\033[0;33m%s ' (hostname|cut -d . -f 1)
-        case 'pro.local'
-            printf '\033[0;33m%s ' (hostname|cut -d . -f 1)
-        case 'ec2.nicksergeant.com'
-            printf '\033[0;31m%s ' (hostname|cut -d . -f 1)
-        case 'snipt.net'
-            printf '\033[0;31m%s ' (hostname|cut -d . -f 1)
+    if test $IS_SERVER = 'true'
+        printf '\033[0;31m%s ' (hostname|cut -d . -f 1)
+    else
+        printf '\033[0;33m%s ' (hostname|cut -d . -f 1)
     end
     printf '\033[0;32m%s' (prompt_pwd)
     git_prompt
@@ -185,11 +189,8 @@ alias j 'z'
 # Init {{{
 
 if status --is-interactive
-    switch (hostname)
-        case 'air.local'
-            command fortune -s | cowsay -n | lolcat
-        case 'pro.local'
-            command fortune -s | cowsay -n | lolcat
+    if test $IS_SERVER = 'false'
+        command fortune -s | cowsay -n | lolcat
     end
 end
 
