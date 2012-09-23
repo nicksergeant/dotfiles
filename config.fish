@@ -133,7 +133,16 @@ end
 function fish_prompt
     z --add "$PWD"
     echo
-    printf '\033[0;33m%s ' (hostname|cut -d . -f 1)
+    switch (hostname)
+        case 'air.local'
+            printf '\033[0;33m%s ' (hostname|cut -d . -f 1)
+        case 'pro.local'
+            printf '\033[0;33m%s ' (hostname|cut -d . -f 1)
+        case 'ec2.nicksergeant.com'
+            printf '\033[0;31m%s ' (hostname|cut -d . -f 1)
+        case 'snipt.net'
+            printf '\033[0;31m%s ' (hostname|cut -d . -f 1)
+    end
     printf '\033[0;32m%s' (prompt_pwd)
     git_prompt
     echo
