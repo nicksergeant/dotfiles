@@ -5,6 +5,8 @@ switch (hostname)
         set IS_SERVER 'true'
     case 'snipt.net'
         set IS_SERVER 'true'
+    case 'snipt.nicksergeant.com'
+        set IS_SERVER 'true'
 end
 
 # Ctags {{{
