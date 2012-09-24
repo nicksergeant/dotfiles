@@ -169,11 +169,13 @@ end
 
 set -g -x PIP_DOWNLOAD_CACHE "$HOME/.pip/cache"
 
-set PATH "/usr/local/share/python"            $PATH
-set PATH "/usr/local/Cellar/python/2.7.3/bin" $PATH
+if test $IS_SERVER = 'false'
+    set PATH "/usr/local/share/python"            $PATH
+    set PATH "/usr/local/Cellar/python/2.7.3/bin" $PATH
 
-set -g -x PYTHONPATH ""
-set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7.3/site-packages"
+    set -g -x PYTHONPATH ""
+    set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7.3/site-packages"
+end
 
 set -g -x WORKON_HOME "$HOME/.virtualenvs"
 . ~/.config/fish/virtualenv.fish
