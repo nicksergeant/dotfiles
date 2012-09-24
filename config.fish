@@ -1,4 +1,5 @@
-# Server or not?
+# Server or not? {{{
+
 set IS_SERVER 'false'
 switch (hostname)
     case 'ec2.nicksergeant.com'
@@ -8,6 +9,8 @@ switch (hostname)
     case 'snipt.nicksergeant.com'
         set IS_SERVER 'true'
 end
+
+# }}}
 
 # Ctags {{{
 
@@ -67,11 +70,13 @@ alias ev 'mvim ~/.vimrc'
 set TMPDIR "/tmp"
 set PATH "/usr/local/bin"          $PATH
 set PATH "/usr/local/sbin"         $PATH
-set PATH "/usr/local/share/python" $PATH
-set PATH "/usr/local/Cellar/ruby/1.9.3-p194/bin" $PATH
-set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
-set PATH "/Applications/Postgres.app/Contents/MacOS/bin" $PATH
-set BROWSER open
+
+if test $IS_SERVER = 'false'
+    set BROWSER open
+    set PATH "/usr/local/Cellar/ruby/1.9.3-p194/bin" $PATH
+    set PATH "/Applications/Postgres.app/Contents/MacOS/bin" $PATH
+    set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
+    set PATH "/usr/local/share/python" $PATH
 
 set -g -x fish_greeting ''
 set -g -x EDITOR vim
