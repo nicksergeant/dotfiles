@@ -132,6 +132,11 @@ function mutt
     bash --login -c 'cd ~/Desktop; /usr/local/bin/mutt' $argv;
 end
 
+function pp
+    pbpaste|scli post_and_get_url -t|pbcopy;
+    printf '\033[0;36mCopied:\033[0;37m %s\n' (pbpaste);
+end
+
 # }}}
 # Prompt {{{
 
