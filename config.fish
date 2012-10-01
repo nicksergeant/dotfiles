@@ -128,6 +128,10 @@ alias vh 'vagrant halt'
 alias vs 'vagrant suspend'
 alias wo 'workon (cat .venv)'
 
+function mutt
+    bash --login -c 'cd ~/Desktop; /usr/local/bin/mutt' $argv;
+end
+
 # }}}
 # Prompt {{{
 
