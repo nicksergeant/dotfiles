@@ -91,7 +91,7 @@ if test $IS_SERVER = 'false'
     alias git 'hub'
 end
 alias gca 'git commit -a'
-alias gd 'git difftool'
+alias gd 'git diff'
 alias gl 'git pull'
 alias gll 'git submodule foreach git pull'
 alias glc '/Users/Nick/Sources/dotfiles/bin/get_last_commit | pbcopy'
