@@ -22,6 +22,17 @@
     </appdef>
     <list> 
         <item> 
+            <name>iTerm</name> 
+            <identifier>private.iterm</identifier>
+            <list> 
+                <item>
+                    <appendix>Cmd+Shift+U for Ctrl+U</appendix>
+                    <autogen>--KeyToKey-- KeyCode::U, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::U, ModifierFlag::CONTROL_L</autogen>
+                    <only>ITERM</only>
+                </item>
+            </list>
+        </item>
+        <item> 
             <name>Linkinus</name> 
             <identifier>private.linkinus</identifier>
             <list> 

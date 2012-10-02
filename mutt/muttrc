@@ -1,3 +1,7 @@
+# Source files
+
+source ~/.mutt/alias
+
 # Paths ----------------------------------------------
 set folder           = ~/.mail               # mailbox location
 set alias_file       = ~/.mutt/alias         # where to store aliases
@@ -102,6 +106,7 @@ bind pager k  previous-line
 bind pager j  next-line
 bind pager gg top
 bind pager G  bottom
+bind pager <return> exit
 
 bind pager R  group-reply
 
@@ -127,14 +132,25 @@ set reply_to                         # reply to Reply to: field
 set reverse_name                     # reply as whomever it was to
 set include                          # include message in replies
 set forward_quote                    # include message in forwards
+set editor = "vim"                   # Use Vim to compose email.
+
+# Sending
+set from     = "nick@nicksergeant.com"
+set sendmail = "/usr/local/bin/msmtp -a nicksergeant"
+set sendmail_wait = 0
+unset record
+bind compose p postpone-message
+bind index p recall-message
+
+# Contacts
+set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
+bind editor <Tab> complete-query
+bind editor ^T    complete
 
 # Limiting
 macro index a "<limit>all\n" "show all messages (undo limit)"
 
-
-
-
-
+# Colors ---------------------------------------------
 # general-doesn't-fit stuff
 color normal color252 color233
 color error color193 color124

@@ -1,5 +1,7 @@
 #!/usr/bin/python
+
 import re, subprocess
+
 def get_keychain_pass(account=None, server=None):
     params = {
         'security': '/usr/bin/security',
