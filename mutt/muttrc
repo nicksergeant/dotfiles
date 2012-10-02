@@ -69,9 +69,11 @@ set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
 # Index Key Bindings ---------------------------------
 bind index gg       first-entry
 bind index G        last-entry
-bind index R        group-reply
+bind index r        group-reply
+bind index R        reply
 bind index <tab>    sync-mailbox
 bind index <space>  collapse-thread
+bind index N        search-opposite
 
 # Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
@@ -83,6 +85,12 @@ macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to s
 # Saner copy/move dialogs
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+
+# Moving to other folders
+macro index,pager \061 <change-folder>=nick-nicksergeant.com/INBOX<enter>
+macro index,pager \062 <change-folder>=nick-nicksergeant.com/sent<enter>
+macro index,pager \063 <change-folder>=nick-nicksergeant.com/drafts<enter>
+macro index,pager \064 <change-folder>=nick-nicksergeant.com/archive<enter>
 
 # Sidebar Navigation ---------------------------------
 bind index,pager <down>   sidebar-next
@@ -106,7 +114,9 @@ bind pager j  next-line
 bind pager gg top
 bind pager G  bottom
 bind pager <return> exit
-bind pager R  group-reply
+bind pager r  group-reply
+bind pager R  reply
+bind pager N search-opposite
 
 # Sane page-up/down ---------------------------------
 bind index \Cu half-up
