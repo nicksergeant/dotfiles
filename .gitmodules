@@ -46,3 +46,6 @@
 [submodule "vim/bundle/vitality.vim"]
 	path = vim/bundle/vitality.vim
 	url = git://github.com/sjl/vitality.vim.git
+[submodule "ctrlp.vim"]
+	path = ctrlp.vim
+	url = git://github.com/kien/ctrlp.vim.git
