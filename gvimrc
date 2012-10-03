@@ -15,6 +15,5 @@ inoremenu <silent> File.Save <Esc>:if expand("%") == ""<Bar>browse confirm w<Bar
 if has("gui_macvim")
   macmenu &File.New\ Tab key=<nop>
   nnoremap <D-CR> :set invfullscreen<CR>
-  map <leader>, <Plug>PeepOpen
 end
 
