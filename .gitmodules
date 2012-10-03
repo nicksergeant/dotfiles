@@ -1,9 +1,3 @@
-[submodule "vim/bundle/numbers.vim"]
-	path = vim/bundle/numbers.vim
-	url = git://github.com/myusuf3/numbers.vim.git
-[submodule "vim/bundle/PeepOpen-EditorSupport"]
-	path = vim/bundle/PeepOpen-EditorSupport
-	url = git://github.com/topfunky/PeepOpen-EditorSupport.git
 [submodule "vim/bundle/ack.vim"]
 	path = vim/bundle/ack.vim
 	url = git://github.com/mileszs/ack.vim.git
@@ -46,9 +40,6 @@
 [submodule "vim/bundle/vitality.vim"]
 	path = vim/bundle/vitality.vim
 	url = git://github.com/sjl/vitality.vim.git
-[submodule "ctrlp.vim"]
-	path = ctrlp.vim
-	url = git://github.com/kien/ctrlp.vim.git
 [submodule "vim/bundle/ctrlp.vim"]
 	path = vim/bundle/ctrlp.vim
 	url = git://github.com/kien/ctrlp.vim.git
