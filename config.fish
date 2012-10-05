@@ -12,6 +12,18 @@ end
 
 # }}}
 
+# Bind Keys {{{
+
+function fish_user_keybindings
+    bind \cn accept-autosuggestion
+
+    # Ignore iterm2 escape sequences.  Vim will handle them if needed.
+    bind \e\[I true
+    bind \e\[O true
+    # ]]
+end
+
+# }}}
 # Ctags {{{
 
 function atags
@@ -122,6 +134,7 @@ alias pbc 'pbcopy'
 alias pbp 'pbpaste'
 alias pm 'python manage.py'
 alias ssc 'sudo supervisorctl'
+alias t 'tmux'
 alias ul 'unlink'
 alias vu 'vagrant up'
 alias vh 'vagrant halt'
