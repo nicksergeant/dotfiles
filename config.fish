@@ -220,13 +220,3 @@ alias sn 'ssh nick@snipt.net'
 alias j 'z'
 
 # }}}
-
-# Init {{{
-
-if status --is-interactive
-    if test $IS_SERVER = 'false'
-        command fortune -s | cowsay -n | lolcat
-    end
-end
-
-# }}}
