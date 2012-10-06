@@ -69,8 +69,8 @@ let g:ctrlp_max_height = 20
 let g:ctrlp_extensions = ['tag']
 
 let g:ctrlp_prompt_mappings = {
-\ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
-\ 'PrtSelectMove("k")':   ['<c-k>', '<up>', '<tab>'],
+\ 'PrtSelectMove("j")':   ['<down>', '<s-tab>'],
+\ 'PrtSelectMove("k")':   ['<up>', '<tab>'],
 \ 'PrtHistory(-1)':       ['<c-n>'],
 \ 'PrtHistory(1)':        ['<c-p>'],
 \ 'ToggleFocus()':        ['<c-tab>'],
@@ -173,6 +173,7 @@ vnoremap <leader>G :w !snipt post_and_get_url \| pbcopy && pbpaste \| xargs open
 
 augroup ft_fugitive
     au!
+
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
 
