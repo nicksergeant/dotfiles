@@ -26,3 +26,5 @@
     excludesfile = /Users/Nick/.gitignore
 [credential]
     helper = osxkeychain
+[web]
+	browser = open
