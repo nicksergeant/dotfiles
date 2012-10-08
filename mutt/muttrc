@@ -166,46 +166,47 @@ bind editor ^T    complete
 # Limiting
 macro index a "<limit>all\n" "show all messages (undo limit)"
 
-# Colors ---------------------------------------------
-# general-doesn't-fit stuff
-color normal color252 color233
-color error color193 color124
+color normal color15 color233
+color error brightcolor15 color196
+color indicator color15 color235
+color status brightcolor39 color233
 color markers color142 color233
-color tilde color142 color233
-color status color172 color233
 
-# index stuff
-color tree color244 color233
-color indicator color255 color235
-color index color117 color233 ~N
-color index color124 color233 ~D
+color hdrdefault color245 color233
+color header brightcolor214 color233 "^(Subject): "
+color signature color243 color233
 
-# header stuff
-color hdrdefault color248 color233
-color header color226 color233 "^Subject"
+color body color137 color233 [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
+color body color137 color233 ((https?|ftp)://|www)+[\-\.\;@,/%~_:?&=\#a-zA-Z0-9+]+
+color bold brightcolor15 color233
+color search brightcolor16 color221
 
-# url, email and web stuff
-color body color68 color233 "(finger|ftp|http|https|news|telnet)://[^ >]*"
-color body color111 color233 "<URL:[^ ]*>"
-color body color111 color233 "www\\.[-.a-z0-9]+\\.[a-z][a-z][a-z]?([-_./~a-z0-9]+)?"
-color body color111 color233 "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
-color body brightred color233 "^-.*"
-color body green color233 "^[+].*"
-color body brightwhite color233 "^diff .*"
-color body brightyellow color233 "^@@.*"
+color quoted color243 color233
+color quoted1 color211 color233
+color quoted2 color222 color233
+color quoted3 color214 color233
+color quoted4 color154 color233
 
-# misc body stuff
-color attachment color111 color233
-color signature color244 color233
+color tilde color240 color233
+color tree color240 color233
+color attachment brightcolor211 color233
 
-# quote levels
-color quoted color34   color233
-color quoted1 color142 color233
-color quoted2 color34  color233
-color quoted3 color142 color233
-color quoted4 color34  color233
-color quoted5 color142 color233
-color quoted6 color34  color233
-color quoted7 color142 color233
-color quoted8 color34  color233
-color quoted9 color142 color233
+# http://www.mutt.org/doc/manual/manual-4.html#ss4.2
+# # color index color241 color233 ~A
+# # color index color241 color233 ~Q
+# # color index color243 color233 ~P
+color index color221 color233 ~N
+color index brightcolor211 color233 ~F
+color index brightcolor39 color233 ~T
+color index color243 color233 ~Q
+color index color196 color233 ~D
+
+# # Colorize inline diffs, really helpful for LKML or other mailing lists where
+# # mails frequently include patches.
+color body brightcolor15 color233 '^diff .*'
+color body brightcolor15 color233 '^[Ii]{1}ndex .*'
+color body brightcolor15 color233 '^=+$'
+color body brightcolor15 color233 '^(---|\+\+\+) .*'
+color body brightcolor15 color233 '^@@ .*'
+color body color121 color233 '^\+([^\+].*)?$'
+color body color211 color233 '^-([^-].*)?$'
