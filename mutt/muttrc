@@ -128,7 +128,7 @@ bind pager \Cd half-down
 bind attach <return> view-mailcap
 
 # URLS
-macro pager \Ck "|urlview<enter>" "call urlview to open links"
+macro pager \eU "|urlview<enter>" "call urlview to open links"
 
 # Compose View Options -------------------------------
 set realname = "Nick Sergeant"       # who am i?
@@ -148,6 +148,7 @@ set include                          # include message in replies
 set forward_quote                    # include message in forwards
 set editor = "vim"                   # Use Vim to compose email.
 set sig_on_top                       # Put the damn signature before any quoted text.
+set meta_key = yes
 
 # Sending
 set from     = "nick@nicksergeant.com"
