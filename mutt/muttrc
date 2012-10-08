@@ -88,9 +88,9 @@ macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
 # Moving to other folders
 macro index,pager \061 <change-folder>=nick-nicksergeant.com/INBOX<enter>
-macro index,pager \062 <change-folder>=nick-nicksergeant.com/sent<enter>
-macro index,pager \063 <change-folder>=nick-nicksergeant.com/drafts<enter>
-macro index,pager \064 <change-folder>=nick-nicksergeant.com/archive<enter>
+macro index,pager \063 <change-folder>=nick-nicksergeant.com/sent<enter>
+macro index,pager \064 <change-folder>=nick-nicksergeant.com/drafts<enter>
+macro index,pager \065 <change-folder>=nick-nicksergeant.com/archive<enter>
 
 # Sidebar Navigation ---------------------------------
 bind index,pager <down>   sidebar-next
