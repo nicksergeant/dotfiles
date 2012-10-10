@@ -88,11 +88,6 @@
             <name>Firefox</name> 
             <identifier>private.firefox</identifier>
             <list> 
-                <item>
-                    <appendix>Cmd+D for New Tab</appendix>
-                    <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::COMMAND_L, KeyCode::T, ModifierFlag::COMMAND_L</autogen>
-                    <only>FIREFOX</only>
-                </item>
             </list>
         </item>
         <item> 

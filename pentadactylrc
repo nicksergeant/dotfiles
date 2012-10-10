@@ -1,0 +1,41 @@
+" Colors (stolen from sjl)
+highlight Hint font-size: 12px; background: rgba(210,1,133,0.8) !important; border: 2px solid rgb(165,1,105); padding: 4px; border-radius: 3px; font-weight: bold; margin-left: -25px; color: white; font-family: Menlo; line-height:1em;
+highlight HintActive background: rgba(145,197,43,0.8) !important;
+highlight HintElem background: rgba(255, 209, 20, 0.7) !important;
+highlight StatusLine -moz-appearance: none !important; font-weight: bold; background: transparent !important; border: 0px !important; min-height: 22px !important; text-shadow: none !important; font: normal 12px/1 'Menlo' !important; padding: 3px 0px 3px 5px !important;
+highlight CmdLine padding: 1px !important; font: normal 12px 'Menlo' !important;
+highlight CmdOutput font: normal 12px 'Menlo' !important;
+highlight CompItem font: normal 12px 'Menlo' !important;
+highlight Find background: #d6c149; color: #000;
+
+set runtimepath=/Users/Nick/.pentadactyl
+set editor='/usr/local/bin/mvim -f +<line> <file>'
+set followhints=1
+set showtabline=multitab
+set showstatuslinks=command
+
+" I like the Firefox UI.
+set guioptions+=mT
+
+" Faster up/down.
+nmap -builtin j 5j
+nmap -builtin k 5k
+
+" I never use marks, but always use quickmarks.
+nmap -builtin "'" go
+nmap -builtin '"' gn
+
+" Highlight all search matches, not just the first.
+set hlfind
+
+" Clear search highlighting and normal highlighting.
+nmap -builtin ,c, <esc>:noh<CR>
+
+" Shut up.
+javascript dactyl.beep = function() { return false; }
+
+" Force the use of Pentadactyl's "find".
+imap -builtin <m-f> <nop>
+nmap -builtin <m-f> <nop>
+nmap -builtin <m-f> /
+imap -builtin <esc><esc><m-f> /
