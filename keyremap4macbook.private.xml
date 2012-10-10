@@ -88,6 +88,11 @@
             <name>Firefox</name> 
             <identifier>private.firefox</identifier>
             <list> 
+                <item>
+                    <appendix>Cmd+Shift+Ctrl+' for Shift-F12</appendix>
+                    <autogen>--KeyToKey-- KeyCode::QUOTE, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::F12, ModifierFlag::SHIFT_L</autogen>
+                    <only>FIREFOX</only>
+                </item>
             </list>
         </item>
         <item> 

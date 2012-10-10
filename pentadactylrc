@@ -7,26 +7,23 @@ highlight CmdLine padding: 1px !important; font: normal 12px 'Menlo' !important;
 highlight CmdOutput font: normal 12px 'Menlo' !important;
 highlight CompItem font: normal 12px 'Menlo' !important;
 highlight Find background: #d6c149; color: #000;
+highlight ErrorMessage  font-family: Menlo; font-size: 12px;
+highlight StatusLineNormal background: #171717; color: #DEDEDE;
 
 set runtimepath=/Users/Nick/.pentadactyl
 set editor='/usr/local/bin/mvim -f +<line> <file>'
 set followhints=1
-set showtabline=multitab
-set showstatuslinks=command
 
 " I like the Firefox UI.
 set guioptions+=mT
 
 " Faster up/down.
-nmap -builtin j 5j
-nmap -builtin k 5k
+nmap -builtin j 3j
+nmap -builtin k 3k
 
 " I never use marks, but always use quickmarks.
 nmap -builtin "'" go
 nmap -builtin '"' gn
-
-" Highlight all search matches, not just the first.
-set hlfind
 
 " Clear search highlighting and normal highlighting.
 nmap -builtin ,c, <esc>:noh<CR>
@@ -34,8 +31,12 @@ nmap -builtin ,c, <esc>:noh<CR>
 " Shut up.
 javascript dactyl.beep = function() { return false; }
 
+" Shift is hard.
+nmap -builtin ; :
+
 " Force the use of Pentadactyl's "find".
 imap -builtin <m-f> <nop>
 nmap -builtin <m-f> <nop>
-nmap -builtin <m-f> /
-imap -builtin <esc><esc><m-f> /
+
+" Use ctrl-p for ctrl-i.
+nmap -builtin <c-p> <c-i>
