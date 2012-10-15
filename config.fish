@@ -119,6 +119,7 @@ alias hglu 'hg pull -u'
 # }}}
 # Program aliases {{{
 
+alias c 'pygmentize -O style=monokai -f console256 -g'
 alias ce '/Users/Nick/Code/unisubs/media/js/embedder/compile-embedder.sh'
 alias deact 'deactivate'
 alias es 'elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.19.8/config/elasticsearch.yml'
