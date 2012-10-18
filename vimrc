@@ -48,7 +48,7 @@ augroup ft_css
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+    au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<CR> {}<left><CR><space><space><space><space><CR><space><space><space><space><esc>kcc
 augroup END
 
 " }}}
@@ -183,7 +183,6 @@ augroup END
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
 au BufNewFile,BufRead *.html setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
-let g:user_zen_leader_key = '<D-e>'
 
 " }}}
 " JavaScript {{{
