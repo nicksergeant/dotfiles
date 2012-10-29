@@ -86,6 +86,7 @@ set PATH "/usr/local/sbin"         $PATH
 if test $IS_SERVER = 'false'
     set BROWSER open
     set PATH "/usr/local/Cellar/ruby/1.9.3-p194/bin" $PATH
+    set PATH "/usr/local/Cellar/ruby/1.9.3-p286/bin" $PATH
     set PATH "/Applications/Postgres.app/Contents/MacOS/bin" $PATH
     set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
     set PATH "/usr/local/share/python" $PATH
