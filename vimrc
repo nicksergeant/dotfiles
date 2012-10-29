@@ -183,6 +183,7 @@ augroup END
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
 au BufNewFile,BufRead *.html setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
+let g:sparkupExecuteMapping = '<c-c>'
 
 " }}}
 " JavaScript {{{
