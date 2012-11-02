@@ -198,7 +198,7 @@ color attachment brightcolor211 color233
 color index color221 color233 ~N
 color index brightcolor211 color233 ~F
 color index brightcolor39 color233 ~T
-color index color243 color233 ~Q
+#color index color243 color233 ~Q
 color index color196 color233 ~D
 
 # # Colorize inline diffs, really helpful for LKML or other mailing lists where

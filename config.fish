@@ -90,6 +90,7 @@ if test $IS_SERVER = 'false'
     set PATH "/Applications/Postgres.app/Contents/MacOS/bin" $PATH
     set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
     set PATH "/usr/local/share/python" $PATH
+    set PATH "/usr/local/share/npm/bin" $PATH
 end
 
 set -g -x fish_greeting ''
