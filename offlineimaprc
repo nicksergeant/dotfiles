@@ -13,10 +13,14 @@ status_backend = sqlite
 type = Maildir
 localfolders = ~/.mail/nick-nicksergeant.com
 nametrans = lambda folder: {'drafts':  '[Gmail]/Drafts',
-                            'sent':    '[Gmail]/Sent Mail',
-                            'trash':   '[Gmail]/Trash',
-                            'archive': '[Gmail]/All Mail',
-                            }.get(folder, folder)
+                                 'sent':    '[Gmail]/Sent Mail',
+                                 'trash':   '[Gmail]/Trash',
+                                 'archive': '[Gmail]/All Mail',
+                             }.get(folder, folder)
+folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
+                                 '[Gmail]/Important',
+                                 '[Gmail]/Spam',
+                             ]
 
 [Repository NickSergeant-Remote]
 maxconnections = 1
