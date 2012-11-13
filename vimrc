@@ -270,7 +270,7 @@ set wildignore+=*/.sass-cache/*
 set shell=/bin/bash
 set splitbelow
 set splitright
-set guifont=Menlo_for_Powerline:h12            " Font family and font size.
+set guifont=Menlo_for_Powerline:h14            " Font family and font size.
 set antialias                     " MacVim: smooth fonts.
 set encoding=utf-8                " Use UTF-8 everywhere.
 set cursorline
