@@ -195,6 +195,16 @@ augroup ft_javascript
 augroup END
 
 " }}}
+" Mail {{{
+
+augroup ft_mail
+    au!
+
+    au Filetype mail setlocal spell
+augroup END
+highlight SpellBad term=underline gui=undercurl guisp=Orange
+
+" }}}
 " {{{ Navigation
 
 nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<CR>
@@ -238,6 +248,7 @@ let g:badwolf_html_link_underline = 0
 colorscheme badwolf
 set autoindent
 set autoread
+set autowrite
 set smartindent
 set gdefault
 set undofile
@@ -267,6 +278,7 @@ set list                          "
 set listchars=tab:▸\ ,extends:❯,precedes:❮
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.pyc,*.un~,*/migrations/*,*.swo,*.swp,*.sql,*.db,*/cache/*,*/.sass-cache/*
 set wildignore+=*/.sass-cache/*
+set wildignore+=*.spl             " compiled spelling word lists
 set shell=/bin/bash
 set splitbelow
 set splitright
@@ -274,6 +286,11 @@ set guifont=Menlo_for_Powerline:h14            " Font family and font size.
 set antialias                     " MacVim: smooth fonts.
 set encoding=utf-8                " Use UTF-8 everywhere.
 set cursorline
+set synmaxcol=800                 " Don't try to highlight lines longer than 800 characters.
+set lazyredraw
+set fillchars=diff:⣿,vert:│
+set dictionary=/usr/share/dict/words
+set textwidth=80
 
 " }}}
 " Swap files death {{{
