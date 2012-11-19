@@ -106,7 +106,7 @@ if test $IS_SERVER = 'false'
 end
 alias gca 'git commit -a'
 alias gco 'git checkout .'
-alias gd 'git diff'
+alias gd 'git difftool'
 alias gl 'git pull'
 alias gll 'git submodule foreach git pull'
 alias glc '/Users/Nick/Sources/dotfiles/bin/get_last_commit | pbcopy'

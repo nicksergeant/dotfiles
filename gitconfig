@@ -15,16 +15,22 @@
     root = rev-parse --show-toplevel
     currentbranch = !git branch --contains HEAD | grep '*' | tr -s ' ' | cut -d ' ' -f2
 [difftool "Kaleidoscope"]
-    cmd = ksdiff-wrapper git \"$LOCAL\" \"$REMOTE\"
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [push]
     default = current
 [difftool]
-    prompt = false
+	prompt = false
 [diff]
-    tool = Kaleidoscope
+	tool = Kaleidoscope
 [core]
     excludesfile = /Users/Nick/.gitignore
 [credential]
     helper = osxkeychain
 [web]
 	browser = open
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+[mergetool]
+	prompt = false
+[merge]
+	tool = Kaleidoscope
