@@ -107,6 +107,7 @@ end
 alias gca 'git commit -a'
 alias gco 'git checkout .'
 alias gd 'git difftool'
+alias gdd 'git diff'
 alias gl 'git pull'
 alias gll 'git submodule foreach git pull'
 alias glc '/Users/Nick/Sources/dotfiles/bin/get_last_commit | pbcopy'
