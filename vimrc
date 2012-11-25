@@ -48,7 +48,7 @@ augroup ft_css
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<CR> {}<left><CR><space><space><space><space><CR><space><space><space><space><esc>kcc
+    au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
 augroup END
 
 " }}}
@@ -240,7 +240,7 @@ augroup END
 highlight SpellBad term=underline gui=undercurl guisp=Orange
 
 " }}}
-" {{{ Navigation
+" Navigation {{{
 
 nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<CR>
 nnoremap <leader>ef <C-w>s<C-w>j<C-w>L:e ~/.config/fish/config.fish<CR>
@@ -271,7 +271,7 @@ let g:Powerline_symbols = 'fancy'
 set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
 
 " }}}
-" {{{ Saving
+" Saving {{{
 
 au FocusLost * :wa
 au FocusLost,TabLeave * call feedkeys("\<C-\>\<C-n>")

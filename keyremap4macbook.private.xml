@@ -20,7 +20,17 @@
         <appname>ITUNES</appname>
         <equal>com.apple.iTunes</equal>
     </appdef>
+    <appdef>
+        <appname>SPARROW</appname>
+        <equal>com.sparrowmailapp.sparrow</equal>
+    </appdef>
     <list> 
+        <item> 
+            <name>Sparrow</name> 
+            <identifier>private.sparrow</identifier>
+            <list> 
+            </list>
+        </item>
         <item> 
             <name>iTerm</name> 
             <identifier>private.iterm</identifier>
