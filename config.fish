@@ -104,8 +104,9 @@ set -g -x NODE_PATH "/usr/local/lib/jsctags/" $NODE_PATH
 if test $IS_SERVER = 'false'
     alias git 'hub'
 end
+alias g 'git'
 alias gca 'git commit -a'
-alias gco 'git checkout .'
+alias gco 'git checkout'
 alias gd 'git diff'
 alias gdd 'git difftool'
 alias gl 'git pull'
