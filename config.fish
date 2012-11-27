@@ -128,6 +128,7 @@ alias c 'pygmentize -O style=monokai -f console256 -g'
 alias ce '/Users/Nick/Code/unisubs/media/js/embedder/compile-embedder.sh'
 alias deact 'deactivate'
 alias es 'elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.19.8/config/elasticsearch.yml'
+alias est 'elasticsearch -f -D es.config=/Users/Nick/Code/tred/elasticsearch.yml'
 alias go 'vagrant ssh;'
 alias ip 'http icanhazip.com'
 #alias m 'tmux new-window -t vim -n (basename (pwd)) "vim $PWD"; tmux switch -t vim'
@@ -170,9 +171,10 @@ function virtualenv_prompt
 end
 
 function git_prompt
-    if test $PWD = '/Users/Nick/Code/unisubs'
+    set -l CUR (git currentbranch ^/dev/null)
+    if test $CUR
         printf ' \033[0;37mon '
-        printf '\033[0;35m%s' (git currentbranch ^/dev/null)
+        printf '\033[0;35m%s' $CUR
         printf ' \033[0;32m'
         git_prompt_status
     end
