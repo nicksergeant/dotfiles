@@ -229,6 +229,8 @@ augroup ft_javascript
     au FileType javascript setlocal foldmarker={,}
 augroup END
 
+nmap <leader>b :JSBeautify<cr>
+
 " }}}
 " Mail {{{
 
