@@ -370,6 +370,9 @@ augroup END
 vnoremap <leader>S y:execute @@<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>
 
+" Unfuck my screen
+nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
+
 nnoremap <c-p> <c-i>
 nmap <tab> %
 vmap <tab> %
