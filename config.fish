@@ -153,6 +153,10 @@ alias vh 'vagrant halt'
 alias vs 'vagrant suspend'
 alias wo 'workon (cat .venv)'
 
+function virtualbox_shut_down_or_i_will_fucking_cut_you
+    VBoxManage controlvm $argv poweroff
+end
+
 function mutt
     bash --login -c 'cd ~/Desktop; /usr/local/bin/mutt' $argv;
 end
