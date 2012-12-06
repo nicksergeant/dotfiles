@@ -338,6 +338,24 @@ set dictionary=/usr/share/dict/words
 set textwidth=80
 
 " }}}
+" Spacing toggle {{{
+
+function! SetTabSpace2()
+  set tabstop=2                     " Global tab width.
+  set shiftwidth=2                  " And again, related.
+  set softtabstop=2                 " Spaces for tab
+endfunction
+
+function! SetTabSpace4()
+  set tabstop=4                     " Global tab width.
+  set shiftwidth=4                  " And again, related.
+  set softtabstop=4                 " Spaces for tab
+endfunction
+
+nnoremap <leader>2 :call SetTabSpace2()<cr>
+nnoremap <leader>4 :call SetTabSpace4()<cr>
+
+" }}}
 " Swap files death {{{
 
 set noswapfile
