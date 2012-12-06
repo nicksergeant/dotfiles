@@ -221,6 +221,14 @@ au BufNewFile,BufRead *.html setlocal foldmethod=manual
 let g:sparkupExecuteMapping = '<D-e>'
 
 " }}}
+" Jade {{{
+
+augroup ft_jade
+    au!
+    au BufNewFile,BufRead *.jade setlocal filetype=jade
+augroup END
+
+" }}}
 " JavaScript {{{
 
 augroup ft_javascript
