@@ -41,7 +41,7 @@ map <C-l> <C-w>l
 
 augroup ft_css
     au!
-    au BufNewFile,BufRead *.less setlocal filetype=less
+    au BufNewFile,BufRead *.less setlocal filetype=scss
     au Filetype less,css,scss setlocal foldmethod=marker
     au Filetype less,css,scss setlocal foldmarker={,}
     au Filetype less,css,scss setlocal iskeyword+=-
