@@ -335,7 +335,7 @@ set synmaxcol=800                 " Don't try to highlight lines longer than 800
 set lazyredraw
 set fillchars=diff:⣿,vert:│
 set dictionary=/usr/share/dict/words
-set textwidth=80
+"set textwidth=80
 
 " }}}
 " Spacing toggle {{{
