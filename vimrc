@@ -16,8 +16,7 @@ noremap H ^
 noremap L g_
 nnoremap Vit vitVkoj
 nnoremap Vat vatV
-
-"python from powerline.ext.vim import source_plugin; source_plugin()
+let g:Powerline_symbols = 'fancy'
 
 " }}}
 
