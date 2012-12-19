@@ -17,6 +17,8 @@ noremap L g_
 nnoremap Vit vitVkoj
 nnoremap Vat vatV
 
+python from powerline.ext.vim import source_plugin; source_plugin()
+
 " }}}
 
 " Ack {{{
@@ -277,7 +279,6 @@ runtime macros/matchit.vim        " Load the matchit plugin.
 filetype plugin indent on         " Turn on file type detection.
 set nocompatible                  " Disable vi-compatibility
 set laststatus=2                  " Always show the statusline
-let g:Powerline_symbols = 'fancy'
 set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
 
 " }}}
