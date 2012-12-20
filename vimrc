@@ -295,7 +295,6 @@ set autoindent
 set autoread
 set autowrite
 set smartindent
-set gdefault
 set undofile
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
