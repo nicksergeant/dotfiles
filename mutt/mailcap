@@ -14,5 +14,8 @@ application/pdf; ~/.mutt/view_attachment.sh %s pdf
 # HTML
 text/html; ~/.mutt/view_attachment.sh %s html
 
+# Text
+text/plain; ~/.mutt/view_attachment.sh %s "-" '/Applications/TextEdit.app'
+
 # Unidentified files
 application/octet-stream; ~/.mutt/view_attachment.sh %s "-"
