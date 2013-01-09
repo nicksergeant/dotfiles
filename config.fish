@@ -178,8 +178,8 @@ function virtualenv_prompt
 end
 
 function git_prompt
-    set -l CUR (git currentbranch ^/dev/null)
-    if test $CUR
+    if test $PWD = '/Users/Nick/Code/unisubs'
+        set -l CUR (git currentbranch ^/dev/null)
         printf ' \033[0;37mon '
         printf '\033[0;35m%s' $CUR
         printf ' \033[0;32m'
@@ -193,7 +193,7 @@ end
 
 function fish_prompt
     z --add "$PWD"
-    echo
+    echo ' '
     if test $IS_SERVER = 'true'
         printf '\033[0;31m%s ' (hostname|cut -d . -f 1)
     else
