@@ -5,7 +5,7 @@ ignore = ~/.hgignore
 
 [extensions]
 hgext.bookmarks =
-hggit = $HOME/Sources/hg-git/hggit
+hggit = 
 graphlog =
 purge = 
 color = 
