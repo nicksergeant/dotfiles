@@ -235,7 +235,11 @@ alias sn 'ssh nick@snipt.net'
 # }}}
 # Z {{{
 
-. ~/Sources/z-fish/z.fish
+if test $IS_SERVER = 'true'
+    . ~/sources/z-fish/z.fish
+else
+    . ~/Sources/z-fish/z.fish
+end
 
 alias j 'z'
 
