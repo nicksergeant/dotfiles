@@ -2,11 +2,7 @@
 
 set IS_SERVER 'false'
 switch (hostname)
-    case 'ec2.nicksergeant.com'
-        set IS_SERVER 'true'
-    case 'snipt.net'
-        set IS_SERVER 'true'
-    case 'snipt.nicksergeant.com'
+    case 'box.nicksergeant.com'
         set IS_SERVER 'true'
 end
 
@@ -231,6 +227,7 @@ alias ec2 'ssh nick@ec2.nicksergeant.com'
 alias gf 'ssh nick@garthfagandance.org'
 alias pro 'ssh Nick@pro.local'
 alias sn 'ssh nick@snipt.net'
+alias box 'ssh nick@box.nicksergeant.com'
 
 # }}}
 # Z {{{
