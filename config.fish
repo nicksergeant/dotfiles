@@ -221,12 +221,7 @@ set -g -x WORKON_HOME "$HOME/.virtualenvs"
 # }}}
 # Server aliases {{{
 
-alias air 'ssh Nick@air.local'
 alias afa 'ssh nick@afeedapart.com'
-alias ec2 'ssh nick@ec2.nicksergeant.com'
-alias gf 'ssh nick@garthfagandance.org'
-alias pro 'ssh Nick@pro.local'
-alias sn 'ssh nick@snipt.net'
 alias box 'ssh nick@box.nicksergeant.com'
 
 # }}}
