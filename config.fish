@@ -41,36 +41,43 @@ end
 # }}}
 # Directories {{{
 
-alias ..    'cd ..'
-alias ...   'cd ../..'
-alias ....  'cd ../../..'
-alias ..... 'cd ../../../..'
+function ..
+    'cd ..'
+end
+function ...
+    'cd ../..'
+end
+function ...
+    'cd ../../..'
+end
+function .....
+    'cd ../../../..'
+end
 
-alias l1 'tree --dirsfirst -ChFL 1'
-alias l2 'tree --dirsfirst -ChFL 2'
-alias l3 'tree --dirsfirst -ChFL 3'
-alias l4 'tree --dirsfirst -ChFL 4'
-alias l5 'tree --dirsfirst -ChFL 5'
-alias l6 'tree --dirsfirst -ChFL 6'
+function l1 
+    'tree --dirsfirst -ChFL 1'
+end
 
-alias ll1 'tree --dirsfirst -ChFupDaL 1'
-alias ll2 'tree --dirsfirst -ChFupDaL 2'
-alias ll3 'tree --dirsfirst -ChFupDaL 3'
-alias ll4 'tree --dirsfirst -ChFupDaL 4'
-alias ll5 'tree --dirsfirst -ChFupDaL 5'
-alias ll6 'tree --dirsfirst -ChFupDaL 6'
+function ll1
+    'tree --dirsfirst -ChFupDaL 1'
+end
 
-alias l  'l1'
-alias ll 'll1'
-
-alias u 'cd /Users/Nick/Code/unisubs'
-alias s 'cd /Users/Nick/Code/snipt'
+function l
+    'l1'
+end
+function ll 
+    'll1'
+end
 
 # }}}
-# Edit file aliases {{{
+# Edit file functions {{{
 
-alias ef 'mvim ~/.config/fish/config.fish'
-alias ev 'mvim ~/.vimrc'
+function ef
+    'mvim ~/.config/fish/config.fish'
+end
+function ev
+    'mvim ~/.vimrc'
+end
 
 # }}}
 # Environment variables {{{
@@ -95,61 +102,152 @@ set -g -x NODE_PATH "/usr/local/lib/node_modules"
 set -g -x NODE_PATH "/usr/local/lib/jsctags/" $NODE_PATH
 
 # }}}
-# Git and Mercurial aliases {{{
+# Git and Mercurial functions {{{
 
 if test $IS_SERVER = 'false'
-    alias git 'hub'
+    function git
+        'hub'
+    end
 end
-alias g 'git'
-alias gca 'git commit -a'
-alias gco 'git checkout'
-alias gd 'git diff'
-alias gdd 'git difftool'
-alias gl 'git pull'
-alias gll 'git submodule foreach git pull'
-alias glc '/Users/Nick/Sources/dotfiles/bin/get_last_commit | pbcopy'
-alias glco 'git browse -- commit/(/Users/Nick/Sources/dotfiles/bin/get_last_commit)'
-alias gmid 'git co dev; git fetch origin; git merge --ff-only origin/dev; git merge --no-ff staging; git co staging'
-alias gp 'git push'
-alias gs 'git show'
-alias gst 'git status'
-alias hgc 'hg commit'
-alias hgs 'hg st'
-alias hgp 'hg push'
-alias hgl 'hg pull'
-alias hglu 'hg pull -u'
+function g
+    'git'
+end
+function gca 
+    'git commit -a'
+end
+function gco 
+    'git checkout'
+end
+function gd 
+    'git diff'
+end
+function gdd 
+    'git difftool'
+end
+function gl 
+    'git pull'
+end
+function gll 
+    'git submodule foreach git pull'
+end
+function glc 
+    '/Users/Nick/Sources/dotfiles/bin/get_last_commit | pbcopy'
+end
+function glco 
+    'git browse -- commit/(/Users/Nick/Sources/dotfiles/bin/get_last_commit)'
+end
+function gmid 
+    'git co dev; git fetch origin; git merge --ff-only origin/dev; git merge --no-ff staging; git co staging'
+end
+function gp 
+    'git push'
+end
+function gs 
+    'git show'
+end
+function gst 
+    'git status'
+end
+function hgc 
+    'hg commit'
+end
+function hgs 
+    'hg st'
+end
+function hgp 
+    'hg push'
+end
+function hgl 
+    'hg pull'
+end
+function hglu 
+    'hg pull -u'
+end
 
 # }}}
-# Program aliases {{{
+# Program functions {{{
 
-alias c 'pygmentize -O style=monokai -f console256 -g'
-alias ce '/Users/Nick/Code/unisubs/media/js/embedder/compile-embedder.sh'
-alias deact 'deactivate'
-alias es 'elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.19.8/config/elasticsearch.yml'
-alias est 'elasticsearch -f -D es.config=/Users/Nick/Code/tred/elasticsearch.yml'
-alias go 'vagrant ssh;'
-alias ip 'http icanhazip.com'
-#alias m 'tmux new-window -t vim -n (basename (pwd)) "vim $PWD"; tmux switch -t vim'
-alias m 'mvim .'
-alias mc 'telnet localhost 11211'
-alias mk 'mkdir -p'
-alias network_usage 'lsof -i | grep -E "(LISTEN|ESTABLISHED)"'
-alias o 'open'
-alias oo 'open .'
-alias pbc 'pbcopy'
-alias pbp 'pbpaste'
-alias pm 'python manage.py'
-alias ssc 'sudo supervisorctl'
-alias syncdrives 'sudo rsync -avP /Volumes/Story/ /Volumes/Seagate'
-alias t 'tmux'
-alias ta 'tmux attach -t'
-alias tk 'tmux kill-session -t'
-alias tn 'tmux new -s'
-alias ul 'unlink'
-alias vu 'vagrant up'
-alias vh 'vagrant halt'
-alias vs 'vagrant suspend'
-alias wo 'workon (cat .venv)'
+function c 
+    'pygmentize -O style=monokai -f console256 -g'
+end
+function ce 
+    '/Users/Nick/Code/unisubs/media/js/embedder/compile-embedder.sh'
+end
+function deact 
+    'deactivate'
+end
+function es 
+    'elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.19.8/config/elasticsearch.yml'
+end
+function est 
+    'elasticsearch -f -D es.config=/Users/Nick/Code/tred/elasticsearch.yml'
+end
+function go 
+    'vagrant ssh;'
+end
+function ip 
+    'http icanhazip.com'
+end
+function m 
+    'mvim .'
+end
+function mc 
+    'telnet localhost 11211'
+end
+function mk 
+    'mkdir -p'
+end
+function network_usage 
+    'lsof -i | grep -E "(LISTEN|ESTABLISHED)"'
+end
+function o 
+    'open'
+end
+function oo 
+    'open .'
+end
+function pbc 
+    'pbcopy'
+end
+function pbp 
+    'pbpaste'
+end
+function pm 
+    'python manage.py'
+end
+function ssc 
+    'sudo supervisorctl'
+end
+function syncdrives 
+    'sudo rsync -avP /Volumes/Story/ /Volumes/Seagate'
+end
+function t 
+    'tmux'
+end
+function ta 
+    'tmux attach -t'
+end
+function tk 
+    'tmux kill-session -t'
+end
+function tn 
+    'tmux new -s'
+end
+function ul 
+    'unlink'
+end
+function vu 
+    'vagrant up'
+end
+function vh 
+    'vagrant halt'
+end
+function vs 
+    'vagrant suspend'
+end
+function wo 
+    'workon (cat .venv)'
+end
 
 function virtualbox_shut_down_or_i_will_fucking_cut_you
     VBoxManage controlvm $argv poweroff
@@ -219,10 +317,14 @@ set -g -x WORKON_HOME "$HOME/.virtualenvs"
 . ~/.config/fish/virtualenv.fish
 
 # }}}
-# Server aliases {{{
+# Server functions {{{
 
-alias afa 'ssh nick@afeedapart.com'
-alias box 'ssh nick@box.nicksergeant.com'
+function afa 
+    'ssh nick@afeedapart.com'
+end
+function box
+    'ssh nick@box.nicksergeant.com'
+end
 
 # }}}
 # Z {{{
@@ -233,6 +335,8 @@ else
     . ~/Sources/z-fish/z.fish
 end
 
-alias j 'z'
+function j
+    'z'
+end
 
 # }}}
