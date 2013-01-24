@@ -42,41 +42,41 @@ end
 # Directories {{{
 
 function ..
-    'cd ..'
+    cd ..
 end
 function ...
-    'cd ../..'
+    cd ../..
 end
 function ...
-    'cd ../../..'
+    cd ../../..
 end
 function .....
-    'cd ../../../..'
+    cd ../../../..
 end
 
 function l1 
-    'tree --dirsfirst -ChFL 1'
+    tree --dirsfirst -ChFL 1
 end
 
 function ll1
-    'tree --dirsfirst -ChFupDaL 1'
+    tree --dirsfirst -ChFupDaL 1
 end
 
 function l
-    'l1'
+    l1
 end
 function ll 
-    'll1'
+    ll1
 end
 
 # }}}
 # Edit file functions {{{
 
 function ef
-    'mvim ~/.config/fish/config.fish'
+    mvim ~/.config/fish/config.fish
 end
 function ev
-    'mvim ~/.vimrc'
+    mvim ~/.vimrc
 end
 
 # }}}
@@ -106,151 +106,151 @@ set -g -x NODE_PATH "/usr/local/lib/jsctags/" $NODE_PATH
 
 if test $IS_SERVER = 'false'
     function git
-        'hub'
+        hub $argv
     end
 end
 function g
-    'git'
+    git $argv
 end
 function gca 
-    'git commit -a'
+    git commit -a $argv
 end
 function gco 
-    'git checkout'
+    git checkout $argv
 end
 function gd 
-    'git diff'
+    git diff $argv
 end
 function gdd 
-    'git difftool'
+    git difftool $argv
 end
 function gl 
-    'git pull'
+    git pull $argv
 end
 function gll 
-    'git submodule foreach git pull'
+    git submodule foreach git pull $argv
 end
 function glc 
-    '/Users/Nick/Sources/dotfiles/bin/get_last_commit | pbcopy'
+    /Users/Nick/Sources/dotfiles/bin/get_last_commit | pbcopy $argv
 end
 function glco 
-    'git browse -- commit/(/Users/Nick/Sources/dotfiles/bin/get_last_commit)'
+    git browse -- commit/(/Users/Nick/Sources/dotfiles/bin/get_last_commit) $argv
 end
 function gmid 
-    'git co dev; git fetch origin; git merge --ff-only origin/dev; git merge --no-ff staging; git co staging'
+    git co dev; git fetch origin; git merge --ff-only origin/dev; git merge --no-ff staging; git co staging $argv
 end
 function gp 
-    'git push'
+    git push $argv
 end
 function gs 
-    'git show'
+    git show $argv
 end
 function gst 
-    'git status'
+    git status $argv
 end
 function hgc 
-    'hg commit'
+    hg commit $argv
 end
 function hgs 
-    'hg st'
+    hg st $argv
 end
 function hgp 
-    'hg push'
+    hg push $argv
 end
 function hgl 
-    'hg pull'
+    hg pull $argv
 end
 function hglu 
-    'hg pull -u'
+    hg pull -u $argv
 end
 
 # }}}
 # Program functions {{{
 
 function c 
-    'pygmentize -O style=monokai -f console256 -g'
+    pygmentize -O style=monokai -f console256 -g $argv
 end
 function ce 
-    '/Users/Nick/Code/unisubs/media/js/embedder/compile-embedder.sh'
+    /Users/Nick/Code/unisubs/media/js/embedder/compile-embedder.sh $argv
 end
 function deact 
-    'deactivate'
+    deactivate $argv
 end
 function es 
-    'elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.19.8/config/elasticsearch.yml'
+    elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.19.8/config/elasticsearch.yml $argv
 end
 function est 
-    'elasticsearch -f -D es.config=/Users/Nick/Code/tred/elasticsearch.yml'
+    elasticsearch -f -D es.config=/Users/Nick/Code/tred/elasticsearch.yml $argv
 end
 function go 
-    'vagrant ssh;'
+    vagrant ssh; $argv
 end
 function ip 
-    'http icanhazip.com'
+    http icanhazip.com $argv
 end
 function m 
-    'mvim .'
+    mvim . $argv
 end
 function mc 
-    'telnet localhost 11211'
+    telnet localhost 11211 $argv
 end
 function mk 
-    'mkdir -p'
+    mkdir -p $argv
 end
 function network_usage 
-    'lsof -i | grep -E "(LISTEN|ESTABLISHED)"'
+    lsof -i | grep -E "(LISTEN|ESTABLISHED)" $argv
 end
 function o 
-    'open'
+    open $argv
 end
 function oo 
-    'open .'
+    open . $argv
 end
 function pbc 
-    'pbcopy'
+    pbcopy $argv
 end
 function pbp 
-    'pbpaste'
+    pbpaste $argv
 end
 function pm 
-    'python manage.py'
+    python manage.py $argv
 end
 function ssc 
-    'sudo supervisorctl'
+    sudo supervisorctl $argv
 end
 function syncdrives 
-    'sudo rsync -avP /Volumes/Story/ /Volumes/Seagate'
+    sudo rsync -avP /Volumes/Story/ /Volumes/Seagate $argv
 end
 function t 
-    'tmux'
+    tmux $argv
 end
 function ta 
-    'tmux attach -t'
+    tmux attach -t $argv
 end
 function tk 
-    'tmux kill-session -t'
+    tmux kill-session -t $argv
 end
 function tn 
-    'tmux new -s'
+    tmux new -s $argv
 end
 function ul 
-    'unlink'
+    unlink $argv
 end
 function vu 
-    'vagrant up'
+    vagrant up $argv
 end
 function vh 
-    'vagrant halt'
+    vagrant halt $argv
 end
 function vs 
-    'vagrant suspend'
+    vagrant suspend $argv
 end
 function wo 
-    'workon (cat .venv)'
+    workon (cat .venv) $argv
 end
 
 function virtualbox_shut_down_or_i_will_fucking_cut_you
-    VBoxManage controlvm $argv poweroff
+    VBoxManage controlvm $argv poweroff $argv
 end
 
 function mutt
@@ -267,7 +267,7 @@ end
 
 function virtualenv_prompt
     if [ -n "$VIRTUAL_ENV" ]
-        printf '\033[0;37m(%s) ' (basename "$VIRTUAL_ENV")
+        printf '\033[0;37m(%s) ' (basename "$VIRTUAL_ENV") $argv
     end
 end
 
@@ -320,10 +320,10 @@ set -g -x WORKON_HOME "$HOME/.virtualenvs"
 # Server functions {{{
 
 function afa 
-    'ssh nick@afeedapart.com'
+    ssh nick@afeedapart.com $argv
 end
 function box
-    'ssh nick@box.nicksergeant.com'
+    ssh nick@box.nicksergeant.com $argv
 end
 
 # }}}
@@ -336,7 +336,7 @@ else
 end
 
 function j
-    'z'
+    z $argv
 end
 
 # }}}
