@@ -52,3 +52,6 @@
 [submodule "vim/bundle/vim-speeddating"]
 	path = vim/bundle/vim-speeddating
 	url = git://github.com/tpope/vim-speeddating.git
+[submodule "vim/bundle/vim-monokai"]
+	path = vim/bundle/vim-monokai
+	url = git://github.com/sickill/vim-monokai.git
