@@ -216,7 +216,7 @@ function pm
     python manage.py $argv
 end
 function s
-    subl $argv
+    subl . $argv
 end
 function ssc 
     sudo supervisorctl $argv

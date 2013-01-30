@@ -9,6 +9,10 @@
         <equal>com.google.Chrome</equal>
     </appdef>
     <appdef>
+        <appname>SUBLIME</appname>
+        <equal>com.sublimetext.2</equal>
+    </appdef>
+    <appdef>
         <appname>ITERM</appname>
         <equal>com.googlecode.iterm2</equal>
     </appdef>
@@ -65,6 +69,12 @@
                     <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L, KeyCode::SLASH, ModifierFlag::OPTION_L</autogen>
                     <only>ITERM</only>
                 </item>
+            </list>
+        </item>
+        <item> 
+            <name>Sublime Text</name> 
+            <identifier>private.sublime</identifier>
+            <list> 
             </list>
         </item>
         <item> 
