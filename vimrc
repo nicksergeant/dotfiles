@@ -77,26 +77,6 @@ let g:ctrlp_prompt_mappings = {
 \ 'ToggleFocus()':        ['<c-tab>'],
 \ }
 
-let ctrlp_filter_greps = "".
-    \ "egrep -iv '\\.(" .
-    \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
-    \ ")$' | " .
-    \ "egrep -v '^(\\./)?(" .
-    \ "deploy/|lib/|classes/|libs/|deploy/vendor/|.git/|.hg/|.svn/|.*migrations/|docs/build/" .
-    \ ")'"
-
-let my_ctrlp_user_command = "" .
-    \ "find %s '(' -type f -or -type l ')' -maxdepth 15 -not -path '*/\\.*/*' | " .
-    \ ctrlp_filter_greps
-
-let my_ctrlp_git_command = "" .
-    \ "cd %s && git ls-files --exclude-standard -co | " .
-    \ ctrlp_filter_greps
-
-let my_ctrlp_ffind_command = "ffind --semi-restricted --dir %s --type e -B -f"
-
-let g:ctrlp_user_command = ['.git/', my_ctrlp_ffind_command, my_ctrlp_ffind_command]
-
 nnoremap <leader>. :CtrlPTag<cr>
 
 " }}}
@@ -316,13 +296,8 @@ set tabstop=4                     " Global tab width.
 set shiftwidth=4                  " And again, related.
 set expandtab                     " Use spaces instead of tabs
 set softtabstop=4                 " Spaces for tab
-set wildmenu                      " Enhanced command line completion.
-set wildmode=list:longest         " Complete files like a shell.
 set list                          " 
 set listchars=tab:▸\ ,extends:❯,precedes:❮
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.pyc,*.un~,*/migrations/*,*.swo,*.swp,*.sql,*.db,*/cache/*,*/.sass-cache/*
-set wildignore+=*/.sass-cache/*
-set wildignore+=*.spl             " compiled spelling word lists
 set shell=/bin/bash
 set splitbelow
 set splitright
@@ -334,7 +309,26 @@ set synmaxcol=800                 " Don't try to highlight lines longer than 800
 set lazyredraw
 set fillchars=diff:⣿,vert:│
 set dictionary=/usr/share/dict/words
-"set textwidth=80
+
+set wildmenu                      " Enhanced command line completion.
+set wildmode=list:longest         " Complete files like a shell.
+
+set wildignore +=*.db
+set wildignore +=*.pyc
+set wildignore +=*.spl
+set wildignore +=*.sql
+set wildignore +=*.swo
+set wildignore +=*.swp
+set wildignore +=*.un~
+
+set wildignore +=.git
+set wildignore +=.hg
+set wildignore +=.sass-cache
+set wildignore +=.svn
+
+set wildignore +=cache
+set wildignore +=migrations
+set wildignore +=static
 
 " }}}
 " Spacing toggle {{{
