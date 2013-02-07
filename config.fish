@@ -69,6 +69,14 @@ function ll
     ll1
 end
 
+function logs
+    cd /Users/Nick/Sources/dotfiles-private/weechat/logs
+end
+
+function jslines
+    find . -name '*.js' | xargs wc -l
+end
+
 # }}}
 # Edit file functions {{{
 

@@ -1,4 +1,1 @@
 --smart-case
---ignore-dir=media/cache
---ignore-dir=static/cache
---ignore-dir=migrations
