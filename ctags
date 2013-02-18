@@ -1,4 +1,6 @@
 --python-kinds=cfm
+--javascript-kinds=cm
+--fields=-s
 
 --exclude=*.min.js
 --exclude=jquery.*.js
