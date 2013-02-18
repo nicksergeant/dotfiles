@@ -78,8 +78,9 @@ let g:ctrlp_prompt_mappings = {
 \ }
 
 nnoremap <leader>. :CtrlPTag<cr>
+nnoremap <leader>/ :CtrlPBufTag<cr>
 
-nnoremap <leader><cr> :silent !/usr/local/bin/ctags -R . && sed -i .bak -E -e '/^[^	]+	[^	]+.py	.+v$/d' tags<cr>:redraw!<cr>
+nnoremap <leader><cr> :silent !/usr/local/bin/myctags<cr>:redraw!<cr>
 
 " }}}
 " Disable keys {{{
