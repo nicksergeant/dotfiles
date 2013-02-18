@@ -273,6 +273,10 @@ function pp
     printf '\033[0;36mCopied:\033[0;37m %s\n' (pbpaste);
 end
 
+function virtualbox_shut_down_or_i_will_fucking_cut_you
+    VBoxManage controlvm $argv poweroff
+end
+
 # }}}
 # Prompt {{{
 
