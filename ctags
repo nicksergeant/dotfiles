@@ -2,7 +2,6 @@
 --javascript-kinds=cm
 --fields=-s
 
---languages=-html
 --languages=-javascript
 
 --exclude=flowplayer
