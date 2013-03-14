@@ -1,6 +1,6 @@
 [user]
-    name = Nick Sergeant
-    email = nick@nicksergeant.com
+	name = Nick Sergeant
+	email = nick@nicksergeant.com
 [color]
     diff = auto
     status = auto

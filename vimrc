@@ -17,6 +17,8 @@ noremap L g_
 nnoremap Vit vitVkoj
 nnoremap Vat vatV
 let g:Powerline_symbols = 'fancy'
+nnoremap k gk
+nnoremap j gj
 
 " }}}
 
