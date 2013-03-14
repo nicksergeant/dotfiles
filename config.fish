@@ -226,6 +226,9 @@ end
 function s
     subl . $argv
 end
+function sg
+    sgcli $argv
+end
 function ssc 
     sudo supervisorctl $argv
 end
