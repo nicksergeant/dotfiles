@@ -96,8 +96,7 @@ set PATH "/usr/local/sbin"         $PATH
 
 if test $IS_SERVER = 'false'
     set BROWSER open
-    set PATH "/usr/local/Cellar/ruby/1.9.3-p194/bin" $PATH
-    set PATH "/usr/local/Cellar/ruby/1.9.3-p286/bin" $PATH
+    set PATH "/usr/local/opt/ruby/bin" $PATH
     set PATH "/Applications/Postgres.app/Contents/MacOS/bin" $PATH
     set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
     set PATH "/usr/local/share/python" $PATH
@@ -271,11 +270,6 @@ function mutt
     bash --login -c 'cd ~/Desktop; /usr/local/bin/mutt' $argv;
 end
 
-function pp
-    pbpaste|scli post_and_get_url -t|pbcopy;
-    printf '\033[0;36mCopied:\033[0;37m %s\n' (pbpaste);
-end
-
 function virtualbox_shut_down_or_i_will_fucking_cut_you
     VBoxManage controlvm $argv poweroff
 end
@@ -331,11 +325,9 @@ end
 set -g -x PIP_DOWNLOAD_CACHE "$HOME/.pip/cache"
 
 if test $IS_SERVER = 'false'
-    set PATH "/usr/local/share/python"            $PATH
-    set PATH "/usr/local/Cellar/python/2.7.3/bin" $PATH
-
+    set PATH "/usr/local/share/python" $PATH
     set -g -x PYTHONPATH ""
-    set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7.3/site-packages"
+    set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7/site-packages"
 end
 
 set -g -x WORKON_HOME "$HOME/.virtualenvs"
