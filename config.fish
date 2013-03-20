@@ -189,9 +189,6 @@ end
 function est 
     elasticsearch -f -D es.config=/Users/Nick/Code/tred/elasticsearch.yml $argv
 end
-function go 
-    vagrant ssh; $argv
-end
 function ip 
     http icanhazip.com $argv
 end
@@ -249,6 +246,9 @@ end
 function ul 
     unlink $argv
 end
+function v
+    vagrant $argv
+end
 function vu 
     vagrant up $argv
 end
@@ -256,7 +256,7 @@ function vh
     vagrant halt $argv
 end
 function vs 
-    vagrant suspend $argv
+    vagrant ssh $argv
 end
 function wo 
     workon (cat .venv) $argv
@@ -284,6 +284,13 @@ function virtualenv_prompt
 end
 
 function git_prompt
+    if test $PWD = '/Users/Nick/Code/tixcast'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
     if test $PWD = '/Users/Nick/Code/unisubs'
         set -l CUR (git currentbranch ^/dev/null)
         printf ' \033[0;37mon '
