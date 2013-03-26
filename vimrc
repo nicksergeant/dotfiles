@@ -4,7 +4,7 @@ set nocompatible
 syntax enable
 let mapleader = ","
 
-inoremap jk <ESC>
+"inoremap jk <ESC>
 nnoremap Y y$
 nnoremap n nzv
 nnoremap N Nzv
