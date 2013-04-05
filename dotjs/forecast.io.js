@@ -19,7 +19,7 @@ $(function() {
 
             }, 0);
         } else {
-            setTimeout(function() { clickLocal(); }, 100);
+            setTimeout(function() { clickLocal(); }, 1000);
         }
     };
 
