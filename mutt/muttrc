@@ -72,7 +72,7 @@ bind index G        last-entry
 bind index r        group-reply
 bind index R        reply
 bind index <tab>    sync-mailbox
-bind index <space>  display-message
+bind index <space>  collapse-thread
 bind index N        search-opposite
 
 # Ctrl-R to mark all as read
