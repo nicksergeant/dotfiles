@@ -70,13 +70,13 @@
             <identifier>private.linkinus</identifier>
             <list> 
                 <item>
-                    <appendix>Cmd+Control+U for Page Up</appendix>
-                    <autogen>--KeyToKey-- KeyCode::U, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L, KeyCode::PAGEUP</autogen>
+                    <appendix>Control+U for Page Up</appendix>
+                    <autogen>--KeyToKey-- KeyCode::U, ModifierFlag::CONTROL_L, KeyCode::PAGEUP</autogen>
                     <only>LINKINUS</only>
                 </item>
                 <item>
-                    <appendix>Cmd+Control+D for Page Down</appendix>
-                    <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L, KeyCode::PAGEDOWN</autogen>
+                    <appendix>Control+D for Page Down</appendix>
+                    <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::CONTROL_L, KeyCode::PAGEDOWN</autogen>
                     <only>LINKINUS</only>
                 </item>
             </list>

@@ -215,17 +215,6 @@ augroup ft_jade
 augroup END
 
 " }}}
-" JavaScript {{{
-
-augroup ft_javascript
-    au!
-    au FileType javascript setlocal foldmethod=marker
-    au FileType javascript setlocal foldmarker={,}
-augroup END
-
-map <leader>b :call JsBeautify()<cr>
-
-" }}}
 " Mail {{{
 
 augroup ft_mail
@@ -264,6 +253,7 @@ filetype plugin indent on         " Turn on file type detection.
 set nocompatible                  " Disable vi-compatibility
 set laststatus=2                  " Always show the statusline
 set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
+nnoremap <leader>ee :SyntasticToggleMode<cr>
 
 " }}}
 " Saving {{{
@@ -402,5 +392,20 @@ nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 nnoremap <c-p> <c-i>
 nmap <tab> %
 vmap <tab> %
+
+" }}}
+
+" JavaScript {{{
+
+augroup ft_javascript
+    au!
+    au FileType javascript setlocal foldmethod=marker
+    au FileType javascript setlocal foldmarker={,}
+    au FileType javascript setlocal tabstop=2                     " Global tab width.
+    au FileType javascript setlocal shiftwidth=2                  " And again, related.
+    au FileType javascript setlocal softtabstop=2                 " Spaces for tab
+augroup END
+
+map <leader>b :call JsBeautify()<cr>
 
 " }}}

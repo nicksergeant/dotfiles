@@ -116,9 +116,6 @@ if test $IS_SERVER = 'false'
         hub $argv
     end
 end
-function g
-    git $argv
-end
 function gca 
     git commit -a $argv
 end
@@ -131,9 +128,6 @@ end
 function gdd 
     git difftool $argv
 end
-function gl 
-    git pull $argv
-end
 function gll 
     git submodule foreach git pull $argv
 end
@@ -143,32 +137,11 @@ end
 function glco 
     git browse -- commit/(/Users/Nick/Sources/dotfiles/bin/get_last_commit) $argv
 end
-function gmid 
-    git co dev; git fetch origin; git merge --ff-only origin/dev; git merge --no-ff staging; git co staging $argv
-end
 function gp 
     git push $argv
 end
-function gs 
-    git show $argv
-end
 function gst 
     git status $argv
-end
-function hgc 
-    hg commit $argv
-end
-function hgs 
-    hg st $argv
-end
-function hgp 
-    hg push $argv
-end
-function hgl 
-    hg pull $argv
-end
-function hglu 
-    hg pull -u $argv
 end
 
 # }}}
@@ -285,6 +258,13 @@ end
 
 function git_prompt
     if test $PWD = '/Users/Nick/Code/tixcast'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
+    if test $PWD = '/Users/Nick/Code/nextgen-ui'
         set -l CUR (git currentbranch ^/dev/null)
         printf ' \033[0;37mon '
         printf '\033[0;35m%s' $CUR
