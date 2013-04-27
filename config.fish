@@ -101,6 +101,8 @@ if test $IS_SERVER = 'false'
     set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
     set PATH "/usr/local/share/python" $PATH
     set PATH "/usr/local/share/npm/bin" $PATH
+else
+    set PATH "/usr/local/lib/node_modules" $PATH
 end
 
 set -g -x fish_greeting ''
@@ -127,6 +129,9 @@ function gd
 end
 function gdd 
     git difftool $argv
+end
+function gl
+    git pull $argv
 end
 function gll 
     git submodule foreach git pull $argv
