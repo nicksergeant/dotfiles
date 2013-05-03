@@ -227,14 +227,17 @@ end
 function v
     vagrant $argv
 end
-function vu 
+function vu
     vagrant up $argv
 end
-function vh 
+function vh
     vagrant halt $argv
 end
-function vs 
+function vs
     vagrant ssh $argv
+end
+function vst
+    vagrant status $argv
 end
 function wo 
     workon (cat .venv) $argv

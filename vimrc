@@ -323,6 +323,7 @@ set wildignore +=.svn
 
 set wildignore +=cache
 set wildignore +=migrations
+set wildignore +=node_modules
 set wildignore +=static
 
 " }}}
