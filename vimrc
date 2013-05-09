@@ -304,6 +304,7 @@ set lazyredraw
 set fillchars=diff:⣿,vert:│
 set dictionary=/usr/share/dict/words
 set nowrap
+set colorcolumn=80
 
 set wildmenu                      " Enhanced command line completion.
 set wildmode=list:longest         " Complete files like a shell.

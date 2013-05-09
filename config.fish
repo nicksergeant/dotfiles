@@ -197,14 +197,11 @@ end
 function pm 
     python manage.py $argv
 end
-function s
-    subl . $argv
+function ssc
+    sudo supervisorctl $argv
 end
 function sg
     sgcli $argv
-end
-function ssc 
-    sudo supervisorctl $argv
 end
 function syncdrives 
     sudo rsync -avP /Volumes/Story/ /Volumes/Seagate $argv
@@ -265,28 +262,7 @@ function virtualenv_prompt
 end
 
 function git_prompt
-    if test $PWD = '/Users/Nick/Code/tixcast'
-        set -l CUR (git currentbranch ^/dev/null)
-        printf ' \033[0;37mon '
-        printf '\033[0;35m%s' $CUR
-        printf ' \033[0;32m'
-        git_prompt_status
-    end
     if test $PWD = '/Users/Nick/Code/nextgen-ui'
-        set -l CUR (git currentbranch ^/dev/null)
-        printf ' \033[0;37mon '
-        printf '\033[0;35m%s' $CUR
-        printf ' \033[0;32m'
-        git_prompt_status
-    end
-    if test $PWD = '/Users/Nick/Code/unisubs'
-        set -l CUR (git currentbranch ^/dev/null)
-        printf ' \033[0;37mon '
-        printf '\033[0;35m%s' $CUR
-        printf ' \033[0;32m'
-        git_prompt_status
-    end
-    if test $PWD = '/Users/Nick/Code/acc-gamegraphics'
         set -l CUR (git currentbranch ^/dev/null)
         printf ' \033[0;37mon '
         printf '\033[0;35m%s' $CUR
