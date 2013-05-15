@@ -27,10 +27,10 @@ set pipe_decode          # strip headers and eval mimes when piping
 set thorough_search      # strip headers and eval mimes before searching
 
 # Sidebar Patch --------------------------------------
-#set sidebar_delim   = '  │'
-#set sidebar_visible = yes
-#set sidebar_width   = 24
-#color sidebar_new color221 color233
+set sidebar_delim   = '  │'
+set sidebar_visible = no
+set sidebar_width   = 24
+color sidebar_new color221 color233
 
 # Status Bar -----------------------------------------
 set status_chars  = " *%A"
@@ -88,6 +88,7 @@ macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
 # Moving to other folders
 macro index,pager \061 <change-folder>=nick-nicksergeant.com/INBOX<enter>
+macro index,pager \062 <change-folder>=temporary/search<enter>
 macro index,pager \063 <change-folder>=nick-nicksergeant.com/sent<enter>
 macro index,pager \064 <change-folder>=nick-nicksergeant.com/drafts<enter>
 macro index,pager \065 <change-folder>=nick-nicksergeant.com/archive<enter>
@@ -166,6 +167,9 @@ bind editor ^T    complete
 
 # Limiting
 macro index a "<limit>all\n" "show all messages (undo limit)"
+
+# Searching
+macro index F "<enter-command>unset wait_key<enter><shell-escape>mutt-notmuch-py.py ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
 
 color normal color15 color233
 color error brightcolor15 color196
