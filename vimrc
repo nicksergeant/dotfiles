@@ -275,8 +275,8 @@ set autoread
 set autowrite
 set smartindent
 set undofile
-set showcmd                       " Display incomplete commands.
-set showmode                      " Display the mode you're in.
+"set showcmd                       " Display incomplete commands.
+"set showmode                      " Display the mode you're in.
 set backspace=indent,eol,start    " Intuitive backspacing.
 set hidden                        " Handle multiple buffers better.
 set ignorecase                    " Case-insensitive searching.
