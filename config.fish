@@ -315,6 +315,21 @@ function box
 end
 
 # }}}
+# Tmux {{{
+
+function ti
+    tmux new-session -d -s primary
+    tmux rename-window -t primary vim
+    tmux new-window -t primary -a -n mutt 'mutt'
+    tmux new-window -t primary -a -n weechat 'weechat-curses'
+    sleep .1
+    tmux rename-window -t primary weechat
+    tmux set -t primary window-status-format "#[fg=white,bg=colour234] #W "
+    tmux new-window -t primary -a -n shell
+    tmux split-window -t primary -h
+end
+
+# }}}
 # Z {{{
 
 if test $IS_SERVER = 'true'

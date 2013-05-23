@@ -52,3 +52,6 @@
 [submodule "vim/bundle/taglist.vim"]
 	path = vim/bundle/taglist.vim
 	url = git://github.com/vim-scripts/taglist.vim.git
+[submodule "vim/bundle/vitality.vim"]
+	path = vim/bundle/vitality.vim
+	url = git://github.com/sjl/vitality.vim.git
