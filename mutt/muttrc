@@ -155,7 +155,7 @@ set meta_key = yes
 # Sending
 set from     = "nick@nicksergeant.com"
 set sendmail = "/usr/local/bin/msmtp -a nicksergeant"
-set sendmail_wait = 0
+set sendmail_wait = -1
 unset record
 bind compose p postpone-message
 bind index p recall-message

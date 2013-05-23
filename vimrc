@@ -48,6 +48,7 @@ augroup ft_css
     au Filetype less,css,scss setlocal foldmethod=marker
     au Filetype less,css,scss setlocal foldmarker={,}
     au Filetype less,css,scss setlocal iskeyword+=-
+    au Filetype less,css,scss setlocal colorcolumn=0
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
@@ -204,6 +205,8 @@ augroup END
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
 au BufNewFile,BufRead *.html setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
+au BufNewFile,BufRead *.html setlocal foldmethod=manual
+au BufNewFile,BufRead *.html setlocal colorcolumn=0
 let g:sparkupExecuteMapping = '<D-e>'
 
 " }}}
@@ -237,6 +240,7 @@ noremap  <F2> :NERDTreeToggle<cr>
 inoremap <F2> <esc>:NERDTreeToggle<cr>
 
 au Filetype nerdtree setlocal nolist
+au Filetype nerdtree setlocal colorcolumn=0
 
 let NERDTreeHighlightCursorline=1
 let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index', 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json', '.*\.o$', 'db.db']
