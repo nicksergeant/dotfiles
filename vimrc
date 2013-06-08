@@ -208,6 +208,9 @@ au BufNewFile,BufRead *.html setlocal foldmethod=manual
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
 au BufNewFile,BufRead *.html setlocal colorcolumn=0
 let g:sparkupExecuteMapping = '<D-e>'
+au FileType html,htmldjango setlocal tabstop=4
+au FileType html,htmldjango setlocal shiftwidth=4
+au FileType html,htmldjango setlocal softtabstop=4
 
 " }}}
 " Jade {{{
@@ -290,10 +293,10 @@ set visualbell                    " No beeping.
 set nobackup                      " Don't make a backup before overwriting a file.
 set nowritebackup                 " And again.
 set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
-set tabstop=4                     " Global tab width.
-set shiftwidth=4                  " And again, related.
+set tabstop=2                     " Global tab width.
+set shiftwidth=2                  " And again, related.
 set expandtab                     " Use spaces instead of tabs
-set softtabstop=4                 " Spaces for tab
+set softtabstop=2                 " Spaces for tab
 set list                          " 
 set listchars=tab:▸\ ,extends:❯,precedes:❮
 set shell=/bin/bash
@@ -327,6 +330,7 @@ set wildignore +=.sass-cache
 set wildignore +=.svn
 
 set wildignore +=cache
+set wildignore +=dist
 set wildignore +=migrations
 set wildignore +=node_modules
 set wildignore +=static
@@ -407,9 +411,6 @@ augroup ft_javascript
     au!
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
-    au FileType javascript setlocal tabstop=2                     " Global tab width.
-    au FileType javascript setlocal shiftwidth=2                  " And again, related.
-    au FileType javascript setlocal softtabstop=2                 " Spaces for tab
 augroup END
 
 map <leader>b :call JsBeautify()<cr>

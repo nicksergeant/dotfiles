@@ -319,8 +319,8 @@ end
 
 function ti
     tmux new-session -d -s primary
-    tmux rename-window -t primary vim
-    tmux new-window -t primary -a -n mutt 'mutt'
+    tmux rename-window -t primary mutt
+    tmux send -t primary mutt ENTER
     tmux new-window -t primary -a -n weechat 'weechat-curses'
     sleep .1
     tmux rename-window -t primary weechat
