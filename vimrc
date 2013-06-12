@@ -25,11 +25,11 @@ nnoremap j gj
 " Ack {{{
 
 " Use Ag instead of Ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:ackprg = 'ag --nogroup --nocolor --column -Q -i'
 
 " Ack for last search.
-nnoremap <silent> <leader>A :execute "Ack! -i '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
-nnoremap <leader>a :Ack! -i<space>
+nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
+nnoremap <leader>a :Ack!<space>
 
 " }}}
 " Buffers {{{
