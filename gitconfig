@@ -43,3 +43,5 @@
 	prompt = false
 [merge]
 	tool = Kaleidoscope
+[hub]
+	protocol = https

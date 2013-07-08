@@ -254,9 +254,32 @@ let NERDTreeDirArrows = 1
 " }}}
 " Plugins {{{
 
-call pathogen#runtime_append_all_bundles() 
-runtime macros/matchit.vim        " Load the matchit plugin.
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'mileszs/ack.vim.git'
+Bundle 'sjl/badwolf.git'
+Bundle 'vim-scripts/fish.vim.git'
+Bundle 'othree/html5.vim.git'
+Bundle 'scrooloose/nerdcommenter.git'
+Bundle 'scrooloose/nerdtree.git'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'scrooloose/syntastic.git'
+Bundle 'tpope/vim-fugitive.git'
+Bundle 'tpope/vim-surround.git'
+Bundle 'mattn/zencoding-vim.git'
+Bundle 'kien/ctrlp.vim.git'
+Bundle 'maksimr/vim-jsbeautify.git'
+Bundle 'digitaltoad/vim-jade.git'
+Bundle 'tpope/vim-speeddating.git'
+Bundle 'Lokaltog/vim-powerline.git'
+Bundle 'vim-scripts/taglist.vim.git'
+Bundle 'sjl/vitality.vim.git'
+
 filetype plugin indent on         " Turn on file type detection.
+runtime macros/matchit.vim        " Load the matchit plugin.
 set nocompatible                  " Disable vi-compatibility
 set laststatus=2                  " Always show the statusline
 set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
