@@ -20,5 +20,5 @@ on appIsRunning(appName)
 end appIsRunning
 EOF)
 
-    echo '#[fg=colour137,bg=colour234]⮂#[bg=colour137,fg=colour16,bold] ♫ ' $RDIO_TRACK '#[nobold]-#[bold]' $RDIO_ARTIST '#[fg=colour254,bg=colour137,nobold]'
+    echo '#[fg=colour137,bg=colour234]⮂#[bg=colour137,fg=colour16,bold] ♫ #[nobold]#[bold]'$RDIO_ARTIST '-' $RDIO_TRACK '#[fg=colour254,bg=colour137,nobold]'
 fi

@@ -152,6 +152,9 @@ end
 # }}}
 # Program functions {{{
 
+function awsm
+    dtach -A /tmp/awsm sh -c 'cd ~/Code/awsm; bundle exec rake awsm:mocked'
+end
 function c 
     pygmentize -O style=monokai -f console256 -g $argv
 end
@@ -193,6 +196,9 @@ function pbc
 end
 function pbp 
     pbpaste $argv
+end
+function p
+    dtach -A /tmp/pianobar pianobar
 end
 function pm 
     python manage.py $argv
@@ -297,12 +303,74 @@ set -g -x PIP_DOWNLOAD_CACHE "$HOME/.pip/cache"
 
 if test $IS_SERVER = 'false'
     set PATH "/usr/local/share/python" $PATH
+    set PATH "/usr/local/opt/ruby/bin" $PATH
     set -g -x PYTHONPATH ""
     set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7/site-packages"
 end
 
 set -g -x WORKON_HOME "$HOME/.virtualenvs"
 . ~/.config/fish/virtualenv.fish
+
+# }}}
+# Ruby {{{
+
+if test $IS_SERVER = 'false'
+    set -x PATH $HOME/.rbenv/bin $PATH
+    set -x PATH $HOME/.rbenv/shims $PATH
+    rbenv rehash >/dev/null ^&1
+end
+
+function rbenv_shell
+  set -l vers $argv[1]
+
+  switch "$vers"
+    case '--complete'
+      echo '--unset'
+      echo 'system'
+      command rbenv versions --bare
+      return
+    case '--unset'
+      set -e RBENV_VERSION
+      return 1
+    case ''
+      if [ -z "$RBENV_VERSION" ]
+        echo "rbenv: no shell-specific version configured" >&2
+        return 1
+      else
+        echo "$RBENV_VERSION"
+        return
+      end
+    case '*'
+      rbenv prefix "$vers" > /dev/null
+      set -gx RBENV_VERSION "$vers"
+  end
+end
+
+function rbenv_lookup
+  set -l vers (command rbenv versions -- bare| sort | grep -- "$argv[1]" | tail -n1)
+
+  if [ ! -z "$vers" ]
+    echo $vers
+    return
+  else
+    echo $argv
+    return
+  end
+end
+
+function rbenv
+  set -l command $argv[1]
+  [ (count $argv) -gt 1 ]; and set -l args $argv[2..-1]
+
+  switch "$command"
+    case shell
+      rbenv_shell (rbenv_lookup $args)
+    case local global
+      command rbenv $command (rbenv_lookup $args)
+    case '*'
+      command rbenv $command $args
+  end
+end
 
 # }}}
 # Server functions {{{
