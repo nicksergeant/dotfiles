@@ -277,6 +277,9 @@ Bundle 'tpope/vim-speeddating.git'
 Bundle 'Lokaltog/vim-powerline.git'
 Bundle 'vim-scripts/taglist.vim.git'
 Bundle 'sjl/vitality.vim.git'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'honza/vim-snippets'
+Bundle 'SirVer/ultisnips'
 
 filetype plugin indent on         " Turn on file type detection.
 runtime macros/matchit.vim        " Load the matchit plugin.
@@ -284,6 +287,8 @@ set nocompatible                  " Disable vi-compatibility
 set laststatus=2                  " Always show the statusline
 set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
 nnoremap <leader>ee :SyntasticToggleMode<cr>
+let g:UltiSnipsExpandTrigger = "<c-return>"
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
 
 " }}}
 " Saving {{{
@@ -353,6 +358,7 @@ set wildignore +=.sass-cache
 set wildignore +=.svn
 
 set wildignore +=cache
+set wildignore +=dist
 set wildignore +=migrations
 set wildignore +=node_modules
 set wildignore +=static
