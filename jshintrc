@@ -1,6 +1,16 @@
 {
+  "expr": true,
   "globals": {
+    "$": false,
+    "alert": false,
     "angular": false,
-    "com": false
-  }
+    "clearInterval": false,
+    "com": false,
+    "console": false,
+    "exports": false,
+    "Q": false,
+    "require": false,
+    "setInterval": false
+  },
+  "globalstrict": true
 }

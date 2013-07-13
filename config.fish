@@ -251,7 +251,7 @@ function virtualbox_shut_down_or_i_will_fucking_cut_you
 end
 
 function mutt
-    bash --login -c 'cd ~/Desktop; /usr/local/bin/mutt' $argv;
+    bash --login -c 'cd ~/Downloads; /usr/local/bin/mutt' $argv;
 end
 
 function virtualbox_shut_down_or_i_will_fucking_cut_you
