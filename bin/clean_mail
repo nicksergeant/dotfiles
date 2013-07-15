@@ -24,10 +24,6 @@ def main():
         sys.stdout.write(l)
         l = next_line()
 
-    # One blank line in between headers and the start of the message
-    while not l.strip():
-        l = next_line()
-
     sys.stdout.write('\n')
 
     for l in sys.stdin.readlines():
