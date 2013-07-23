@@ -10,7 +10,8 @@
     "exports": false,
     "Q": false,
     "require": false,
-    "setInterval": false
+    "setInterval": false,
+    "setTimeout": false
   },
   "globalstrict": true
 }

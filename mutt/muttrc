@@ -1,9 +1,16 @@
 # Source files
-
 source ~/.mutt/alias
+source "gpg -d ~/.mutt/passwords.gpg |"
 
-# Paths ----------------------------------------------
-set folder           = ~/.mail               # mailbox location
+# IMAP and SMTP
+set imap_user = "nicksergeant@fastmail.fm"
+set spoolfile = "imaps://mail.messagingengine.com"
+set folder = "imaps://mail.messagingengine.com/INBOX" 
+set from = "nick@nicksergeant.com"
+set record="=Sent Items"
+set sendmail = "/usr/local/bin/msmtp -a nicksergeant"
+
+# Paths
 set alias_file       = ~/.mutt/alias         # where to store aliases
 set header_cache     = ~/.mutt/cache/headers # where to store headers
 set message_cachedir = ~/.mutt/cache/bodies  # where to store bodies
@@ -13,61 +20,43 @@ set tmpdir           = ~/.mutt/temp          # where to keep temp files
 set signature        = ~/.mutt/sig           # my signature file
 set display_filter = "clean_mail"
 
-# Basic Options --------------------------------------
-set wait_key = no        # shut up, mutt
-set mbox_type = Maildir  # mailbox type
-set timeout = 3          # idle time before scanning
-set mail_check = 0       # minimum time between scans
-unset move               # gmail does that
-set delete               # don't ask, just do
-unset confirmappend      # don't ask, just do!
-set quit                 # don't ask, just do!!
-unset mark_old           # read/new is good enough for me
-set beep_new             # bell on new mails
-set pipe_decode          # strip headers and eval mimes when piping
-set thorough_search      # strip headers and eval mimes before searching
+# Folders
+set postponed="=Drafts"
 
-# Sidebar Patch --------------------------------------
-set sidebar_delim   = '  │'
-set sidebar_visible = no
-set sidebar_width   = 24
-color sidebar_new color221 color233
+# Options
+set timeout = 3           # idle time before scanning
+set wait_key = no         # shut up, mutt
+set mail_check = 0        # minimum time between scans
+set delete                # don't ask, just do
+unset confirmappend       # don't ask, just do!
+set quit                  # don't ask, just do!!
+unset mark_old            # read/new is good enough for me
+set beep_new              # bell on new mails
+set pipe_decode           # strip headers and eval mimes when piping
+set thorough_search       # strip headers and eval mimes before searching
+unset imap_passive        # don't wait to enter mailbox manually
+set imap_check_subscribed # automatically poll subscribed mailboxes for new mail
+set net_inc=5             # display download progress every 5K
 
-# Status Bar -----------------------------------------
+# Status bar
 set status_chars  = " *%A"
 set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
 
-# Header Options -------------------------------------
+# Header options
 ignore *                                # ignore all headers
 unignore from: to: cc: date: subject:   # show only these
 hdr_order from: to: cc: date: subject:  # and in this order
 
-# Account Settings -----------------------------------
-# nick@nicksergeant.com
-
-# Default inbox.
-set spoolfile = "+nick-nicksergeant.com/INBOX"
-
-# Mailboxes to show in the sidebar.
-mailboxes +nick-nicksergeant.com/INBOX \
-          +nick-nicksergeant.com/archive \
-          +nick-nicksergeant.com/sent \
-          +nick-nicksergeant.com/drafts \
-
-# Other special folders.
-set mbox      = "+nick-nicksergeant.com/archive"
-set postponed = "+nick-nicksergeant.com/drafts"
-
-# Index View Options ---------------------------------
+# Index view options
 set date_format = "%m/%d"
 set index_format = "[%Z]  %D  %-20.20F  %s"
-set sort = threads                         # like gmail
-set sort_aux = reverse-last-date-received  # like gmail
+set sort = threads
+set sort_aux = reverse-last-date-received
 set uncollapse_jump                        # don't collapse on an unread message
 set sort_re                                # thread based on regex
 set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
 
-# Index Key Bindings ---------------------------------
+# Index key bindings
 bind index gg       first-entry
 bind index G        last-entry
 bind index r        group-reply
@@ -76,30 +65,27 @@ bind index <tab>    sync-mailbox
 bind index <space>  collapse-thread
 bind index N        search-opposite
 
+macro index,pager d "<save-message>+Archive<enter>" "move message to the archive"
+
 # Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
-
-# Sync email
-macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
-macro index o "<shell-escape>offlineimap -q -f 'INBOX','[Gmail]/Sent Mail'<enter>" "run offlineimap to sync inbox"
 
 # Saner copy/move dialogs
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
 # Moving to other folders
-macro index,pager \061 <change-folder>=nick-nicksergeant.com/INBOX<enter>
-macro index,pager \062 <change-folder>=temporary/search<enter>
-macro index,pager \063 <change-folder>=nick-nicksergeant.com/sent<enter>
-macro index,pager \064 <change-folder>=nick-nicksergeant.com/drafts<enter>
-macro index,pager \065 <change-folder>=nick-nicksergeant.com/archive<enter>
+macro index,pager \061 <change-folder>=<enter>
+macro index,pager \063 "c=Sent<quote-char> Items/\r"
+macro index,pager \064 <change-folder>=Drafts<enter>
+macro index,pager \065 <change-folder>=Archive<enter>
 
-# Sidebar Navigation ---------------------------------
+# Sidebar navigation
 bind index,pager <down>   sidebar-next
 bind index,pager <up>     sidebar-prev
 bind index,pager <right>  sidebar-open
 
-# Pager View Options ---------------------------------
+# Pager view options
 set pager_index_lines = 10 # number of index lines to show
 set pager_context = 3      # number of context lines to show
 set pager_stop             # don't go to next message automatically
@@ -110,7 +96,7 @@ unset markers              # no ugly plus signs
 set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
 alternative_order text/plain text/enriched text/html
 
-# Pager Key Bindings ---------------------------------
+# Pager key bindings
 bind pager k  previous-line
 bind pager j  next-line
 bind pager gg top
@@ -121,19 +107,19 @@ bind pager R  reply
 bind pager N search-opposite
 bind pager <space> exit
 
-# Sane page-up/down ---------------------------------
+# Sane page-up/down
 bind index \Cu half-up
 bind index \Cd half-down
 bind pager \Cu half-up
 bind pager \Cd half-down
 
-# View attachments properly.
+# View attachments properly
 bind attach <return> view-mailcap
 
 # URLS
 macro pager \eU "|urlview<enter>" "call urlview to open links"
 
-# Compose View Options -------------------------------
+# Compose view options
 set realname = "Nick Sergeant"       # who am i?
 set envelope_from                    # which from?
 set sig_dashes                       # dashes before sig
@@ -154,10 +140,6 @@ set sig_on_top                       # Put the damn signature before any quoted 
 set meta_key = yes
 
 # Sending
-set from     = "nick@nicksergeant.com"
-set sendmail = "/usr/local/bin/msmtp -a nicksergeant"
-set sendmail_wait = -1
-unset record
 bind compose p postpone-message
 bind index p recall-message
 
@@ -170,45 +152,33 @@ bind editor ^T    complete
 macro index a "<limit>all\n" "show all messages (undo limit)"
 
 # Searching
-macro index F "<enter-command>unset wait_key<enter><shell-escape>mutt-notmuch-py.py ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
+macro index F "<change-folder>+Archive<enter><limit>~B " "search everything"
 
+# Colors
 color normal color15 color233
 color error brightcolor15 color196
 color indicator color15 color235
 color status brightcolor39 color233
 color markers color142 color233
-
 color hdrdefault color245 color233
 color header brightcolor214 color233 "^(Subject): "
 color signature color243 color233
-
 color body color137 color233 [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
 color body color137 color233 ((https?|ftp)://|www)+[\-\.\;@,/%~_:?&=\#a-zA-Z0-9+]+
 color bold brightcolor15 color233
 color search brightcolor16 color221
-
 color quoted color243 color233
 color quoted1 color211 color233
 color quoted2 color222 color233
 color quoted3 color214 color233
 color quoted4 color154 color233
-
 color tilde color240 color233
 color tree color240 color233
 color attachment brightcolor211 color233
-
-# http://www.mutt.org/doc/manual/manual-4.html#ss4.2
-# # color index color241 color233 ~A
-# # color index color241 color233 ~Q
-# # color index color243 color233 ~P
 color index color221 color233 ~N
 color index brightcolor211 color233 ~F
 color index brightcolor39 color233 ~T
-#color index color243 color233 ~Q
 color index color196 color233 ~D
-
-# # Colorize inline diffs, really helpful for LKML or other mailing lists where
-# # mails frequently include patches.
 color body brightcolor15 color233 '^diff .*'
 color body brightcolor15 color233 '^[Ii]{1}ndex .*'
 color body brightcolor15 color233 '^=+$'

@@ -290,6 +290,7 @@ set t_Co=256                      " Explicitly tell vim that the terminal has 25
 nnoremap <leader>ee :SyntasticToggleMode<cr>
 let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_filetype_blacklist = {'mail': 1}
 
 " }}}
 " Saving {{{
