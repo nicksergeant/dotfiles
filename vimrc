@@ -21,6 +21,48 @@ nnoremap k gk
 nnoremap j gj
 
 " }}}
+" Plugins {{{
+
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'mileszs/ack.vim.git'
+Bundle 'sjl/badwolf.git'
+Bundle 'vim-scripts/fish.vim.git'
+Bundle 'othree/html5.vim.git'
+Bundle 'scrooloose/nerdcommenter.git'
+Bundle 'scrooloose/nerdtree.git'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'scrooloose/syntastic.git'
+Bundle 'tpope/vim-fugitive.git'
+Bundle 'tpope/vim-surround.git'
+Bundle 'kien/ctrlp.vim.git'
+Bundle 'maksimr/vim-jsbeautify.git'
+Bundle 'digitaltoad/vim-jade.git'
+Bundle 'tpope/vim-speeddating.git'
+Bundle 'Lokaltog/vim-powerline.git'
+Bundle 'vim-scripts/taglist.vim.git'
+Bundle 'sjl/vitality.vim.git'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'honza/vim-snippets'
+Bundle 'SirVer/ultisnips'
+Bundle 'Gist.vim'
+Bundle 'WebAPI.vim'
+
+filetype plugin indent on         " Turn on file type detection.
+runtime macros/matchit.vim        " Load the matchit plugin.
+set nocompatible                  " Disable vi-compatibility
+set laststatus=2                  " Always show the statusline
+set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
+nnoremap <leader>ee :SyntasticToggleMode<cr>
+let g:UltiSnipsExpandTrigger = "<D-d>"
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_filetype_blacklist = {'mail': 1, 'python': 1}
+let g:sparkupExecuteMapping = "<D-e>"
+
+" }}}
 
 " Ack {{{
 
@@ -191,13 +233,19 @@ nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :Gremove<cr>
 nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
-vnoremap <leader>G :w !snipt post_and_get_url \| pbcopy && pbpaste \| xargs open<CR>
 
 augroup ft_fugitive
     au!
 
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
+
+" }}}
+" Gist {{{
+
+let g:gist_open_browser_after_post = 1
+let g:gist_post_private = 1
+vnoremap <leader>G :Gist<CR>
 
 " }}}
 " HTML {{{
@@ -207,7 +255,6 @@ au BufNewFile,BufRead *.html setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
 au BufNewFile,BufRead *.html setlocal colorcolumn=0
-let g:user_zen_leader_key = '<D-e>'
 au FileType html,htmldjango setlocal tabstop=4
 au FileType html,htmldjango setlocal shiftwidth=4
 au FileType html,htmldjango setlocal softtabstop=4
@@ -250,47 +297,6 @@ let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
 
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
-
-" }}}
-" Plugins {{{
-
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'gmarik/vundle'
-Bundle 'mileszs/ack.vim.git'
-Bundle 'sjl/badwolf.git'
-Bundle 'vim-scripts/fish.vim.git'
-Bundle 'othree/html5.vim.git'
-Bundle 'scrooloose/nerdcommenter.git'
-Bundle 'scrooloose/nerdtree.git'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'scrooloose/syntastic.git'
-Bundle 'tpope/vim-fugitive.git'
-Bundle 'tpope/vim-surround.git'
-Bundle 'mattn/zencoding-vim.git'
-Bundle 'kien/ctrlp.vim.git'
-Bundle 'maksimr/vim-jsbeautify.git'
-Bundle 'digitaltoad/vim-jade.git'
-Bundle 'tpope/vim-speeddating.git'
-Bundle 'Lokaltog/vim-powerline.git'
-Bundle 'vim-scripts/taglist.vim.git'
-Bundle 'sjl/vitality.vim.git'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'honza/vim-snippets'
-Bundle 'SirVer/ultisnips'
-
-
-filetype plugin indent on         " Turn on file type detection.
-runtime macros/matchit.vim        " Load the matchit plugin.
-set nocompatible                  " Disable vi-compatibility
-set laststatus=2                  " Always show the statusline
-set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
-nnoremap <leader>ee :SyntasticToggleMode<cr>
-let g:UltiSnipsExpandTrigger = "<D-d>"
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_filetype_blacklist = {'mail': 1}
 
 " }}}
 " Saving {{{
