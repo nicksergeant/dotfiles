@@ -125,10 +125,7 @@ function gco
     git checkout $argv
 end
 function gd 
-    git diff $argv
-end
-function gdd 
-    git difftool $argv
+    git diff HEAD
 end
 function gl
     git pull $argv

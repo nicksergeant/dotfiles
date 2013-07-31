@@ -438,7 +438,7 @@ nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 nnoremap <c-p> <c-i>
 nmap <tab> %
 vmap <tab> %
-nnoremap <silent>n //<CR>
+nnoremap cs/ cgn
 
 " }}}
 
