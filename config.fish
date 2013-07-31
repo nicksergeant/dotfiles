@@ -275,6 +275,13 @@ function git_prompt
         printf ' \033[0;32m'
         git_prompt_status
     end
+    if test $PWD = '/Users/Nick/Code/publet'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
 end
 
 function prompt_pwd --description 'Print the current working directory, shortend to fit the prompt'
