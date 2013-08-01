@@ -233,6 +233,7 @@ nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :Gremove<cr>
 nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
+vnoremap <leader>G :w !snipt post_and_get_url -t \| pbcopy && pbpaste \| xargs open<CR>
 
 augroup ft_fugitive
     au!
@@ -245,7 +246,6 @@ augroup END
 
 let g:gist_open_browser_after_post = 1
 let g:gist_post_private = 1
-vnoremap <leader>G :Gist<CR>
 
 " }}}
 " HTML {{{

@@ -11,7 +11,8 @@
     "Q": false,
     "require": false,
     "setInterval": false,
-    "setTimeout": false
+    "setTimeout": false,
+    "window": false
   },
   "globalstrict": true
 }
