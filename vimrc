@@ -50,6 +50,7 @@ Bundle 'honza/vim-snippets'
 Bundle 'SirVer/ultisnips'
 Bundle 'Gist.vim'
 Bundle 'WebAPI.vim'
+Bundle 'django.vim'
 
 filetype plugin indent on         " Turn on file type detection.
 runtime macros/matchit.vim        " Load the matchit plugin.

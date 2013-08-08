@@ -1,14 +1,12 @@
-# Source files
+# Source files and root folder
+set folder = ~/.mail
 source ~/.mutt/alias
-source "gpg -d ~/.mutt/passwords.gpg |"
 
-# IMAP and SMTP
-set imap_user = "nicksergeant@fastmail.fm"
-set spoolfile = "imaps://mail.messagingengine.com"
-set folder = "imaps://mail.messagingengine.com/INBOX" 
-set from = "nick@nicksergeant.com"
-set record="=Sent Items"
-set sendmail = "/usr/local/bin/msmtp -a nicksergeant"
+# Account settings
+set mbox_type = maildir
+set spoolfile = "+nick-nicksergeant.com/INBOX"
+set mbox      = "+nick-nicksergeant.com/archive"
+set postponed = "+nick-nicksergeant.com/drafts"
 
 # Paths
 set alias_file       = ~/.mutt/alias         # where to store aliases
@@ -19,9 +17,6 @@ set mailcap_path     = ~/.mutt/mailcap       # entries for filetypes
 set tmpdir           = ~/.mutt/temp          # where to keep temp files
 set signature        = ~/.mutt/sig           # my signature file
 set display_filter = "clean_mail"
-
-# Folders
-set postponed="=Drafts"
 
 # Options
 set timeout = 3           # idle time before scanning
@@ -34,9 +29,6 @@ unset mark_old            # read/new is good enough for me
 set beep_new              # bell on new mails
 set pipe_decode           # strip headers and eval mimes when piping
 set thorough_search       # strip headers and eval mimes before searching
-unset imap_passive        # don't wait to enter mailbox manually
-set imap_check_subscribed # automatically poll subscribed mailboxes for new mail
-set net_inc=5             # display download progress every 5K
 
 # Status bar
 set status_chars  = " *%A"
@@ -64,8 +56,11 @@ bind index R        reply
 bind index <tab>    sync-mailbox
 bind index <space>  collapse-thread
 bind index N        search-opposite
+macro index,pager d "<save-message>+nick-nicksergeant.com/archive<enter>" "move message to the archive"
 
-macro index,pager d "<save-message>+Archive<enter>" "move message to the archive"
+# Sync email
+macro index o "<shell-escape>offlineimap -f 'INBOX'<enter>"
+macro index O "<shell-escape>offlineimap<enter>"
 
 # Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
@@ -75,15 +70,11 @@ macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
 # Moving to other folders
-macro index,pager \061 <change-folder>=<enter>
-macro index,pager \063 "c=Sent<quote-char> Items/\r"
-macro index,pager \064 <change-folder>=Drafts<enter>
-macro index,pager \065 <change-folder>=Archive<enter>
-
-# Sidebar navigation
-bind index,pager <down>   sidebar-next
-bind index,pager <up>     sidebar-prev
-bind index,pager <right>  sidebar-open
+macro index,pager \061 <change-folder>=nick-nicksergeant.com/INBOX<enter>
+macro index,pager \062 <change-folder>=temporary/search<enter>
+macro index,pager \063 <change-folder>=nick-nicksergeant.com/sent<enter>
+macro index,pager \064 <change-folder>=nick-nicksergeant.com/drafts<enter>
+macro index,pager \065 <change-folder>=nick-nicksergeant.com/archive<enter>
 
 # Pager view options
 set pager_index_lines = 10 # number of index lines to show
@@ -142,6 +133,10 @@ set meta_key = yes
 # Sending
 bind compose p postpone-message
 bind index p recall-message
+set from     = "nick@nicksergeant.com"
+set sendmail = "/usr/local/bin/msmtp -a nicksergeant"
+set sendmail_wait = 0 
+set record = "+nick-nicksergeant.com/sent"
 
 # Contacts
 set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
@@ -152,7 +147,7 @@ bind editor ^T    complete
 macro index a "<limit>all\n" "show all messages (undo limit)"
 
 # Searching
-macro index F "<change-folder>+Archive<enter><limit>~B " "search everything"
+macro index F "<enter-command>unset wait_key<enter><shell-escape>mutt-notmuch-py.py ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
 
 # Colors
 color normal color15 color233
