@@ -1,35 +1,37 @@
 [general]
 ui = TTYUI
 accounts = NickSergeant
-pythonfile=~/.mutt/offlineimap.py
+pythonfile = /Users/Nick/.mutt/offlineimap.py
 fsync = False
+maxsyncaccounts = 1
 
 [Account NickSergeant]
 localrepository = NickSergeant-Local
 remoterepository = NickSergeant-Remote
 status_backend = sqlite
 postsynchook = /usr/local/bin/notmuch new
+autorefresh = 1
 
 [Repository NickSergeant-Local]
 type = Maildir
-localfolders = ~/.mail/nick-nicksergeant.com
-nametrans = lambda folder: {'drafts':  'INBOX.Drafts',
-                            'sent':    'INBOX.Sent Items',
+localfolders = /Users/Nick/.mail/nick-nicksergeant.com
+folderfilter = lambda folder: folder not in ['INBOX.Trash', 'INBOX.Junk Mail',
+                                             'INBOX.Drafts']
+nametrans = lambda folder: {'sent':    'INBOX.Sent Items',
                             'archive': 'INBOX.Archive',
                            }.get(folder, folder)
-folderfilter = lambda folder: folder not in ['INBOX.Trash', 'INBOX.Junk Mail']
 
 [Repository NickSergeant-Remote]
-maxconnections = 5
 type = IMAP
+maxconnections = 3
+idlefolders = ['INBOX', 'INBOX.Archive', 'INBOX.Sent Items']
 remotehost = mail.messagingengine.com
 remoteuser = nicksergeant@fastmail.fm
-remotepasseval = get_keychain_pass(account="nick@nicksergeant.com", server="imap.gmail.com")
+remotepasseval = get_keychain_pass(account='nick@nicksergeant.com', server='imap.gmail.com')
 cert_fingerprint = fa86c1ca2d4f805e8fe7b8e7076a3ad2ccc52bb4
 ssl = yes
-expunge = no
-nametrans = lambda folder: {'INBOX.Drafts':     'drafts',
-                            'INBOX.Sent Items': 'sent',
-                            'INBOX.Archive':     'archive',
+folderfilter = lambda folder: folder not in ['INBOX.Trash', 'INBOX.Junk Mail',
+                                             'INBOX.Drafts']
+nametrans = lambda folder: {'INBOX.Sent Items': 'sent',
+                            'INBOX.Archive':    'archive',
                            }.get(folder, folder)
-folderfilter = lambda folder: folder not in ['INBOX.Trash', 'INBOX.Junk Mail']

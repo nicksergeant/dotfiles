@@ -56,7 +56,6 @@ bind index R        reply
 bind index <tab>    sync-mailbox
 bind index <space>  collapse-thread
 bind index N        search-opposite
-macro index,pager d "<save-message>+nick-nicksergeant.com/archive<enter>" "move message to the archive"
 
 # Sync email
 macro index o "<shell-escape>offlineimap -f 'INBOX'<enter>"
@@ -136,7 +135,7 @@ bind index p recall-message
 set from     = "nick@nicksergeant.com"
 set sendmail = "/usr/local/bin/msmtp -a nicksergeant"
 set sendmail_wait = 0 
-set record = "+nick-nicksergeant.com/sent"
+unset record
 
 # Contacts
 set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
