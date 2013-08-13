@@ -139,6 +139,11 @@ end
 function glco 
     git browse -- commit/(/Users/Nick/Sources/dotfiles/bin/get_last_commit) $argv
 end
+function glu
+    git checkout master;
+    git pull upstream master;
+    git checkout -;
+end
 function gp 
     git push $argv
 end
