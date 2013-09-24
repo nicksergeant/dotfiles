@@ -5,6 +5,7 @@
     "$": false,
     "alert": false,
     "angular": false,
+    "Buffer": false,
     "casper": false,
     "clearInterval": false,
     "com": false,

@@ -390,6 +390,9 @@ end
 function box
     ssh nick@box.nicksergeant.com $argv
 end
+function ui
+    sudo killall node; cd ~/Code/nextgen-ui; grunt mockapi &; grunt
+end
 
 # }}}
 # Tmux {{{
