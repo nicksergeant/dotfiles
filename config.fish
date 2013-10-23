@@ -99,7 +99,6 @@ if test $IS_SERVER = 'false'
     set PATH "/usr/local/opt/ruby/bin" $PATH
     set PATH "/Applications/Postgres.app/Contents/MacOS/bin" $PATH
     set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
-    set PATH "/usr/local/share/python" $PATH
     set PATH "/usr/local/share/npm/bin" $PATH
 else
     set PATH "/usr/local/lib/node_modules" $PATH
@@ -118,8 +117,20 @@ if test $IS_SERVER = 'false'
         hub $argv
     end
 end
+function gpd
+    git push; ey deploy;
+end
+function g 
+    git $argv
+end
+function gm
+    git co master $argv
+end
 function gca 
     git commit -a $argv
+end
+function gc 
+    git compare (git rev-parse --abbrev-ref HEAD)
 end
 function gco 
     git checkout $argv
@@ -311,7 +322,6 @@ end
 set -g -x PIP_DOWNLOAD_CACHE "$HOME/.pip/cache"
 
 if test $IS_SERVER = 'false'
-    set PATH "/usr/local/share/python" $PATH
     set PATH "/usr/local/opt/ruby/bin" $PATH
     set -g -x PYTHONPATH ""
     set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7/site-packages"
