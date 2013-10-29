@@ -220,7 +220,7 @@ function pm
     python manage.py $argv
 end
 function ssc
-    sudo supervisorctl $argv
+    sudo supervisorctl -c /Users/Nick/Sources/dotfiles-private/supervisor/supervisord.conf $argv
 end
 function sg
     sgcli $argv
