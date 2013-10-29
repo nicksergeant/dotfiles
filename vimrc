@@ -32,16 +32,16 @@ Bundle 'mileszs/ack.vim.git'
 Bundle 'sjl/badwolf.git'
 Bundle 'vim-scripts/fish.vim.git'
 Bundle 'othree/html5.vim.git'
-Bundle 'scrooloose/nerdcommenter.git'
 Bundle 'scrooloose/nerdtree.git'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'scrooloose/syntastic.git'
+Bundle 'tpope/vim-commentary.git'
 Bundle 'tpope/vim-fugitive.git'
+Bundle 'tpope/vim-speeddating.git'
 Bundle 'tpope/vim-surround.git'
 Bundle 'kien/ctrlp.vim.git'
 Bundle 'maksimr/vim-jsbeautify.git'
 Bundle 'digitaltoad/vim-jade.git'
-Bundle 'tpope/vim-speeddating.git'
 Bundle 'Lokaltog/vim-powerline.git'
 Bundle 'vim-scripts/taglist.vim.git'
 Bundle 'sjl/vitality.vim.git'
@@ -103,6 +103,18 @@ augroup END
 " Clear everything {{{
 
 map <leader>c :let @/=''<CR>
+
+" }}}
+" Commentary {{{
+
+nmap <leader>c<space> <Plug>CommentaryLine
+xmap <leader>c<space> <Plug>Commentary
+
+augroup plugin_commentary
+    au!
+    au FileType htmldjango setlocal commentstring={#\ %s\ #}
+    au FileType fish setlocal commentstring=#\ %s
+augroup END
 
 " }}}
 " Ctrl-P {{{

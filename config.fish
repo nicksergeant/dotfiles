@@ -222,6 +222,9 @@ end
 function sg
     sgcli $argv
 end
+function sleep
+    sudo dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
+end
 function syncdrives 
     sudo rsync -avP /Volumes/Story/ /Volumes/Seagate $argv
 end
