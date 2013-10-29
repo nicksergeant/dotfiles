@@ -195,6 +195,9 @@ end
 function mk 
     mkdir -p $argv
 end
+function mutt
+    bash --login -c 'cd ~/Downloads; /usr/local/bin/mutt' $argv;
+end
 function network_usage 
     lsof -i | grep -E "(LISTEN|ESTABLISHED)" $argv
 end
@@ -258,20 +261,17 @@ end
 function vst
     vagrant status $argv
 end
-function wo 
-    workon (cat .venv) $argv
-end
-
 function virtualbox_shut_down_or_i_will_fucking_cut_you
     VBoxManage controlvm $argv poweroff $argv
 end
-
-function mutt
-    bash --login -c 'cd ~/Downloads; /usr/local/bin/mutt' $argv;
-end
-
 function virtualbox_shut_down_or_i_will_fucking_cut_you
     VBoxManage controlvm $argv poweroff
+end
+function wo 
+    workon (cat .venv) $argv
+end
+function wakepc
+    wakeonlan 68:b5:99:d3:ab:35
 end
 
 # }}}
