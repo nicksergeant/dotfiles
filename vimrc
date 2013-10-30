@@ -55,7 +55,6 @@ Bundle 'PeterRincker/vim-argumentative'
 
 filetype plugin indent on         " Turn on file type detection.
 runtime macros/matchit.vim        " Load the matchit plugin.
-set nocompatible                  " Disable vi-compatibility
 set laststatus=2                  " Always show the statusline
 set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
 nnoremap <leader>ee :SyntasticToggleMode<cr>
@@ -265,7 +264,6 @@ let g:gist_post_private = 1
 " HTML {{{
 
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
-au BufNewFile,BufRead *.html setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
 au BufNewFile,BufRead *.html setlocal colorcolumn=0

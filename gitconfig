@@ -32,7 +32,7 @@
 [diff]
   tool = Kaleidoscope
 [core]
-  excludesfile = /Users/Nick/.gitignore
+  excludesfile = ~/.gitignore
 [credential]
   helper = osxkeychain
 [web]

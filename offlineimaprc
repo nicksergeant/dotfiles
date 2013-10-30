@@ -26,7 +26,7 @@ nametrans = lambda folder: {       'drafts': '[Gmail]/Drafts',
 
 [Repository NickSergeant-Remote]
 type = Gmail
-cert_fingerprint = b0ba392bba326e6feb1add4d04fa0fb86cd173fa
+cert_fingerprint = 89091347184d41768bfc0da9fad94bfe882dd358
 maxconnections = 1
 realdelete = no
 remoteuser = nick@nicksergeant.com
