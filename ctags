@@ -1,12 +1,6 @@
---python-kinds=cfm
---javascript-kinds=cm
---fields=-s
-
---languages=-javascript
-
---exclude=flowplayer
+--exclude=node_modules
+--exclude=vendor
 --exclude=.hg
---exclude=.ropeproject
 --exclude=libs
 --exclude=build
 --exclude=dist
@@ -15,5 +9,3 @@
 --exclude=static-cache
 --exclude=closure-library
 --exclude=static
-
---langmap=Lisp:+.clj

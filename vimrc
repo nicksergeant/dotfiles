@@ -45,13 +45,14 @@ Bundle 'digitaltoad/vim-jade.git'
 Bundle 'Lokaltog/vim-powerline.git'
 Bundle 'vim-scripts/taglist.vim.git'
 Bundle 'sjl/vitality.vim.git'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'honza/vim-snippets'
-Bundle 'SirVer/ultisnips'
-Bundle 'Gist.vim'
-Bundle 'WebAPI.vim'
-Bundle 'django.vim'
-Bundle 'PeterRincker/vim-argumentative'
+Bundle 'Valloric/YouCompleteMe.git'
+Bundle 'honza/vim-snippets.git'
+Bundle 'SirVer/ultisnips.git'
+Bundle 'Gist.vim.git'
+Bundle 'WebAPI.vim.git'
+Bundle 'django.vim.git'
+Bundle 'PeterRincker/vim-argumentative.git'
+Bundle 'marijnh/tern_for_vim.git'
 
 filetype plugin indent on         " Turn on file type detection.
 runtime macros/matchit.vim        " Load the matchit plugin.
@@ -62,17 +63,19 @@ let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_filetype_blacklist = {'mail': 1}
 let g:sparkupExecuteMapping = "<D-e>"
+let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>"]
+let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
 
 " }}}
 
 " Ack {{{
 
-" Use Ag instead of Ack
-let g:ackprg = 'ag --nogroup --nocolor --column -Q -i'
+" Use Ag instead of Ack.
+let g:ackprg = 'ag --nogroup --nocolor --column -i'
 
 " Ack for last search.
 nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
-nnoremap <leader>a :Ack!<space>
+nnoremap <leader>a :Ack! -Q<space>
 
 " }}}
 " Buffers {{{
@@ -157,7 +160,7 @@ command! ErrorsToggle call ErrorsToggle()
 function! ErrorsToggle() " {{{
     if exists("w:is_error_window")
         unlet w:is_error_window
-        exec "q"
+        exec "close"
     else
         exec "Errors"
         lopen

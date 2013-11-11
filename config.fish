@@ -166,7 +166,7 @@ end
 # Program functions {{{
 
 function awsm
-    dtach -A /tmp/awsm sh -c 'cd ~/Code/awsm; bundle exec rake awsm:mocked'
+    cd ~/Code/awsm; script/bootstrap; bundle exec rake awsm:mocked;
 end
 function c 
     pygmentize -O style=monokai -f console256 -g $argv
@@ -176,12 +176,6 @@ function ce
 end
 function deact 
     deactivate $argv
-end
-function es 
-    elasticsearch -f -D es.config=/usr/local/Cellar/elasticsearch/0.19.8/config/elasticsearch.yml $argv
-end
-function est 
-    elasticsearch -f -D es.config=/Users/Nick/Code/tred/elasticsearch.yml $argv
 end
 function ip 
     http icanhazip.com $argv
@@ -248,6 +242,9 @@ function ul
 end
 function v
     vagrant $argv
+end
+function vim
+    mvim -v $argv
 end
 function vu
     vagrant up $argv
@@ -334,16 +331,83 @@ set -g -x WORKON_HOME "$HOME/.virtualenvs"
 . ~/.config/fish/virtualenv.fish
 
 # }}}
+# Ruby {{{
+
+if test $IS_SERVER = 'false'
+    set -x PATH $HOME/.rbenv/bin $PATH
+    set -x PATH $HOME/.rbenv/shims $PATH
+    rbenv rehash >/dev/null ^&1
+end
+
+function rbenv_shell
+  set -l vers $argv[1]
+
+  switch "$vers"
+    case '--complete'
+      echo '--unset'
+      echo 'system'
+      command rbenv versions --bare
+      return
+    case '--unset'
+      set -e RBENV_VERSION
+      return 1
+    case ''
+      if [ -z "$RBENV_VERSION" ]
+        echo "rbenv: no shell-specific version configured" >&2
+        return 1
+      else
+        echo "$RBENV_VERSION"
+        return
+      end
+    case '*'
+      rbenv prefix "$vers" > /dev/null
+      set -gx RBENV_VERSION "$vers"
+  end
+end
+
+function rbenv_lookup
+  set -l vers (command rbenv versions -- bare| sort | grep -- "$argv[1]" | tail -n1)
+
+  if [ ! -z "$vers" ]
+    echo $vers
+    return
+  else
+    echo $argv
+    return
+  end
+end
+
+function rbenv
+  set -l command $argv[1]
+  [ (count $argv) -gt 1 ]; and set -l args $argv[2..-1]
+
+  switch "$command"
+    case shell
+      rbenv_shell (rbenv_lookup $args)
+    case local global
+      command rbenv $command (rbenv_lookup $args)
+    case '*'
+      command rbenv $command $args
+  end
+end
+
+# }}}
 # Server functions {{{
 
-function afa 
-    ssh nick@afeedapart.com $argv
-end
 function box
     ssh nick@box.nicksergeant.com $argv
 end
+function fitzlimo
+    sudo killall node -9; cd ~/Code/fitzlimo; nodemon -x node server &; cd client; grunt watch;
+end
+function snipt
+    cd ~/Code/snipt; workon snipt; pm runserver;
+end
+function showroom
+    sudo killall node -9; cd ~/Code/showroom; nodemon -x node server &; cd client; grunt watch;
+end
 function ui
-    sudo killall node; cd ~/Code/nextgen-ui; grunt mockapi &; grunt
+    sudo killall node -9; cd ~/Code/nextgen-ui; grunt mockapi &; grunt;
 end
 
 # }}}

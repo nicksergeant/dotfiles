@@ -124,7 +124,7 @@ set reply_to                         # reply to Reply to: field
 set reverse_name                     # reply as whomever it was to
 set include                          # include message in replies
 set forward_quote                    # include message in forwards
-set editor = "vim"                   # Use Vim to compose email.
+set editor = "/usr/local/bin/mvim -f" # Use MacVim to compose email.
 set sig_on_top                       # Put the damn signature before any quoted text.
 set meta_key = yes
 
