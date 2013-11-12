@@ -107,6 +107,22 @@ augroup END
 map <leader>c :let @/=''<CR>
 
 " }}}
+" Colors {{{
+
+let g:badwolf_html_link_underline = 0
+colorscheme badwolf
+hi Normal ctermbg=none
+hi Folded ctermbg=none
+hi NonText ctermbg=none
+hi CursorLine ctermbg=234
+hi CursorColumn ctermbg=234
+hi ColorColumn ctermbg=234
+hi MatchParen ctermbg=234
+hi DiffChange ctermbg=234
+hi TabLine ctermbg=234
+hi TabLineFill ctermbg=234
+
+" }}}
 " Commentary {{{
 
 nmap <leader>c<space> <Plug>CommentaryLine
@@ -322,8 +338,6 @@ au FocusLost,TabLeave * call feedkeys("\<C-\>\<C-n>")
 " }}}
 " Settings {{{
 
-let g:badwolf_html_link_underline = 0
-colorscheme badwolf
 set autoindent
 set autoread
 set autowrite
