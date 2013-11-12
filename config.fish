@@ -180,9 +180,6 @@ end
 function ip 
     http icanhazip.com $argv
 end
-function m 
-    mvim . $argv
-end
 function mc 
     telnet localhost 11211 $argv
 end
@@ -240,11 +237,11 @@ end
 function ul 
     unlink $argv
 end
-function v
-    vagrant $argv
-end
 function vim
     mvim -v $argv
+end
+function v
+    mvim -v . $argv
 end
 function vu
     vagrant up $argv
