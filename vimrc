@@ -121,6 +121,8 @@ hi MatchParen ctermbg=234
 hi DiffChange ctermbg=234
 hi TabLine ctermbg=234
 hi TabLineFill ctermbg=234
+hi Visual ctermbg=235
+hi VisualNOS ctermbg=235
 
 " }}}
 " Commentary {{{
@@ -282,13 +284,15 @@ let g:gist_post_private = 1
 " }}}
 " HTML {{{
 
+au BufNewFile,BufRead *.ejs setlocal filetype=htmldjango
+au BufNewFile,BufRead *.html setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
 au BufNewFile,BufRead *.html setlocal colorcolumn=0
-au FileType html,htmldjango setlocal tabstop=4
-au FileType html,htmldjango setlocal shiftwidth=4
-au FileType html,htmldjango setlocal softtabstop=4
+au FileType html,htmldjango setlocal tabstop=2
+au FileType html,htmldjango setlocal shiftwidth=2
+au FileType html,htmldjango setlocal softtabstop=2
 
 " }}}
 " Jade {{{
@@ -468,6 +472,8 @@ nnoremap <c-p> <c-i>
 nmap <tab> %
 vmap <tab> %
 nnoremap cs/ cgn
+nnoremap <c-[> <S-f><space>
+nnoremap <c-]> f<space>
 
 " }}}
 

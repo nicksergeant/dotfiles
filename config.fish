@@ -180,6 +180,9 @@ end
 function ip 
     http icanhazip.com $argv
 end
+function m
+    mvim . $argv
+end
 function mc 
     telnet localhost 11211 $argv
 end
@@ -241,7 +244,7 @@ function vim
     mvim -v $argv
 end
 function v
-    mvim -v . $argv
+    vagrant $argv
 end
 function vu
     vagrant up $argv
@@ -310,7 +313,7 @@ function fish_prompt
     git_prompt
     echo
     virtualenv_prompt
-    printf '\033[0;37m○ '
+    printf '\033[0;37m> '
 end
 
 # }}}
@@ -398,7 +401,7 @@ function fitzlimo
     sudo killall node -9; cd ~/Code/fitzlimo; nodemon -x node server &; cd client; grunt watch;
 end
 function snipt
-    cd ~/Code/snipt; workon snipt; pm runserver;
+    cd ~/Code/snipt; workon snipt; pm runserver 3000;
 end
 function showroom
     sudo killall node -9; cd ~/Code/showroom; nodemon -x node server &; cd client; grunt watch;
