@@ -48,32 +48,32 @@
                 </item>
                 <item>
                     <identifier>private.iterm.2</identifier>
+                    <appendix>Cmd+Shift+Control+L for Cmd+Shift+Control+L</appendix>
+                    <autogen>--KeyToKey-- KeyCode::L, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L, KeyCode::L, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L</autogen>
+                    <only>ITERM</only>
+                </item>
+                <item>
+                    <identifier>private.iterm.3</identifier>
                     <appendix>Ctrl+I for Option+Shift+[</appendix>
                     <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::BRACKET_LEFT, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
                     <only>ITERM</only>
                 </item>
                 <item>
-                    <identifier>private.iterm.3</identifier>
+                    <identifier>private.iterm.4</identifier>
+                    <appendix>Cmd+[ for Option+/</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L, KeyCode::SLASH, ModifierFlag::OPTION_L</autogen>
+                    <only>ITERM</only>
+                </item>
+                <item>
+                    <identifier>private.iterm.5</identifier>
                     <appendix>Cmd+Shift+] for Option+Shift+]</appendix>
                     <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::BRACKET_RIGHT, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
                     <only>ITERM</only>
                 </item>
                 <item>
-                    <identifier>private.iterm.4</identifier>
+                    <identifier>private.iterm.6</identifier>
                     <appendix>Cmd+Shift+L for Option+Shift+U</appendix>
                     <autogen>--KeyToKey-- KeyCode::L, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::U, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
-                    <only>ITERM</only>
-                </item>
-                <item>
-                    <identifier>private.iterm.5</identifier>
-                    <appendix>Cmd+Shift+D for Option+Shift+D</appendix>
-                    <autogen>--KeyToKey-- KeyCode::D, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::D, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
-                    <only>ITERM</only>
-                </item>
-                <item>
-                    <identifier>private.iterm.6</identifier>
-                    <appendix>Cmd+[ for Option+/</appendix>
-                    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L, KeyCode::SLASH, ModifierFlag::OPTION_L</autogen>
                     <only>ITERM</only>
                 </item>
             </list>

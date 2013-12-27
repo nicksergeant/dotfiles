@@ -41,32 +41,11 @@ end
 # }}}
 # Directories {{{
 
-function ..
-    cd ..
-end
-function ...
-    cd ../..
-end
-function ...
-    cd ../../..
-end
-function .....
-    cd ../../../..
-end
-
-function l1 
-    tree --dirsfirst -ChFL 1
-end
-
-function ll1
-    tree --dirsfirst -ChFupDaL 1
-end
-
 function l
-    l1
+    tree --dirsfirst -ChFL 1 $args
 end
-function ll 
-    ll1
+function ll
+    tree --dirsfirst -ChFupDaL 1 $args
 end
 
 function logs
@@ -253,7 +232,7 @@ function vh
     vagrant halt $argv
 end
 function vs
-    vagrant ssh $argv
+    vagrant up; vagrant ssh $argv
 end
 function vst
     vagrant status $argv
@@ -273,6 +252,9 @@ end
 
 # }}}
 # Prompt {{{
+
+set -x fish_color_command 005fd7\x1epurple
+set -x fish_color_search_match --background=purple
 
 function virtualenv_prompt
     if [ -n "$VIRTUAL_ENV" ]
@@ -305,9 +287,9 @@ function fish_prompt
     z --add "$PWD"
     echo ' '
     if test $IS_SERVER = 'true'
-        printf '\033[0;31m%s ' (hostname|cut -d . -f 1)
+        printf '\033[0;31m%s ' (hostname -f)
     else
-        printf '\033[0;33m%s ' (hostname|cut -d . -f 1)
+        printf '\033[0;33m%s ' (hostname -f)
     end
     printf '\033[0;32m%s' (prompt_pwd)
     git_prompt
@@ -328,7 +310,7 @@ if test $IS_SERVER = 'false'
 end
 
 set -g -x WORKON_HOME "$HOME/.virtualenvs"
-. ~/.config/fish/virtualenv.fish
+source ~/.config/fish/virtualenv.fish
 
 # }}}
 # Ruby {{{
@@ -397,8 +379,14 @@ end
 function box
     ssh nick@box.nicksergeant.com $argv
 end
+function broker
+    sudo killall node -9; cd ~/Code/broker; sudo grunt;
+end
 function fitzlimo
     sudo killall node -9; cd ~/Code/fitzlimo; nodemon -x node server &; cd client; grunt watch;
+end
+function pool
+    ssh pool@pool.coinminery.com $argv
 end
 function snipt
     cd ~/Code/snipt; workon snipt; pm runserver 3000;
@@ -430,9 +418,9 @@ end
 # Z {{{
 
 if test $IS_SERVER = 'true'
-    . ~/sources/z-fish/z.fish
+    source ~/sources/z-fish/z.fish
 else
-    . ~/Sources/z-fish/z.fish
+    source ~/Sources/z-fish/z.fish
 end
 
 function j

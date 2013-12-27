@@ -1,5 +1,6 @@
 " Basic {{{ 
 
+set encoding=utf-8
 set nocompatible
 syntax enable
 let mapleader = ","
@@ -48,11 +49,10 @@ Bundle 'sjl/vitality.vim.git'
 Bundle 'Valloric/YouCompleteMe.git'
 Bundle 'honza/vim-snippets.git'
 Bundle 'SirVer/ultisnips.git'
-Bundle 'Gist.vim.git'
-Bundle 'WebAPI.vim.git'
-Bundle 'django.vim.git'
+Bundle 'vim-scripts/django.vim.git'
 Bundle 'PeterRincker/vim-argumentative.git'
 Bundle 'marijnh/tern_for_vim.git'
+Bundle 'saltstack/salt-vim.git'
 
 filetype plugin indent on         " Turn on file type detection.
 runtime macros/matchit.vim        " Load the matchit plugin.
@@ -276,12 +276,6 @@ augroup ft_fugitive
 augroup END
 
 " }}}
-" Gist {{{
-
-let g:gist_open_browser_after_post = 1
-let g:gist_post_private = 1
-
-" }}}
 " HTML {{{
 
 au BufNewFile,BufRead *.ejs setlocal filetype=htmldjango
@@ -334,6 +328,11 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 
 " }}}
+" Ruby {{{
+
+au BufNewFile,BufRead Vagrantfile setlocal filetype=ruby
+
+" }}}
 " Saving {{{
 
 au FocusLost * :wa
@@ -373,7 +372,6 @@ set splitbelow
 set splitright
 set guifont=Menlo_for_Powerline:h14            " Font family and font size.
 set antialias                     " MacVim: smooth fonts.
-set encoding=utf-8                " Use UTF-8 everywhere.
 set cursorline
 set synmaxcol=800                 " Don't try to highlight lines longer than 800 characters.
 set lazyredraw
@@ -402,7 +400,7 @@ set wildignore +=cache
 set wildignore +=dist
 set wildignore +=migrations
 set wildignore +=node_modules
-set wildignore +=static
+" set wildignore +=static
 
 " }}}
 " Spacing toggle {{{

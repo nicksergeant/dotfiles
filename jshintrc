@@ -15,7 +15,7 @@
     "Image": false,
     "module": false,
     "process": false,
-    "Q": false,
+    /* "Q": false, */
     "require": false,
     "setInterval": false,
     "setTimeout": false,
