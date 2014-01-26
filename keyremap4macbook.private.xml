@@ -13,6 +13,10 @@
         <equal>com.hipchat.HipChat</equal>
     </appdef>
     <appdef>
+        <appname>SLACK</appname>
+        <equal>com.tinyspeck.slackmacgap</equal>
+    </appdef>
+    <appdef>
         <appname>FLINT</appname>
         <equal>com.giantcomet.flint</equal>
     </appdef>
@@ -37,6 +41,35 @@
         <equal>com.sparrowmailapp.sparrow</equal>
     </appdef>
     <list> 
+        <item> 
+            <name>Slack</name> 
+            <list> 
+                <item>
+                    <identifier>private.slack.1</identifier>
+                    <appendix>Cmd+Ctrl+Shift+[ for Alt + shift + up</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::CURSOR_DOWN, ModifierFlag::SHIFT_L | ModifierFlag::OPTION_L</autogen>
+                    <only>SLACK</only>
+                </item>
+                <item>
+                    <identifier>private.slack.2</identifier>
+                    <appendix>Cmd+Ctrl+Shift+] for Alt + shift + down</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L | ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::CURSOR_UP, ModifierFlag::SHIFT_L | ModifierFlag::OPTION_L</autogen>
+                    <only>SLACK</only>
+                </item>
+                <item>
+                    <identifier>private.slack.3</identifier>
+                    <appendix>Cmd+Shift+[ for Alt + down</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L, </autogen>
+                    <only>SLACK</only>
+                </item>
+                <item>
+                    <identifier>private.slack.4</identifier>
+                    <appendix>Cmd+Shift+] for Alt + up</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::CURSOR_UP, ModifierFlag::OPTION_L</autogen>
+                    <only>SLACK</only>
+                </item>
+            </list>
+        </item>
         <item> 
             <name>iTerm</name> 
             <list> 

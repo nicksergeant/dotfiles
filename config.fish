@@ -97,7 +97,10 @@ if test $IS_SERVER = 'false'
     end
 end
 function gpd
-    git push; ey deploy;
+    git push; grunt deploy;
+end
+function gpds
+    git push; grunt deploy; grunt deploy --env=staging
 end
 function g 
     git $argv
@@ -155,6 +158,12 @@ function ce
 end
 function deact 
     deactivate $argv
+end
+function doge
+    suchvalue DAqKq1SG9abegwcpPEcdmYsr4NWfZSZLA6=dogehouse DAYrpmB2mVGZeRdLRmz2Jwf5VccN7t3nRf=cryptsy DT45nQ43qBCGbPS9ud4JXBKAMUMsnq6MuU=suchvalue DEm9MsUZ3U6mLhX1oi4QKmW6wNbB7fxeZH=dogetipbot DSwDw22PgAHD6wLzh6x2aSBuZSagM2EMKn=tipdoge DFebfjwBLp248Rr4fZ3yXJHg4B25N9Npau=cryptsy_fork
+end
+function h 
+    heroku $argv
 end
 function ip 
     http icanhazip.com $argv
@@ -286,6 +295,7 @@ end
 function fish_prompt
     z --add "$PWD"
     echo ' '
+    printf '\033[0;33m%s\033[0;37m on ' (whoami)
     if test $IS_SERVER = 'true'
         printf '\033[0;31m%s ' (hostname -f)
     else
@@ -379,8 +389,14 @@ end
 function box
     ssh nick@box.nicksergeant.com $argv
 end
+function b
+    ssh nick@broker.is
+end
 function broker
-    sudo killall node -9; cd ~/Code/broker; sudo grunt;
+    sudo killall node -9; cd ~/Code/broker; grunt;
+end
+function collabmatch
+    sudo killall node -9; cd ~/Code/collabmatch; grunt;
 end
 function fitzlimo
     sudo killall node -9; cd ~/Code/fitzlimo; nodemon -x node server &; cd client; grunt watch;

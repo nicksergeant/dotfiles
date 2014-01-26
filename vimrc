@@ -40,6 +40,7 @@ Bundle 'tpope/vim-commentary.git'
 Bundle 'tpope/vim-fugitive.git'
 Bundle 'tpope/vim-speeddating.git'
 Bundle 'tpope/vim-surround.git'
+Bundle 'tpope/vim-repeat.git'
 Bundle 'kien/ctrlp.vim.git'
 Bundle 'maksimr/vim-jsbeautify.git'
 Bundle 'digitaltoad/vim-jade.git'
@@ -109,8 +110,7 @@ map <leader>c :let @/=''<CR>
 " }}}
 " Colors {{{
 
-let g:badwolf_html_link_underline = 0
-colorscheme badwolf
+silent! colorscheme badwolf
 hi Normal ctermbg=none
 hi Folded ctermbg=none
 hi NonText ctermbg=none
@@ -400,7 +400,7 @@ set wildignore +=cache
 set wildignore +=dist
 set wildignore +=migrations
 set wildignore +=node_modules
-" set wildignore +=static
+set wildignore +=vendor
 
 " }}}
 " Spacing toggle {{{
