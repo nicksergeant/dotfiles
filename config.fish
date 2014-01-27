@@ -143,6 +143,42 @@ end
 function gst 
     git status $argv
 end
+function i
+    ghi $argv
+end
+function ic
+    if test $argv
+      ghi comment -l $argv
+    else
+      ghi comment -l (git currentbranch ^/dev/null) $argv
+    end
+end
+function il
+    ghi list --mine $argv
+end
+function ila
+    ghi list $argv
+end
+function ioa
+    ghi list -w $argv
+end
+function is
+    if test $argv
+      ghi show $argv
+    else
+      ghi show (git currentbranch ^/dev/null) $argv
+    end
+end
+function iso
+    if test $argv
+      ghi show -w $argv
+    else
+      ghi show (git currentbranch ^/dev/null) -w $argv
+    end
+end
+function t
+    ghi list -a $argv
+end
 
 # }}}
 # Program functions {{{
@@ -212,9 +248,6 @@ function sleep
 end
 function syncdrives 
     sudo rsync -avP /Volumes/Story/ /Volumes/Seagate $argv
-end
-function t 
-    tmux $argv
 end
 function ta 
     tmux attach -t $argv
@@ -444,3 +477,5 @@ function j
 end
 
 # }}}
+
+source ~/Sources/dotfiles-private/config.fish
