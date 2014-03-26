@@ -79,6 +79,8 @@ if test $IS_SERVER = 'false'
     set PATH "/Applications/Postgres.app/Contents/MacOS/bin" $PATH
     set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
     set PATH "/usr/local/share/npm/bin" $PATH
+    set PATH "/Users/Nick/Android/sdk/tools" $PATH
+    set PATH "/Users/Nick/Android/sdk/platform-tools" $PATH
 else
     set PATH "/usr/local/lib/node_modules" $PATH
 end
@@ -96,11 +98,8 @@ if test $IS_SERVER = 'false'
         hub $argv
     end
 end
-function gpd
-    git push; grunt deploy;
-end
 function gpds
-    git push; grunt deploy; grunt deploy --env=staging
+    git push; gulp deploy --env=staging
 end
 function g 
     git $argv
@@ -153,13 +152,13 @@ function ic
       ghi comment -l (git currentbranch ^/dev/null) $argv
     end
 end
-function il
+function ilm
     ghi list --mine $argv
 end
-function ila
+function il
     ghi list $argv
 end
-function ioa
+function ilo
     ghi list -w $argv
 end
 function is
@@ -169,15 +168,18 @@ function is
       ghi show (git currentbranch ^/dev/null) $argv
     end
 end
-function iso
+function io
     if test $argv
       ghi show -w $argv
     else
       ghi show (git currentbranch ^/dev/null) -w $argv
     end
 end
-function t
-    ghi list -a $argv
+function ild
+    ghi list --milestone --label dev
+end
+function ila
+    ghi list --all --mine $argv
 end
 
 # }}}
@@ -194,6 +196,9 @@ function ce
 end
 function deact 
     deactivate $argv
+end
+function gpd
+    git push; make deploy;
 end
 function doge
     suchvalue DAqKq1SG9abegwcpPEcdmYsr4NWfZSZLA6=dogehouse DAYrpmB2mVGZeRdLRmz2Jwf5VccN7t3nRf=cryptsy DT45nQ43qBCGbPS9ud4JXBKAMUMsnq6MuU=suchvalue DEm9MsUZ3U6mLhX1oi4QKmW6wNbB7fxeZH=dogetipbot DSwDw22PgAHD6wLzh6x2aSBuZSagM2EMKn=tipdoge DFebfjwBLp248Rr4fZ3yXJHg4B25N9Npau=cryptsy_fork
@@ -305,6 +310,20 @@ function virtualenv_prompt
 end
 
 function git_prompt
+    if test $PWD = '/Users/Nick/Code/broker'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
+    if test $PWD = '/Users/Nick/Code/collabmatch'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
     if test $PWD = '/Users/Nick/Code/nextgen-ui'
         set -l CUR (git currentbranch ^/dev/null)
         printf ' \033[0;37mon '
@@ -426,13 +445,13 @@ function b
     ssh nick@broker.is
 end
 function broker
-    sudo killall node -9; cd ~/Code/broker; grunt;
+    sudo killall node -15; cd ~/Code/broker; make run;
 end
 function collabmatch
-    sudo killall node -9; cd ~/Code/collabmatch; grunt;
+    sudo killall node -15; cd ~/Code/collabmatch; gulp;
 end
 function fitzlimo
-    sudo killall node -9; cd ~/Code/fitzlimo; nodemon -x node server &; cd client; grunt watch;
+    sudo killall node -15; cd ~/Code/fitzlimo; nodemon -x node server &; cd client; gulp watch;
 end
 function pool
     ssh pool@pool.coinminery.com $argv
@@ -440,11 +459,8 @@ end
 function snipt
     cd ~/Code/snipt; workon snipt; pm runserver 3000;
 end
-function showroom
-    sudo killall node -9; cd ~/Code/showroom; nodemon -x node server &; cd client; grunt watch;
-end
 function ui
-    sudo killall node -9; cd ~/Code/nextgen-ui; grunt mockapi &; grunt;
+    sudo killall node -15; cd ~/Code/nextgen-ui; grunt mockapi &; grunt;
 end
 
 # }}}

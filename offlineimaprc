@@ -1,43 +1,36 @@
 [general]
 ui = TTYUI
-accounts = NickSergeant
-pythonfile = /Users/Nick/.mutt/offlineimap.py
+accounts = NickSergeantFM
+pythonfile=~/.mutt/offlineimap.py
 fsync = False
 maxsyncaccounts = 1
 
-[Account NickSergeant]
-localrepository = NickSergeant-Local
-remoterepository = NickSergeant-Remote
+[Account NickSergeantFM]
+localrepository = NickSergeantFM-Local
+remoterepository = NickSergeantFM-Remote
 status_backend = sqlite
-postsynchook = /usr/local/bin/notmuch new
 
-[Repository NickSergeant-Local]
+[Repository NickSergeantFM-Local]
 type = Maildir
-localfolders = /Users/Nick/.mail/nick-nicksergeant.com
-folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
-                                             '[Gmail]/Important',
-                                             '[Gmail]/Starred',
-                                             '[Gmail]/Spam']
-nametrans = lambda folder: {       'drafts': '[Gmail]/Drafts',
-                                     'sent': '[Gmail]/Sent Mail',
-                                  'archive': '[Gmail]/All Mail',
-                                    'notes': 'Notes'
+localfolders = ~/.mail/nicksergeant-fastmail.fm
+nametrans = lambda folder: {'drafts':  'INBOX.Drafts',
+                            'sent':    'INBOX.Sent Items',
+                            'archive': 'INBOX.Archive',
+                            'junk': 'INBOX.Junk Mail',
+                            'trash': 'INBOX.Trash',
                            }.get(folder, folder)
 
-[Repository NickSergeant-Remote]
-type = Gmail
-cert_fingerprint = 89091347184d41768bfc0da9fad94bfe882dd358
-maxconnections = 1
-realdelete = no
-remoteuser = nick@nicksergeant.com
-remotepasseval = get_keychain_pass(account='nick@nicksergeant.com', server='offlineimap.gmail.com')
+[Repository NickSergeantFM-Remote]
+type = IMAP
+maxconnections = 3
+remotehost = mail.messagingengine.com
+remoteuser = nicksergeant@fastmail.fm
+remotepasseval = get_keychain_pass(account='nicksergeant@fastmail.fm', server='mail.messagingengine.com')
+cert_fingerprint = fa86c1ca2d4f805e8fe7b8e7076a3ad2ccc52bb4
 ssl = yes
-nametrans = lambda folder: { '[Gmail]/Drafts':    'drafts',
-                             '[Gmail]/Sent Mail': 'sent',
-                             '[Gmail]/All Mail':  'archive',
-                             'Notes':     'notes'
+nametrans = lambda folder: {'INBOX.Drafts':     'drafts',
+                            'INBOX.Sent Items': 'sent',
+                            'INBOX.Archive':    'archive',
+                            'INBOX.Junk Mail':  'junk',
+                            'INBOX.Trash':      'trash'
                            }.get(folder, folder)
-folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
-                                             '[Gmail]/Important',
-                                             '[Gmail]/Starred',
-                                             '[Gmail]/Spam']

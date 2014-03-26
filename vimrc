@@ -54,6 +54,7 @@ Bundle 'vim-scripts/django.vim.git'
 Bundle 'PeterRincker/vim-argumentative.git'
 Bundle 'marijnh/tern_for_vim.git'
 Bundle 'saltstack/salt-vim.git'
+Bundle 'mustache/vim-mustache-handlebars.git'
 
 filetype plugin indent on         " Turn on file type detection.
 runtime macros/matchit.vim        " Load the matchit plugin.
@@ -64,8 +65,9 @@ let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_filetype_blacklist = {'mail': 1}
 let g:sparkupExecuteMapping = "<D-e>"
-let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>"]
+let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>", "proprietary attribute \"autocomplete\"", "trimming empty <i>", "proprietary attribute \"required\"", "proprietary attribute \"placeholder\""]
 let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
+let g:mustache_abbreviations = 1
 
 " }}}
 
@@ -278,15 +280,15 @@ augroup END
 " }}}
 " HTML {{{
 
-au BufNewFile,BufRead *.ejs setlocal filetype=htmldjango
-au BufNewFile,BufRead *.html setlocal filetype=htmldjango
+au BufNewFile,BufRead *.ejs setlocal filetype=html
+" au BufNewFile,BufRead *.html setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
-au BufNewFile,BufRead *.html setlocal foldmethod=manual
-au BufNewFile,BufRead *.html setlocal colorcolumn=0
+" au BufNewFile,BufRead *.html setlocal colorcolumn=0
 au FileType html,htmldjango setlocal tabstop=2
 au FileType html,htmldjango setlocal shiftwidth=2
 au FileType html,htmldjango setlocal softtabstop=2
+au FileType html syn region djangoVarBlock start="{{" end="}}"
 
 " }}}
 " Jade {{{

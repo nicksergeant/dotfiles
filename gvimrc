@@ -13,4 +13,5 @@ if has("gui_macvim")
   nnoremap <D-CR> :set invfullscreen<CR>
   macm File.Close key=<nop>
   nnoremap <silent> <D-w> <Esc>:close<CR>
+  " map <leader>, <Plug>PeepOpen
 end
