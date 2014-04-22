@@ -5,6 +5,14 @@
         <equal>org.mozilla.firefox</equal>
     </appdef>
     <appdef>
+        <appname>WEBKIT</appname>
+        <equal>org.webkit.nightly.WebKit</equal>
+    </appdef>
+    <appdef>
+        <appname>SAFARI</appname>
+        <equal>com.apple.Safari</equal>
+    </appdef>
+    <appdef>
         <appname>CHROME</appname>
         <equal>com.google.Chrome</equal>
     </appdef>
@@ -41,6 +49,28 @@
         <equal>com.sparrowmailapp.sparrow</equal>
     </appdef>
     <list> 
+        <item> 
+            <name>WebKit</name> 
+            <list> 
+                <item>
+                    <identifier>private.webkit.1</identifier>
+                    <appendix>Cmd+; for Cmd+Opt+C</appendix>
+                    <autogen>--KeyToKey-- KeyCode::SEMICOLON, ModifierFlag::COMMAND_L, KeyCode::C, ModifierFlag::OPTION_L | ModifierFlag::COMMAND_L</autogen>
+                    <only>WEBKIT</only>
+                </item>
+            </list>
+        </item>
+        <item> 
+            <name>Safari</name> 
+            <list> 
+                <item>
+                    <identifier>private.safari.1</identifier>
+                    <appendix>Cmd+; for Cmd+Opt+C</appendix>
+                    <autogen>--KeyToKey-- KeyCode::SEMICOLON, ModifierFlag::COMMAND_L, KeyCode::C, ModifierFlag::OPTION_L | ModifierFlag::COMMAND_L</autogen>
+                    <only>SAFARI</only>
+                </item>
+            </list>
+        </item>
         <item> 
             <name>Slack</name> 
             <list> 

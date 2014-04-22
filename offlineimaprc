@@ -1,36 +1,39 @@
 [general]
 ui = TTYUI
-accounts = NickSergeantFM
+accounts = NickSergeant
 pythonfile=~/.mutt/offlineimap.py
 fsync = False
-maxsyncaccounts = 1
 
-[Account NickSergeantFM]
-localrepository = NickSergeantFM-Local
-remoterepository = NickSergeantFM-Remote
+[Account NickSergeant]
+localrepository = NickSergeant-Local
+remoterepository = NickSergeant-Remote
 status_backend = sqlite
+postsynchook = /usr/local/bin/notmuch new
 
-[Repository NickSergeantFM-Local]
+[Repository NickSergeant-Local]
 type = Maildir
-localfolders = ~/.mail/nicksergeant-fastmail.fm
-nametrans = lambda folder: {'drafts':  'INBOX.Drafts',
-                            'sent':    'INBOX.Sent Items',
-                            'archive': 'INBOX.Archive',
-                            'junk': 'INBOX.Junk Mail',
-                            'trash': 'INBOX.Trash',
+localfolders = ~/.mail/nick-nicksergeant.com
+nametrans = lambda folder: {'drafts':  '[Gmail]/Drafts',
+                            'sent':    '[Gmail]/Sent Mail',
+                            'trash':   '[Gmail]/Trash',
+                            'archive': '[Gmail]/All Mail',
                            }.get(folder, folder)
+folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
+                                             '[Gmail]/Important',
+                                             '[Gmail]/Spam']
 
-[Repository NickSergeantFM-Remote]
-type = IMAP
-maxconnections = 3
-remotehost = mail.messagingengine.com
-remoteuser = nicksergeant@fastmail.fm
-remotepasseval = get_keychain_pass(account='nicksergeant@fastmail.fm', server='mail.messagingengine.com')
-cert_fingerprint = fa86c1ca2d4f805e8fe7b8e7076a3ad2ccc52bb4
-ssl = yes
-nametrans = lambda folder: {'INBOX.Drafts':     'drafts',
-                            'INBOX.Sent Items': 'sent',
-                            'INBOX.Archive':    'archive',
-                            'INBOX.Junk Mail':  'junk',
-                            'INBOX.Trash':      'trash'
-                           }.get(folder, folder)
+[Repository NickSergeant-Remote]
+maxconnections = 1
+type = Gmail
+cert_fingerprint = 89091347184d41768bfc0da9fad94bfe882dd358
+remoteuser = nick@nicksergeant.com
+remotepasseval = get_keychain_pass(account="nick@nicksergeant.com", server="imap.gmail.com")
+realdelete = no
+nametrans = lambda folder: {'[Gmail]/Drafts':    'drafts',
+                            '[Gmail]/Sent Mail': 'sent',
+                            '[Gmail]/Trash':     'trash',
+                            '[Gmail]/All Mail':  'archive',
+                            }.get(folder, folder)
+folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
+                                             '[Gmail]/Important',
+                                             '[Gmail]/Spam']

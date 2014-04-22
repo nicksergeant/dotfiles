@@ -324,6 +324,13 @@ function git_prompt
         printf ' \033[0;32m'
         git_prompt_status
     end
+    if test $PWD = '/Users/Nick/Code/kony'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
     if test $PWD = '/Users/Nick/Code/nextgen-ui'
         set -l CUR (git currentbranch ^/dev/null)
         printf ' \033[0;37mon '
@@ -445,7 +452,7 @@ function b
     ssh nick@broker.is
 end
 function broker
-    sudo killall node -15; cd ~/Code/broker; make run;
+    cd ~/Code/broker; make run;
 end
 function collabmatch
     sudo killall node -15; cd ~/Code/collabmatch; gulp;
@@ -460,7 +467,7 @@ function snipt
     cd ~/Code/snipt; workon snipt; pm runserver 3000;
 end
 function ui
-    sudo killall node -15; cd ~/Code/nextgen-ui; grunt mockapi &; grunt;
+    sudo killall node -9; cd ~/Code/nextgen-ui/api; nodemon server &; cd ../server; sudo nodemon server;
 end
 
 # }}}
