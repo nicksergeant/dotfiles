@@ -10,7 +10,6 @@ nnoremap Y y$
 nnoremap n nzv
 nnoremap N Nzv
 nnoremap * *<c-o>
-nnoremap gs <c-]>
 nnoremap <c-e> <c-^>
 nnoremap <c-^> <nop>
 noremap H ^
@@ -20,6 +19,7 @@ nnoremap Vat vatV
 let g:Powerline_symbols = 'fancy'
 nnoremap k gk
 nnoremap j gj
+nnoremap gs *<c-o>
 
 " }}}
 " Plugins {{{
