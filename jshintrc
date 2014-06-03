@@ -19,6 +19,7 @@
     "document": false,
     "exports": false,
     "it": false,
+    "xdescribe": false,
     "xit": false,
     "jQuery": false,
     "Image": false,

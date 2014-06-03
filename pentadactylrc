@@ -72,3 +72,6 @@ nmap i <c-z>
 nmap <c-p> <c-i>
 nmap <c-h> :back<cr>
 nmap <c-l> :forward<cr>
+
+nmap <c-j> :tabnext<cr>
+nmap <c-k> :tabprev<cr>

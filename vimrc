@@ -403,6 +403,7 @@ set wildignore +=dist
 set wildignore +=migrations
 set wildignore +=node_modules
 set wildignore +=vendor
+set wildignore +=_site
 
 " }}}
 " Spacing toggle {{{

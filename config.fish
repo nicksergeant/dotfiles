@@ -133,7 +133,7 @@ function glco
 end
 function glu
     git checkout master;
-    git pull upstream master;
+    git pull;
     git checkout -;
 end
 function gp 
@@ -241,6 +241,9 @@ function p
 end
 function pm 
     python manage.py $argv
+end
+function lisp
+    rlwrap sbcl
 end
 function ssc
     sudo supervisorctl -c /Users/Nick/Sources/dotfiles-private/supervisor/supervisord.conf $argv
