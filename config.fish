@@ -254,6 +254,9 @@ end
 function sleep
     sudo dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
 end
+function swift
+    xcrun swift
+end
 function syncdrives 
     sudo rsync -avP /Volumes/Story/ /Volumes/Seagate $argv
 end
