@@ -56,6 +56,7 @@ Plugin 'marijnh/tern_for_vim.git'
 Plugin 'saltstack/salt-vim.git'
 Plugin 'mustache/vim-mustache-handlebars.git'
 
+call vundle#end()
 filetype plugin indent on         " Turn on file type detection.
 runtime macros/matchit.vim        " Load the matchit plugin.
 set laststatus=2                  " Always show the statusline
