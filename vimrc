@@ -25,37 +25,38 @@ nnoremap gs *<c-o>
 " Plugins {{{
 
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
-Bundle 'gmarik/vundle'
-Bundle 'mileszs/ack.vim.git'
-Bundle 'sjl/badwolf.git'
-Bundle 'vim-scripts/fish.vim.git'
-Bundle 'othree/html5.vim.git'
-Bundle 'scrooloose/nerdtree.git'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'scrooloose/syntastic.git'
-Bundle 'tpope/vim-commentary.git'
-Bundle 'tpope/vim-fugitive.git'
-Bundle 'tpope/vim-speeddating.git'
-Bundle 'tpope/vim-surround.git'
-Bundle 'tpope/vim-repeat.git'
-Bundle 'kien/ctrlp.vim.git'
-Bundle 'maksimr/vim-jsbeautify.git'
-Bundle 'digitaltoad/vim-jade.git'
-Bundle 'Lokaltog/vim-powerline.git'
-Bundle 'vim-scripts/taglist.vim.git'
-Bundle 'sjl/vitality.vim.git'
-Bundle 'Valloric/YouCompleteMe.git'
-Bundle 'honza/vim-snippets.git'
-Bundle 'SirVer/ultisnips.git'
-Bundle 'vim-scripts/django.vim.git'
-Bundle 'PeterRincker/vim-argumentative.git'
-Bundle 'marijnh/tern_for_vim.git'
-Bundle 'saltstack/salt-vim.git'
-Bundle 'mustache/vim-mustache-handlebars.git'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'mileszs/ack.vim.git'
+Plugin 'sjl/badwolf.git'
+Plugin 'vim-scripts/fish.vim.git'
+Plugin 'othree/html5.vim.git'
+Plugin 'scrooloose/nerdtree.git'
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'scrooloose/syntastic.git'
+Plugin 'tpope/vim-commentary.git'
+Plugin 'tpope/vim-fugitive.git'
+Plugin 'tpope/vim-speeddating.git'
+Plugin 'tpope/vim-surround.git'
+Plugin 'tpope/vim-repeat.git'
+Plugin 'kien/ctrlp.vim.git'
+Plugin 'maksimr/vim-jsbeautify.git'
+Plugin 'digitaltoad/vim-jade.git'
+Plugin 'Lokaltog/vim-powerline.git'
+Plugin 'vim-scripts/taglist.vim.git'
+Plugin 'sjl/vitality.vim.git'
+Plugin 'Valloric/YouCompleteMe.git'
+Plugin 'honza/vim-snippets.git'
+Plugin 'SirVer/ultisnips.git'
+Plugin 'vim-scripts/django.vim.git'
+Plugin 'PeterRincker/vim-argumentative.git'
+Plugin 'marijnh/tern_for_vim.git'
+Plugin 'saltstack/salt-vim.git'
+Plugin 'mustache/vim-mustache-handlebars.git'
 
+call vundle#end()
 filetype plugin indent on         " Turn on file type detection.
 runtime macros/matchit.vim        " Load the matchit plugin.
 set laststatus=2                  " Always show the statusline
