@@ -58,8 +58,7 @@ bind index <space>  collapse-thread
 bind index N        search-opposite
 
 # Sync email
-macro index o "<shell-escape>offlineimap -q -f INBOX,'[Gmail]/Sent Mail'<enter>"
-macro index O "<shell-escape>offlineimap<enter>"
+macro index o "<shell-escape>offlineimap -o -q -f INBOX<enter>"
 
 # Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
