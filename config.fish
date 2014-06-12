@@ -458,7 +458,7 @@ end
 # }}}
 # Server functions {{{
 
-function box
+function n
     ssh nick@box.nicksergeant.com $argv
 end
 function b
