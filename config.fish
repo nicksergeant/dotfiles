@@ -323,6 +323,13 @@ function git_prompt
         printf ' \033[0;32m'
         git_prompt_status
     end
+    if test $PWD = '/Users/Nick/Code/cds'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
     if test $PWD = '/Users/Nick/Code/collabmatch'
         set -l CUR (git currentbranch ^/dev/null)
         printf ' \033[0;37mon '
@@ -457,6 +464,12 @@ end
 function b
     ssh nick@broker.is
 end
+function c
+    ssh nick@new.compliantdatasystems.com
+end
+function cds
+    cd ~/Code/cds; make run;
+end
 function broker
     cd ~/Code/broker; make run;
 end
@@ -474,6 +487,9 @@ function snipt
 end
 function ui
     sudo killall node -9; cd ~/Code/nextgen-ui/api; nodemon server &; cd ../server; sudo nodemon server;
+end
+function remap
+    launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist; launchctl load ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist;
 end
 
 # }}}

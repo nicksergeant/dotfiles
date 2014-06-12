@@ -9,7 +9,6 @@ localrepository = NickSergeant-Local
 remoterepository = NickSergeant-Remote
 status_backend = sqlite
 postsynchook = /usr/local/bin/notmuch new
-autorefresh = 60
 
 [Repository NickSergeant-Local]
 type = Maildir
@@ -24,9 +23,9 @@ folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
                                              '[Gmail]/Spam']
 
 [Repository NickSergeant-Remote]
+maxconnections = 2
 type = Gmail
 cert_fingerprint = 89091347184d41768bfc0da9fad94bfe882dd358
-idlefolders = ['INBOX', '[Gmail]/Sent Mail', '[Gmail]/All Mail']
 remoteuser = nick@nicksergeant.com
 remotepasseval = get_keychain_pass(account="nick@nicksergeant.com", server="imap.gmail.com")
 realdelete = no
