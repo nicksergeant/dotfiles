@@ -157,6 +157,12 @@
                     <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::CURSOR_UP, ModifierFlag::OPTION_L</autogen>
                     <only>SLACK</only>
                 </item>
+                <item>
+                    <identifier>private.slack.5</identifier>
+                    <appendix>Cmd+Shift+k for Shift + escape</appendix>
+                    <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::ESCAPE, ModifierFlag::SHIFT_L</autogen>
+                    <only>SLACK</only>
+                </item>
             </list>
         </item>
         <item> 

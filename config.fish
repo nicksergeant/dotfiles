@@ -1,13 +1,3 @@
-# Server or not? {{{
-
-set IS_SERVER 'false'
-switch (hostname)
-    case 'box.nicksergeant.com'
-        set IS_SERVER 'true'
-end
-
-# }}}
-
 # Bind Keys {{{
 
 function fish_user_keybindings
@@ -73,17 +63,13 @@ set TMPDIR "/tmp"
 set PATH "/usr/local/bin"          $PATH
 set PATH "/usr/local/sbin"         $PATH
 
-if test $IS_SERVER = 'false'
-    set BROWSER open
-    set PATH "/usr/local/opt/ruby/bin" $PATH
-    set PATH "/Applications/Postgres.app/Contents/MacOS/bin" $PATH
-    set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
-    set PATH "/usr/local/share/npm/bin" $PATH
-    set PATH "/Users/Nick/Android/sdk/tools" $PATH
-    set PATH "/Users/Nick/Android/sdk/platform-tools" $PATH
-else
-    set PATH "/usr/local/lib/node_modules" $PATH
-end
+set BROWSER open
+set PATH "/usr/local/opt/ruby/bin" $PATH
+set PATH "/Applications/Postgres.app/Contents/MacOS/bin" $PATH
+set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
+set PATH "/usr/local/share/npm/bin" $PATH
+set PATH "/Users/Nick/Android/sdk/tools" $PATH
+set PATH "/Users/Nick/Android/sdk/platform-tools" $PATH
 
 set -g -x fish_greeting ''
 set -g -x EDITOR vim
@@ -93,10 +79,8 @@ set -g -x NODE_PATH "/usr/local/lib/jsctags/" $NODE_PATH
 # }}}
 # Git and Mercurial functions {{{
 
-if test $IS_SERVER = 'false'
-    function git
-        hub $argv
-    end
+function git
+    hub $argv
 end
 function gpds
     git push; gulp deploy --env=staging
@@ -146,11 +130,7 @@ function i
     ghi $argv
 end
 function ic
-    if test $argv
-      ghi comment -l $argv
-    else
-      ghi comment -l (git currentbranch ^/dev/null) $argv
-    end
+    ghi comment -l $argv
 end
 function ilm
     ghi list --mine $argv
@@ -162,18 +142,10 @@ function ilo
     ghi list -w $argv
 end
 function is
-    if test $argv
-      ghi show $argv
-    else
-      ghi show (git currentbranch ^/dev/null) $argv
-    end
+    ghi show $argv
 end
 function io
-    if test $argv
-      ghi show -w $argv
-    else
-      ghi show (git currentbranch ^/dev/null) -w $argv
-    end
+    ghi show -w $argv
 end
 function ild
     ghi list --milestone --label dev
@@ -186,7 +158,7 @@ end
 # Program functions {{{
 
 function awsm
-    cd ~/Code/awsm; script/bootstrap; bundle exec rake awsm:mocked;
+    cd ~/Code/awsm; bundle install; bundle exec rake awsm:mocked;
 end
 function c 
     pygmentize -O style=monokai -f console256 -g $argv
@@ -196,6 +168,9 @@ function ce
 end
 function deact 
     deactivate $argv
+end
+function gpda
+    git push; make deploy-with-assets;
 end
 function gpd
     git push; make deploy;
@@ -254,6 +229,13 @@ end
 function sleep
     sudo dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
 end
+function stone
+    cd /Users/Nick/Code/stonevault/vault;
+    workon stonevault;
+    set -x DJANGO_SETTINGS_MODULE 'config.dev.settings';
+    set -x PYTHONPATH ':/usr/local/lib/python2.7/site-packages:/Users/Nick/Code/stonevault:/Users/Nick/Code/stonevault/vault:/Users/Nick/Code/stonevault/vault/apps:/Users/Nick/Code/stonevault/vault/apps/config';
+    django-admin.py runserver;
+end
 function swift
     xcrun swift
 end
@@ -274,9 +256,6 @@ function ul
 end
 function vim
     mvim -v $argv
-end
-function v
-    vagrant $argv
 end
 function vu
     vagrant up $argv
@@ -316,6 +295,13 @@ function virtualenv_prompt
 end
 
 function git_prompt
+    if test $PWD = '/Users/Nick/Code/awsm'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
     if test $PWD = '/Users/Nick/Code/broker'
         set -l CUR (git currentbranch ^/dev/null)
         printf ' \033[0;37mon '
@@ -344,7 +330,28 @@ function git_prompt
         printf ' \033[0;32m'
         git_prompt_status
     end
+    if test $PWD = '/Users/Nick/Code/humanitybox'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
+    if test $PWD = '/Users/Nick/Code/mezo'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
     if test $PWD = '/Users/Nick/Code/nextgen-ui'
+        set -l CUR (git currentbranch ^/dev/null)
+        printf ' \033[0;37mon '
+        printf '\033[0;35m%s' $CUR
+        printf ' \033[0;32m'
+        git_prompt_status
+    end
+    if test $PWD = '/Users/Nick/Code/stonevault'
         set -l CUR (git currentbranch ^/dev/null)
         printf ' \033[0;37mon '
         printf '\033[0;35m%s' $CUR
@@ -368,11 +375,7 @@ function fish_prompt
     z --add "$PWD"
     echo ' '
     printf '\033[0;33m%s\033[0;37m on ' (whoami)
-    if test $IS_SERVER = 'true'
-        printf '\033[0;31m%s ' (hostname -f)
-    else
-        printf '\033[0;33m%s ' (hostname -f)
-    end
+    printf '\033[0;33m%spro.local '
     printf '\033[0;32m%s' (prompt_pwd)
     git_prompt
     echo
@@ -384,24 +387,18 @@ end
 # Python variables {{{
 
 set -g -x PIP_DOWNLOAD_CACHE "$HOME/.pip/cache"
-
-if test $IS_SERVER = 'false'
-    set PATH "/usr/local/opt/ruby/bin" $PATH
-    set -g -x PYTHONPATH ""
-    set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7/site-packages"
-end
-
+set PATH "/usr/local/opt/ruby/bin" $PATH
+set -g -x PYTHONPATH ""
+set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7/site-packages"
 set -g -x WORKON_HOME "$HOME/.virtualenvs"
 source ~/.config/fish/virtualenv.fish
 
 # }}}
 # Ruby {{{
 
-if test $IS_SERVER = 'false'
-    set -x PATH $HOME/.rbenv/bin $PATH
-    set -x PATH $HOME/.rbenv/shims $PATH
-    rbenv rehash >/dev/null ^&1
-end
+set -x PATH $HOME/.rbenv/bin $PATH
+set -x PATH $HOME/.rbenv/shims $PATH
+rbenv rehash >/dev/null ^&1
 
 function rbenv_shell
   set -l vers $argv[1]
@@ -458,38 +455,29 @@ end
 # }}}
 # Server functions {{{
 
-function n
-    ssh nick@box.nicksergeant.com $argv
-end
-function b
+function s
+  if test $argv = 'snipt'
+    ssh nick@snipt.net
+  else if test $argv = 'broker'
     ssh nick@broker.is
-end
-function c
+  else if test $argv = 'cds'
     ssh nick@new.compliantdatasystems.com
+  else if test $argv = 'humanitybox'
+    ssh nick@humanitybox.com
+  end
 end
-function cds
-    cd ~/Code/cds; make run;
+function vm
+    cd ~/Code/$argv; make run;
 end
-function broker
-    cd ~/Code/broker; make run;
-end
+
 function collabmatch
     sudo killall node -15; cd ~/Code/collabmatch; gulp;
 end
 function fitzlimo
     sudo killall node -15; cd ~/Code/fitzlimo; nodemon -x node server &; cd client; gulp watch;
 end
-function pool
-    ssh pool@pool.coinminery.com $argv
-end
-function snipt
-    cd ~/Code/snipt; workon snipt; pm runserver 3000;
-end
 function ui
     sudo killall node -9; cd ~/Code/nextgen-ui/api; nodemon server &; cd ../server; sudo nodemon server;
-end
-function remap
-    launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist; launchctl load ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist;
 end
 
 # }}}
@@ -497,25 +485,14 @@ end
 
 function ti
     tmux new-session -d -s primary
-    tmux rename-window -t primary mutt
-    tmux send -t primary mutt ENTER
-    tmux new-window -t primary -a -n weechat 'weechat-curses'
-    sleep .3
-    tmux rename-window -t primary weechat
-    tmux set -t primary window-status-format "#[fg=white,bg=colour234] #W "
-    tmux new-window -t primary -a -n shell
-    tmux split-window -t primary -h
+    tmux rename-window -t primary shell
     tmux attach
 end
 
 # }}}
 # Z {{{
 
-if test $IS_SERVER = 'true'
-    source ~/sources/z-fish/z.fish
-else
-    source ~/Sources/z-fish/z.fish
-end
+source ~/Sources/z-fish/z.fish
 
 function j
     z $argv

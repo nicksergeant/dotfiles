@@ -46,5 +46,3 @@
 	tool = Kaleidoscope
 [hub]
   protocol = https
-[github]
-  user = nicksergeant

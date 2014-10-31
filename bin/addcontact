@@ -51,4 +51,3 @@ osascript -e "tell application \"Address Book\"" \
 -e "    return returnString" \
 -e "  end if" \
 -e "end tell"
-

@@ -55,6 +55,8 @@ Plugin 'PeterRincker/vim-argumentative.git'
 Plugin 'marijnh/tern_for_vim.git'
 Plugin 'saltstack/salt-vim.git'
 Plugin 'mustache/vim-mustache-handlebars.git'
+Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'nginx.vim'
 
 call vundle#end()
 filetype plugin indent on         " Turn on file type detection.
@@ -66,7 +68,7 @@ let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_filetype_blacklist = {'mail': 1}
 let g:sparkupExecuteMapping = "<D-e>"
-let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>", "proprietary attribute \"autocomplete\"", "trimming empty <i>", "proprietary attribute \"required\"", "proprietary attribute \"placeholder\"", "<ng-include> is not recognized!", "discarding unexpected <ng-include>", "missing </button>", "replacing unexpected button by </button>", "<ey-confirm> is not recognized!", "discarding unexpected <ey-confirm>", "discarding unexpected </ey-confirm>", "discarding unexpected </ng-include>"]
+let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>", "proprietary attribute \"autocomplete\"", "trimming empty <i>", "proprietary attribute \"required\"", "proprietary attribute \"placeholder\"", "<ng-include> is not recognized!", "discarding unexpected <ng-include>", "missing </button>", "replacing unexpected button by </button>", "<ey-confirm> is not recognized!", "discarding unexpected <ey-confirm>", "discarding unexpected </ey-confirm>", "discarding unexpected </ng-include>", "trimming empty <li>", "<a> attribute \"href\" lacks value", "<input> proprietary attribute \"min\""]
 let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
 let g:mustache_abbreviations = 1
 
@@ -304,7 +306,6 @@ augroup END
 
 augroup ft_mail
     au!
-
     au Filetype mail setlocal spell
 augroup END
 highlight SpellBad term=underline gui=undercurl guisp=Orange
@@ -314,6 +315,11 @@ highlight SpellBad term=underline gui=undercurl guisp=Orange
 
 nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<CR>
 nnoremap <leader>ef <C-w>s<C-w>j<C-w>L:e ~/.config/fish/config.fish<CR>
+
+" }}}
+" Nginx {{{
+
+au BufNewFile,BufRead *.conf setlocal filetype=nginx
 
 " }}}
 " NERD Tree {{{
@@ -404,6 +410,9 @@ set wildignore +=dist
 set wildignore +=migrations
 set wildignore +=node_modules
 set wildignore +=vendor
+set wildignore +=client/vendor
+set wildignore +=client/vendor-manual
+set wildignore +=assets
 set wildignore +=_site
 
 " }}}
