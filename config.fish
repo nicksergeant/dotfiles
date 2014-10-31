@@ -276,7 +276,7 @@ end
 # }}}
 # VMs and servers {{{
 
-function s
+function ssh
   switch "$argv"
     case 'snipt'
       ssh nick@snipt.net
@@ -288,6 +288,8 @@ function s
       ssh nick@humanitybox.com
     case 'ng-job'
       ssh nick@ng-job.com
+    case '*'
+      /usr/bin/ssh $argv
   end
 end
 function vm
