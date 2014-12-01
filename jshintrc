@@ -3,7 +3,6 @@
   "evil": true,
   "globals": {
     "__dirname": false,
-    "$": false,
     "after": false,
     "alert": false,
     "angular": false,
@@ -26,7 +25,6 @@
     "inject": false,
     "xdescribe": false,
     "xit": false,
-    "jQuery": false,
     "Image": false,
     "module": false,
     "navigator": false,
@@ -35,6 +33,7 @@
     "require": false,
     "setInterval": false,
     "setTimeout": false,
+    "XMLHttpRequest": false
     "window": false
   },
   "globalstrict": true

@@ -18,6 +18,13 @@ function ll
 end
 
 # }}}
+# Docker {{{
+
+set -x DOCKER_HOST tcp://192.168.59.103:2376
+set -x DOCKER_CERT_PATH /Users/Nick/.boot2docker/certs/boot2docker-vm
+set -x DOCKER_TLS_VERIFY 1
+
+# }}}
 # Environment variables {{{
 
 set TMPDIR "/tmp"
@@ -61,6 +68,9 @@ function glu
   git checkout master;
   git pull;
   git checkout -;
+end
+function go
+  git browse
 end
 function gp 
   git push $argv
@@ -108,6 +118,9 @@ function awsm
 end
 function gpd
   git push; make deploy;
+end
+function deact
+  deactivate;
 end
 function doge
   suchvalue DAqKq1SG9abegwcpPEcdmYsr4NWfZSZLA6=dogehouse DAYrpmB2mVGZeRdLRmz2Jwf5VccN7t3nRf=cryptsy DT45nQ43qBCGbPS9ud4JXBKAMUMsnq6MuU=suchvalue DEm9MsUZ3U6mLhX1oi4QKmW6wNbB7fxeZH=dogetipbot DSwDw22PgAHD6wLzh6x2aSBuZSagM2EMKn=tipdoge DFebfjwBLp248Rr4fZ3yXJHg4B25N9Npau=cryptsy_fork
@@ -278,6 +291,8 @@ end
 
 function ssh
   switch "$argv"
+    case 'media'
+      ssh nick@media.local
     case 'snipt'
       ssh nick@snipt.net
     case 'broker'
@@ -286,6 +301,8 @@ function ssh
       ssh nick@new.compliantdatasystems.com
     case 'humanitybox'
       ssh nick@humanitybox.com
+    case 'nicksergeant'
+      ssh root@nicksergeant.com
     case 'ng-job'
       ssh nick@ng-job.com
     case '*'
@@ -310,7 +327,12 @@ function stone
   django-admin.py runserver;
 end
 function ui
-  sudo killall node -9; cd ~/Code/nextgen-ui/api; nodemon server &; cd ../server; sudo nodemon server;
+  sudo killall vmnet-natd;
+  sudo killall node -9;
+  cd ~/Code/nextgen-ui/api;
+  supervisor server &
+  cd ../;
+  sudo supervisor -e node,js,json -i .git,api,client,node_modules,script,tests,translations server/server.js
 end
 
 # }}}
