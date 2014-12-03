@@ -157,7 +157,14 @@ function ta
 end
 function ti
   tmux new-session -d -s primary
-  tmux rename-window -t primary shell
+  tmux rename-window -t primary mutt
+  tmux send -t primary mutt ENTER
+  tmux new-window -t primary -a -n weechat 'weechat-curses'
+  sleep .3
+  tmux rename-window -t primary weechat
+  tmux set -t primary window-status-format "#[fg=white,bg=colour234] #W "
+  tmux new-window -t primary -a -n shell
+  tmux split-window -t primary -h
   tmux attach
 end
 function vim

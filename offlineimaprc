@@ -25,7 +25,7 @@ folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
 [Repository NickSergeant-Remote]
 maxconnections = 2
 type = Gmail
-cert_fingerprint = 42354abeefdac33d17202a9f2d6fdeadf5928a00,1248d871434152ce9896daac13a31b0e1d66a473,70f1b97a206727f4ac317bbd18c5bddbc6885778,db7f2df48f9e94503a8497ae417312a3a5875f96,93d0b91a54b9f5adfe2e4a59286484339bf6470c,2bab9dfeec44c80df7ad9d5c6281d1b9369ba232,5b6ebc897d19317405adb03190cf432a1badcd40
+cert_fingerprint = 42354abeefdac33d17202a9f2d6fdeadf5928a00,1248d871434152ce9896daac13a31b0e1d66a473,70f1b97a206727f4ac317bbd18c5bddbc6885778,db7f2df48f9e94503a8497ae417312a3a5875f96,93d0b91a54b9f5adfe2e4a59286484339bf6470c,2bab9dfeec44c80df7ad9d5c6281d1b9369ba232,5b6ebc897d19317405adb03190cf432a1badcd40,e227f1d600c0c2f7115775f5cb748805677db57d
 remoteuser = nick@nicksergeant.com
 remotepasseval = get_keychain_pass(account="nick@nicksergeant.com", server="imap.gmail.com")
 realdelete = no
