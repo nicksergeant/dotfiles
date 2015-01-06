@@ -33,7 +33,7 @@
     "require": false,
     "setInterval": false,
     "setTimeout": false,
-    "XMLHttpRequest": false
+    "XMLHttpRequest": false,
     "window": false
   },
   "globalstrict": true
