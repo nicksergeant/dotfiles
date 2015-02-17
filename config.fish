@@ -69,9 +69,6 @@ function glu
   git pull;
   git checkout -;
 end
-function go
-  git browse
-end
 function gp 
   git push $argv
 end
@@ -111,6 +108,12 @@ function ila
 end
 
 # }}}
+# Go {{{
+
+set -x GOPATH '/Users/Nick/.go'
+set PATH "/Users/Nick/.go/bin" $PATH
+
+# }}}
 # Program functions {{{
 
 function awsm
@@ -145,6 +148,9 @@ function pm
 end
 function lisp
   rlwrap sbcl
+end
+function suk
+  sudo killall -9 node
 end
 function ssc
   sudo supervisorctl -c /Users/Nick/Sources/dotfiles-private/supervisor/supervisord.conf $argv
@@ -216,7 +222,7 @@ function fish_prompt
   z --add "$PWD"
   echo ' '
   printf '\033[0;33m%s\033[0;37m on ' (whoami)
-  printf '\033[0;33m%spro.local '
+  printf '\033[0;33m%s ' (hostname -f)
   printf '\033[0;32m%s' (prompt_pwd)
   git_prompt
   echo
@@ -233,6 +239,13 @@ set -g -x PYTHONPATH ""
 set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7/site-packages"
 set -g -x WORKON_HOME "$HOME/.virtualenvs"
 source ~/.config/fish/virtualenv.fish
+
+# }}}
+# Ruby {{{
+
+set PATH $HOME/.rbenv/bin $PATH
+set PATH $HOME/.rbenv/shims $PATH
+rbenv rehash >/dev/null ^&1
 
 # }}}
 # VMs and servers {{{
@@ -254,7 +267,7 @@ function ssh
     case 'ng-job'
       ssh nick@ng-job.com
     case 'siftie'
-      ssh root@server.sift.ie
+      ssh root@server.siftie.com
     case 'showroom'
       ssh root@server.showroom.is
     case '*'

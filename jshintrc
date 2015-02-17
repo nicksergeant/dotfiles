@@ -34,7 +34,20 @@
     "setInterval": false,
     "setTimeout": false,
     "XMLHttpRequest": false,
-    "window": false
+    "window": false,
+
+    /* Meteor apps */
+
+    "check": false,
+    "Meteor": false,
+    "Session": false,
+    "Template": false,
+    "Accounts": false,
+    "Mongo": false,
+    "Tasks": false,
+    "Teams": false,
+    "Npm": false,
+    "Router": false
   },
   "globalstrict": true
 }

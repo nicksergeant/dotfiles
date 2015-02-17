@@ -58,6 +58,8 @@ Plugin 'mustache/vim-mustache-handlebars.git'
 Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'nginx.vim'
 Plugin 'honza/dockerfile.vim'
+Plugin 'lokaltog/vim-easymotion'
+Plugin 'jsx/jsx.vim'
 
 call vundle#end()
 filetype plugin indent on         " Turn on file type detection.
@@ -69,9 +71,9 @@ let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_filetype_blacklist = {'mail': 1}
 let g:sparkupExecuteMapping = "<D-e>"
-let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>", "proprietary attribute \"autocomplete\"", "trimming empty <i>", "proprietary attribute \"required\"", "proprietary attribute \"placeholder\"", "<ng-include> is not recognized!", "discarding unexpected <ng-include>", "missing </button>", "replacing unexpected button by </button>", "<ey-confirm> is not recognized!", "discarding unexpected <ey-confirm>", "discarding unexpected </ey-confirm>", "discarding unexpected </ng-include>", "trimming empty <li>", "<a> attribute \"href\" lacks value", "<input> proprietary attribute \"min\""]
+let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>", "proprietary attribute \"autocomplete\"", "trimming empty <i>", "proprietary attribute \"required\"", "proprietary attribute \"placeholder\"", "<ng-include> is not recognized!", "discarding unexpected <ng-include>", "missing </button>", "replacing unexpected button by </button>", "<ey-confirm> is not recognized!", "discarding unexpected <ey-confirm>", "discarding unexpected </ey-confirm>", "discarding unexpected </ng-include>", "trimming empty <li>", "<a> attribute \"href\" lacks value", "<input> proprietary attribute \"min\"", "<template> is not recognized!", "discarding unexpected <template>", "discarding unexpected </template>"]
 let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['jsxhint']
 let g:mustache_abbreviations = 1
 
 " }}}
@@ -206,6 +208,12 @@ endfunction " }}}
 
 nmap <silent> <f3> :ErrorsToggle<cr>
 nmap <silent> <f4> :QFixToggle<cr>
+
+" }}}
+" EasyMotion {{{
+
+let g:EasyMotion_do_mapping = 0
+nmap s <Plug>(easymotion-s2)
 
 " }}}
 " Fish {{{
