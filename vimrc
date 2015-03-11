@@ -60,6 +60,7 @@ Plugin 'nginx.vim'
 Plugin 'honza/dockerfile.vim'
 Plugin 'lokaltog/vim-easymotion'
 Plugin 'jsx/jsx.vim'
+Plugin 'kchmck/vim-coffee-script'
 
 call vundle#end()
 filetype plugin indent on         " Turn on file type detection.
@@ -115,6 +116,11 @@ augroup END
 " Clear everything {{{
 
 map <leader>c :let @/=''<CR>
+
+" }}}
+" CoffeeScript {{{
+
+autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
 
 " }}}
 " Colors {{{
@@ -422,7 +428,6 @@ set wildignore +=node_modules
 set wildignore +=vendor
 set wildignore +=client/vendor
 set wildignore +=client/vendor-manual
-set wildignore +=assets
 set wildignore +=_site
 
 " }}}

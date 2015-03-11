@@ -49,6 +49,9 @@ end
 function gca 
   git commit -a $argv
 end
+function go 
+  git browse
+end
 function gc 
   git compare (git rev-parse --abbrev-ref HEAD)
 end
@@ -286,12 +289,8 @@ function stone
   django-admin.py runserver;
 end
 function ui
-  sudo killall vmnet-natd;
-  sudo killall node -9;
-  cd ~/Code/nextgen-ui/api;
-  supervisor server &
-  cd ../;
-  sudo supervisor -e node,js,json -i .git,api,client,node_modules,script,tests,translations server/server.js
+  cd ~/Code/localytics-rails;
+  bundle exec rails s;
 end
 
 # }}}

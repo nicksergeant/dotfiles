@@ -15,6 +15,7 @@
     "clearInterval": false,
     "clearTimeout": false,
     "com": false,
+    "confirm": false,
     "console": false,
     "describe": false,
     "document": false,
@@ -29,25 +30,11 @@
     "module": false,
     "navigator": false,
     "process": false,
-    /* "Q": false, */
     "require": false,
     "setInterval": false,
     "setTimeout": false,
     "XMLHttpRequest": false,
-    "window": false,
-
-    /* Meteor apps */
-
-    "check": false,
-    "Meteor": false,
-    "Session": false,
-    "Template": false,
-    "Accounts": false,
-    "Mongo": false,
-    "Tasks": false,
-    "Teams": false,
-    "Npm": false,
-    "Router": false
+    "window": false
   },
   "globalstrict": true
 }
