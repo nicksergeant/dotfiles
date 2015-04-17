@@ -9,6 +9,10 @@
         <equal>org.webkit.nightly.WebKit</equal>
     </appdef>
     <appdef>
+        <appname>SPOTIFY</appname>
+        <equal>com.spotify.client</equal>
+    </appdef>
+    <appdef>
         <appname>SAFARI</appname>
         <equal>com.apple.Safari</equal>
     </appdef>
@@ -265,6 +269,17 @@
                     <appendix>Cmd+F for Search Music</appendix>
                     <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::COMMAND_L, KeyCode::F, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
                     <only>ITUNES</only>
+                </item>
+            </list>
+        </item>
+        <item> 
+            <name>Spotify</name> 
+            <list> 
+                <item>
+                    <identifier>private.spotify.1</identifier>
+                    <appendix>Cmd+F for Search Music</appendix>
+                    <autogen>--KeyToKey-- KeyCode::F, ModifierFlag::COMMAND_L, KeyCode::F, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+                    <only>SPOTIFY</only>
                 </item>
             </list>
         </item>

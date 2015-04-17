@@ -4,6 +4,7 @@
   "globals": {
     "__dirname": false,
     "after": false,
+    "afterEach": false,
     "alert": false,
     "angular": false,
     "before": false,
@@ -22,6 +23,7 @@
     "element": false,
     "expect": false,
     "exports": false,
+    "global": false,
     "it": false,
     "inject": false,
     "xdescribe": false,

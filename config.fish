@@ -128,6 +128,9 @@ end
 function deact
   deactivate;
 end
+function dokku
+  ssh dokku@dokku.nicksergeant.com $argv;
+end
 function doge
   suchvalue DAqKq1SG9abegwcpPEcdmYsr4NWfZSZLA6=dogehouse DAYrpmB2mVGZeRdLRmz2Jwf5VccN7t3nRf=cryptsy DT45nQ43qBCGbPS9ud4JXBKAMUMsnq6MuU=suchvalue DEm9MsUZ3U6mLhX1oi4QKmW6wNbB7fxeZH=dogetipbot DSwDw22PgAHD6wLzh6x2aSBuZSagM2EMKn=tipdoge DFebfjwBLp248Rr4fZ3yXJHg4B25N9Npau=cryptsy_fork
 end
@@ -242,7 +245,7 @@ source ~/.config/fish/virtualenv.fish
 set PATH $HOME/.rbenv/bin $PATH
 set PATH $HOME/.rbenv/shims $PATH
 rbenv rehash >/dev/null ^&1
-set -x SSL_CERT_FILE /usr/local/etc/cacert.pem
+# set -x SSL_CERT_FILE /usr/local/etc/cacert.pem
 
 # }}}
 # VMs and servers {{{
