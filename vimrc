@@ -59,7 +59,6 @@ Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'nginx.vim'
 Plugin 'honza/dockerfile.vim'
 Plugin 'lokaltog/vim-easymotion'
-Plugin 'jsx/jsx.vim'
 Plugin 'kchmck/vim-coffee-script'
 
 call vundle#end()
@@ -504,6 +503,8 @@ nnoremap <c-]> f<space>
 " }}}
 
 " JavaScript {{{
+
+au BufNewFile,BufRead *.jsx setlocal filetype=javascript
 
 augroup ft_javascript
     au!

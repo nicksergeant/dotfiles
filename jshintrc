@@ -3,6 +3,7 @@
   "evil": true,
   "globals": {
     "__dirname": false,
+    "_": false,
     "after": false,
     "afterEach": false,
     "alert": false,

@@ -49,7 +49,7 @@ end
 function gca 
   git commit -a $argv
 end
-function go 
+function gb
   git browse
 end
 function gc 
@@ -134,6 +134,14 @@ end
 function doge
   suchvalue DAqKq1SG9abegwcpPEcdmYsr4NWfZSZLA6=dogehouse DAYrpmB2mVGZeRdLRmz2Jwf5VccN7t3nRf=cryptsy DT45nQ43qBCGbPS9ud4JXBKAMUMsnq6MuU=suchvalue DEm9MsUZ3U6mLhX1oi4QKmW6wNbB7fxeZH=dogetipbot DSwDw22PgAHD6wLzh6x2aSBuZSagM2EMKn=tipdoge DFebfjwBLp248Rr4fZ3yXJHg4B25N9Npau=cryptsy_fork
 end
+function fitocracy_cookie_update
+  cd ~/Code/slacktocracy-amara;
+  heroku config:set FITOCRACY_COOKIE=(pbp);
+  cd ~/Code/slacktocracy-localytics;
+  heroku config:set FITOCRACY_COOKIE=(pbp);
+  cd ~/Code/slacktocracy-siftie;
+  heroku config:set FITOCRACY_COOKIE=(pbp);
+end
 function m
   mvim . $argv
 end
@@ -154,6 +162,9 @@ function pm
 end
 function lisp
   rlwrap sbcl
+end
+function sif
+  cd ~/Code/siftie; make run;
 end
 function suk
   sudo killall -9 node
@@ -259,7 +270,7 @@ function ssh
     case 'broker'
       ssh nick@broker.is
     case 'cds'
-      ssh nick@new.compliantdatasystems.com
+      ssh nick@compliantdatasystems.com
     case 'humanitybox'
       ssh nick@humanitybox.com
     case 'nicksergeant'
@@ -291,9 +302,17 @@ function stone
   set -x PYTHONPATH ':/usr/local/lib/python2.7/site-packages:/Users/Nick/Code/stonevault:/Users/Nick/Code/stonevault/vault:/Users/Nick/Code/stonevault/vault/apps:/Users/Nick/Code/stonevault/vault/apps/config';
   django-admin.py runserver;
 end
-function ui
+function loc
   cd ~/Code/localytics-rails;
-  bundle exec rails s;
+  bundle install;
+  bundle exec rake db:migrate;
+  bundle exec rails s puma;
+end
+function cl
+  cd ~/Code/localytics-rails;
+  git checkout Gemfile;
+  git checkout Gemfile.lock;
+  git checkout db/structure.sql;
 end
 
 # }}}
