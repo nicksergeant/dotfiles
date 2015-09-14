@@ -135,12 +135,18 @@ function doge
   suchvalue DAqKq1SG9abegwcpPEcdmYsr4NWfZSZLA6=dogehouse DAYrpmB2mVGZeRdLRmz2Jwf5VccN7t3nRf=cryptsy DT45nQ43qBCGbPS9ud4JXBKAMUMsnq6MuU=suchvalue DEm9MsUZ3U6mLhX1oi4QKmW6wNbB7fxeZH=dogetipbot DSwDw22PgAHD6wLzh6x2aSBuZSagM2EMKn=tipdoge DFebfjwBLp248Rr4fZ3yXJHg4B25N9Npau=cryptsy_fork
 end
 function fitocracy_cookie_update
-  cd ~/Code/slacktocracy-amara;
-  heroku config:set FITOCRACY_COOKIE=(pbp);
-  cd ~/Code/slacktocracy-localytics;
-  heroku config:set FITOCRACY_COOKIE=(pbp);
-  cd ~/Code/slacktocracy-siftie;
-  heroku config:set FITOCRACY_COOKIE=(pbp);
+  set pasted = (pbpaste); dokku config:set slacktocracy-amara FITOCRACY_COOKIE="'$pasted'";
+  set pasted = (pbpaste); dokku config:set slacktocracy-siftie FITOCRACY_COOKIE="'$pasted'";
+  set pasted = (pbpaste); dokku config:set slacktocracy-localytics FITOCRACY_COOKIE="'$pasted'";
+  set -e pasted;
+end
+function gif
+  giffify ~/Temp/Untitled.mov ~/Temp/gif.gif
+  rm ~/Temp/Untitled.mov
+  open -a CloudApp ~/Temp/gif.gif
+end
+function d
+  cd ~/Code/ndebug; mvim .
 end
 function m
   mvim . $argv
@@ -164,7 +170,7 @@ function lisp
   rlwrap sbcl
 end
 function sif
-  cd ~/Code/siftie; make run;
+  cd ~/Code/siftie; meteor run --port 4000
 end
 function suk
   sudo killall -9 node
@@ -263,12 +269,14 @@ rbenv rehash >/dev/null ^&1
 
 function ssh
   switch "$argv"
-    case 'media'
-      ssh nick@media.local
+    case 'ubuntu'
+      ssh nick@ubuntu.local
     case 'snipt'
       ssh nick@server.snipt.net
     case 'broker'
       ssh nick@broker.is
+    case 'dokku'
+      ssh nick@dokku.nicksergeant.com
     case 'cds'
       ssh nick@compliantdatasystems.com
     case 'humanitybox'
@@ -306,7 +314,7 @@ function loc
   cd ~/Code/localytics-rails;
   bundle install;
   bundle exec rake db:migrate;
-  bundle exec rails s puma;
+  npm run nails:hot;
 end
 function cl
   cd ~/Code/localytics-rails;

@@ -29,6 +29,10 @@
         <equal>com.tinyspeck.slackmacgap</equal>
     </appdef>
     <appdef>
+        <appname>SIFTIE</appname>
+        <equal>com.Siftie</equal>
+    </appdef>
+    <appdef>
         <appname>FLINT</appname>
         <equal>com.giantcomet.flint</equal>
     </appdef>
@@ -166,6 +170,41 @@
                     <appendix>Cmd+Shift+k for Shift + escape</appendix>
                     <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::ESCAPE, ModifierFlag::SHIFT_L</autogen>
                     <only>SLACK</only>
+                </item>
+            </list>
+        </item>
+        <item> 
+            <name>Siftie</name> 
+            <list> 
+                <item>
+                    <identifier>private.siftie.3</identifier>
+                    <appendix>Cmd+Shift+]</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L</autogen>
+                    <only>SIFTIE</only>
+                </item>
+                <item>
+                    <identifier>private.siftie.4</identifier>
+                    <appendix>Cmd+Shift+]</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L</autogen>
+                    <only>SIFTIE</only>
+                </item>
+                <item>
+                    <identifier>private.siftie.5</identifier>
+                    <appendix>Cmd+Shift+.</appendix>
+                    <autogen>--KeyToKey-- KeyCode::DOT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::DOT, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L</autogen>
+                    <only>SIFTIE</only>
+                </item>
+                <item>
+                    <identifier>private.siftie.6</identifier>
+                    <appendix>Cmd+Shift+i</appendix>
+                    <autogen>--KeyToKey-- KeyCode::I, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::I, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L</autogen>
+                    <only>SIFTIE</only>
+                </item>
+                <item>
+                    <identifier>private.siftie.7</identifier>
+                    <appendix>Cmd+Shift+l</appendix>
+                    <autogen>--KeyToKey-- KeyCode::L, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L, KeyCode::L, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L</autogen>
+                    <only>SIFTIE</only>
                 </item>
             </list>
         </item>

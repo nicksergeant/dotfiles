@@ -60,6 +60,9 @@ Plugin 'nginx.vim'
 Plugin 'honza/dockerfile.vim'
 Plugin 'lokaltog/vim-easymotion'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'nvie/vim-flake8.git'
+Plugin 'airblade/vim-gitgutter.git'
+Plugin 'sjl/clam.vim.git'
 
 call vundle#end()
 filetype plugin indent on         " Turn on file type detection.
@@ -73,7 +76,8 @@ let g:ycm_filetype_blacklist = {'mail': 1}
 let g:sparkupExecuteMapping = "<D-e>"
 let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>", "proprietary attribute \"autocomplete\"", "trimming empty <i>", "proprietary attribute \"required\"", "proprietary attribute \"placeholder\"", "<ng-include> is not recognized!", "discarding unexpected <ng-include>", "missing </button>", "replacing unexpected button by </button>", "<ey-confirm> is not recognized!", "discarding unexpected <ey-confirm>", "discarding unexpected </ey-confirm>", "discarding unexpected </ng-include>", "trimming empty <li>", "<a> attribute \"href\" lacks value", "<input> proprietary attribute \"min\"", "<template> is not recognized!", "discarding unexpected <template>", "discarding unexpected </template>"]
 let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
-let g:syntastic_javascript_checkers = ['jsxhint']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_python_checkers = ['flake8']
 let g:mustache_abbreviations = 1
 
 " }}}
@@ -96,20 +100,10 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 
 " }}}
-" CSS {{{
+" Clam {{{
 
-augroup ft_css
-    au!
-    au BufNewFile,BufRead *.less setlocal filetype=scss
-    au Filetype less,css,scss setlocal foldmethod=marker
-    au Filetype less,css,scss setlocal foldmarker={,}
-    au Filetype less,css,scss setlocal iskeyword+=-
-    au Filetype less,css,scss setlocal colorcolumn=0
-
-    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-    " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><cr><esc>kcc
-augroup END
+nnoremap ! :Clam<space>
+au BufWritePost ndebug.js execute "normal! :Clam npm run build\<cr>"
 
 " }}}
 " Clear everything {{{
@@ -148,6 +142,22 @@ augroup plugin_commentary
     au!
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType fish setlocal commentstring=#\ %s
+augroup END
+
+" }}}
+" CSS {{{
+
+augroup ft_css
+    au!
+    au BufNewFile,BufRead *.less setlocal filetype=scss
+    au Filetype less,css,scss setlocal foldmethod=marker
+    au Filetype less,css,scss setlocal foldmarker={,}
+    au Filetype less,css,scss setlocal iskeyword+=-
+    au Filetype less,css,scss setlocal colorcolumn=0
+
+    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+    " positioned inside of them AND the following code doesn't get unfolded.
+    au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><cr><esc>kcc
 augroup END
 
 " }}}
@@ -213,6 +223,11 @@ endfunction " }}}
 
 nmap <silent> <f3> :ErrorsToggle<cr>
 nmap <silent> <f4> :QFixToggle<cr>
+
+" }}}
+" Line Length {{{
+
+set colorcolumn=117
 
 " }}}
 " EasyMotion {{{
@@ -402,7 +417,6 @@ set lazyredraw
 set fillchars=diff:⣿,vert:│
 set dictionary=/usr/share/dict/words
 set nowrap
-set colorcolumn=80
 
 set wildmenu                      " Enhanced command line completion.
 set wildmode=list:longest         " Complete files like a shell.
@@ -504,6 +518,7 @@ nnoremap <c-]> f<space>
 
 " JavaScript {{{
 
+au BufNewFile,BufRead *.es6 setlocal filetype=javascript
 au BufNewFile,BufRead *.jsx setlocal filetype=javascript
 
 augroup ft_javascript
