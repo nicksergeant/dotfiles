@@ -149,6 +149,9 @@ end
 function d
   cd ~/Code/ndebug; mvim .
 end
+function e
+  cd ~/Code/edebug; mvim .
+end
 function m
   mvim . $argv
 end

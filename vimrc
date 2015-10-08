@@ -105,7 +105,7 @@ map <C-l> <C-w>l
 
 nnoremap ! :Clam<space>
 au BufWritePost ndebug.js execute "normal! :Clam npm run build\<cr>"
-au BufWritePost edebug.js execute "normal! :Clam elixir edebug.exs\<cr>"
+au BufWritePost edebug.exs execute "normal! :Clam elixir edebug.exs\<cr>"
 
 " }}}
 " Clear everything {{{
