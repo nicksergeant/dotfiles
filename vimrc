@@ -63,6 +63,7 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'nvie/vim-flake8.git'
 Plugin 'airblade/vim-gitgutter.git'
 Plugin 'sjl/clam.vim.git'
+Plugin 'elixir-lang/vim-elixir'
 
 call vundle#end()
 filetype plugin indent on         " Turn on file type detection.
@@ -104,6 +105,7 @@ map <C-l> <C-w>l
 
 nnoremap ! :Clam<space>
 au BufWritePost ndebug.js execute "normal! :Clam npm run build\<cr>"
+au BufWritePost edebug.js execute "normal! :Clam elixir edebug.exs\<cr>"
 
 " }}}
 " Clear everything {{{

@@ -56,6 +56,10 @@
         <appname>SPARROW</appname>
         <equal>com.sparrowmailapp.sparrow</equal>
     </appdef>
+    <appdef>
+        <appname>MAIL</appname>
+        <equal>com.apple.mail</equal>
+    </appdef>
     <list> 
         <item>
             <name>Use the correct shift keys.</name>
@@ -124,6 +128,17 @@
                     <appendix>Cmd+; for Cmd+Opt+C</appendix>
                     <autogen>--KeyToKey-- KeyCode::SEMICOLON, ModifierFlag::COMMAND_L, KeyCode::C, ModifierFlag::OPTION_L | ModifierFlag::COMMAND_L</autogen>
                     <only>WEBKIT</only>
+                </item>
+            </list>
+        </item>
+        <item> 
+            <name>Mail</name> 
+            <list> 
+                <item>
+                    <identifier>private.mail.1</identifier>
+                    <appendix>Cmd+Delete for Archive</appendix>
+                    <autogen>--KeyToKey-- KeyCode::DELETE, ModifierFlag::COMMAND_L, KeyCode::A, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L</autogen>
+                    <only>MAIL</only>
                 </item>
             </list>
         </item>
