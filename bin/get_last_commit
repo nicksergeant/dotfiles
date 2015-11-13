@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
-import subprocess, sys
+import subprocess
+import sys
 
 
 def main():
 
     output = subprocess.check_output('git log --no-merges -1 --pretty=oneline', shell=True)
 
-    hash, title = output.split(' ', 1)
+    hash, title = output.decode().split(' ', 1)
 
     try:
         from fabric.colors import blue
