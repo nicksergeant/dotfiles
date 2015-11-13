@@ -152,6 +152,12 @@ end
 function e
   cd ~/Code/edebug; mvim .
 end
+function lea
+  cd ~/Code/leather;
+  p;
+  wo;
+  pm runserver;
+end
 function m
   mvim . $argv
 end
@@ -160,6 +166,12 @@ function mutt
 end
 function o
   open $argv
+end
+function p
+  set -x PYTHONPATH ':/usr/local/lib/python3.5/site-packages'
+end
+function p2
+  set -x PYTHONPATH ':/usr/local/lib/python2.7/site-packages'
 end
 function pbc 
   pbcopy $argv
@@ -192,9 +204,6 @@ function ti
   tmux new-session -d -s primary -n shell
   tmux split-window -t primary -h
   tmux attach
-end
-function vim
-  mvim -v $argv
 end
 function vu
   vagrant up $argv
@@ -318,8 +327,7 @@ function loc
   cd ~/Code/localytics-rails;
   bundle install;
   bundle exec rake db:migrate;
-  npm install;
-  npm run nails:hot;
+  bundle exec rails s;
 end
 function cl
   cd ~/Code/localytics-rails;

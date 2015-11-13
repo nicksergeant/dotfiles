@@ -79,6 +79,8 @@ let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "propri
 let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_elixir_checkers = ['elixir']
+let g:syntastic_enable_elixir_checker = 1
 let g:mustache_abbreviations = 1
 
 " }}}
@@ -196,6 +198,12 @@ map <left> <nop>
 map <right> <nop>
 inoremap <F1> <nop>
 nnoremap <F1> <nop>
+
+" }}}
+" Elixir {{{
+
+autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
+autocmd BufNewFile,BufReadPost *.ex setl foldmethod=indent
 
 " }}}
 " Error Toggles {{{
