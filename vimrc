@@ -438,6 +438,8 @@ set wildignore +=*.sql
 set wildignore +=*.swo
 set wildignore +=*.swp
 set wildignore +=*.un~
+set wildignore +=__pycache__
+set wildignore +=__init__.py
 
 set wildignore +=.git
 set wildignore +=.hg
