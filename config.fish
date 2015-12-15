@@ -66,7 +66,9 @@ function gl
   git pull $argv
 end
 function glco 
+  p2
   git browse -- commit/(/Users/Nick/Sources/dotfiles/bin/get_last_commit) $argv
+  p
 end
 function glu
   git checkout master;
@@ -159,7 +161,9 @@ function lea
   pm runserver;
 end
 function m
+  p2
   mvim . $argv
+  p
 end
 function mutt
   bash --login -c 'cd ~/Downloads; /usr/local/bin/mutt' $argv;
@@ -204,6 +208,11 @@ function ti
   tmux new-session -d -s primary -n shell
   tmux split-window -t primary -h
   tmux attach
+end
+function vim
+  p2
+  /usr/local/bin/vim $argv
+  p
 end
 function vu
   vagrant up $argv
@@ -294,6 +303,8 @@ function ssh
       ssh nick@compliantdatasystems.com
     case 'humanitybox'
       ssh nick@humanitybox.com
+    case 'leather'
+      ssh nick@leatherapp.com
     case 'nicksergeant'
       ssh root@server.nicksergeant.com
     case 'ng-job'
@@ -329,6 +340,11 @@ function loc
   bundle exec rake db:migrate;
   bundle exec rails s;
 end
+function locj
+  cd ~/Code/localytics-rails;
+  npm install;
+  npm run assets:hot
+end
 function cl
   cd ~/Code/localytics-rails;
   git checkout Gemfile;
@@ -348,3 +364,5 @@ end
 # }}}
 
 source ~/Sources/dotfiles-private/config.fish
+set -x PYTHONPATH ':/usr/local/lib/python3.5/site-packages'
+alias python=python3

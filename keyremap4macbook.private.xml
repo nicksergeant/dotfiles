@@ -227,6 +227,12 @@
             <name>iTerm</name> 
             <list> 
                 <item>
+                    <identifier>private.iterm.0</identifier>
+                    <appendix>Option+Delete for Ctrl+W</appendix>
+                    <autogen>--KeyToKey-- KeyCode::DELETE, ModifierFlag::OPTION_L, KeyCode::W, ModifierFlag::CONTROL_L</autogen>
+                    <only>ITERM</only>
+                </item>
+                <item>
                     <identifier>private.iterm.1</identifier>
                     <appendix>Cmd+Shift+Control+] for Option+Shift+A</appendix>
                     <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L, KeyCode::A, ModifierFlag::OPTION_L</autogen>
