@@ -67,7 +67,7 @@ function gl
 end
 function glco 
   p2
-  git browse -- commit/(/Users/Nick/Sources/dotfiles/bin/get_last_commit) $argv
+  git browse -- commit/(~/Sources/dotfiles/bin/get_last_commit) $argv
   p
 end
 function glu
