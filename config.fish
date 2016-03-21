@@ -35,7 +35,6 @@ set BROWSER open
 set PATH "/usr/local/opt/ruby/bin" $PATH
 set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
 set PATH "/usr/local/share/npm/bin" $PATH
-set PATH "/usr/local/Cellar/elixir/1.1.1/bin/" $PATH
 
 set -g -x fish_greeting ''
 set -g -x EDITOR vim
@@ -77,6 +76,9 @@ function glu
 end
 function gp 
   git push $argv
+end
+function dp 
+  desk-flow ticket submit
 end
 function gst 
   git status $argv
@@ -122,8 +124,30 @@ set PATH "/Users/Nick/.go/bin" $PATH
 # }}}
 # Program functions {{{
 
-function awsm
-  cd ~/Code/awsm; bundle install; bundle exec rake awsm:mocked;
+function desk-rails
+  cd /dev_exclusions/assistly;
+  rvm use 2.1.5 --default;
+  mysql.server start;
+  bundle install;
+  foreman start;
+end
+function desk-rails-logs
+  cd /dev_exclusions/assistly;
+  tail -f log/development.log;
+end
+function desk-reporting-updater
+  cd /dev_exclusions/reporting_updater;
+  bin/bundle exec ./bin/reporting_updater run
+end
+function desk-webclient
+  cd /dev_exclusions/webclient;
+  rvm use 2.1.5 --default;
+  bundle install;
+  foreman start;
+end
+function desk-haproxy
+  cd /dev_exclusions/webclient;
+  sudo haproxy -f config/haproxy.cfg;
 end
 function gpd
   git push; make deploy;
@@ -205,8 +229,25 @@ function ta
   tmux attach -t $argv
 end
 function ti
-  tmux new-session -d -s primary -n shell
+  tmux new-session -d -s primary -n servers
+  tmux split-window -t primary -v
   tmux split-window -t primary -h
+  tmux split-window -t primary -h
+  sleep 1
+  tmux select-layout tiled
+  tmux send-keys -t 1 desk-rails ENTER
+  tmux send-keys -t 2 desk-haproxy ENTER
+  tmux send-keys -t 3 desk-webclient ENTER
+  tmux new-window -t primary -a -n logs
+  tmux split-window -t logs -h
+  tmux split-window -t logs -v
+  tmux resize-pane -t 1 -L 1
+  tmux send-keys -t 1 desk-rails-logs ENTER
+  tmux send-keys -t 2 desk-reporting-updater ENTER
+  tmux new-window -t primary -a -n shell
+  tmux split-window -t shell -v
+  tmux send-keys -t 1 'cd /dev_exclusions/assistly' ENTER
+  tmux send-keys -t 2 'cd /dev_exclusions/webclient' ENTER
   tmux attach
 end
 function vim
@@ -366,3 +407,4 @@ end
 source ~/Sources/dotfiles-private/config.fish
 set -x PYTHONPATH ':/usr/local/lib/python3.5/site-packages'
 alias python=python3
+rvm default

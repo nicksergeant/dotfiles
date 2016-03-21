@@ -2,6 +2,7 @@
 
 set encoding=utf-8
 set nocompatible
+set re=1
 syntax enable
 let mapleader = ","
 
@@ -34,6 +35,7 @@ Plugin 'sjl/badwolf.git'
 Plugin 'vim-scripts/fish.vim.git'
 Plugin 'othree/html5.vim.git'
 Plugin 'scrooloose/nerdtree.git'
+Plugin 'vim-ruby/vim-ruby'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'scrooloose/syntastic.git'
 Plugin 'tpope/vim-commentary.git'
@@ -78,6 +80,7 @@ let g:sparkupExecuteMapping = "<D-e>"
 let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>", "proprietary attribute \"autocomplete\"", "trimming empty <i>", "proprietary attribute \"required\"", "proprietary attribute \"placeholder\"", "<ng-include> is not recognized!", "discarding unexpected <ng-include>", "missing </button>", "replacing unexpected button by </button>", "<ey-confirm> is not recognized!", "discarding unexpected <ey-confirm>", "discarding unexpected </ey-confirm>", "discarding unexpected </ng-include>", "trimming empty <li>", "<a> attribute \"href\" lacks value", "<input> proprietary attribute \"min\"", "<template> is not recognized!", "discarding unexpected <template>", "discarding unexpected </template>"]
 let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'eslint_d'
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_elixir_checkers = ['elixir']
 let g:syntastic_enable_elixir_checker = 1
@@ -445,6 +448,7 @@ set wildignore +=.git
 set wildignore +=.hg
 set wildignore +=.sass-cache
 set wildignore +=.svn
+set wildignore +=tmp
 
 set wildignore +=cache
 set wildignore +=dist
@@ -540,5 +544,7 @@ augroup ft_javascript
 augroup END
 
 map <leader>b :call JsBeautify()<cr>
+
+com! FormatJSON %!python -m json.tool
 
 " }}}
