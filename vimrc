@@ -328,6 +328,7 @@ augroup END
 
 au BufNewFile,BufRead *.ejs setlocal filetype=html
 " au BufNewFile,BufRead *.html setlocal filetype=htmldjango
+au BufNewFile,BufRead *.twig setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
 " au BufNewFile,BufRead *.html setlocal colorcolumn=0

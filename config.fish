@@ -35,6 +35,7 @@ set BROWSER open
 set PATH "/usr/local/opt/ruby/bin" $PATH
 set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
 set PATH "/usr/local/share/npm/bin" $PATH
+set PATH "/usr/local/Cellar/elixir/1.1.1/bin" $PATH
 
 set -g -x fish_greeting ''
 set -g -x EDITOR vim
@@ -164,7 +165,6 @@ end
 function fitocracy_cookie_update
   set pasted = (pbpaste); dokku config:set slacktocracy-amara FITOCRACY_COOKIE="'$pasted'";
   set pasted = (pbpaste); dokku config:set slacktocracy-siftie FITOCRACY_COOKIE="'$pasted'";
-  set pasted = (pbpaste); dokku config:set slacktocracy-localytics FITOCRACY_COOKIE="'$pasted'";
   set -e pasted;
 end
 function gif
@@ -248,6 +248,11 @@ function ti
   tmux split-window -t shell -v
   tmux send-keys -t 1 'cd /dev_exclusions/assistly' ENTER
   tmux send-keys -t 2 'cd /dev_exclusions/webclient' ENTER
+  tmux attach
+end
+function tih
+  tmux new-session -d -s primary -n shell
+  tmux split-window -t primary -h
   tmux attach
 end
 function vim
@@ -351,7 +356,7 @@ function ssh
     case 'ng-job'
       ssh nick@ng-job.com
     case 'siftie'
-      ssh root@server.siftie.com
+      ssh root@siftie.com
     case 'showroom'
       ssh root@server.showroom.is
     case '*'
