@@ -240,7 +240,7 @@ nmap <silent> <f4> :QFixToggle<cr>
 " }}}
 " Line Length {{{
 
-set colorcolumn=117
+set colorcolumn=80
 
 " }}}
 " EasyMotion {{{
