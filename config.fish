@@ -256,7 +256,7 @@ function ti
   tmux split-window -t zeus -v
   tmux resize-pane -t 1 -L 1
   tmux send-keys -t 2 desk-zeus ENTER
-  sleep 1
+  sleep 2
   tmux send-keys -t 1 desk-zeus-server ENTER
 
   # Logs
