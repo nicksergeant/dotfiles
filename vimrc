@@ -370,6 +370,7 @@ au BufNewFile,BufRead *.conf setlocal filetype=nginx
 
 noremap  <F2> :NERDTreeToggle<cr>
 inoremap <F2> <esc>:NERDTreeToggle<cr>
+noremap  <leader>f :NERDTreeFind<cr>
 
 au Filetype nerdtree setlocal nolist
 au Filetype nerdtree setlocal colorcolumn=0

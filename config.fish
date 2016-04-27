@@ -35,7 +35,6 @@ set BROWSER open
 set PATH "/usr/local/opt/ruby/bin" $PATH
 set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
 set PATH "/usr/local/share/npm/bin" $PATH
-set PATH "/usr/local/Cellar/elixir/1.1.1/bin" $PATH
 
 set -g -x fish_greeting ''
 set -g -x EDITOR vim
@@ -138,6 +137,7 @@ function desk-rails-logs
 end
 function desk-reporting-updater
   cd /dev_exclusions/reporting_updater;
+  rvm use 2.1.5 --default;
   bin/bundle exec ./bin/reporting_updater run
 end
 function desk-webclient
@@ -149,6 +149,16 @@ end
 function desk-haproxy
   cd /dev_exclusions/webclient;
   sudo haproxy -f config/haproxy.cfg;
+end
+function desk-zeus
+  cd /dev_exclusions/assistly;
+  rvm use 2.1.5 --default;
+  bundle exec zeus start;
+end
+function desk-zeus-server
+  cd /dev_exclusions/assistly;
+  rvm use 2.1.5 --default;
+  bundle exec zeus server;
 end
 function gpd
   git push; make deploy;
@@ -229,6 +239,7 @@ function ta
   tmux attach -t $argv
 end
 function ti
+  # Primary
   tmux new-session -d -s primary -n servers
   tmux split-window -t primary -v
   tmux split-window -t primary -h
@@ -238,12 +249,25 @@ function ti
   tmux send-keys -t 1 desk-rails ENTER
   tmux send-keys -t 2 desk-haproxy ENTER
   tmux send-keys -t 3 desk-webclient ENTER
+
+  # Zeus
+  tmux new-window -t primary -a -n zeus
+  tmux split-window -t zeus -h
+  tmux split-window -t zeus -v
+  tmux resize-pane -t 1 -L 1
+  tmux send-keys -t 2 desk-zeus ENTER
+  sleep 1
+  tmux send-keys -t 1 desk-zeus-server ENTER
+
+  # Logs
   tmux new-window -t primary -a -n logs
   tmux split-window -t logs -h
   tmux split-window -t logs -v
   tmux resize-pane -t 1 -L 1
   tmux send-keys -t 1 desk-rails-logs ENTER
   tmux send-keys -t 2 desk-reporting-updater ENTER
+
+  # Shell
   tmux new-window -t primary -a -n shell
   tmux split-window -t shell -v
   tmux send-keys -t 1 'cd /dev_exclusions/assistly' ENTER
