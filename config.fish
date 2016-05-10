@@ -367,7 +367,7 @@ function ssh
     case 'snipt'
       ssh nick@server.snipt.net
     case 'broker'
-      ssh nick@broker.is
+      ssh nick@i.nicksergeant.com
     case 'dokku'
       ssh nick@dokku.nicksergeant.com
     case 'cds'
