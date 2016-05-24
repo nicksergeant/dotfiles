@@ -13,5 +13,4 @@ filename="$uuid_clean.$extension"
   url="http://i.nick.sg/$filename" &&
   echo -n $url | pbcopy &&
   echo $url &&
-  open $url &&
   afplay /System/Library/Sounds/Glass.aiff
