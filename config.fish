@@ -206,12 +206,6 @@ end
 function o
   open $argv
 end
-function p
-  set -x PYTHONPATH ':/usr/local/lib/python3.5/site-packages'
-end
-function p2
-  set -x PYTHONPATH ':/usr/local/lib/python2.7/site-packages'
-end
 function pbc 
   pbcopy $argv
 end
@@ -340,21 +334,20 @@ function fish_prompt
 end
 
 # }}}
-# Python variables {{{
+# Python {{{
 
-set -g -x PIP_DOWNLOAD_CACHE "$HOME/.pip/cache"
-set PATH "/usr/local/opt/ruby/bin" $PATH
-set -g -x PYTHONPATH ""
-set PYTHONPATH "$PYTHONPATH:/usr/local/lib/python2.7/site-packages"
 set -g -x WORKON_HOME "$HOME/.virtualenvs"
 source ~/.config/fish/virtualenv.fish
+status --is-interactive; and . (pyenv init -|psub)
 
 # }}}
 # Ruby {{{
 
+set PATH "/usr/local/opt/ruby/bin" $PATH
 set PATH $HOME/.rbenv/bin $PATH
 set PATH $HOME/.rbenv/shims $PATH
 rbenv rehash >/dev/null ^&1
+rvm default
 # set -x SSL_CERT_FILE /usr/local/etc/cacert.pem
 
 # }}}
@@ -435,6 +428,3 @@ end
 # }}}
 
 source ~/Sources/dotfiles-private/config.fish
-set -x PYTHONPATH ':/usr/local/lib/python3.5/site-packages'
-alias python=python3
-rvm default
