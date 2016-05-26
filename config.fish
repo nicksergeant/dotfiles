@@ -66,9 +66,7 @@ function gl
   git pull $argv
 end
 function glco 
-  p2
   git browse -- commit/(~/Sources/dotfiles/bin/get_last_commit) $argv
-  p
 end
 function glu
   git checkout master;
@@ -196,9 +194,7 @@ function lea
   pm runserver;
 end
 function m
-  p2
   mvim . $argv
-  p
 end
 function mutt
   bash --login -c 'cd ~/Downloads; /usr/local/bin/mutt' $argv;
@@ -275,9 +271,7 @@ function tih
   tmux attach
 end
 function vim
-  p2
   /usr/local/bin/vim $argv
-  p
 end
 function vu
   vagrant up $argv
