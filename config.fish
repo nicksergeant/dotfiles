@@ -168,6 +168,9 @@ end
 function dokku
   ssh dokku@dokku.nicksergeant.com $argv;
 end
+function logs
+  open (ssh nick@dokku.nicksergeant.com -C 'docker ps | grep kibana | cut -d \  -f 1 | xargs docker inspect | grep IPAddress | cut -d \" -f 4 | awk "NR==0; END{print}"'  | awk '{print "http://"$1":5601/app/kibana#/dashboard/Dokku-Logs?_g=(refreshInterval:(display:\'5%20seconds\',pause:!f,section:1,value:5000),time:(from:now-24h,mode:quick,to:now))&_a=(filters:!(),options:(darkTheme:!f),panels:!((col:1,columns:!(docker.image,message),id:Dokku-Logs,panelIndex:1,row:1,size_x:12,size_y:21,sort:!(\'@timestamp\',desc),type:search)),query:(query_string:(analyze_wildcard:!t,query:\'*\')),title:\'Dokku%20Logs\',uiState:())"}')
+end
 function doge
   suchvalue DAqKq1SG9abegwcpPEcdmYsr4NWfZSZLA6=dogehouse DAYrpmB2mVGZeRdLRmz2Jwf5VccN7t3nRf=cryptsy DT45nQ43qBCGbPS9ud4JXBKAMUMsnq6MuU=suchvalue DEm9MsUZ3U6mLhX1oi4QKmW6wNbB7fxeZH=dogetipbot DSwDw22PgAHD6wLzh6x2aSBuZSagM2EMKn=tipdoge DFebfjwBLp248Rr4fZ3yXJHg4B25N9Npau=cryptsy_fork
 end
