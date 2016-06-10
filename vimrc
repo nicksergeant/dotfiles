@@ -84,6 +84,7 @@ let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "propri
 let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
+let g:syntastic_javascript_eslint_args = '-c ~/.eslintrc --no-eslintrc'
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_elixir_checkers = ['elixir']
 let g:syntastic_enable_elixir_checker = 1
