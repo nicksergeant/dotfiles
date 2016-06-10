@@ -6,7 +6,10 @@ set re=1
 syntax enable
 let mapleader = ","
 
-inoremap jk <ESC>
+" Training
+inoremap jk STAHHHHHHPHHHHHHHHHHP
+nnoremap <leader>c iSTAHHHHHHPHHHHHHHHHHP<CR>
+
 nnoremap Y y$
 nnoremap n nzv
 nnoremap N Nzv
@@ -111,11 +114,6 @@ map <C-l> <C-w>l
 nnoremap ! :Clam<space>
 au BufWritePost ndebug.js execute "normal! :Clam npm run build\<cr>"
 au BufWritePost edebug.exs execute "normal! :Clam elixir edebug.exs\<cr>"
-
-" }}}
-" Clear everything {{{
-
-map <leader>c :let @/=''<CR>
 
 " }}}
 " CoffeeScript {{{
@@ -534,6 +532,11 @@ nnoremap <c-]> f<space>
 
 " }}}
 
+" Clear everything {{{
+
+nnoremap <ESC> :let @/=''<CR>
+
+" }}}
 " JavaScript {{{
 
 au BufNewFile,BufRead *.es6 setlocal filetype=javascript
