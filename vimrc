@@ -422,7 +422,7 @@ set listchars=tab:▸\ ,extends:❯,precedes:❮
 set shell=/bin/bash
 set splitbelow
 set splitright
-set guifont=Menlo_for_Powerline:h12            " Font family and font size.
+set guifont=Menlo_for_Powerline:h14            " Font family and font size.
 set antialias                     " MacVim: smooth fonts.
 set cursorline
 set synmaxcol=800                 " Don't try to highlight lines longer than 800 characters.
