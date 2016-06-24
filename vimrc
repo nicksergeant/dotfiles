@@ -6,10 +6,6 @@ set re=1
 syntax enable
 let mapleader = ","
 
-" Training
-inoremap jk STAHHHHHHPHHHHHHHHHHP
-nnoremap <leader>c iSTAHHHHHHPHHHHHHHHHHP<CR>
-
 nnoremap Y y$
 nnoremap n nzv
 nnoremap N Nzv
