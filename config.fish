@@ -425,3 +425,4 @@ end
 # }}}
 
 source ~/Sources/dotfiles-private/config.fish
+eval (direnv hook fish)

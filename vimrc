@@ -48,7 +48,7 @@ Plugin 'digitaltoad/vim-jade.git'
 Plugin 'Lokaltog/vim-powerline.git'
 Plugin 'vim-scripts/taglist.vim.git'
 Plugin 'sjl/vitality.vim.git'
-Plugin 'Valloric/YouCompleteMe.git'
+Plugin 'ajh17/VimCompletesMe.git'
 Plugin 'honza/vim-snippets.git'
 Plugin 'SirVer/ultisnips.git'
 Plugin 'vim-scripts/django.vim.git'
@@ -73,8 +73,7 @@ set laststatus=2                  " Always show the statusline
 set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
 nnoremap <leader>ee :SyntasticToggleMode<cr>
 let g:UltiSnipsExpandTrigger = "<D-d>"
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_filetype_blacklist = {'mail': 1}
+let b:vcm_tab_complete = 'omni'
 let g:sparkupExecuteMapping = "<D-e>"
 let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>", "proprietary attribute \"autocomplete\"", "trimming empty <i>", "proprietary attribute \"required\"", "proprietary attribute \"placeholder\"", "<ng-include> is not recognized!", "discarding unexpected <ng-include>", "missing </button>", "replacing unexpected button by </button>", "<ey-confirm> is not recognized!", "discarding unexpected <ey-confirm>", "discarding unexpected </ey-confirm>", "discarding unexpected </ng-include>", "trimming empty <li>", "<a> attribute \"href\" lacks value", "<input> proprietary attribute \"min\"", "<template> is not recognized!", "discarding unexpected <template>", "discarding unexpected </template>"]
 let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
@@ -452,6 +451,7 @@ set wildignore +=dist
 set wildignore +=migrations
 set wildignore +=node_modules
 set wildignore +=vendor
+set wildignore +=build
 set wildignore +=client/vendor
 set wildignore +=client/vendor-manual
 set wildignore +=_site
