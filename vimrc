@@ -48,7 +48,7 @@ Plugin 'digitaltoad/vim-jade.git'
 Plugin 'Lokaltog/vim-powerline.git'
 Plugin 'vim-scripts/taglist.vim.git'
 Plugin 'sjl/vitality.vim.git'
-Plugin 'ajh17/VimCompletesMe.git'
+Plugin 'Shougo/neocomplete.vim'
 Plugin 'honza/vim-snippets.git'
 Plugin 'SirVer/ultisnips.git'
 Plugin 'vim-scripts/django.vim.git'
@@ -352,6 +352,13 @@ highlight SpellBad term=underline gui=undercurl guisp=Orange
 
 nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<CR>
 nnoremap <leader>ef <C-w>s<C-w>j<C-w>L:e ~/.config/fish/config.fish<CR>
+
+" }}}
+" Neocomplete {{{
+
+let g:neocomplete#enable_at_startup = 1
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 " }}}
 " Nginx {{{
