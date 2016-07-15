@@ -187,16 +187,13 @@ end
 function d
   cd ~/Code/ndebug; mvim .
 end
-function e
-  cd ~/Code/edebug; mvim .
-end
 function lea
   cd ~/Code/leather;
   p;
   wo;
   pm runserver;
 end
-function m
+function e
   mvim . $argv
 end
 function mutt
@@ -291,6 +288,8 @@ end
 function wo 
   workon (cat .venv) $argv
 end
+
+set PATH "/usr/local/m-cli" $PATH
 
 # }}}
 # Prompt {{{
