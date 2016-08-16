@@ -140,6 +140,12 @@
                     <autogen>--KeyToKey-- KeyCode::DELETE, ModifierFlag::COMMAND_L, KeyCode::A, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L</autogen>
                     <only>MAIL</only>
                 </item>
+                <item>
+                    <identifier>private.mail.2</identifier>
+                    <appendix>Cmd+Shift+J for Junk</appendix>
+                    <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::COMMAND_L, ModifierFlag::SHIFT_L, KeyCode::2, ModifierFlag::COMMAND_L | ModifierFlag::CONTROL_L</autogen>
+                    <only>MAIL</only>
+                </item>
             </list>
         </item>
         <item> 
