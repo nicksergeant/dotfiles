@@ -269,7 +269,7 @@ function tih
   tmux new-session -d -s primary
   tmux rename-window -t primary weechat
   tmux send -t primary 'weechat-curses' ENTER
-  tmux set -t primary window-status-format "#[fg=white,bg=colour234] #W "
+  tmux set -t primary window-status-format "#[fg=white,bg=colour235] #W "
   tmux new-window -t primary -a -n shell
   tmux split-window -t primary -h
   tmux attach
