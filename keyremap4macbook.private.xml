@@ -245,6 +245,12 @@
                     <only>ITERM</only>
                 </item>
                 <item>
+                    <identifier>private.iterm.1</identifier>
+                    <appendix>Cmd+Shift+Control+[ for Option+Shift+A</appendix>
+                    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L, KeyCode::A, ModifierFlag::OPTION_L</autogen>
+                    <only>ITERM</only>
+                </item>
+                <item>
                     <identifier>private.iterm.2</identifier>
                     <appendix>Cmd+Shift+Control+L for Cmd+Shift+Control+L</appendix>
                     <autogen>--KeyToKey-- KeyCode::L, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L, KeyCode::L, ModifierFlag::COMMAND_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L</autogen>
