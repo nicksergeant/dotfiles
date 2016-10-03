@@ -123,6 +123,41 @@ set PATH "/Users/Nick/.go/bin" $PATH
 # }}}
 # Program functions {{{
 
+function read_confirm
+  while true
+    read -l -p read_confirm_prompt confirm
+
+    switch $confirm
+      case Y y
+        return 0
+      case '' N n
+        return 1
+    end
+  end
+end
+function read_confirm_prompt
+  echo 'Are you sure you want to continue? [Y/n] '
+end
+function bud
+  echo -- Seagate --
+  echo
+  rsync --dry-run -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Seagate/iCloud\ Drive/
+  echo 
+  echo -- Time Machine --
+  echo
+  rsync --dry-run -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Time\ Machine/iCloud\ Drive/
+end
+function bu
+  if read_confirm
+    echo -- Seagate --
+    echo
+    rsync -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Seagate/iCloud\ Drive/
+    echo 
+    echo -- Time Machine --
+    echo
+    rsync -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Time\ Machine/iCloud\ Drive/
+  end
+end
 function desk-rails
   cd /dev_exclusions/assistly;
   rvm use 2.1.5 --default;
