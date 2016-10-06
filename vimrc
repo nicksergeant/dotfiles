@@ -65,6 +65,7 @@ Plugin 'nvie/vim-flake8.git'
 Plugin 'airblade/vim-gitgutter.git'
 Plugin 'sjl/clam.vim.git'
 Plugin 'elixir-lang/vim-elixir'
+Plugin 'neowit/vim-force.com'
 
 call vundle#end()
 filetype plugin indent on         " Turn on file type detection.
@@ -74,8 +75,51 @@ set t_Co=256                      " Explicitly tell vim that the terminal has 25
 nnoremap <leader>ee :SyntasticToggleMode<cr>
 let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:sparkupExecuteMapping = "<D-e>"
-let g:syntastic_html_tidy_ignore_errors= ["proprietary attribute \"ui-", "proprietary attribute \"ng-", "<form> proprietary attribute \"novalidate\"", "<form> lacks \"action\" attribute", "trimming empty <span>", "<input> proprietary attribute \"autofocus\"", "unescaped & which should be written as &amp;", "inserting implicit <span>", "<input> proprietary attribute \"required\"", "trimming empty <select>", "trimming empty <button>", "<img> lacks \"src\" attribute", "plain text isn't allowed in <head> elements", "<html> proprietary attribute \"app\"", "<link> escaping malformed URI reference", "</head> isn't allowed in <body> elements", "<script> escaping malformed URI reference", "discarding unexpected <body>", "'<' + '/' + letter not allowed here", "missing </script>", "proprietary attribute \"autocomplete\"", "trimming empty <i>", "proprietary attribute \"required\"", "proprietary attribute \"placeholder\"", "<ng-include> is not recognized!", "discarding unexpected <ng-include>", "missing </button>", "replacing unexpected button by </button>", "<ey-confirm> is not recognized!", "discarding unexpected <ey-confirm>", "discarding unexpected </ey-confirm>", "discarding unexpected </ng-include>", "trimming empty <li>", "<a> attribute \"href\" lacks value", "<input> proprietary attribute \"min\"", "<template> is not recognized!", "discarding unexpected <template>", "discarding unexpected </template>"]
-let g:syntastic_html_tidy_blocklevel_tags= ["ey-deploy-key"]
+let g:syntastic_html_tidy_ignore_errors= [
+  \"'<' + '/' + letter not allowed here",
+  \"</head> isn't allowed in <body> elements",
+  \"<a> attribute \"href\" lacks value",
+  \"<ey-confirm> is not recognized!",
+  \"<form> lacks \"action\" attribute",
+  \"<form> proprietary attribute \"novalidate\"",
+  \"<html> proprietary attribute \"app\"",
+  \"<img> lacks \"src\" attribute",
+  \"<input> proprietary attribute \"autofocus\"",
+  \"<input> proprietary attribute \"min\"",
+  \"<input> proprietary attribute \"required\"",
+  \"<link> escaping malformed URI reference",
+  \"<ng-include> is not recognized!",
+  \"<script> escaping malformed URI reference",
+  \"<template> is not recognized!",
+  \"discarding unexpected </ey-confirm>",
+  \"discarding unexpected </ng-include>",
+  \"discarding unexpected </template>",
+  \"discarding unexpected <body>",
+  \"discarding unexpected <ey-confirm>",
+  \"discarding unexpected <ng-include>", "missing </button>",
+  \"discarding unexpected <template>",
+  \"inserting implicit <span>",
+  \"missing </script>",
+  \"plain text isn't allowed in <head> elements",
+  \"proprietary attribute \"autocomplete\"",
+  \"proprietary attribute \"ng-",
+  \"proprietary attribute \"placeholder\"",
+  \"proprietary attribute \"required\"",
+  \"proprietary attribute \"ui-",
+  \"replacing unexpected button by </button>",
+  \"trimming empty <button>",
+  \"trimming empty <i>",
+  \"trimming empty <li>",
+  \"trimming empty <select>",
+  \"trimming empty <span>",
+  \"unescaped & which should be written as &amp;",
+  \]
+let g:syntastic_html_tidy_blocklevel_tags = [
+  \"aura:documentation",
+  \"aura:description",
+  \"aura:example",
+  \"ey-deploy-key",
+  \]
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
 let g:syntastic_javascript_eslint_args = '-c ~/.eslintrc --no-eslintrc'
@@ -108,6 +152,7 @@ map <C-l> <C-w>l
 
 nnoremap ! :Clam<space>
 au BufWritePost ndebug.js execute "normal! :Clam npm run build\<cr>"
+au BufWritePost JavaDebug.java execute "normal! :Clam javac *.java; java JavaDebug\<cr>"
 au BufWritePost edebug.exs execute "normal! :Clam elixir edebug.exs\<cr>"
 
 " }}}
@@ -291,6 +336,14 @@ function! MyFoldText() " {{{
     return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
 endfunction " }}}
 set foldtext=MyFoldText()
+
+" }}}
+" Force.com {{{
+
+let g:apex_properties_folder="/dev_exclusions/apex_properties"
+let g:apex_tooling_force_dot_com_path="/dev_exclusions/tooling-force.com/tooling-force.com-0.3.6.4.jar"
+let g:apex_temp_folder="/tmp/apex"
+let g:apex_backup_folder="/dev_exclusions/nsergeant-dev-backup"
 
 " }}}
 " Fugitive and Hub {{{
