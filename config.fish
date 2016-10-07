@@ -139,23 +139,63 @@ function read_confirm_prompt
   echo 'Are you sure you want to continue? [Y/n] '
 end
 function bud
-  echo -- Seagate --
+  echo ------------ Mac Dropbox to Seagate ------------
   echo
-  rsync --dry-run -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Seagate/iCloud\ Drive/
+  time rsync --dry-run -ahL --progress ~/Dropbox/ /Volumes/Seagate/Dropbox/
   echo 
-  echo -- Time Machine --
+  echo ------------ Mac Dropbox to Time Machine ------------
   echo
-  rsync --dry-run -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Time\ Machine/iCloud\ Drive/
+  time rsync --dry-run -ahL --progress ~/Dropbox/ /Volumes/Time\ Machine/Dropbox/
+  echo 
+  echo ------------ Mac iCloud Drive to Seagate ------------
+  echo
+  time rsync --dry-run -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Seagate/iCloud\ Drive/
+  echo 
+  echo ------------ Mac iCloud Drive to Time Machine ------------
+  echo
+  time rsync --dry-run -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Time\ Machine/iCloud\ Drive/
+  echo 
+  echo ------------ Seagate Photo Booth Library to Time Machine ------------
+  echo
+  time rsync --dry-run -ahL --progress /Volumes/Seagate/Photo\ Booth\ Library/ /Volumes/Time\ Machine/Photo\ Booth\ Library/
+  echo 
+  echo ------------ Seagate Photos Library to Time Machine ------------
+  echo
+  time rsync --dry-run -ahL --progress /Volumes/Seagate/Photos\ Library.photoslibrary/ /Volumes/Time\ Machine/Photos\ Library.photoslibrary/
+  echo 
+  echo ------------ Seagate Photos to Time Machine ------------
+  echo
+  time rsync --dry-run -ahL --progress /Volumes/Seagate/Photos/ /Volumes/Time\ Machine/Photos/
 end
-function bu
+function bup
   if read_confirm
-    echo -- Seagate --
+    echo ------------ Mac Dropbox to Seagate ------------
     echo
-    rsync -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Seagate/iCloud\ Drive/
+    time rsync -ahL --progress ~/Dropbox/ /Volumes/Seagate/Dropbox/
     echo 
-    echo -- Time Machine --
+    echo ------------ Mac Dropbox to Time Machine ------------
     echo
-    rsync -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Time\ Machine/iCloud\ Drive/
+    time rsync -ahL --progress ~/Dropbox/ /Volumes/Time\ Machine/Dropbox/
+    echo 
+    echo ------------ Mac iCloud Drive to Seagate ------------
+    echo
+    time rsync -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Seagate/iCloud\ Drive/
+    echo 
+    echo ------------ Mac iCloud Drive to Time Machine ------------
+    echo
+    time rsync -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Time\ Machine/iCloud\ Drive/
+    echo 
+    echo ------------ Seagate Photo Booth Library to Time Machine ------------
+    echo
+    time rsync -ahL --progress /Volumes/Seagate/Photo\ Booth\ Library/ /Volumes/Time\ Machine/Photo\ Booth\ Library/
+    echo 
+    echo ------------ Seagate Photos Library to Time Machine ------------
+    echo
+    time rsync -ahL --progress /Volumes/Seagate/Photos\ Library.photoslibrary/ /Volumes/Time\ Machine/Photos\ Library.photoslibrary/
+    echo 
+    echo ------------ Seagate Photos to Time Machine ------------
+    echo
+    time rsync -ahL --progress /Volumes/Seagate/Photos/ /Volumes/Time\ Machine/Photos/
   end
 end
 function desk-rails
