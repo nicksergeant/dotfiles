@@ -58,8 +58,8 @@ bind index <space>  collapse-thread
 bind index N        search-opposite
 
 # Sync email
-macro index o "<shell-escape>offlineimap -o -f INBOX,'[Gmail]/Sent Mail' -l /Users/Nick/.offlineimap.log<enter>"
-macro index O "<shell-escape>offlineimap -o -l /Users/Nick/.offlineimap.log<enter>"
+macro index o "<shell-escape>offlineimap -f 'INBOX'<enter>"
+macro index O "<shell-escape>offlineimap<enter>"
 
 # Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
@@ -67,7 +67,7 @@ macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "ma
 # Saner copy/move dialogs
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
-# macro index,pager d "<save-message>=nick-nicksergeant.com/archive<enter>" "archive a message"
+macro index,pager d "<save-message>=nick-nicksergeant.com/archive<enter>" "archive a message"
 
 # Moving to other folders
 macro index,pager gi <change-folder>=nick-nicksergeant.com/INBOX<enter>
@@ -126,7 +126,7 @@ alternates "nsergeant@engineyard.com|nick@showroom.is|nick@broker.is"
 set reverse_name                     # reply as whomever it was to
 set include                          # include message in replies
 set forward_quote                    # include message in forwards
-set editor = "/usr/local/bin/mvim -v" # Use MacVim to compose email.
+set editor = "vim"                   # Use Vim to compose email.
 set sig_on_top                       # Put the damn signature before any quoted text.
 set meta_key = yes
 
