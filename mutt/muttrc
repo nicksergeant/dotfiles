@@ -126,7 +126,7 @@ alternates "nsergeant@engineyard.com|nick@showroom.is|nick@broker.is"
 set reverse_name                     # reply as whomever it was to
 set include                          # include message in replies
 set forward_quote                    # include message in forwards
-set editor = "vim"                   # Use Vim to compose email.
+set editor = "mvim -v"               # Use Vim to compose email.
 set sig_on_top                       # Put the damn signature before any quoted text.
 set meta_key = yes
 
@@ -135,7 +135,7 @@ bind compose p postpone-message
 bind index p recall-message
 set from     = "nick@nicksergeant.com"
 set sendmail = "/usr/local/bin/msmtp -a nicksergeant"
-set sendmail_wait = 0 
+set sendmail_wait = 0
 unset record
 
 # Contacts

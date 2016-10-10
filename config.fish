@@ -166,6 +166,14 @@ function bud
   echo ------------ Seagate Photos to Time Machine ------------
   echo
   time rsync --dry-run -ahL --progress /Volumes/Seagate/Photos/ /Volumes/Time\ Machine/Photos/
+  echo 
+  echo ------------ Mail to Seagate ------------
+  echo
+  time rsync --dry-run -ahL --progress /Users/Nick/.mail/ /Volumes/Time\ Machine/Mail/
+  echo 
+  echo ------------ Mail to Time Machine ------------
+  echo
+  time rsync --dry-run -ahL --progress /Users/Nick/.mail/ /Volumes/Seagate/Mail/
 end
 function bup
   if read_confirm
@@ -196,6 +204,14 @@ function bup
     echo ------------ Seagate Photos to Time Machine ------------
     echo
     time rsync -ahL --progress /Volumes/Seagate/Photos/ /Volumes/Time\ Machine/Photos/
+    echo 
+    echo ------------ Mail to Seagate ------------
+    echo
+    time rsync -ahL --progress /Users/Nick/.mail/ /Volumes/Time\ Machine/Mail/
+    echo 
+    echo ------------ Mail to Time Machine ------------
+    echo
+    time rsync -ahL --progress /Users/Nick/.mail/ /Volumes/Seagate/Mail/
   end
 end
 function desk-rails
