@@ -177,6 +177,10 @@ function bud
 end
 function bup
   if read_confirm
+    echo ------------ Offlineimap ------------
+    echo
+    time offlineimap
+    echo 
     echo ------------ Mac Dropbox to Seagate ------------
     echo
     time rsync -ahL --progress ~/Dropbox/ /Volumes/Seagate/Dropbox/
