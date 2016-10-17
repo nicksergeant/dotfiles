@@ -33,9 +33,8 @@ set PATH "/usr/local/sbin" $PATH
 
 set BROWSER open
 set PATH "/usr/local/opt/ruby/bin" $PATH
-set PATH "/Users/Nick/Sources/dotfiles/bin" $PATH
-set PATH "/usr/local/share/npm/bin" $PATH
-set PATH "/Users/Nick/.rvm/bin" $PATH
+set PATH "~/Sources/dotfiles/bin" $PATH
+set PATH "~/.rvm/bin" $PATH
 
 set -g -x fish_greeting ''
 set -g -x EDITOR vim
@@ -117,8 +116,8 @@ end
 # }}}
 # Go {{{
 
-set -x GOPATH '/Users/Nick/.go'
-set PATH "/Users/Nick/.go/bin" $PATH
+set -x GOPATH '~/.go'
+set PATH "~/.go/bin" $PATH
 
 # }}}
 # Program functions {{{
@@ -381,8 +380,6 @@ function wo
   workon (cat .venv) $argv
 end
 
-set PATH "/usr/local/m-cli" $PATH
-
 # }}}
 # Prompt {{{
 
@@ -435,7 +432,6 @@ set PATH "/usr/local/opt/ruby/bin" $PATH
 set PATH $HOME/.rbenv/bin $PATH
 set PATH $HOME/.rbenv/shims $PATH
 rbenv rehash >/dev/null ^&1
-rvm default
 # set -x SSL_CERT_FILE /usr/local/etc/cacert.pem
 
 # }}}
