@@ -195,6 +195,7 @@ augroup END
 augroup ft_css
     au!
     au BufNewFile,BufRead *.less setlocal filetype=scss
+    au BufNewFile,BufRead *.css setlocal filetype=css
     au Filetype less,css,scss setlocal foldmethod=marker
     au Filetype less,css,scss setlocal foldmarker={,}
     au Filetype less,css,scss setlocal iskeyword+=-
@@ -344,6 +345,11 @@ let g:apex_properties_folder="/dev_exclusions/apex_properties"
 let g:apex_tooling_force_dot_com_path="/dev_exclusions/tooling-force.com/tooling-force.com-0.3.6.4.jar"
 let g:apex_temp_folder="/tmp/apex"
 let g:apex_backup_folder="/dev_exclusions/nsergeant-dev-backup"
+
+nnoremap <leader>s :ApexSave<return>
+nnoremap <leader>r :ApexRefreshProject<return>
+nnoremap <leader>e :ApexRefreshFile<return>
+nnoremap <leader>d :ApexDeployAll<return>
 
 " }}}
 " Fugitive and Hub {{{
