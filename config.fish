@@ -35,6 +35,7 @@ set BROWSER open
 set PATH "/usr/local/opt/ruby/bin" $PATH
 set PATH "~/Sources/dotfiles/bin" $PATH
 set PATH "~/.rvm/bin" $PATH
+set PATH "~/bin" $PATH
 
 set -g -x fish_greeting ''
 set -g -x EDITOR vim
