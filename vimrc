@@ -6,6 +6,7 @@ set re=1
 syntax enable
 let mapleader = ","
 
+inoremap jk <ESC>
 nnoremap Y y$
 nnoremap n nzv
 nnoremap N Nzv
@@ -597,6 +598,7 @@ nnoremap <c-]> f<space>
 " Clear everything {{{
 
 nnoremap <ESC> :let @/=''<CR>
+map <leader>c :let @/=''<CR>
 
 " }}}
 " JavaScript {{{
