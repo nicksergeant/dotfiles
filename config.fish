@@ -282,6 +282,9 @@ end
 function e
   mvim . $argv
 end
+function h
+  heroku $argv
+end
 function mutt
   bash --login -c 'cd ~/Downloads; /usr/local/bin/mutt' $argv;
 end

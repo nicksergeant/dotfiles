@@ -1,9 +1,9 @@
-*.pyc
-*.idea
 *.cache
+*.csv
 *.csv
 *.idea
 *.iml
+*.pyc
 *.pyc
 *.swo
 *.swp
@@ -11,6 +11,7 @@
 .DS_Store
 .hg
 .hgignore
+.idea
 .nginx.log
 .python-version
 .sass-cache
