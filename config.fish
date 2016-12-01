@@ -25,7 +25,6 @@ set PATH "/usr/local/bin" $PATH
 set PATH "/usr/local/sbin" $PATH
 
 set BROWSER open
-set PATH "/usr/local/opt/ruby/bin" $PATH
 set PATH "/Users/nsergeant/bin" $PATH
 
 set -g -x fish_greeting ''
@@ -216,10 +215,6 @@ function desk-rails
   bundle install;
   foreman start;
 end
-function desk-rails-logs
-  cd /dev_exclusions/assistly;
-  tail -f log/development.log;
-end
 function desk-reporting-updater
   cd /dev_exclusions/reporting_updater;
   rvm use 2.1.5 --default;
@@ -234,16 +229,6 @@ end
 function desk-haproxy
   cd /dev_exclusions/webclient;
   sudo haproxy -f config/haproxy.cfg;
-end
-function desk-zeus
-  cd /dev_exclusions/assistly;
-  rvm use 2.1.5 --default;
-  bundle exec zeus start;
-end
-function desk-zeus-server
-  cd /dev_exclusions/assistly;
-  rvm use 2.1.5 --default;
-  bundle exec zeus server;
 end
 function gpd
   git push; make deploy;
@@ -330,23 +315,6 @@ function ti
   tmux send-keys -t 2 desk-haproxy ENTER
   tmux send-keys -t 3 desk-webclient ENTER
 
-  # Zeus
-  tmux new-window -t primary -a -n zeus
-  tmux split-window -t zeus -h
-  tmux split-window -t zeus -v
-  tmux resize-pane -t 1 -L 1
-  tmux send-keys -t 2 desk-zeus ENTER
-  sleep 2
-  tmux send-keys -t 1 desk-zeus-server ENTER
-
-  # Logs
-  tmux new-window -t primary -a -n logs
-  tmux split-window -t logs -h
-  tmux split-window -t logs -v
-  tmux resize-pane -t 1 -L 1
-  tmux send-keys -t 1 desk-rails-logs ENTER
-  tmux send-keys -t 2 desk-reporting-updater ENTER
-
   # Shell
   tmux new-window -t primary -a -n shell
   tmux split-window -t shell -v
@@ -419,15 +387,6 @@ end
 set -g -x WORKON_HOME "$HOME/.virtualenvs"
 source ~/.config/fish/virtualenv.fish
 status --is-interactive; and . (pyenv init -|psub)
-
-# }}}
-# Ruby {{{
-
-set PATH "/usr/local/opt/ruby/bin" $PATH
-set PATH $HOME/.rbenv/bin $PATH
-set PATH $HOME/.rbenv/shims $PATH
-rbenv rehash >/dev/null ^&1
-# set -x SSL_CERT_FILE /usr/local/etc/cacert.pem
 
 # }}}
 # VMs and servers {{{
