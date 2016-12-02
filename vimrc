@@ -212,7 +212,7 @@ augroup END
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '<leader>,'
+let g:ctrlp_map = '<c-g>'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
@@ -429,7 +429,9 @@ au BufNewFile,BufRead *.conf setlocal filetype=nginx
 " NERD Tree {{{
 
 noremap  <F2> :NERDTreeToggle<cr>
+noremap  <D-1> :NERDTreeToggle<cr>
 inoremap <F2> <esc>:NERDTreeToggle<cr>
+noremap  <leader>f :NERDTreeFind<cr>
 noremap  <leader>f :NERDTreeFind<cr>
 
 au Filetype nerdtree setlocal nolist
