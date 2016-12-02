@@ -264,7 +264,10 @@ function lea
   wo;
   pm runserver;
 end
-function e
+function i
+  idea . $argv
+end
+function m
   mvim . $argv
 end
 function h
