@@ -128,44 +128,21 @@ end
 function read_confirm_prompt
   echo 'Are you sure you want to continue? [Y/n] '
 end
-function bud
-  echo ------------ Mac Dropbox to Seagate ------------
-  echo
-  time rsync --dry-run -ahL --progress ~/Dropbox/ /Volumes/Seagate/Dropbox/
+function budb
   echo 
-  echo ------------ Mac Dropbox to Time Machine ------------
+  echo ------------ Leather DB ------------
   echo
-  time rsync --dry-run -ahL --progress ~/Dropbox/ /Volumes/Time\ Machine/Dropbox/
+  cd ~/Code/leather; heroku pg:backups capture; curl -o ~/Library/Mobile\ Documents/com~apple~CloudDocs/Database\ Backups/leather.dump (heroku pg:backups -q public-url)
   echo 
-  echo ------------ Mac iCloud Drive to Seagate ------------
+  echo ------------ Snipt DB ------------
   echo
-  time rsync --dry-run -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Seagate/iCloud\ Drive/
+  cd ~/Code/snipt; heroku pg:backups capture; curl -o ~/Library/Mobile\ Documents/com~apple~CloudDocs/Database\ Backups/snipt.dump (heroku pg:backups -q public-url)
   echo 
-  echo ------------ Mac iCloud Drive to Time Machine ------------
+  echo ------------ Little Pieces Project DB ------------
   echo
-  time rsync --dry-run -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Time\ Machine/iCloud\ Drive/
-  echo 
-  echo ------------ Seagate Photo Booth Library to Time Machine ------------
-  echo
-  time rsync --dry-run -ahL --progress /Volumes/Seagate/Photo\ Booth\ Library/ /Volumes/Time\ Machine/Photo\ Booth\ Library/
-  echo 
-  echo ------------ Seagate Photos Library to Time Machine ------------
-  echo
-  time rsync --dry-run -ahL --progress /Volumes/Seagate/Photos\ Library.photoslibrary/ /Volumes/Time\ Machine/Photos\ Library.photoslibrary/
-  echo 
-  echo ------------ Seagate Photos to Time Machine ------------
-  echo
-  time rsync --dry-run -ahL --progress /Volumes/Seagate/Photos/ /Volumes/Time\ Machine/Photos/
-  echo 
-  echo ------------ Mail to Seagate ------------
-  echo
-  time rsync --dry-run -ahL --progress /Users/Nick/.mail/ /Volumes/Time\ Machine/Mail/
-  echo 
-  echo ------------ Mail to Time Machine ------------
-  echo
-  time rsync --dry-run -ahL --progress /Users/Nick/.mail/ /Volumes/Seagate/Mail/
+  cd ~/Code/lppartviz; heroku pg:backups capture; curl -o ~/Library/Mobile\ Documents/com~apple~CloudDocs/Database\ Backups/lppartviz.dump (heroku pg:backups -q public-url)
 end
-function bup
+function bu
   if read_confirm
     echo ------------ Offlineimap ------------
     echo
