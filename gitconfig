@@ -26,7 +26,7 @@
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [push]
-	default = current
+	default = simple
 [difftool]
 	prompt = false
 [diff]

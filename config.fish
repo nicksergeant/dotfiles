@@ -136,7 +136,7 @@ function bu
     echo 
     echo ------------ App Databases ------------
     echo
-    bu
+    budb
     echo 
     echo ------------ Mac Dropbox to Seagate ------------
     echo

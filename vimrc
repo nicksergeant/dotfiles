@@ -521,6 +521,7 @@ set wildignore +=node_modules
 set wildignore +=vendor
 set wildignore +=build
 set wildignore +=client/vendor
+set wildignore +=staticfiles
 set wildignore +=client/vendor-manual
 set wildignore +=_site
 
