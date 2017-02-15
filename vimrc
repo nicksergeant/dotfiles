@@ -380,6 +380,8 @@ augroup END
 " HTML {{{
 
 au BufNewFile,BufRead *.ejs setlocal filetype=html
+au BufNewFile,BufRead *.app setlocal filetype=html
+au BufNewFile,BufRead *.cmp setlocal filetype=html
 " au BufNewFile,BufRead *.html setlocal filetype=htmldjango
 au BufNewFile,BufRead *.twig setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf

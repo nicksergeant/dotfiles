@@ -28,7 +28,7 @@ set BROWSER open
 set PATH "/Users/nsergeant/bin" $PATH
 
 set -g -x fish_greeting ''
-set -g -x EDITOR vim
+set -g -x EDITOR 'mvim -v'
 set -g -x NODE_PATH "/usr/local/lib/node_modules"
 
 # }}}
@@ -251,6 +251,9 @@ function mutt
 end
 function o
   open $argv
+end
+function vim
+  mvim -v $argv
 end
 function pbc 
   pbcopy $argv
