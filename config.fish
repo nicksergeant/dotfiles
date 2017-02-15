@@ -128,6 +128,12 @@ end
 function read_confirm_prompt
   echo 'Are you sure you want to continue? [Y/n] '
 end
+
+function p
+  security find-generic-password -a 1password -w | \
+    1pass --no-prompt --fuzzy $argv
+end
+
 function bu
   if read_confirm
     echo ------------ Offlineimap ------------
