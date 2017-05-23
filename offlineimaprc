@@ -15,7 +15,6 @@ type = Maildir
 localfolders = ~/.mail/nick-nicksergeant.com
 nametrans = lambda folder: {'drafts':  'INBOX.Drafts',
                             'sent':    'INBOX.Sent',
-                            'business':'INBOX.Business Receipts',
                             'archive': 'INBOX.Archive',
                            }.get(folder, folder)
 folderfilter = lambda folder: folder not in ['INBOX.Trash', 'INBOX.Junk Mail']
@@ -31,7 +30,6 @@ ssl = yes
 expunge = no
 nametrans = lambda folder: {'INBOX.Drafts':            'drafts',
                             'INBOX.Sent':              'sent',
-                            'INBOX.Business Receipts': 'business',
                             'INBOX.Archive':           'archive',
                            }.get(folder, folder)
 folderfilter = lambda folder: folder not in ['INBOX.Trash', 'INBOX.Junk Mail']

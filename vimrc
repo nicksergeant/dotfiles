@@ -30,6 +30,7 @@ set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
+Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'mileszs/ack.vim.git'
 Plugin 'sjl/badwolf.git'
 Plugin 'vim-scripts/fish.vim.git'
@@ -134,7 +135,7 @@ let g:mustache_abbreviations = 1
 " Ack {{{
 
 " Use Ag instead of Ack.
-let g:ackprg = 'ag --nogroup --nocolor --column -i'
+let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
 
 " Ack for last search.
 nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
@@ -214,10 +215,12 @@ let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = '<c-g>'
 let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
 let g:ctrlp_max_height = 20
 let g:ctrlp_extensions = ['tag']
+let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
 
 let g:ctrlp_prompt_mappings = {
 \ 'PrtSelectMove("j")':   ['<down>', '<s-tab>'],
