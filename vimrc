@@ -139,7 +139,7 @@ let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
 
 " Ack for last search.
 nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
-nnoremap <leader>a :Ack! -Q<space>
+nnoremap <leader>a :Ack!<space>
 
 " }}}
 " Buffers {{{
