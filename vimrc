@@ -37,6 +37,7 @@ Plugin 'vim-scripts/fish.vim.git'
 Plugin 'othree/html5.vim.git'
 Plugin 'scrooloose/nerdtree.git'
 Plugin 'vim-ruby/vim-ruby'
+Plugin 'moll/vim-node'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'scrooloose/syntastic.git'
 Plugin 'tpope/vim-commentary.git'
@@ -426,11 +427,6 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 " }}}
-" Nginx {{{
-
-au BufNewFile,BufRead *.conf setlocal filetype=nginx
-
-" }}}
 " NERD Tree {{{
 
 noremap  <F2> :NERDTreeToggle<cr>
@@ -447,6 +443,16 @@ let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
 
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+
+" }}}
+" Nginx {{{
+
+au BufNewFile,BufRead *.conf setlocal filetype=nginx
+
+" }}}
+" Node {{{
+
+nnoremap go gf
 
 " }}}
 " Ruby {{{
