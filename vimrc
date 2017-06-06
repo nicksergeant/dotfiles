@@ -452,7 +452,7 @@ au BufNewFile,BufRead *.conf setlocal filetype=nginx
 " }}}
 " Node {{{
 
-nnoremap go gf
+nnoremap gl gf
 
 " }}}
 " Ruby {{{
