@@ -241,7 +241,7 @@ function i
   idea . $argv
 end
 function m
-  code . $argv
+  mvim . $argv
 end
 function h
   heroku $argv
