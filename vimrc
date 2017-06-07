@@ -1,26 +1,37 @@
-" Basic {{{ 
+" General {{{ 
 
-set encoding=utf-8
-set nocompatible
-set re=1
-syntax enable
-let mapleader = ","
-
+inoremap <F1> <nop>
 inoremap jk <ESC>
-nnoremap Y y$
-nnoremap n nzv
-nnoremap N Nzv
+let g:Powerline_symbols = 'fancy'
+let g:UltiSnipsExpandTrigger = "<D-d>"
+let g:mustache_abbreviations = 1
+let g:sparkupExecuteMapping = "<D-e>"
+let mapleader = ","
+map <leader>c :let @/=''<CR>
+nmap <tab> %
 nnoremap * *<c-o>
-nnoremap <c-e> <c-^>
+nnoremap <ESC> :let @/=''<CR>
+nnoremap <F1> <nop>
+nnoremap <c-[> <S-f><space>
+nnoremap <c-]> f<space>
 nnoremap <c-^> <nop>
+nnoremap <c-e> <c-^>
+nnoremap <c-p> <c-i>
+nnoremap <leader>ee :SyntasticToggleMode<cr>
+nnoremap N Nzv
+nnoremap Vat vatV
+nnoremap Vit vitVkoj
+nnoremap Y y$
+nnoremap cs/ cgn
+nnoremap gl gf
+nnoremap gs *<c-o>
+nnoremap j gj
+nnoremap k gk
+nnoremap n nzv
 noremap H ^
 noremap L g_
-nnoremap Vit vitVkoj
-nnoremap Vat vatV
-let g:Powerline_symbols = 'fancy'
-nnoremap k gk
-nnoremap j gj
-nnoremap gs *<c-o>
+syntax enable
+vmap <tab> %
 
 " }}}
 " Plugins {{{
@@ -29,107 +40,42 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
 Plugin 'JazzCore/ctrlp-cmatcher'
+Plugin 'Lokaltog/vim-powerline.git'
+Plugin 'PeterRincker/vim-argumentative.git'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'SirVer/ultisnips.git'
+Plugin 'airblade/vim-gitgutter.git'
+Plugin 'digitaltoad/vim-jade.git'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'honza/vim-snippets.git'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'kien/ctrlp.vim.git'
+Plugin 'lokaltog/vim-easymotion'
+Plugin 'marijnh/tern_for_vim.git'
 Plugin 'mileszs/ack.vim.git'
-Plugin 'sjl/badwolf.git'
-Plugin 'vim-scripts/fish.vim.git'
-Plugin 'othree/html5.vim.git'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'vim-ruby/vim-ruby'
 Plugin 'moll/vim-node'
+Plugin 'mustache/vim-mustache-handlebars.git'
+Plugin 'nvie/vim-flake8.git'
+Plugin 'othree/html5.vim.git'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'scrooloose/nerdtree.git'
 Plugin 'scrooloose/syntastic.git'
+Plugin 'sjl/badwolf.git'
+Plugin 'sjl/clam.vim.git'
+Plugin 'sjl/vitality.vim.git'
 Plugin 'tpope/vim-commentary.git'
 Plugin 'tpope/vim-fugitive.git'
+Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-speeddating.git'
 Plugin 'tpope/vim-surround.git'
-Plugin 'tpope/vim-repeat.git'
-Plugin 'kien/ctrlp.vim.git'
-Plugin 'maksimr/vim-jsbeautify.git'
-Plugin 'digitaltoad/vim-jade.git'
-Plugin 'Lokaltog/vim-powerline.git'
-Plugin 'vim-scripts/taglist.vim.git'
-Plugin 'sjl/vitality.vim.git'
-Plugin 'Shougo/neocomplete.vim'
-Plugin 'honza/vim-snippets.git'
-Plugin 'SirVer/ultisnips.git'
+Plugin 'vim-ruby/vim-ruby'
 Plugin 'vim-scripts/django.vim.git'
-Plugin 'PeterRincker/vim-argumentative.git'
-Plugin 'marijnh/tern_for_vim.git'
-Plugin 'saltstack/salt-vim.git'
-Plugin 'mustache/vim-mustache-handlebars.git'
-Plugin 'severin-lemaignan/vim-minimap'
-Plugin 'nginx.vim'
-Plugin 'honza/dockerfile.vim'
-Plugin 'lokaltog/vim-easymotion'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'nvie/vim-flake8.git'
-Plugin 'airblade/vim-gitgutter.git'
-Plugin 'sjl/clam.vim.git'
-Plugin 'elixir-lang/vim-elixir'
-Plugin 'neowit/vim-force.com'
+Plugin 'vim-scripts/fish.vim.git'
 
 call vundle#end()
-filetype plugin indent on         " Turn on file type detection.
-runtime macros/matchit.vim        " Load the matchit plugin.
-set laststatus=2                  " Always show the statusline
-set t_Co=256                      " Explicitly tell vim that the terminal has 256 colors
-nnoremap <leader>ee :SyntasticToggleMode<cr>
-let g:UltiSnipsExpandTrigger = "<D-d>"
-let g:sparkupExecuteMapping = "<D-e>"
-let g:syntastic_html_tidy_ignore_errors= [
-  \"'<' + '/' + letter not allowed here",
-  \"</head> isn't allowed in <body> elements",
-  \"<a> attribute \"href\" lacks value",
-  \"<ey-confirm> is not recognized!",
-  \"<form> lacks \"action\" attribute",
-  \"<form> proprietary attribute \"novalidate\"",
-  \"<html> proprietary attribute \"app\"",
-  \"<img> lacks \"src\" attribute",
-  \"<input> proprietary attribute \"autofocus\"",
-  \"<input> proprietary attribute \"min\"",
-  \"<input> proprietary attribute \"required\"",
-  \"<link> escaping malformed URI reference",
-  \"<ng-include> is not recognized!",
-  \"<script> escaping malformed URI reference",
-  \"<template> is not recognized!",
-  \"discarding unexpected </ey-confirm>",
-  \"discarding unexpected </ng-include>",
-  \"discarding unexpected </template>",
-  \"discarding unexpected <body>",
-  \"discarding unexpected <ey-confirm>",
-  \"discarding unexpected <ng-include>", "missing </button>",
-  \"discarding unexpected <template>",
-  \"inserting implicit <span>",
-  \"missing </script>",
-  \"plain text isn't allowed in <head> elements",
-  \"proprietary attribute \"autocomplete\"",
-  \"proprietary attribute \"ng-",
-  \"proprietary attribute \"placeholder\"",
-  \"proprietary attribute \"required\"",
-  \"proprietary attribute \"ui-",
-  \"replacing unexpected button by </button>",
-  \"trimming empty <button>",
-  \"trimming empty <i>",
-  \"trimming empty <li>",
-  \"trimming empty <select>",
-  \"trimming empty <span>",
-  \"unescaped & which should be written as &amp;",
-  \]
-let g:syntastic_html_tidy_blocklevel_tags = [
-  \"aura:documentation",
-  \"aura:description",
-  \"aura:example",
-  \"ey-deploy-key",
-  \]
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'eslint_d'
-let g:syntastic_javascript_eslint_args = '-c ~/.eslintrc --no-eslintrc'
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_elixir_checkers = ['elixir']
-let g:syntastic_enable_elixir_checker = 1
-let g:mustache_abbreviations = 1
+filetype plugin indent on
 
 " }}}
 
@@ -155,7 +101,6 @@ map <C-l> <C-w>l
 
 nnoremap ! :Clam<space>
 au BufWritePost ndebug.js execute "normal! :Clam npm run build\<cr>"
-au BufWritePost JavaDebug.java execute "normal! :Clam javac *.java; java JavaDebug\<cr>"
 au BufWritePost edebug.exs execute "normal! :Clam elixir edebug.exs\<cr>"
 
 " }}}
@@ -234,18 +179,6 @@ let g:ctrlp_prompt_mappings = {
 nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <leader>/ :CtrlPBufTag<cr>
 
-nnoremap <leader><cr> :silent !/usr/local/bin/myctags<cr>:redraw!<cr>
-
-" }}}
-" Disable keys {{{
-
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-inoremap <F1> <nop>
-nnoremap <F1> <nop>
-
 " }}}
 " Elixir {{{
 
@@ -280,11 +213,6 @@ endfunction " }}}
 
 nmap <silent> <f3> :ErrorsToggle<cr>
 nmap <silent> <f4> :QFixToggle<cr>
-
-" }}}
-" Line Length {{{
-
-set colorcolumn=80
 
 " }}}
 " EasyMotion {{{
@@ -344,19 +272,6 @@ endfunction " }}}
 set foldtext=MyFoldText()
 
 " }}}
-" Force.com {{{
-
-let g:apex_properties_folder="/dev_exclusions/apex_properties"
-let g:apex_tooling_force_dot_com_path="/dev_exclusions/tooling-force.com/tooling-force.com-0.3.6.4.jar"
-let g:apex_temp_folder="/tmp/apex"
-let g:apex_backup_folder="/dev_exclusions/nsergeant-dev-backup"
-
-nnoremap <leader>s :ApexSave<return>
-nnoremap <leader>r :ApexRefreshProject<return>
-nnoremap <leader>e :ApexRefreshFile<return>
-nnoremap <leader>d :ApexDeployAll<return>
-
-" }}}
 " Fugitive and Hub {{{
 
 nnoremap <leader>g :Gbrowse<CR>
@@ -376,7 +291,6 @@ vnoremap <leader>G :w !snipt post_and_get_url -t \| pbcopy && pbpaste \| xargs o
 
 augroup ft_fugitive
     au!
-
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
 
@@ -386,11 +300,10 @@ augroup END
 au BufNewFile,BufRead *.ejs setlocal filetype=html
 au BufNewFile,BufRead *.app setlocal filetype=html
 au BufNewFile,BufRead *.cmp setlocal filetype=html
-" au BufNewFile,BufRead *.html setlocal filetype=htmldjango
+au BufNewFile,BufRead *.html setlocal filetype=htmldjango
 au BufNewFile,BufRead *.twig setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
-" au BufNewFile,BufRead *.html setlocal colorcolumn=0
 au FileType html,htmldjango setlocal tabstop=2
 au FileType html,htmldjango setlocal shiftwidth=2
 au FileType html,htmldjango setlocal softtabstop=2
@@ -403,6 +316,20 @@ augroup ft_jade
     au!
     au BufNewFile,BufRead *.jade setlocal filetype=jade
 augroup END
+
+" }}}
+" JavaScript {{{
+
+au BufNewFile,BufRead *.es6 setlocal filetype=javascript
+au BufNewFile,BufRead *.jsx setlocal filetype=javascript
+
+augroup ft_javascript
+    au!
+    au FileType javascript setlocal foldmethod=marker
+    au FileType javascript setlocal foldmarker={,}
+augroup END
+
+com! FormatJSON %!python -m json.tool
 
 " }}}
 " Mail {{{
@@ -445,21 +372,6 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 
 " }}}
-" Nginx {{{
-
-au BufNewFile,BufRead *.conf setlocal filetype=nginx
-
-" }}}
-" Node {{{
-
-nnoremap gl gf
-
-" }}}
-" Ruby {{{
-
-au BufNewFile,BufRead Vagrantfile setlocal filetype=ruby
-
-" }}}
 " Saving {{{
 
 au FocusLost * :wa
@@ -468,47 +380,48 @@ au FocusLost,TabLeave * call feedkeys("\<C-\>\<C-n>")
 " }}}
 " Settings {{{
 
+set antialias
 set autoindent
 set autoread
 set autowrite
-set smartindent
-set undofile
-"set showcmd                       " Display incomplete commands.
-"set showmode                      " Display the mode you're in.
-set backspace=indent,eol,start    " Intuitive backspacing.
-set hidden                        " Handle multiple buffers better.
-set ignorecase                    " Case-insensitive searching.
-set smartcase                     " But case-sensitive if expression contains a capital letter.
-set ruler                         " Show cursor position.
-set incsearch                     " Highlight matches as you type.
-set hlsearch                      " Highlight matches.
-set scrolloff=3                   " Show 3 lines of context around the cursor.
-set title                         " Set the terminal's title
-set visualbell                    " No beeping.
-set nobackup                      " Don't make a backup before overwriting a file.
-set nowritebackup                 " And again.
-set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
-set tabstop=2                     " Global tab width.
-set shiftwidth=2                  " And again, related.
-set expandtab                     " Use spaces instead of tabs
-set softtabstop=2                 " Spaces for tab
-set list                          " 
+set backspace=indent,eol,start
+set colorcolumn=80
+set cursorline
+set dictionary=/usr/share/dict/words
+set directory=$HOME/.vim/tmp//,.
+set encoding=utf-8
+set expandtab
+set fillchars=diff:⣿,vert:│
+set guifont=Menlo_for_Powerline:h14
+set hidden
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
+set lazyredraw
+set list
 set listchars=tab:▸\ ,extends:❯,precedes:❮
+set nobackup
+set nocompatible
+set noswapfile
+set nowrap
+set nowritebackup
+set re=1
+set ruler
+set scrolloff=3
 set shell=/bin/bash
+set shiftwidth=2
+set smartcase
+set smartindent
+set softtabstop=2
 set splitbelow
 set splitright
-set guifont=Menlo_for_Powerline:h14            " Font family and font size.
-set antialias                     " MacVim: smooth fonts.
-set cursorline
-set synmaxcol=800                 " Don't try to highlight lines longer than 800 characters.
-set lazyredraw
-set fillchars=diff:⣿,vert:│
-set dictionary=/usr/share/dict/words
-set nowrap
-
-set wildmenu                      " Enhanced command line completion.
-set wildmode=list:longest         " Complete files like a shell.
-
+set synmaxcol=800
+set t_Co=256
+set tabstop=2
+set title
+set undofile
+set visualbell
 set wildignore +=*.db
 set wildignore +=*.pyc
 set wildignore +=*.spl
@@ -516,25 +429,25 @@ set wildignore +=*.sql
 set wildignore +=*.swo
 set wildignore +=*.swp
 set wildignore +=*.un~
-set wildignore +=__pycache__
-set wildignore +=__init__.py
-
 set wildignore +=.git
 set wildignore +=.hg
 set wildignore +=.sass-cache
 set wildignore +=.svn
-set wildignore +=tmp
-
+set wildignore +=__init__.py
+set wildignore +=__pycache__
+set wildignore +=_site
+set wildignore +=build
 set wildignore +=cache
+set wildignore +=client/vendor
+set wildignore +=client/vendor-manual
 set wildignore +=dist
 set wildignore +=migrations
 set wildignore +=node_modules
-set wildignore +=vendor
-set wildignore +=build
-set wildignore +=client/vendor
 set wildignore +=staticfiles
-set wildignore +=client/vendor-manual
-set wildignore +=_site
+set wildignore +=tmp
+set wildignore +=vendor
+set wildmenu
+set wildmode=list:longest
 
 " }}}
 " Spacing toggle {{{
@@ -555,23 +468,59 @@ nnoremap <leader>2 :call SetTabSpace2()<cr>
 nnoremap <leader>4 :call SetTabSpace4()<cr>
 
 " }}}
-" Swap files death {{{
+" Syntastic {{{
 
-set noswapfile
-
-" }}}
-" URLs {{{
-
-function! HandleURL()
-  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;]*')
-  echo s:uri
-  if s:uri != ""
-    silent exec "!open '".s:uri."'"
-  else
-    echo "No URI found in line."
-  endif
-endfunction
-nmap go :call HandleURL()<cr>
+let g:syntastic_html_tidy_ignore_errors= [
+  \"'<' + '/' + letter not allowed here",
+  \"</head> isn't allowed in <body> elements",
+  \"<a> attribute \"href\" lacks value",
+  \"<ey-confirm> is not recognized!",
+  \"<form> lacks \"action\" attribute",
+  \"<form> proprietary attribute \"novalidate\"",
+  \"<html> proprietary attribute \"app\"",
+  \"<img> lacks \"src\" attribute",
+  \"<input> proprietary attribute \"autofocus\"",
+  \"<input> proprietary attribute \"min\"",
+  \"<input> proprietary attribute \"required\"",
+  \"<link> escaping malformed URI reference",
+  \"<ng-include> is not recognized!",
+  \"<script> escaping malformed URI reference",
+  \"<template> is not recognized!",
+  \"discarding unexpected </ey-confirm>",
+  \"discarding unexpected </ng-include>",
+  \"discarding unexpected </template>",
+  \"discarding unexpected <body>",
+  \"discarding unexpected <ey-confirm>",
+  \"discarding unexpected <ng-include>", "missing </button>",
+  \"discarding unexpected <template>",
+  \"inserting implicit <span>",
+  \"missing </script>",
+  \"plain text isn't allowed in <head> elements",
+  \"proprietary attribute \"autocomplete\"",
+  \"proprietary attribute \"ng-",
+  \"proprietary attribute \"placeholder\"",
+  \"proprietary attribute \"required\"",
+  \"proprietary attribute \"ui-",
+  \"replacing unexpected button by </button>",
+  \"trimming empty <button>",
+  \"trimming empty <i>",
+  \"trimming empty <li>",
+  \"trimming empty <select>",
+  \"trimming empty <span>",
+  \"unescaped & which should be written as &amp;",
+  \]
+let g:syntastic_html_tidy_blocklevel_tags = [
+  \"aura:documentation",
+  \"aura:description",
+  \"aura:example",
+  \"ey-deploy-key",
+  \]
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'eslint_d'
+let g:syntastic_javascript_eslint_args = '-c ~/.eslintrc --no-eslintrc'
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_elixir_checkers = ['elixir']
+let g:syntastic_enable_elixir_checker = 1
 
 " }}}
 " Vim {{{
@@ -596,38 +545,5 @@ augroup END
 " Quick source mappings
 vnoremap <leader>S y:execute @@<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>
-
-" Unfuck my screen
-nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
-
-nnoremap <c-p> <c-i>
-nmap <tab> %
-vmap <tab> %
-nnoremap cs/ cgn
-nnoremap <c-[> <S-f><space>
-nnoremap <c-]> f<space>
-
-" }}}
-
-" Clear everything {{{
-
-nnoremap <ESC> :let @/=''<CR>
-map <leader>c :let @/=''<CR>
-
-" }}}
-" JavaScript {{{
-
-au BufNewFile,BufRead *.es6 setlocal filetype=javascript
-au BufNewFile,BufRead *.jsx setlocal filetype=javascript
-
-augroup ft_javascript
-    au!
-    au FileType javascript setlocal foldmethod=marker
-    au FileType javascript setlocal foldmarker={,}
-augroup END
-
-map <leader>b :call JsBeautify()<cr>
-
-com! FormatJSON %!python -m json.tool
 
 " }}}
