@@ -23,7 +23,7 @@ nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap Y y$
 nnoremap cs/ cgn
-nnoremap gl gf
+nnoremap gl ^f'gf
 nnoremap gs *<c-o>
 nnoremap j gj
 nnoremap k gk
