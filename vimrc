@@ -17,17 +17,17 @@ nnoremap <c-]> f<space>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
 nnoremap <c-p> <c-i>
-nnoremap <leader>ee :SyntasticToggleMode<cr>
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap Y y$
 nnoremap cs/ cgn
-nnoremap gl ^f'gf
+nnoremap gl $hhgf
 nnoremap gs *<c-o>
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
+noremap ; :Neoformat<cr>
 noremap H ^
 noremap L g_
 syntax enable
@@ -60,19 +60,21 @@ Plugin 'mustache/vim-mustache-handlebars.git'
 Plugin 'nvie/vim-flake8.git'
 Plugin 'othree/html5.vim.git'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'sbdchd/neoformat'
 Plugin 'scrooloose/nerdtree.git'
-Plugin 'scrooloose/syntastic.git'
 Plugin 'sjl/badwolf.git'
 Plugin 'sjl/clam.vim.git'
 Plugin 'sjl/vitality.vim.git'
 Plugin 'tpope/vim-commentary.git'
 Plugin 'tpope/vim-fugitive.git'
 Plugin 'tpope/vim-repeat.git'
+Plugin 'tpope/vim-rhubarb'
 Plugin 'tpope/vim-speeddating.git'
 Plugin 'tpope/vim-surround.git'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'vim-scripts/django.vim.git'
 Plugin 'vim-scripts/fish.vim.git'
+Plugin 'w0rp/ale'
 
 call vundle#end()
 filetype plugin indent on
@@ -87,6 +89,12 @@ let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
 " Ack for last search.
 nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 nnoremap <leader>a :Ack!<space>
+
+" }}}
+" Ale {{{
+
+let g:ale_sign_column_always = 1
+let g:ale_sign_warning = '>>'
 
 " }}}
 " Buffers {{{
@@ -160,23 +168,21 @@ augroup END
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = '<c-g>'
-let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_split_window = 0
 let g:ctrlp_max_height = 20
-let g:ctrlp_extensions = ['tag']
+let g:ctrlp_split_window = 0
 let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
+let g:ctrlp_working_path_mode = 0
 
 let g:ctrlp_prompt_mappings = {
-\ 'PrtSelectMove("j")':   ['<down>', '<s-tab>'],
-\ 'PrtSelectMove("k")':   ['<up>', '<tab>'],
 \ 'PrtHistory(-1)':       ['<c-n>'],
 \ 'PrtHistory(1)':        ['<c-p>'],
+\ 'PrtSelectMove("j")':   ['<down>', '<s-tab>'],
+\ 'PrtSelectMove("k")':   ['<up>', '<tab>'],
 \ 'ToggleFocus()':        ['<c-tab>'],
 \ }
 
-nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <leader>/ :CtrlPBufTag<cr>
 
 " }}}
@@ -186,39 +192,10 @@ autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
 autocmd BufNewFile,BufReadPost *.ex setl foldmethod=indent
 
 " }}}
-" Error Toggles {{{
-
-command! ErrorsToggle call ErrorsToggle()
-function! ErrorsToggle() " {{{
-    if exists("w:is_error_window")
-        unlet w:is_error_window
-        exec "close"
-    else
-        exec "Errors"
-        lopen
-        let w:is_error_window = 1
-    endif
-endfunction " }}}
-
-command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
-function! QFixToggle(forced) " {{{
-    if exists("g:qfix_win") && a:forced == 0
-        cclose
-        unlet g:qfix_win
-    else
-        copen 10
-        let g:qfix_win = bufnr("$")
-    endif
-endfunction " }}}
-
-nmap <silent> <f3> :ErrorsToggle<cr>
-nmap <silent> <f4> :QFixToggle<cr>
-
-" }}}
 " EasyMotion {{{
 
 let g:EasyMotion_do_mapping = 0
-nmap s <Plug>(easymotion-s2)
+nmap s <Plug>(easymotion-overwin-f2)
 
 " }}}
 " Fish {{{
@@ -354,6 +331,16 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 " }}}
+" Neoformat {{{
+
+let g:neoformat_javascript_prettier = {
+      \ 'exe': 'prettier',
+      \ 'args': ['--single-quote'],
+      \ }
+
+let g:neoformat_enabled_javascript = ['prettier']
+
+" }}}
 " NERD Tree {{{
 
 noremap  <F2> :NERDTreeToggle<cr>
@@ -468,61 +455,6 @@ nnoremap <leader>2 :call SetTabSpace2()<cr>
 nnoremap <leader>4 :call SetTabSpace4()<cr>
 
 " }}}
-" Syntastic {{{
-
-let g:syntastic_html_tidy_ignore_errors= [
-  \"'<' + '/' + letter not allowed here",
-  \"</head> isn't allowed in <body> elements",
-  \"<a> attribute \"href\" lacks value",
-  \"<ey-confirm> is not recognized!",
-  \"<form> lacks \"action\" attribute",
-  \"<form> proprietary attribute \"novalidate\"",
-  \"<html> proprietary attribute \"app\"",
-  \"<img> lacks \"src\" attribute",
-  \"<input> proprietary attribute \"autofocus\"",
-  \"<input> proprietary attribute \"min\"",
-  \"<input> proprietary attribute \"required\"",
-  \"<link> escaping malformed URI reference",
-  \"<ng-include> is not recognized!",
-  \"<script> escaping malformed URI reference",
-  \"<template> is not recognized!",
-  \"discarding unexpected </ey-confirm>",
-  \"discarding unexpected </ng-include>",
-  \"discarding unexpected </template>",
-  \"discarding unexpected <body>",
-  \"discarding unexpected <ey-confirm>",
-  \"discarding unexpected <ng-include>", "missing </button>",
-  \"discarding unexpected <template>",
-  \"inserting implicit <span>",
-  \"missing </script>",
-  \"plain text isn't allowed in <head> elements",
-  \"proprietary attribute \"autocomplete\"",
-  \"proprietary attribute \"ng-",
-  \"proprietary attribute \"placeholder\"",
-  \"proprietary attribute \"required\"",
-  \"proprietary attribute \"ui-",
-  \"replacing unexpected button by </button>",
-  \"trimming empty <button>",
-  \"trimming empty <i>",
-  \"trimming empty <li>",
-  \"trimming empty <select>",
-  \"trimming empty <span>",
-  \"unescaped & which should be written as &amp;",
-  \]
-let g:syntastic_html_tidy_blocklevel_tags = [
-  \"aura:documentation",
-  \"aura:description",
-  \"aura:example",
-  \"ey-deploy-key",
-  \]
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'eslint_d'
-let g:syntastic_javascript_eslint_args = '-c ~/.eslintrc --no-eslintrc'
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_elixir_checkers = ['elixir']
-let g:syntastic_enable_elixir_checker = 1
-
-" }}}
 " Vim {{{
 
 augroup ft_vim
@@ -545,5 +477,21 @@ augroup END
 " Quick source mappings
 vnoremap <leader>S y:execute @@<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>
+
+" }}}
+" Window Toggles {{{
+
+command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
+function! QFixToggle(forced) " {{{
+    if exists("g:qfix_win") && a:forced == 0
+        cclose
+        unlet g:qfix_win
+    else
+        copen 10
+        let g:qfix_win = bufnr("$")
+    endif
+endfunction " }}}
+
+nmap <silent> <f4> :QFixToggle<cr>
 
 " }}}
