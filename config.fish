@@ -40,7 +40,7 @@ end
 function gca 
   git commit -a $argv
 end
-function gb
+function gs
   git browse
 end
 function gc 
