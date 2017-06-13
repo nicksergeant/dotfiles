@@ -1,6 +1,8 @@
 [user]
   name = Nick Sergeant
-  email = nick@nicksergeant.com
+  email = nsergeant@hubspot.com
+[core]
+  hooksPath = /Users/nsergeant/.git_hooks
 [color]
   diff = auto
   status = auto
