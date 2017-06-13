@@ -25,7 +25,7 @@ set PATH "/usr/local/bin" $PATH
 set PATH "/usr/local/sbin" $PATH
 
 set BROWSER open
-set PATH "/Users/nsergeant/bin" $PATH
+set PATH "/usr/local/Cellar/node/8.1.0_1/bin" $PATH
 
 set -g -x fish_greeting ''
 set -g -x EDITOR 'mvim -v'
@@ -266,6 +266,9 @@ function pm
 end
 function lisp
   rlwrap sbcl
+end
+function setenv
+  set -gx $argv
 end
 function sif
   cd ~/Code/siftie; meteor run --port 4000
