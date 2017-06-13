@@ -17,6 +17,7 @@ nnoremap <c-]> f<space>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
 nnoremap <c-p> <c-i>
+nnoremap <leader>ee :ALEToggle<cr>
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
@@ -31,6 +32,7 @@ noremap ; :Neoformat<cr>
 noremap H ^
 noremap L g_
 syntax enable
+vmap <c-t> :sort<cr>
 vmap <tab> %
 
 " }}}
@@ -304,6 +306,7 @@ augroup ft_javascript
     au!
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
+    au BufWritePre *.js Neoformat
 augroup END
 
 com! FormatJSON %!python -m json.tool
