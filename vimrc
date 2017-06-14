@@ -1,7 +1,7 @@
 " General {{{ 
 
 inoremap <F1> <nop>
-inoremap jk <ESC>
+inoremap jk <esc>
 let g:Powerline_symbols = 'fancy'
 let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:mustache_abbreviations = 1
@@ -10,7 +10,6 @@ let mapleader = ","
 map <leader>c :let @/=''<CR>
 nmap <tab> %
 nnoremap * *<c-o>
-nnoremap <ESC> :let @/=''<CR>
 nnoremap <F1> <nop>
 nnoremap <c-[> <S-f><space>
 nnoremap <c-]> f<space>
@@ -28,6 +27,7 @@ nnoremap gs *<c-o>
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
+nnoremap <esc> :let @/=''<CR>
 noremap ; :Neoformat<cr>
 noremap H ^
 noremap L g_

@@ -20,6 +20,7 @@ id_dsa
 id_dsa.pub
 id_rsa
 id_rsa.pub
+node_modules
 proxyrequest.js
 rit_php/app/cache/
 rit_php/app/config/parameters.yml
