@@ -138,7 +138,7 @@ function bu
   if read_confirm
     echo ------------ Offlineimap ------------
     echo
-    offlineimap
+    # offlineimap
     echo 
     echo ------------ App Databases ------------
     echo

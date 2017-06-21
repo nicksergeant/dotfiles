@@ -48,7 +48,7 @@ Plugin 'PeterRincker/vim-argumentative.git'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'SirVer/ultisnips.git'
 Plugin 'airblade/vim-gitgutter.git'
-Plugin 'digitaltoad/vim-jade.git'
+Plugin 'digitaltoad/vim-pug.git'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'honza/vim-snippets.git'
@@ -293,7 +293,7 @@ au FileType html syn region djangoVarBlock start="{{" end="}}"
 
 augroup ft_jade
     au!
-    au BufNewFile,BufRead *.jade setlocal filetype=jade
+    au BufNewFile,BufRead *.jade setlocal filetype=pug
 augroup END
 
 " }}}
@@ -306,7 +306,7 @@ augroup ft_javascript
     au!
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
-    au BufWritePre *.js Neoformat
+    " au BufWritePre *.js Neoformat
 augroup END
 
 com! FormatJSON %!python -m json.tool
