@@ -172,7 +172,7 @@ let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = '<c-g>'
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_max_height = 20
+let g:ctrlp_max_height = 30
 let g:ctrlp_split_window = 0
 let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
 let g:ctrlp_working_path_mode = 0
@@ -266,7 +266,6 @@ nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :Gremove<cr>
 nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
-vnoremap <leader>G :w !snipt post_and_get_url -t \| pbcopy && pbpaste \| xargs open<CR>
 
 augroup ft_fugitive
     au!
