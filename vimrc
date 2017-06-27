@@ -253,6 +253,8 @@ set foldtext=MyFoldText()
 " }}}
 " Fugitive and Hub {{{
 
+let g:github_enterprise_urls = ['https://git.hubteam.com']
+
 nnoremap <leader>g :Gbrowse<CR>
 vnoremap <leader>g :Gbrowse<CR>
 nnoremap <leader>gd :Gdiff<cr>
