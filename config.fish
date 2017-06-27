@@ -66,6 +66,9 @@ end
 function gp 
   git push $argv
 end
+function gpf
+  git pushf $argv
+end
 function dp 
   desk-flow ticket submit
 end
