@@ -25,6 +25,7 @@
   sync = !legit sync \"$@\"
   publish = !legit publish \"$@\"
   graft = !legit graft \"$@\"
+	pushf = push --force-with-lease
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [push]
