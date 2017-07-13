@@ -158,26 +158,34 @@ function bu
     echo ------------ Mac iCloud Drive to Time Machine ------------
     echo
     rsync -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Time\ Machine/iCloud\ Drive/
-    echo 
-    echo ------------ Seagate Photo Booth Library to Time Machine ------------
     echo
-    rsync -ahL --progress /Volumes/Seagate/Photo\ Booth\ Library/ /Volumes/Time\ Machine/Photo\ Booth\ Library/
-    echo 
-    echo ------------ Seagate Photos Library to Time Machine ------------
+    echo ------------ Mac Photo Booth Library to Seagate ------------
     echo
-    rsync -ahL --progress /Volumes/Seagate/Photos\ Library.photoslibrary/ /Volumes/Time\ Machine/Photos\ Library.photoslibrary/
+    rsync -ahL --progress ~/Pictures/Photo\ Booth\ Library/ /Volumes/Seagate/Photo\ Booth\ Library/
+    echo
+    echo ------------ Mac Photo Booth Library to Time Machine ------------
+    echo
+    rsync -ahL --progress ~/Pictures/Photo\ Booth\ Library/ /Volumes/Time\ Machine/Photo\ Booth\ Library/
+    echo 
+    echo ------------ Mac Photos Library to Seagate ------------
+    echo
+    rsync -ahL --progress ~/Pictures/Photos\ Library.photoslibrary/ /Volumes/Seagate/Photos\ Library.photoslibrary/
+    echo
+    echo ------------ Mac Photos Library to Time Machine ------------
+    echo
+    rsync -ahL --progress ~/Pictures/Photos\ Library.photoslibrary/ /Volumes/Time\ Machine/Photos\ Library.photoslibrary/
+    echo 
+    echo ------------ Seagate Photo Booth Photos to Time Machine ------------
+    echo
+    rsync -ahL --progress /Volumes/Seagate/Photo\ Booth\ Photos/ /Volumes/Time\ Machine/Photo\ Booth\ Photos/
     echo 
     echo ------------ Seagate Photos to Time Machine ------------
     echo
     rsync -ahL --progress /Volumes/Seagate/Photos/ /Volumes/Time\ Machine/Photos/
     echo 
-    echo ------------ Mail to Seagate ------------
+    echo ------------ Seagate Wedding Video to Time Machine ------------
     echo
-    rsync -ahL --progress /Users/Nick/.mail/ /Volumes/Time\ Machine/Mail/
-    echo 
-    echo ------------ Mail to Time Machine ------------
-    echo
-    rsync -ahL --progress /Users/Nick/.mail/ /Volumes/Seagate/Mail/
+    rsync -ahL --progress /Volumes/Seagate/Wedding\ Video/ /Volumes/Time\ Machine/Wedding\ Video/
   end
 end
 function desk-rails
