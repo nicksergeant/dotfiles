@@ -293,25 +293,6 @@ function ta
   tmux attach -t $argv
 end
 function ti
-  # Primary
-  tmux new-session -d -s primary -n servers
-  tmux split-window -t primary -v
-  tmux split-window -t primary -h
-  tmux split-window -t primary -h
-  sleep 1
-  tmux select-layout tiled
-  tmux send-keys -t 1 desk-rails ENTER
-  tmux send-keys -t 2 desk-haproxy ENTER
-  tmux send-keys -t 3 desk-webclient ENTER
-
-  # Shell
-  tmux new-window -t primary -a -n shell
-  tmux split-window -t shell -v
-  tmux send-keys -t 1 'cd /dev_exclusions/assistly' ENTER
-  tmux send-keys -t 2 'cd /dev_exclusions/webclient' ENTER
-  tmux attach
-end
-function tih
   tmux new-session -d -s primary -n shell
   tmux split-window -t primary -h
   tmux attach
