@@ -247,6 +247,21 @@ end
 function i
   idea . $argv
 end
+function ls
+  exa -l $argv
+end
+function l
+  exa -la $argv
+end
+function la
+  exa -la $argv
+end
+function ll
+  exa -T -L 2 $argv
+end
+function lll
+  exa -T -L 3 $argv
+end
 function m
   mvim . $argv
 end

@@ -17,12 +17,14 @@ nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
 nnoremap <c-p> <c-i>
 nnoremap <leader>ee :ALEToggle<cr>
+nnoremap <leader>cs :let g:ctrlp_use_caching = 0<CR>
+nnoremap <leader>cc :let g:ctrlp_use_caching = 1<CR>
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap Y y$
 nnoremap cs/ cgn
-nnoremap gl $hhgf
+nnoremap <c-return> $hhgf
 nnoremap gs *<c-o>
 nnoremap j gj
 nnoremap k gk
@@ -174,6 +176,7 @@ let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 30
 let g:ctrlp_split_window = 0
+let g:ctrlp_use_caching  = 0
 let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
 let g:ctrlp_working_path_mode = 0
 
@@ -344,6 +347,14 @@ let g:neoformat_javascript_prettier = {
 
 let g:neoformat_enabled_javascript = ['prettier']
 
+let g:neoformat_elixir_exfmt = {
+  \ 'exe': 'mix',
+  \ 'args': ['exfmt', '--stdin'],
+  \ 'stdin': 1
+  \ }
+
+let g:neoformat_enabled_elixir = ['exfmt']
+
 " }}}
 " NERD Tree {{{
 
@@ -376,7 +387,7 @@ set autoindent
 set autoread
 set autowrite
 set backspace=indent,eol,start
-set colorcolumn=80
+set colorcolumn=0
 set cursorline
 set dictionary=/usr/share/dict/words
 set directory=$HOME/.vim/tmp//,.
