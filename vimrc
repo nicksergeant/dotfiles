@@ -33,6 +33,7 @@ nnoremap <esc> :let @/=''<CR>
 noremap ; :Neoformat<cr>
 noremap H ^
 noremap L g_
+set linespace=1
 syntax enable
 vmap <c-t> :sort<cr>
 vmap <tab> %
@@ -394,7 +395,7 @@ set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
 set expandtab
 set fillchars=diff:⣿,vert:│
-set guifont=Menlo_for_Powerline:h14
+set guifont=Menlo_for_Powerline:h17
 set hidden
 set hlsearch
 set ignorecase
