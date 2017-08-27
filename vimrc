@@ -33,7 +33,6 @@ nnoremap <esc> :let @/=''<CR>
 noremap ; :Neoformat<cr>
 noremap H ^
 noremap L g_
-set linespace=1
 syntax enable
 vmap <c-t> :sort<cr>
 vmap <tab> %
