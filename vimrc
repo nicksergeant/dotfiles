@@ -4,6 +4,7 @@ inoremap <F1> <nop>
 inoremap jk <esc>
 let g:Powerline_symbols = 'fancy'
 let g:UltiSnipsExpandTrigger = "<D-d>"
+let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let g:sparkupExecuteMapping = "<D-e>"
 let mapleader = ","
@@ -61,8 +62,10 @@ Plugin 'marijnh/tern_for_vim.git'
 Plugin 'mileszs/ack.vim.git'
 Plugin 'moll/vim-node'
 Plugin 'mustache/vim-mustache-handlebars.git'
+Plugin 'mxw/vim-jsx.git'
 Plugin 'nvie/vim-flake8.git'
 Plugin 'othree/html5.vim.git'
+Plugin 'pangloss/vim-javascript.git'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'sbdchd/neoformat'
 Plugin 'scrooloose/nerdtree.git'
@@ -99,6 +102,8 @@ nnoremap <leader>a :Ack!<space>
 
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
+let g:ale_javascript_eslint_executable = 'eslint_d'
+let g:ale_javascript_eslint_use_global = 1
 
 " }}}
 " Buffers {{{
@@ -340,20 +345,27 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 " }}}
 " Neoformat {{{
 
-let g:neoformat_javascript_prettier = {
-      \ 'exe': 'prettier',
-      \ 'args': ['--single-quote'],
-      \ }
-
-let g:neoformat_enabled_javascript = ['prettier']
-
 let g:neoformat_elixir_exfmt = {
   \ 'exe': 'mix',
   \ 'args': ['exfmt', '--stdin'],
   \ 'stdin': 1
   \ }
 
+let g:neoformat_javascript_prettier = {
+  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
+  \ 'args': ['--config /Users/nsergeant/Code/ContentEditorUI/prettier.config.js'],
+  \ 'stdin': 1
+  \ }
+
+let g:neoformat_scss_prettier = {
+  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
+  \ 'args': ['--parser postcss', '--single-quote'],
+  \ 'stdin': 1
+  \ }
+
 let g:neoformat_enabled_elixir = ['exfmt']
+let g:neoformat_enabled_javascript = ['prettier']
+let g:neoformat_enabled_scss = ['prettier']
 
 " }}}
 " NERD Tree {{{
