@@ -38,7 +38,6 @@ noremap L g_
 syntax enable
 vmap <c-t> :sort<cr>
 vmap <tab> %
-silent! colorscheme badwolf
 
 " }}}
 " Plugins {{{
@@ -126,6 +125,11 @@ au BufWritePost edebug.exs execute "normal! :Clam elixir edebug.exs\<cr>"
 " CoffeeScript {{{
 
 autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
+
+" }}}
+" Colors {{{
+
+silent! colorscheme badwolf
 
 " }}}
 " Commentary {{{
