@@ -8,9 +8,9 @@ let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let g:sparkupExecuteMapping = "<D-e>"
 let mapleader = ","
+set timeoutlen=1000 ttimeoutlen=0
 map <leader>c :let @/=''<CR>
 nmap <tab> %
-nnoremap * *<c-o>
 nnoremap <F1> <nop>
 nnoremap <c-[> <S-f><space>
 nnoremap <c-]> f<space>
@@ -23,7 +23,8 @@ nnoremap <leader>cc :let g:ctrlp_use_caching = 1<CR>
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
-nnoremap Y y$
+noremap y "*y
+noremap Y "*yy
 nnoremap cs/ cgn
 nnoremap <c-return> $hhgf
 nnoremap gs *<c-o>
@@ -37,6 +38,7 @@ noremap L g_
 syntax enable
 vmap <c-t> :sort<cr>
 vmap <tab> %
+silent! colorscheme badwolf
 
 " }}}
 " Plugins {{{
@@ -124,23 +126,6 @@ au BufWritePost edebug.exs execute "normal! :Clam elixir edebug.exs\<cr>"
 " CoffeeScript {{{
 
 autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
-
-" }}}
-" Colors {{{
-
-silent! colorscheme badwolf
-hi Normal ctermbg=none
-hi Folded ctermbg=none
-hi NonText ctermbg=none
-hi CursorLine ctermbg=234
-hi CursorColumn ctermbg=234
-hi ColorColumn ctermbg=234
-hi MatchParen ctermbg=234
-hi DiffChange ctermbg=234
-hi TabLine ctermbg=234
-hi TabLineFill ctermbg=234
-hi Visual ctermbg=235
-hi VisualNOS ctermbg=235
 
 " }}}
 " Commentary {{{
