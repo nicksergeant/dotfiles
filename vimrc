@@ -23,8 +23,7 @@ nnoremap <leader>cc :let g:ctrlp_use_caching = 1<CR>
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
-noremap y "*y
-noremap Y "*yy
+nnoremap Y y$
 nnoremap cs/ cgn
 nnoremap <c-return> $hhgf
 nnoremap gs *<c-o>

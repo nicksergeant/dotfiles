@@ -1,12 +1,17 @@
+# IMAP
+
+set imap_user = 'nick@nicksergeant.com'
+
 # Source files and root folder
-set folder = ~/.mail
+set folder = imaps://imap.gmail.com/
 source ~/.mutt/alias
 
 # Account settings
-set mbox_type = maildir
-set spoolfile = "+nick-nicksergeant.com/INBOX"
-set mbox      = "+nick-nicksergeant.com/archive"
-set postponed = "+nick-nicksergeant.com/drafts"
+set mbox="imaps://imap.gmail.com/[Gmail]/All Mail"
+set postponed = "+[Gmail]/Drafts"
+set record = "+[Gmail]/Sent Mail"
+set spoolfile = +INBOX
+set trash="imaps://imap.gmail.com/[Gmail]/Trash"
 
 # Paths
 set alias_file       = ~/.mutt/alias         # where to store aliases
@@ -29,6 +34,7 @@ unset mark_old            # read/new is good enough for me
 set beep_new              # bell on new mails
 set pipe_decode           # strip headers and eval mimes when piping
 set thorough_search       # strip headers and eval mimes before searching
+set sleep_time=0
 
 # Status bar
 set status_chars  = " *%A"
@@ -57,23 +63,21 @@ bind index <tab>    sync-mailbox
 bind index <space>  collapse-thread
 bind index N        search-opposite
 
-# Sync email
-macro index o "<shell-escape>offlineimap -f 'INBOX'<enter>"
-macro index O "<shell-escape>offlineimap<enter>"
-
 # Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 
+bind editor <space> noop
+
 # Saner copy/move dialogs
-macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
-macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
-macro index,pager d "<save-message>=nick-nicksergeant.com/archive<enter>" "archive a message"
+macro index C       "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+macro index M       "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+macro index,pager e "<save-message>=[Gmail]/All Mail<enter><enter>" "Archive"
 
 # Moving to other folders
-macro index,pager gi <change-folder>=nick-nicksergeant.com/INBOX<enter>
+macro index,pager gi <change-folder>=INBOX<enter>
 macro index,pager \062 <change-folder>=temporary/search<enter>
-macro index,pager gs <change-folder>=nick-nicksergeant.com/sent<enter>
-macro index,pager ga <change-folder>=nick-nicksergeant.com/archive<enter>
+macro index,pager gt "<change-folder>=[Gmail]/Sent Mail<enter>"
+macro index,pager ga "<change-folder>=[Gmail]/All Mail<enter>"
 
 # Pager view options
 set pager_index_lines = 10 # number of index lines to show
@@ -122,7 +126,7 @@ set forward_format = "Fwd: %s"       # format of subject when forwarding
 set forward_decode                   # decode when forwarding
 set attribution = "On %d, %n wrote:" # format of quoting header
 set reply_to                         # reply to Reply to: field
-alternates "nsergeant@engineyard.com|nick@showroom.is|nick@broker.is"
+alternates ""
 set reverse_name                     # reply as whomever it was to
 set include                          # include message in replies
 set forward_quote                    # include message in forwards
@@ -136,7 +140,6 @@ bind index p recall-message
 set from     = "nick@nicksergeant.com"
 set sendmail = "/usr/local/bin/msmtp -a nicksergeant"
 set sendmail_wait = 0
-unset record
 
 # Contacts
 set query_command = "contacts -Sf '%eTOKEN%n' '%s' | sed -e 's/TOKEN/\t/g'"
