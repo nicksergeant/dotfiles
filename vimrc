@@ -322,7 +322,7 @@ highlight SpellBad term=underline gui=undercurl guisp=Orange
 " Navigation {{{
 
 nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<CR>
-nnoremap <leader>ef <C-w>s<C-w>j<C-w>L:e ~/.config/fish/config.fish<CR>
+nnoremap <leader>ef <C-w>s<C-w>j<C-w>L:e ~/.zshrc<CR>
 
 " }}}
 " Neocomplete {{{
