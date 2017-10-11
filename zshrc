@@ -8,7 +8,6 @@ export ZSH=/Users/nsergeant/.oh-my-zsh
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 ZSH_THEME=""
 plugins=(git zsh-autosuggestions)
-
 source $ZSH/oh-my-zsh.sh
 
 # z
