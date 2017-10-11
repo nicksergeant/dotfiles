@@ -1,6 +1,7 @@
 # Environment variables
 
 export EDITOR='vim'
+export PATH=$PATH:~/Sources/dotfiles/bin
 export ZSH=/Users/nsergeant/.oh-my-zsh
 
 # oh-my-zsh

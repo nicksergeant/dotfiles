@@ -1,31 +1,31 @@
 [user]
-  name = Nick Sergeant
   email = nsergeant@hubspot.com
+  name = Nick Sergeant
 [core]
 	hooksPath = /Users/nsergeant/.git_hooks
 [color]
-  diff = auto
-  status = auto
   branch = auto
+  diff = auto
   interactive = auto
+  status = auto
 [alias]
+	pushf = push --force-with-lease
+  branches = !legit branches
+  co = checkout
+  currentbranch = !git branch --contains HEAD | grep '*' | tr -s ' ' | cut -d ' ' -f2
   gl  = log -16 --color=always --all --graph --topo-order --pretty='format: %Cgreen%h%Creset %s%Cred%d%Creset%n'
   gll = log     --color=always --all --graph --topo-order --pretty='format: %Cgreen%h%Creset %s%Cred%d%Creset%n'
-  pull = pull --rebase
-  co = checkout
-  merge = merge --no-ff
-  up = merge --ff-only
-  root = rev-parse --show-toplevel
-  currentbranch = !git branch --contains HEAD | grep '*' | tr -s ' ' | cut -d ' ' -f2
-  switch = !legit switch \"$@\"
-  branches = !legit branches
-  sprout = !legit sprout \"$@\"
-  unpublish = !legit unpublish \"$@\"
-  harvest = !legit harvest \"$@\"
-  sync = !legit sync \"$@\"
-  publish = !legit publish \"$@\"
   graft = !legit graft \"$@\"
-	pushf = push --force-with-lease
+  harvest = !legit harvest \"$@\"
+  merge = merge --no-ff
+  publish = !legit publish \"$@\"
+  pull = pull --rebase
+  root = rev-parse --show-toplevel
+  sprout = !legit sprout \"$@\"
+  switch = !legit switch \"$@\"
+  sync = !legit sync \"$@\"
+  unpublish = !legit unpublish \"$@\"
+  up = merge --ff-only
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [push]
@@ -48,5 +48,5 @@
 [merge]
 	tool = Kaleidoscope
 [hub]
-  protocol = https
 	host = git.hubteam.com
+  protocol = https
