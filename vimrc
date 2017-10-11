@@ -1,5 +1,7 @@
 " General {{{ 
 
+execute "set <M-w>=\ew"
+execute "set <M-s>=\es"
 inoremap <F1> <nop>
 inoremap jk <esc>
 let g:Powerline_symbols = 'fancy'
@@ -12,7 +14,6 @@ set timeoutlen=1000 ttimeoutlen=0
 map <leader>c :let @/=''<CR>
 nmap <tab> %
 nnoremap <F1> <nop>
-nnoremap <c-[> <S-f><space>
 nnoremap <c-]> f<space>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
@@ -30,8 +31,9 @@ nnoremap gs *<c-o>
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
-nnoremap <esc> :let @/=''<CR>
 noremap ; :Neoformat<cr>
+noremap <M-s> :wa<cr>
+noremap <M-w> :q<cr>
 noremap H ^
 noremap L g_
 syntax enable
@@ -56,7 +58,7 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'honza/vim-snippets.git'
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'kien/ctrlp.vim.git'
+Plugin 'ctrlpvim/ctrlp.vim.git'
 Plugin 'lokaltog/vim-easymotion'
 Plugin 'marijnh/tern_for_vim.git'
 Plugin 'mileszs/ack.vim.git'
@@ -90,7 +92,6 @@ filetype plugin indent on
 
 " Ack {{{
 
-" Use Ag instead of Ack.
 let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
 
 " Ack for last search.
@@ -227,7 +228,7 @@ nnoremap zO zCzO
 " This mapping wipes out the z mark, which I never use.
 "
 " I use :sus for the rare times I want to actually background Vim.
-nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
+"nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
 
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
