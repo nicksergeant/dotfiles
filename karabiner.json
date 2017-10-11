@@ -14,7 +14,7 @@
                     {
                         "manipulators": [
                             {
-                                "description": "Change left_control to control.",
+                                "description": "Change left_control to escape.",
                                 "from": {
                                     "key_code": "left_control",
                                     "modifiers": {
@@ -26,7 +26,11 @@
                                 "to": [
                                     {
                                         "key_code": "left_control",
-                                        "modifiers": []
+                                        "modifiers": {
+                                            "optional": [
+                                                "any"
+                                            ]
+                                        }
                                     }
                                 ],
                                 "to_if_alone": [
@@ -53,7 +57,11 @@
                                 "to": [
                                     {
                                         "key_code": "left_control",
-                                        "modifiers": []
+                                        "modifiers": {
+                                            "optional": [
+                                                "any"
+                                            ]
+                                        }
                                     }
                                 ],
                                 "to_if_alone": [

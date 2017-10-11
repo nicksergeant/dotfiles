@@ -393,7 +393,7 @@ set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
 set expandtab
 set fillchars=diff:⣿,vert:│
-set guifont=Menlo_for_Powerline:h17
+set guifont=Menlo_for_Powerline:h14
 set hidden
 set hlsearch
 set ignorecase
