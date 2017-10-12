@@ -2,7 +2,7 @@
 
 export EDITOR='vim'
 export PATH=$PATH:~/Sources/dotfiles/bin
-export ZSH=/Users/nsergeant/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # oh-my-zsh
 

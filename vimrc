@@ -4,7 +4,6 @@ execute "set <M-w>=\ew"
 execute "set <M-s>=\es"
 inoremap <F1> <nop>
 inoremap jk <esc>
-let g:Powerline_symbols = 'fancy'
 let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
@@ -47,18 +46,16 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 
-Plugin 'JazzCore/ctrlp-cmatcher'
-Plugin 'Lokaltog/vim-powerline.git'
 Plugin 'PeterRincker/vim-argumentative.git'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'SirVer/ultisnips.git'
 Plugin 'airblade/vim-gitgutter.git'
+Plugin 'ctrlpvim/ctrlp.vim.git'
 Plugin 'digitaltoad/vim-pug.git'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'honza/vim-snippets.git'
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'ctrlpvim/ctrlp.vim.git'
 Plugin 'lokaltog/vim-easymotion'
 Plugin 'marijnh/tern_for_vim.git'
 Plugin 'mileszs/ack.vim.git'
@@ -72,17 +69,11 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'sbdchd/neoformat'
 Plugin 'scrooloose/nerdtree.git'
 Plugin 'sjl/badwolf.git'
-Plugin 'sjl/clam.vim.git'
-Plugin 'sjl/vitality.vim.git'
 Plugin 'tpope/vim-commentary.git'
 Plugin 'tpope/vim-fugitive.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-rhubarb'
-Plugin 'tpope/vim-speeddating.git'
 Plugin 'tpope/vim-surround.git'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'vim-scripts/django.vim.git'
-Plugin 'vim-scripts/fish.vim.git'
 Plugin 'w0rp/ale'
 
 call vundle#end()
@@ -115,13 +106,6 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 
 " }}}
-" Clam {{{
-
-nnoremap ! :Clam<space>
-au BufWritePost ndebug.js execute "normal! :Clam npm run build\<cr>"
-au BufWritePost edebug.exs execute "normal! :Clam elixir edebug.exs\<cr>"
-
-" }}}
 " CoffeeScript {{{
 
 autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
@@ -136,12 +120,6 @@ silent! colorscheme badwolf
 
 nmap <leader>c<space> <Plug>CommentaryLine
 xmap <leader>c<space> <Plug>Commentary
-
-augroup plugin_commentary
-    au!
-    au FileType htmldjango setlocal commentstring={#\ %s\ #}
-    au FileType fish setlocal commentstring=#\ %s
-augroup END
 
 " }}}
 " CSS {{{
@@ -166,7 +144,6 @@ augroup END
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = '<c-g>'
-let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 20
 let g:ctrlp_split_window = 0
@@ -195,15 +172,6 @@ autocmd BufNewFile,BufReadPost *.ex setl foldmethod=indent
 
 let g:EasyMotion_do_mapping = 0
 nmap s <Plug>(easymotion-overwin-f2)
-
-" }}}
-" Fish {{{
-
-augroup ft_fish
-    au!
-    au BufNewFile,BufRead *.fish setlocal filetype=fish
-    au FileType fish setlocal foldmethod=marker foldmarker={{{,}}}
-augroup END
 
 " }}}
 " Folding {{{
@@ -277,14 +245,11 @@ augroup END
 au BufNewFile,BufRead *.ejs setlocal filetype=html
 au BufNewFile,BufRead *.app setlocal filetype=html
 au BufNewFile,BufRead *.cmp setlocal filetype=html
-au BufNewFile,BufRead *.html setlocal filetype=htmldjango
-au BufNewFile,BufRead *.twig setlocal filetype=htmldjango
 au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
-au FileType html,htmldjango setlocal tabstop=2
-au FileType html,htmldjango setlocal shiftwidth=2
-au FileType html,htmldjango setlocal softtabstop=2
-au FileType html syn region djangoVarBlock start="{{" end="}}"
+au FileType html setlocal tabstop=2
+au FileType html setlocal shiftwidth=2
+au FileType html setlocal softtabstop=2
 
 " }}}
 " Jade {{{
@@ -308,15 +273,6 @@ augroup ft_javascript
 augroup END
 
 com! FormatJSON %!python -m json.tool
-
-" }}}
-" Mail {{{
-
-augroup ft_mail
-    au!
-    au Filetype mail setlocal spell
-augroup END
-highlight SpellBad term=underline gui=undercurl guisp=Orange
 
 " }}}
 " Navigation {{{
@@ -375,12 +331,6 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 
 " }}}
-" Saving {{{
-
-au FocusLost * :wa
-au FocusLost,TabLeave * call feedkeys("\<C-\>\<C-n>")
-
-" }}}
 " Settings {{{
 
 set autoindent
@@ -394,7 +344,6 @@ set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
 set expandtab
 set fillchars=diff:⣿,vert:│
-set guifont=Menlo_for_Powerline:h14
 set hidden
 set hlsearch
 set ignorecase
@@ -450,24 +399,6 @@ set wildignore +=tmp
 set wildignore +=vendor
 set wildmenu
 set wildmode=list:longest
-
-" }}}
-" Spacing toggle {{{
-
-function! SetTabSpace2()
-  set tabstop=2                     " Global tab width.
-  set shiftwidth=2                  " And again, related.
-  set softtabstop=2                 " Spaces for tab
-endfunction
-
-function! SetTabSpace4()
-  set tabstop=4                     " Global tab width.
-  set shiftwidth=4                  " And again, related.
-  set softtabstop=4                 " Spaces for tab
-endfunction
-
-nnoremap <leader>2 :call SetTabSpace2()<cr>
-nnoremap <leader>4 :call SetTabSpace4()<cr>
 
 " }}}
 " Vim {{{
