@@ -1,3 +1,7 @@
+[alias]
+  merge = merge --no-ff
+  pull = pull --rebase
+  pushf = push --force-with-lease
 [color]
   branch = auto
   diff = auto
@@ -11,9 +15,5 @@
 [user]
   email = nsergeant@hubspot.com
   name = Nick Sergeant
-[alias]
-  merge = merge --no-ff
-  pull = pull --rebase
-  pushf = push --force-with-lease
 [push]
   default = simple
