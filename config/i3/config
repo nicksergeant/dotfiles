@@ -66,6 +66,7 @@ bindsym Control+Shift+m workspace number 5 gmail
 bindsym Control+Shift+s workspace number 6 spotify
 bindsym Control+Shift+c workspace number 7 calendar
 bindsym Control+Shift+i workspace number 8 twitter
+bindsym $mod+Control+Shift+d workspace number 10 desktop
 
 # Move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
