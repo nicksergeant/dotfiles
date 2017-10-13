@@ -23,6 +23,7 @@ alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
 alias m='mvim .'
 alias o='open'
 alias ta='tmux attach -t'
+unalias gd
 unalias gpd
 
 # Prompt
@@ -80,6 +81,10 @@ bu() {
   echo ------------ Seagate Wedding Video to Time Machine ------------
   echo
   rsync -ahL --progress /Volumes/Seagate/Wedding\ Video/ /Volumes/Time\ Machine/Wedding\ Video/
+}
+
+gd() {
+  git diff HEAD
 }
 
 glu() {

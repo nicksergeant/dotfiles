@@ -1,9 +1,9 @@
-set guioptions-=T                 " Hide toolbar.
-set guioptions-=l                 " Hide toolbar.
-set guioptions-=L                 " Hide toolbar.
-set guioptions-=r                 " Hide toolbar.
-set guioptions-=R                 " Hide toolbar.
-set lines=48 columns=162          " Window dimensions.
+set guioptions-=T        " Hide toolbar.
+set guioptions-=l        " Hide toolbar.
+set guioptions-=L        " Hide toolbar.
+set guioptions-=r        " Hide toolbar.
+set guioptions-=R        " Hide toolbar.
+set lines=48 columns=162 " Window dimensions.
 
 iunmenu File.Save 
 inoremenu <silent> File.Save <Esc>:if expand("%") == ""<Bar>browse confirm w<Bar>else<Bar>confirm w<Bar>endif<CR>

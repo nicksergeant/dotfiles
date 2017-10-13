@@ -1,0 +1,2 @@
+# Enable natural scrolling for trackpad
+xinput set-prop "Synaptics TM3072-003" 283 1

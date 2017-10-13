@@ -1,0 +1,142 @@
+set $mod Mod1
+
+# Key for dragging floating windows
+floating_modifier $mod
+
+# Font for window titles
+font pango:Noto Sans 10
+
+# Remove window borders and title bar
+hide_edge_borders both
+new_window pixel 0
+
+# i3-gaps (https://github.com/Airblader/i3)
+gaps inner 15
+gaps outer 0
+
+bindsym $mod+Return exec urxvt -e tmux
+bindsym $mod+Shift+Control+bracketright [urgent=latest] focus
+bindsym $mod+Shift+q kill
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym Control+space exec dmenu_run
+
+# Move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# Splitting
+bindsym $mod+Shift+h split h
+bindsym $mod+Shift+v split v
+
+# Make window fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Change container layout (stacked, tabbed, toggle split)
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+w layout tabbed
+bindsym $mod+Shift+t layout toggle split
+
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# Focus the parent container
+bindsym $mod+a focus parent
+
+# Focus the child container
+#bindsym $mod+d focus child
+
+# Next / previous workspace
+bindsym $mod+Shift+period workspace next
+bindsym $mod+Shift+comma workspace prev
+
+# Switch to named workspace
+bindsym Control+Shift+semicolon workspace number 1 shell
+bindsym Control+Shift+h workspace number 2 vim
+bindsym Control+Shift+j workspace number 3 chrome
+bindsym Control+Shift+o workspace number 4 slack
+bindsym Control+Shift+m workspace number 5 gmail
+bindsym Control+Shift+s workspace number 6 spotify
+bindsym Control+Shift+c workspace number 7 calendar
+bindsym Control+Shift+i workspace number 8 twitter
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# Exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exit
+
+# Resize window (you can also use the mouse for that)
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+
+  bindsym l resize shrink width 5 px or 5 ppt
+  bindsym k resize grow height 5 px or 5 ppt
+  bindsym j resize shrink height 5 px or 5 ppt
+  bindsym h resize grow width 5 px or 5 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+# Enter resize mode
+bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar
+bar {
+  status_command i3status
+}
+
+# Start redshift (https://wiki.archlinux.org/index.php/redshift)
+exec redshift &
+
+# Start xcape (https://github.com/alols/xcape)
+exec xcape &
+
+# Bind applications to workspaces
+assign [instance="google-chrome"] "3 chrome"
+assign [class="Slack"] "4 slack"
+assign [instance="mail.google.com"] "5 gmail"
+assign [instance="calendar.google.com"] "7 calendar"
+assign [instance="tweetdeck.twitter.com"] "8 twitter"
+
+# Set X background color (visible if no wallpaper)
+exec --no-startup-id xsetroot -solid "#333333"
+
+# Set wallpaper
+exec --no-startup-id feh --bg-scale ~/.wallpaper.jpg
+
+# Start initial applications
+exec urxvt -e tmux
+exec google-chrome-stable --app="https://mail.google.com"
+exec google-chrome-stable --app="https://calendar.google.com"
+exec google-chrome-stable --app="https://tweetdeck.twitter.com"
+exec google-chrome-stable &
+exec slack &

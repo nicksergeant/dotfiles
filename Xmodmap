@@ -1,0 +1,11 @@
+! Caps Lock to control
+keycode 66 = Control_L
+clear Lock
+add Control = Control_L
+
+! Alt-h/j/k/l to arrow keys
+keycode 133 = Mode_switch
+keysym h = h H Left
+keysym l = l L Right
+keysym k = k K Up
+keysym j = j J Down
