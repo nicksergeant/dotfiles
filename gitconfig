@@ -1,4 +1,5 @@
 [alias]
+  co = checkout
   merge = merge --no-ff
   pull = pull --rebase
   pushf = push --force-with-lease
@@ -9,6 +10,7 @@
   status = auto
 [core]
   excludesfile = ~/.gitignore
+	hooksPath = /Users/nsergeant/.git_hooks
 [hub]
   host = git.hubteam.com
   protocol = https
