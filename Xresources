@@ -12,6 +12,10 @@ urxvt*scrollBar:    false
 urxvt*iso14755:     false
 urxvt*iso14755_52:  false
 
+! Enable font resizing (https://aur.archlinux.org/packages/urxvt-resize-font-git/)
+! Disable searchable-scrollback so we can remap Ctrl-S
+urxvt*perl-ext-common: default,resize-font,-searchable-scrollback
+
 *background: #1C1B1A
 *color0: rgbi:0.02744641341269016/0.02745364792644978/0.02744308114051819
 *color10: rgbi:0.61613106727600098/0.97996789216995239/0.01127401180565357

@@ -4,11 +4,11 @@
 "gcolor2"
   Control+Shift+Alt + r
 
-"xbacklight -dec 10%"
-  F1
+"xbacklight -dec 5%"
+  F5
 
-"xbacklight -inc 10%"
-  F2
+"xbacklight -inc 5%"
+  F6
 
 "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
   F7
