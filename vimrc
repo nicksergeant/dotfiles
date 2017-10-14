@@ -23,7 +23,6 @@ nnoremap <leader>cc :let g:ctrlp_use_caching = 1<CR>
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
-nnoremap Y y$
 nnoremap cs/ cgn
 nnoremap <c-return> $hhgf
 nnoremap gs *<c-o>
@@ -114,6 +113,16 @@ autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
 " Colors {{{
 
 silent! colorscheme badwolf
+
+" }}}
+" Copying and pasting {{{
+
+imap <C-v> <C-r><C-o>+
+nnoremap <C-v> c<ESC>"+p
+nnoremap Y y$
+vmap <C-c> "+y
+vmap <C-v> c<ESC>"+p
+vmap <C-x> "+c
 
 " }}}
 " Commentary {{{
