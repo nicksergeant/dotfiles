@@ -12,62 +12,24 @@ urxvt*scrollBar:    false
 urxvt*iso14755:     false
 urxvt*iso14755_52:  false
 
-! Disable searchable-scrollback so we can remap Ctrl-S
-! Enable font resizing (https://aur.archlinux.org/packages/urxvt-resize-font-git/)
-urxvt*perl-ext-common: default,resize-font,-searchable-scrollback
-
-! Base16 Default Dark
-! Scheme: Chris Kempson (http://chriskempson.com)
-! (https://github.com/chriskempson/base16-xresources)
-
-#define base00 #181818
-#define base01 #282828
-#define base02 #383838
-#define base03 #585858
-#define base04 #b8b8b8
-#define base05 #d8d8d8
-#define base06 #e8e8e8
-#define base07 #f8f8f8
-#define base08 #ab4642
-#define base09 #dc9656
-#define base0A #f7ca88
-#define base0B #a1b56c
-#define base0C #86c1b9
-#define base0D #7cafc2
-#define base0E #ba8baf
-#define base0F #a16946
-
-*.foreground:   base05
-#ifdef background_opacity
-*.background:   [background_opacity]base00
-#else
-*.background:   base00
-#endif
-*.cursorColor:  base05
-
-*.color0:       base00
-*.color1:       base08
-*.color2:       base0B
-*.color3:       base0A
-*.color4:       base0D
-*.color5:       base0E
-*.color6:       base0C
-*.color7:       base05
-
-*.color8:       base03
-*.color9:       base08
-*.color10:      base0B
-*.color11:      base0A
-*.color12:      base0D
-*.color13:      base0E
-*.color14:      base0C
-*.color15:      base07
-
-! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
-! use 'shell' template to set these if necessary
-*.color16:      base09
-*.color17:      base0F
-*.color18:      base01
-*.color19:      base02
-*.color20:      base04
-*.color21:      base06
+*color0: rgbi:0.02744641341269016/0.02745364792644978/0.02744308114051819
+*color1: rgbi:0.91599637269973755/0.25199320912361145/0.25170588493347168
+*color10: rgbi:0.61613106727600098/0.97996789216995239/0.01127401180565357
+*color11: rgbi:0.98233658075332642/0.87772703170776367/0.19238165020942688
+*color12: rgbi:0.24935063719749451/0.80463975667953491/1.00000000000000000
+*color13: rgbi:0.99762207269668579/0.17026579380035400/0.45608615875244141
+*color14: rgbi:0.02993706241250038/0.80902606248855591/0.95242577791213989
+*color15: rgbi:0.99992758035659790/1.00000000000000000/0.99987345933914185
+*color2: rgbi:0.53681242465972900/0.86830335855484009/0.00076447875471786
+*color3: rgbi:0.99133819341659546/0.49185311794281006/0.00000000000000000
+*color4: rgbi:0.03640800714492798/0.74136501550674438/0.99917548894882202
+*color5: rgbi:0.99763816595077515/0.33821570873260498/0.56855362653732300
+*color6: rgbi:0.46406877040863037/0.87654614448547363/0.95468872785568237
+*color7: rgbi:0.96071404218673706/0.96082562208175659/0.96066254377365112
+*color8: rgbi:0.36859807372093201/0.36864453554153442/0.36857661604881287
+*color9: rgbi:0.91599637269973755/0.25199320912361145/0.25170588493347168
+*background: #1C1B1A
+*colorBD: rgbi:0.99999600648880005/1.00000000000000000/1.00000000000000000
+*cursorColor: rgbi:0.70213186740875244/0.92683070898056030/1.00000000000000000
+*cursorColor2: rgbi:0.00000000000000000/0.00000000000000000/0.00000000000000000
+*foreground: rgbi:0.97257536649703979/0.96490687131881714/0.94714850187301636
