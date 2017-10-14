@@ -3,3 +3,24 @@
 
 "gcolor2"
   Control+Shift+Alt + r
+
+"xbacklight -dec 10%"
+  F1
+
+"xbacklight -inc 10%"
+  F2
+
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+  F7
+
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+  F8
+
+"dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+  F9
+
+"ppactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%"
+  F11
+
+"ppactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%"
+  F12

@@ -2,6 +2,7 @@
 
 sysmodmap=/etc/X11/xinit/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
+userkeys=$HOME/.xbindkeysrc
 usermodmap=$HOME/.Xmodmap
 userprofile=$HOME/.xprofile
 userresources=$HOME/.Xresources
@@ -16,6 +17,10 @@ fi
 
 if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
+fi
+
+if [ -f $userkeys ]; then
+  xbindkeys
 fi
 
 if [ -f $userprofile ]; then
