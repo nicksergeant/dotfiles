@@ -1,20 +1,10 @@
-"import -taint ~/screenshot.jpg && /home/nick/Sources/dotfiles/bin/upload-screenshot /home/nick/screenshot.jpg"
-  Shift+Alt + 1
-
-"gcolor2"
-  Control+Shift+Alt + r
+# Media and Function Keys
 
 "xbacklight -dec 5%"
   XF86AudioMute
 
-"xbacklight -dec 5%"
-  F5
-
 "xbacklight -inc 5%"
   XF86AudioLowerVolume
-
-"xbacklight -inc 5%"
-  F6
 
 "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
   F7
@@ -30,3 +20,24 @@
 
 "ppactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%"
   F12
+
+# Programs
+
+"gcolor2"
+  Control+Shift+Alt + r
+
+# Scripts
+
+"import -taint ~/screenshot.jpg && /home/nick/Sources/dotfiles/bin/upload-screenshot /home/nick/.screenshot.jpg"
+  Shift+Alt + 1
+
+# URLs
+
+"xdg-open https://www.wunderground.com/weather/us/ny/shortsville"
+  Control+Shift + w
+
+"xdg-open https://my.1password.com/signin"
+  Control+Shift + backslash
+
+"xdg-open https://app.youneedabudget.com"
+  Control+Shift + y
