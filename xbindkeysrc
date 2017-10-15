@@ -5,7 +5,13 @@
   Control+Shift+Alt + r
 
 "xbacklight -dec 5%"
+  XF86AudioMute
+
+"xbacklight -dec 5%"
   F5
+
+"xbacklight -inc 5%"
+  XF86AudioLowerVolume
 
 "xbacklight -inc 5%"
   F6
