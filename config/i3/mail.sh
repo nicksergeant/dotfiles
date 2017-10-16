@@ -3,7 +3,7 @@
 
 . /home/nick/Sources/dotfiles-private/zshrc
 
-COUNT=`curl -su $GMAIL_USERNAME:$GMAIL_PASSWORD https://mail.google.com/mail/feed/atom || echo "<fullcount>unknown number of</fullcount>"`
+COUNT=`curl -su $GMAIL_USERNAME:$GMAIL_PASSWORD https://mail.google.com/mail/feed/atom || echo "<fullcount>?</fullcount>"`
 COUNT=`echo "$COUNT" | grep -oPm1 "(?<=<fullcount>)[^<]+" `
 echo $COUNT
 if [ "$COUNT" != "0" ]; then

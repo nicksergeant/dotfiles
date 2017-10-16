@@ -34,6 +34,7 @@ noremap <M-s> :wa<cr>
 noremap <M-w> :q<cr>
 noremap H ^
 noremap L g_
+set mouse=a
 syntax enable
 vmap <c-t> :sort<cr>
 vmap <tab> %
