@@ -113,6 +113,7 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar
 bar {
+  position top
   status_command i3blocks -c ~/.config/i3/i3blocks.conf
   strip_workspace_numbers yes
 }
