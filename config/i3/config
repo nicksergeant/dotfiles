@@ -65,9 +65,9 @@ bindsym Control+Shift+o workspace number 4
 bindsym Control+Shift+m workspace number 5
 bindsym Control+Shift+s workspace number 6
 bindsym Control+Shift+c workspace number 7
-bindsym Control+Shift+i workspace number 8
-bindsym Control+Shift+r workspace number 9
-bindsym Control+Shift+0 workspace number 10
+bindsym $mod+Control+Shift+i workspace number 8
+bindsym Control+Shift+i workspace number 9
+bindsym Control+Shift+r workspace number 10
 
 # Move focused container to workspace
 bindsym $mod+Control+Shift+1 move container to workspace 1
@@ -130,7 +130,8 @@ assign [class="Slack"] "4"
 assign [instance="mail.google.com"] "5"
 assign [instance="calendar.google.com"] "7"
 assign [instance="tweetdeck.twitter.com"] "8"
-assign [instance="siftie.com"] "9"
+assign [instance="mastodon.technology"] "9"
+assign [instance="siftie.com"] "10"
 
 # Set X background color (visible if no wallpaper)
 exec --no-startup-id xsetroot -solid "#333333"
