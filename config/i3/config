@@ -58,15 +58,15 @@ bindsym $mod+Shift+period workspace next
 bindsym $mod+Shift+comma workspace prev
 
 # Switch to named workspace
-bindsym Control+Shift+semicolon workspace number 1 shell
-bindsym Control+Shift+h workspace number 2 vim
-bindsym Control+Shift+j workspace number 3 www
-bindsym Control+Shift+o workspace number 4 slack
-bindsym Control+Shift+m workspace number 5 mail
-bindsym Control+Shift+s workspace number 6 music
-bindsym Control+Shift+c workspace number 7 cal
-bindsym Control+Shift+i workspace number 8 twtr
-bindsym Control+Shift+r workspace number 9 rss
+bindsym Control+Shift+semicolon workspace number 1
+bindsym Control+Shift+h workspace number 2
+bindsym Control+Shift+j workspace number 3
+bindsym Control+Shift+o workspace number 4
+bindsym Control+Shift+m workspace number 5
+bindsym Control+Shift+s workspace number 6
+bindsym Control+Shift+c workspace number 7
+bindsym Control+Shift+i workspace number 8
+bindsym Control+Shift+r workspace number 9
 bindsym Control+Shift+0 workspace number 10
 
 # Move focused container to workspace
@@ -114,6 +114,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar
 bar {
   status_command i3blocks -c ~/.config/i3/i3blocks.conf
+  strip_workspace_numbers yes
 }
 
 # Start redshift (https://wiki.archlinux.org/index.php/redshift)
@@ -123,12 +124,12 @@ exec redshift &
 exec xcape &
 
 # Bind applications to workspaces
-assign [instance="google-chrome"] "3 www"
-assign [class="Slack"] "4 slack"
-assign [instance="mail.google.com"] "5 mail"
-assign [instance="calendar.google.com"] "7 cal"
-assign [instance="tweetdeck.twitter.com"] "8 twtr"
-assign [instance="siftie.com"] "9 rss"
+assign [instance="google-chrome"] "3"
+assign [class="Slack"] "4"
+assign [instance="mail.google.com"] "5"
+assign [instance="calendar.google.com"] "7"
+assign [instance="tweetdeck.twitter.com"] "8"
+assign [instance="siftie.com"] "9"
 
 # Set X background color (visible if no wallpaper)
 exec --no-startup-id xsetroot -solid "#333333"
