@@ -66,7 +66,7 @@ bindsym Control+Shift+m workspace number 5 mail
 bindsym Control+Shift+s workspace number 6 music
 bindsym Control+Shift+c workspace number 7 cal
 bindsym Control+Shift+i workspace number 8 twtr
-bindsym Control+Shift+9 workspace number 9
+bindsym Control+Shift+r workspace number 9 rss
 bindsym Control+Shift+0 workspace number 10
 
 # Move focused container to workspace
@@ -128,6 +128,7 @@ assign [class="Slack"] "4 slack"
 assign [instance="mail.google.com"] "5 mail"
 assign [instance="calendar.google.com"] "7 cal"
 assign [instance="tweetdeck.twitter.com"] "8 twtr"
+assign [instance="siftie.com"] "9 rss"
 
 # Set X background color (visible if no wallpaper)
 exec --no-startup-id xsetroot -solid "#333333"
@@ -140,5 +141,6 @@ exec urxvt -e tmux
 exec google-chrome-stable --app="https://mail.google.com"
 exec google-chrome-stable --app="https://calendar.google.com"
 exec google-chrome-stable --app="https://tweetdeck.twitter.com"
+exec google-chrome-stable --app="https://siftie.com"
 exec google-chrome-stable &
 exec slack &
