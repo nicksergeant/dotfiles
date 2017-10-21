@@ -144,6 +144,7 @@ exec urxvt -e tmux
 exec google-chrome-stable --app="https://mail.google.com"
 exec google-chrome-stable --app="https://calendar.google.com"
 exec google-chrome-stable --app="https://tweetdeck.twitter.com"
+exec google-chrome-stable --app="https://mastodon.technology"
 exec google-chrome-stable --app="https://siftie.com"
 exec google-chrome-stable &
 exec slack &
