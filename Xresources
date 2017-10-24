@@ -4,7 +4,7 @@ Xft.hinting:        true
 Xft.hintstyle:      hintfull
 Xft.rgba:           rgb
 
-urxvt*font:         xft:Meslo LG S:pixelsize=21
+urxvt*font:         xft:Menlo For Powerline:pixelsize=21
 urxvt*letterSpace:  -1
 urxvt*scrollBar:    false
 
