@@ -4,7 +4,7 @@ set $mod Mod1
 floating_modifier $mod
 
 # Font for window titles
-font pango:Menlo For Powerline 10
+font pango:Meslo LG S 10
 
 # Remove window borders and title bar
 hide_edge_borders both
