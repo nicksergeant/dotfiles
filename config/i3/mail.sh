@@ -1,7 +1,7 @@
 #!/bin/bash
 # From http://kumarcode.com/Colorful-i3/
 
-. /home/nick/Sources/dotfiles-private/zshrc
+. /home/nick/sources/dotfiles-private/zshrc
 
 COUNT=`curl -su $GMAIL_USERNAME:$GMAIL_PASSWORD https://mail.google.com/mail/feed/atom || echo "<fullcount>?</fullcount>"`
 COUNT=`echo "$COUNT" | grep -oPm1 "(?<=<fullcount>)[^<]+" `

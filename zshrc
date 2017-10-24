@@ -1,7 +1,7 @@
 # Environment variables
 
 export EDITOR='vim'
-export PATH=$PATH:~/Sources/dotfiles/bin:~/.local/bin
+export PATH=$PATH:~/sources/dotfiles/bin:~/.local/bin
 export ZSH=~/.oh-my-zsh
 
 # oh-my-zsh
@@ -14,12 +14,12 @@ source $ZSH/oh-my-zsh.sh
 # z
 
 alias j=z
-source ~/Sources/z/z.sh
+source ~/sources/z/z.sh
 
 # Aliases
 
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
-alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
+alias glco='hub browse -- commit/$(~/sources/dotfiles/bin/get_last_commit)'
 alias m='mvim .'
 alias o='open'
 alias ta='tmux attach -t'
@@ -110,4 +110,4 @@ ti() {
 
 # Import private settings
 
-source ~/Sources/dotfiles-private/zshrc
+source ~/sources/dotfiles-private/zshrc
