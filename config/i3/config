@@ -140,7 +140,6 @@ exec --no-startup-id xsetroot -solid "#333333"
 exec --no-startup-id feh --bg-scale ~/.wallpaper.jpg
 
 # Start initial applications
-exec urxvt -e tmux
 exec google-chrome-stable --app="https://mail.google.com"
 exec google-chrome-stable --app="https://calendar.google.com"
 exec google-chrome-stable --app="https://tweetdeck.twitter.com"

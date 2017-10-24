@@ -1,0 +1,29 @@
+#!/bin/bash
+
+mkdir -p /home/nick/.config/fontconfig
+mkdir -p /home/nick/.config/i3
+mkdir -p /home/nick/.fonts
+
+ln -sf /home/nick/sources/dotfiles/Xmodmap /home/nick/.Xmodmap
+ln -sf /home/nick/sources/dotfiles/Xresources /home/nick/.Xresources
+ln -sf /home/nick/sources/dotfiles/config/chrome-flags.conf /home/nick/.config/chrome-flags.conf
+ln -sf /home/nick/sources/dotfiles/config/i3/battery /home/nick/.config/i3/battery
+ln -sf /home/nick/sources/dotfiles/config/i3/config /home/nick/.config/i3/config
+ln -sf /home/nick/sources/dotfiles/config/i3/i3blocks.conf /home/nick/.config/i3/i3blocks.conf
+ln -sf /home/nick/sources/dotfiles/config/i3/mail /home/nick/.config/i3/mail
+ln -sf /home/nick/sources/dotfiles/config/i3/weather /home/nick/.config/i3/weather
+ln -sf /home/nick/sources/dotfiles/config/redshift.conf /home/nick/.config/redshift.conf
+ln -sf /home/nick/sources/dotfiles/config/fontconfig/fonts.conf /home/nick/.config/fontconfig/fonts.conf
+ln -sf /home/nick/sources/dotfiles/gitconfig /home/nick/.gitconfig
+ln -sf /home/nick/sources/dotfiles/gitignore /home/nick/.gitignore
+ln -sf /home/nick/sources/dotfiles/tmux.conf /home/nick/.tmux.conf
+ln -sf /home/nick/sources/dotfiles/vimrc /home/nick/.vimrc
+ln -sf /home/nick/sources/dotfiles/wallpaper.jpg /home/nick/.wallpaper.jpg
+ln -sf /home/nick/sources/dotfiles/xbindkeysrc /home/nick/.xbindkeysrc
+ln -sf /home/nick/sources/dotfiles/xinitrc /home/nick/.xinitrc
+ln -sf /home/nick/sources/dotfiles/xprofile /home/nick/.xprofile
+ln -sf /home/nick/sources/dotfiles/zshrc /home/nick/.zshrc
+
+chmod u+x /home/nick/.config/i3/battery
+chmod u+x /home/nick/.config/i3/mail
+chmod u+x /home/nick/.config/i3/weather
