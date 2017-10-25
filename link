@@ -9,6 +9,7 @@ ln -sf /home/nick/sources/dotfiles/Xresources /home/nick/.Xresources
 ln -sf /home/nick/sources/dotfiles/compton.conf /home/nick/.compton.conf
 ln -sf /home/nick/sources/dotfiles/config/chrome-flags.conf /home/nick/.config/chrome-flags.conf
 ln -sf /home/nick/sources/dotfiles/config/fontconfig/fonts.conf /home/nick/.config/fontconfig/fonts.conf
+ln -sf /home/nick/sources/dotfiles/config/gtk-3.0/gtk.css /home/nick/.config/gtk-3.0/gtk.css
 ln -sf /home/nick/sources/dotfiles/config/i3/battery /home/nick/.config/i3/battery
 ln -sf /home/nick/sources/dotfiles/config/i3/config /home/nick/.config/i3/config
 ln -sf /home/nick/sources/dotfiles/config/i3/i3blocks.conf /home/nick/.config/i3/i3blocks.conf
@@ -17,6 +18,7 @@ ln -sf /home/nick/sources/dotfiles/config/i3/weather /home/nick/.config/i3/weath
 ln -sf /home/nick/sources/dotfiles/config/redshift.conf /home/nick/.config/redshift.conf
 ln -sf /home/nick/sources/dotfiles/gitconfig /home/nick/.gitconfig
 ln -sf /home/nick/sources/dotfiles/gitignore /home/nick/.gitignore
+ln -sf /home/nick/sources/dotfiles/gvimrc /home/nick/.gvimrc
 ln -sf /home/nick/sources/dotfiles/tmux.conf /home/nick/.tmux.conf
 ln -sf /home/nick/sources/dotfiles/vimrc /home/nick/.vimrc
 ln -sf /home/nick/sources/dotfiles/wallpaper.jpg /home/nick/.wallpaper.jpg

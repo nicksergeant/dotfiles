@@ -1,3 +1,4 @@
+set guioptions-=m        " Hide menubar.
 set guioptions-=T        " Hide toolbar.
 set guioptions-=l        " Hide toolbar.
 set guioptions-=L        " Hide toolbar.
