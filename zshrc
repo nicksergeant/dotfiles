@@ -1,7 +1,8 @@
 # Environment variables
 
 export EDITOR='vim'
-export PATH=$PATH:~/sources/dotfiles/bin:~/.local/bin
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH=$PATH:~/$PYENV_ROOT/bin:~/sources/dotfiles/bin:~/.local/bin
 export ZSH=~/.oh-my-zsh
 
 # oh-my-zsh
@@ -30,6 +31,12 @@ unalias gpd
 
 autoload -U promptinit; promptinit
 prompt pure
+
+# Python
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
 
 # Functions
 
