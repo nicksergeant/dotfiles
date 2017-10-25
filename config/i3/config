@@ -65,8 +65,8 @@ bindsym Control+Shift+o workspace number 4
 bindsym Control+Shift+m workspace number 5
 bindsym Control+Shift+s workspace number 6
 bindsym Control+Shift+c workspace number 7
-bindsym $mod+Control+Shift+i workspace number 8
-bindsym Control+Shift+i workspace number 9
+bindsym Control+Shift+i workspace number 8
+bindsym $mod+Control+Shift+i workspace number 9
 bindsym Control+Shift+r workspace number 10
 
 # Move focused container to workspace
