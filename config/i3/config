@@ -118,11 +118,14 @@ bar {
   strip_workspace_numbers yes
 }
 
-# Start redshift (https://wiki.archlinux.org/index.php/redshift)
+# Start Redshift (https://wiki.archlinux.org/index.php/redshift)
 exec redshift &
 
 # Start xcape (https://github.com/alols/xcape)
 exec xcape &
+
+# Start Compton
+exec compton -b (https://github.com/chjj/compton)
 
 # Bind applications to workspaces
 assign [instance="google-chrome"] "3"
