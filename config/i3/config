@@ -11,7 +11,7 @@ hide_edge_borders both
 new_window pixel 0
 
 # i3-gaps (https://github.com/Airblader/i3)
-gaps inner 15
+gaps inner 30
 gaps outer 0
 
 bindsym $mod+Return exec urxvt -e tmux

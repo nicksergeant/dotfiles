@@ -6,14 +6,15 @@ mkdir -p /home/nick/.fonts
 
 ln -sf /home/nick/sources/dotfiles/Xmodmap /home/nick/.Xmodmap
 ln -sf /home/nick/sources/dotfiles/Xresources /home/nick/.Xresources
+ln -sf /home/nick/sources/dotfiles/compton.conf /home/nick/.compton.conf
 ln -sf /home/nick/sources/dotfiles/config/chrome-flags.conf /home/nick/.config/chrome-flags.conf
+ln -sf /home/nick/sources/dotfiles/config/fontconfig/fonts.conf /home/nick/.config/fontconfig/fonts.conf
 ln -sf /home/nick/sources/dotfiles/config/i3/battery /home/nick/.config/i3/battery
 ln -sf /home/nick/sources/dotfiles/config/i3/config /home/nick/.config/i3/config
 ln -sf /home/nick/sources/dotfiles/config/i3/i3blocks.conf /home/nick/.config/i3/i3blocks.conf
 ln -sf /home/nick/sources/dotfiles/config/i3/mail /home/nick/.config/i3/mail
 ln -sf /home/nick/sources/dotfiles/config/i3/weather /home/nick/.config/i3/weather
 ln -sf /home/nick/sources/dotfiles/config/redshift.conf /home/nick/.config/redshift.conf
-ln -sf /home/nick/sources/dotfiles/config/fontconfig/fonts.conf /home/nick/.config/fontconfig/fonts.conf
 ln -sf /home/nick/sources/dotfiles/gitconfig /home/nick/.gitconfig
 ln -sf /home/nick/sources/dotfiles/gitignore /home/nick/.gitignore
 ln -sf /home/nick/sources/dotfiles/tmux.conf /home/nick/.tmux.conf
