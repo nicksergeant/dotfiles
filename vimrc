@@ -74,6 +74,8 @@ Plugin 'tpope/vim-fugitive.git'
 Plugin 'tpope/vim-repeat.git'
 Plugin 'tpope/vim-rhubarb'
 Plugin 'tpope/vim-surround.git'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'vim-scripts/ZoomWin.git'
 Plugin 'w0rp/ale'
 
 call vundle#end()
