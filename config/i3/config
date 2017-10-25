@@ -127,7 +127,7 @@ exec xcape &
 # Start Compton (https://github.com/chjj/compton)
 exec compton -b
 
-# Start xss-lock (locks screen with i3lock after wake from suspenD)
+# Start xss-lock (locks screen with i3lock after wake from suspend)
 exec xss-lock -- i3lock -c 1C1B1A &
 
 # Bind applications to workspaces
