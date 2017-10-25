@@ -20,7 +20,7 @@ source ~/sources/z/z.sh
 
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='hub browse -- commit/$(~/sources/dotfiles/bin/get_last_commit)'
-alias m='mvim .'
+alias m='gvim .'
 alias o='open'
 alias ta='tmux attach -t'
 unalias gd
