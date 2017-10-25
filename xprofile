@@ -1,2 +1,8 @@
 # Enable natural scrolling for trackpad
-xinput set-prop "Synaptics TM3072-003" 283 1
+xinput set-prop "SynPS/2 Synaptics TouchPad" 283 1
+
+# Enable trackpad tapping
+xinput set-prop "SynPS/2 Synaptics TouchPad" 275 1
+
+# Disable trackpad dragging
+xinput set-prop "SynPS/2 Synaptics TouchPad" 277 1
