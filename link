@@ -26,6 +26,7 @@ ln -sf /home/nick/sources/dotfiles/xbindkeysrc /home/nick/.xbindkeysrc
 ln -sf /home/nick/sources/dotfiles/xinitrc /home/nick/.xinitrc
 ln -sf /home/nick/sources/dotfiles/xprofile /home/nick/.xprofile
 ln -sf /home/nick/sources/dotfiles/zshrc /home/nick/.zshrc
+sudo ln -sf /home/nick/sources/dotfiles/etc/udev/rules.d/90-backlight.rules /etc/udev/rules.d/90-backlight.rules
 
 chmod u+x /home/nick/.config/i3/battery
 chmod u+x /home/nick/.config/i3/mail

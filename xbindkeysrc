@@ -1,9 +1,9 @@
 # Media and Function Keys
 
-"xbacklight -dec 6%"
+"xbacklight -dec 6"
   XF86AudioMute
 
-"xbacklight -inc 6%"
+"xbacklight -inc 6"
   XF86AudioLowerVolume
 
 "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
