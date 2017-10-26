@@ -4,12 +4,20 @@ file=$1
 extension="${file##*.}"
 
 uuid=$(uuidgen)
-uuid_lower="${uuid,,}"
+uuid_lower="${uuid:u}"
 uuid_clean=${uuid_lower//-/}
 
 filename="$uuid_clean.$extension"
 
-/home/nick/.local/bin/aws s3 cp "$1" s3://i.nick.sg/$filename >> /dev/null &&
-  url="http://i.nick.sg/$filename" &&
-  echo -n $url | xclip -in -selection clipboard &&
-  echo $url
+if command -v xclip; then
+  aws s3 cp "$1" s3://i.nick.sg/$filename >> /dev/null &&
+    url="http://i.nick.sg/$filename" &&
+    echo -n $url | xclip -in -selection clipboard &&
+    echo $url
+else
+  /Users/nsergeant/.pyenv/shims/aws s3 cp "$1" s3://i.nick.sg/$filename >> /dev/null &&
+    url="http://i.nick.sg/$filename" &&
+    echo -n $url | pbcopy &&
+    echo $url &&
+    afplay /System/Library/Sounds/Glass.aiff
+fi
