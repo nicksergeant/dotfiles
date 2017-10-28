@@ -287,12 +287,6 @@ augroup END
 com! FormatJSON %!python -m json.tool
 
 " }}}
-" Navigation {{{
-
-nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<CR>
-nnoremap <leader>ef <C-w>s<C-w>j<C-w>L:e ~/.zshrc<CR>
-
-" }}}
 " Neocomplete {{{
 
 let g:neocomplete#enable_at_startup = 1
@@ -341,6 +335,13 @@ let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index',
 
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+
+" }}}
+" Quick edit files {{{
+
+nnoremap <leader>ez <C-w>s<C-w>j<C-w>L:e ~/.zshrc<CR>
+nnoremap <leader>ei <C-w>s<C-w>j<C-w>L:e ~/.config/i3/config<CR>
+nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<CR>
 
 " }}}
 " Settings {{{

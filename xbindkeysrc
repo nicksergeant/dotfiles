@@ -39,5 +39,11 @@
 "xdg-open https://my.1password.com/signin"
   Control+Shift + backslash
 
+"xdg-open https://www.wegmans.com/shopping-list.html"
+  Control+Shift + 9
+
+"xdg-open https://www.amazon.com/gp/css/order-history"
+  Control+Shift + 0
+
 "xdg-open https://app.youneedabudget.com"
   Control+Shift + y

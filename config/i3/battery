@@ -39,12 +39,12 @@ $percent = $2;
 $full_text = "";
 if ($status eq 'Discharging') {
     
-	$full_text .= "⚡ $percent% Bat";
+	$full_text .= "$percent% Bat";
 } elsif ($status eq 'Charging') {
-	$full_text .= " $percent% Chr";
+	$full_text .= "$percent% Chr";
 }
  elsif ($status eq 'Unknown' || $status eq 'Full') {
-	$full_text .= "⚡ $percent%";
+	$full_text .= "$percent%";
 }
 
 $short_text = $full_text;
