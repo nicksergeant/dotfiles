@@ -47,20 +47,12 @@ bu() {
   echo 
   echo ------------ Mac Dropbox to Seagate ------------
   echo
-  rsync -ahL --progress ~/Dropbox/ /Volumes/Seagate/Dropbox/
+  rsync -ahL --progress ~/Dropbox\ \(Personal\)/ /Volumes/Seagate/Dropbox/
   echo 
   echo ------------ Mac Dropbox to Time Machine ------------
   echo
-  rsync -ahL --progress ~/Dropbox/ /Volumes/Time\ Machine/Dropbox/
+  rsync -ahL --progress ~/Dropbox\ \(Personal\)/ /Volumes/Time\ Machine/Dropbox/
   echo 
-  echo ------------ Mac iCloud Drive to Seagate ------------
-  echo
-  rsync -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Seagate/iCloud\ Drive/
-  echo 
-  echo ------------ Mac iCloud Drive to Time Machine ------------
-  echo
-  rsync -ahL --progress ~/Library/Mobile\ Documents/com~apple~CloudDocs/ /Volumes/Time\ Machine/iCloud\ Drive/
-  echo
   echo ------------ Mac Photo Booth Library to Seagate ------------
   echo
   rsync -ahL --progress ~/Pictures/Photo\ Booth\ Library/ /Volumes/Seagate/Photo\ Booth\ Library/
