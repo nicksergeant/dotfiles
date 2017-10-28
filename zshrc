@@ -2,7 +2,7 @@
 
 export EDITOR='vim'
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH=$PATH:~/$PYENV_ROOT/bin:~/sources/dotfiles/bin:~/.local/bin
+export PATH=$PATH:~/$PYENV_ROOT/bin:~/Sources/dotfiles/bin:~/.local/bin
 export ZSH=~/.oh-my-zsh
 
 # oh-my-zsh
@@ -15,12 +15,12 @@ source $ZSH/oh-my-zsh.sh
 # z
 
 alias j=z
-source ~/sources/z/z.sh
+source ~/Sources/z/z.sh
 
 # Aliases
 
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
-alias glco='hub browse -- commit/$(~/sources/dotfiles/bin/get_last_commit)'
+alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
 alias m='gvim .'
 alias o='open'
 alias ta='tmux attach -t'
@@ -117,4 +117,4 @@ ti() {
 
 # Import private settings
 
-source ~/sources/dotfiles-private/zshrc
+source ~/Sources/dotfiles-private/zshrc
