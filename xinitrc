@@ -44,5 +44,9 @@ xrandr --dpi 192
 # Faster key repeat
 xset r rate 285 30
 
+# Sync clipboards
+autocutsel -fork &
+autocutsel -selection PRIMARY -fork &
+
 # Start i3
 exec i3

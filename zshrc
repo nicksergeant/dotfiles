@@ -19,10 +19,8 @@ source ~/Sources/z/z.sh
 
 # Aliases
 
-alias e='vim .'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
-alias m='gvim .'
 alias n='vim ~/Dropbox/Documents/Misc/Notes.txt'
 alias o='open'
 alias ta='tmux attach -t'
@@ -101,6 +99,14 @@ gpd() {
 
 gpf() {
   git pushf
+}
+
+m() {
+  if [ "$@" ] ; then
+    vim $@
+  else
+    vim .
+  fi
 }
 
 ti() {
