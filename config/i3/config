@@ -22,6 +22,7 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 bindsym Control+space exec dmenu_run
+bindsym Control+shift+period exec speedcrunch
 
 # Move focused window
 bindsym $mod+Shift+j move left

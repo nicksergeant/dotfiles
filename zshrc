@@ -19,6 +19,7 @@ source ~/Sources/z/z.sh
 
 # Aliases
 
+alias e='vim .'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
 alias m='gvim .'
