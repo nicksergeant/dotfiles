@@ -28,6 +28,7 @@ ln -sf /home/nick/Sources/dotfiles/xprofile /home/nick/.xprofile
 ln -sf /home/nick/Sources/dotfiles/zshrc /home/nick/.zshrc
 sudo ln -sf /home/nick/Sources/dotfiles/etc/sysctl.d/99-sysctl.conf /etc/sysctl.d/99-sysctl.conf
 sudo ln -sf /home/nick/Sources/dotfiles/etc/udev/rules.d/90-backlight.rules /etc/udev/rules.d/90-backlight.rules
+sudo ln -sf /home/nick/Sources/dotfiles/etc/systemd/system/suspend@.service /etc/systemd/system/suspend@.service
 
 chmod u+x /home/nick/.config/i3/battery
 chmod u+x /home/nick/.config/i3/mail
