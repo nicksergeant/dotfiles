@@ -139,7 +139,7 @@ assign [instance="siftie.com"] "9"
 exec --no-startup-id xsetroot -solid "#333333"
 
 # Set wallpaper
-exec --no-startup-id feh --bg-scale ~/.wallpaper.jpg
+exec --no-startup-id feh --bg-scale ~/.wallpaper.png
 
 # Start initial applications
 exec google-chrome-stable --app="https://mail.google.com"
