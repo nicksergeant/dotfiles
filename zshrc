@@ -115,6 +115,14 @@ ti() {
   tmux attach
 }
 
+v() {
+  if [ "$@" ] ; then
+    vim $@
+  else
+    vim .
+  fi
+}
+
 # Import private settings
 
 source ~/Sources/dotfiles-private/zshrc

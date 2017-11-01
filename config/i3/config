@@ -115,6 +115,7 @@ bar {
   position top
   status_command i3blocks -c ~/.config/i3/i3blocks.conf
   strip_workspace_numbers yes
+  tray_padding 5
 }
 
 # Start Redshift (https://wiki.archlinux.org/index.php/redshift)
