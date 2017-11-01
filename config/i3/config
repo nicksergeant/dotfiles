@@ -4,7 +4,7 @@ set $mod Mod1
 floating_modifier $mod
 
 # Font for window titles
-font pango:Menlo For Powerline 11
+font pango:Menlo For Powerline 10
 
 # Remove window borders and title bar
 hide_edge_borders both
@@ -21,7 +21,6 @@ bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-bindsym Control+space exec dmenu_run
 bindsym Control+shift+period exec speedcrunch
 
 # Move focused window
@@ -65,8 +64,8 @@ bindsym Control+Shift+j workspace number 3
 bindsym Control+Shift+o workspace number 4
 bindsym Control+Shift+m workspace number 5
 bindsym Control+Shift+s workspace number 6
-bindsym Control+Shift+c workspace number 7
-bindsym Control+Shift+i workspace number 8
+bindsym Control+Shift+l workspace number 7
+bindsym Control+Shift+t workspace number 8
 bindsym Control+Shift+r workspace number 9
 
 # Move focused container to workspace

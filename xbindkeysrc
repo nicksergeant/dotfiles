@@ -36,9 +36,6 @@
 "xdg-open https://www.wunderground.com/weather/us/ny/shortsville"
   Control+Shift + w
 
-"xdg-open https://my.1password.com/signin"
-  Control+Shift + backslash
-
 "xdg-open https://www.wegmans.com/shopping-list.html"
   Control+Shift + 9
 

@@ -1,10 +1,10 @@
 Xft.antialias:      true
-Xft.dpi:            144
+Xft.dpi:            168
 Xft.hinting:        true
 Xft.hintstyle:      hintfull
 Xft.rgba:           rgb
 
-urxvt*font:         xft:Menlo For Powerline:size=12
+urxvt*font:         xft:Menlo For Powerline:size=11
 urxvt*letterSpace:  -1
 urxvt*scrollBar:    false
 
