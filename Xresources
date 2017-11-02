@@ -4,9 +4,11 @@ Xft.hinting:        true
 Xft.hintstyle:      hintfull
 Xft.rgba:           rgb
 
+urxvt*cursorColor:  #2BA1F9
 urxvt*font:         xft:Menlo For Powerline:size=11
 urxvt*letterSpace:  -1
 urxvt*scrollBar:    false
+urxvt*cursorBlink:  1
 
 ! Disable unnecessary urxvt modes
 urxvt*iso14755:     false
