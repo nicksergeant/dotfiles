@@ -18,8 +18,6 @@ nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
 nnoremap <c-p> <c-i>
 nnoremap <leader>ee :ALEToggle<cr>
-nnoremap <leader>cs :let g:ctrlp_use_caching = 0<CR>
-nnoremap <leader>cc :let g:ctrlp_use_caching = 1<CR>
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
@@ -42,56 +40,47 @@ vmap <tab> %
 " }}}
 " Plugins {{{
 
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-Plugin 'PeterRincker/vim-argumentative.git'
-Plugin 'Shougo/neocomplete.vim'
-Plugin 'SirVer/ultisnips.git'
-Plugin 'airblade/vim-gitgutter.git'
-Plugin 'ctrlpvim/ctrlp.vim.git'
-Plugin 'digitaltoad/vim-pug.git'
-Plugin 'elixir-lang/vim-elixir'
-Plugin 'gmarik/Vundle.vim'
-Plugin 'honza/vim-snippets.git'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'lokaltog/vim-easymotion'
-Plugin 'marijnh/tern_for_vim.git'
-Plugin 'mileszs/ack.vim.git'
-Plugin 'moll/vim-node'
-Plugin 'mustache/vim-mustache-handlebars.git'
-Plugin 'mxw/vim-jsx.git'
-Plugin 'nvie/vim-flake8.git'
-Plugin 'othree/html5.vim.git'
-Plugin 'pangloss/vim-javascript.git'
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plugin 'sbdchd/neoformat'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'sjl/badwolf.git'
-Plugin 'tpope/vim-commentary.git'
-Plugin 'tpope/vim-fugitive.git'
-Plugin 'tpope/vim-repeat.git'
-Plugin 'tpope/vim-rhubarb'
-Plugin 'tpope/vim-surround.git'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-scripts/ZoomWin.git'
-Plugin 'w0rp/ale'
+function! BuildTern(info)
+  if a:info.status == 'installed' || a:info.force
+    !npm install
+  endif
+endfunction
 
-call vundle#end()
-filetype plugin indent on
+Plug '/usr/bin/fzf'
+Plug 'PeterRincker/vim-argumentative'
+Plug 'Shougo/neocomplete.vim'
+Plug 'SirVer/ultisnips'
+Plug 'airblade/vim-gitgutter'
+Plug 'elixir-lang/vim-elixir'
+Plug 'honza/vim-snippets'
+Plug 'junegunn/fzf.vim'
+Plug 'kchmck/vim-coffee-script'
+Plug 'lokaltog/vim-easymotion'
+Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
+Plug 'moll/vim-node'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'mxw/vim-jsx'
+Plug 'nvie/vim-flake8'
+Plug 'othree/html5.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'sbdchd/neoformat'
+Plug 'scrooloose/nerdtree'
+Plug 'sjl/badwolf'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-scripts/ZoomWin'
+Plug 'w0rp/ale'
 
-" }}}
-
-" Ack {{{
-
-let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
-
-" Ack for last search.
-nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
-nnoremap <leader>a :Ack!<space>
+call plug#end()
 
 " }}}
+
 " Ale {{{
 
 let g:ale_sign_column_always = 1
@@ -151,29 +140,6 @@ augroup ft_css
 augroup END
 
 " }}}
-" Ctrl-P {{{
-
-let g:ctrlp_dont_split = 'NERD_tree_2'
-let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '<c-g>'
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_max_height = 20
-let g:ctrlp_split_window = 0
-let g:ctrlp_use_caching  = 0
-let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
-let g:ctrlp_working_path_mode = 0
-
-let g:ctrlp_prompt_mappings = {
-\ 'PrtHistory(-1)':       ['<c-n>'],
-\ 'PrtHistory(1)':        ['<c-p>'],
-\ 'PrtSelectMove("j")':   ['<down>', '<s-tab>'],
-\ 'PrtSelectMove("k")':   ['<up>', '<tab>'],
-\ 'ToggleFocus()':        ['<c-tab>'],
-\ }
-
-nnoremap <leader>/ :CtrlPBufTag<cr>
-
-" }}}
 " Elixir {{{
 
 autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
@@ -226,6 +192,15 @@ function! MyFoldText() " {{{
     return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
 endfunction " }}}
 set foldtext=MyFoldText()
+
+" }}}
+" fzf and ripgrep {{{
+
+" let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
+
+" Ack for last search.
+" nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
+nnoremap <c-g> :Files<CR>
 
 " }}}
 " Fugitive and Hub {{{

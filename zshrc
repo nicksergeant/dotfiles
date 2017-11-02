@@ -38,6 +38,11 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+# fzf
+
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
 # Functions
 
 bu() {
@@ -103,9 +108,9 @@ gpf() {
 
 m() {
   if [ "$@" ] ; then
-    gvim $@
+    vim $@
   else
-    gvim .
+    vim .
   fi
 }
 
@@ -113,14 +118,6 @@ ti() {
   tmux new-session -d -s primary -n shell
   tmux split-window -t primary -h
   tmux attach
-}
-
-v() {
-  if [ "$@" ] ; then
-    vim $@
-  else
-    vim .
-  fi
 }
 
 # Import private settings
