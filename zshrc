@@ -40,8 +40,19 @@ fi
 
 # fzf
 
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+
+if [[ -a /usr/share/fzf/key-bindings.zsh ]]; then
+  source /usr/share/fzf/key-bindings.zsh
+else
+  source /usr/local/opt/fzf/shell/key-bindings.zsh
+fi
+
+if [[ -a /usr/share/fzf/completion.zsh ]]; then
+  source /usr/share/fzf/completion.zsh
+else
+  source /usr/local/opt/fzf/shell/completion.zsh
+fi
 
 bindkey '^G' fzf-file-widget
 bindkey '^J' fzf-cd-widget

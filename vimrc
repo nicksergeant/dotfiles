@@ -49,6 +49,7 @@ function! BuildTern(info)
 endfunction
 
 Plug '/usr/bin/fzf'
+Plug '/usr/local/opt/fzf'
 Plug 'PeterRincker/vim-argumentative'
 Plug 'Shougo/neocomplete.vim'
 Plug 'SirVer/ultisnips'
@@ -194,15 +195,19 @@ set foldtext=MyFoldText()
 " }}}
 " fzf and ripgrep {{{
 
-" let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
-
-" Ack for last search.
-" nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 nnoremap <c-g> :Files<CR>
-nnoremap <leader>a :Ag<space>
+nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
+nnoremap <leader>a :Rg<space>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>l :Lines<CR>
 nnoremap <leader>r :History<CR>
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 
 " }}}
 " Fugitive and Hub {{{
