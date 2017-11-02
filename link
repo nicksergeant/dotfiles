@@ -21,11 +21,13 @@ ln -sf /home/nick/Sources/dotfiles/gitignore /home/nick/.gitignore
 ln -sf /home/nick/Sources/dotfiles/gvimrc /home/nick/.gvimrc
 ln -sf /home/nick/Sources/dotfiles/tmux.conf /home/nick/.tmux.conf
 ln -sf /home/nick/Sources/dotfiles/vimrc /home/nick/.vimrc
-ln -sf /home/nick/Sources/dotfiles/wallpaper.jpg /home/nick/.wallpaper.jpg
+ln -sf /home/nick/Sources/dotfiles/wallpaper.png /home/nick/.wallpaper.png
 ln -sf /home/nick/Sources/dotfiles/xbindkeysrc /home/nick/.xbindkeysrc
 ln -sf /home/nick/Sources/dotfiles/xinitrc /home/nick/.xinitrc
-ln -sf /home/nick/Sources/dotfiles/xprofile /home/nick/.xprofile
 ln -sf /home/nick/Sources/dotfiles/zshrc /home/nick/.zshrc
+sudo ln -sf /home/nick/Sources/dotfiles/etc/X11/xorg.conf.d/30-touchpad.conf /etc/X11/xorg.conf.d/30-touchpad.conf
+sudo ln -sf /home/nick/Sources/dotfiles/etc/sysctl.d/99-sysctl.conf /etc/sysctl.d/99-sysctl.conf
+sudo ln -sf /home/nick/Sources/dotfiles/etc/systemd/system/suspend@.service /etc/systemd/system/suspend@.service
 sudo ln -sf /home/nick/Sources/dotfiles/etc/udev/rules.d/90-backlight.rules /etc/udev/rules.d/90-backlight.rules
 
 chmod u+x /home/nick/.config/i3/battery

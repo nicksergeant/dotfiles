@@ -1,0 +1,13 @@
+[Unit]
+Description=User suspend actions
+Before=sleep.target
+
+[Service]
+User=%I
+Type=forking
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/i3lock -u -i /home/nick/.wallpaper.png
+ExecStartPost=/usr/bin/sleep 1
+
+[Install]
+WantedBy=sleep.target

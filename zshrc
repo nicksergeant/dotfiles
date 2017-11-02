@@ -21,7 +21,7 @@ source ~/Sources/z/z.sh
 
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
-alias m='gvim .'
+alias n='vim ~/Dropbox/Documents/Misc/Notes.txt'
 alias o='open'
 alias ta='tmux attach -t'
 unalias gd
@@ -37,6 +37,14 @@ prompt pure
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+# fzf
+
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+bindkey '^G' fzf-file-widget
+bindkey '^J' fzf-cd-widget
 
 # Functions
 
@@ -99,6 +107,14 @@ gpd() {
 
 gpf() {
   git pushf
+}
+
+m() {
+  if [ "$@" ] ; then
+    vim $@
+  else
+    vim .
+  fi
 }
 
 ti() {
