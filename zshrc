@@ -43,6 +43,9 @@ fi
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
+bindkey '^G' fzf-file-widget
+bindkey '^J' fzf-cd-widget
+
 # Functions
 
 bu() {
