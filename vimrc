@@ -92,8 +92,6 @@ let g:ale_javascript_eslint_use_global = 1
 " Buffers {{{
 
 map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
 map <C-l> <C-w>l
 
 " }}}
@@ -201,6 +199,10 @@ set foldtext=MyFoldText()
 " Ack for last search.
 " nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
 nnoremap <c-g> :Files<CR>
+nnoremap <leader>a :Ag<space>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>l :Lines<CR>
+nnoremap <leader>r :History<CR>
 
 " }}}
 " Fugitive and Hub {{{
