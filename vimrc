@@ -4,10 +4,8 @@ execute "set <M-w>=\ew"
 execute "set <M-s>=\es"
 inoremap <F1> <nop>
 inoremap jk <esc>
-let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
-let g:sparkupExecuteMapping = "<D-e>"
 let mapleader = ","
 set timeoutlen=1000 ttimeoutlen=0
 map <leader>c :let @/=''<cr>
@@ -29,6 +27,7 @@ nnoremap k gk
 nnoremap n nzv
 noremap ; :Neoformat<cr>
 noremap <m-s> :wa<cr>
+noremap <m-d> :wa<cr>
 noremap <m-w> :q<cr>
 noremap H ^
 noremap L g_
@@ -51,11 +50,9 @@ endfunction
 Plug '/usr/bin/fzf'
 Plug '/usr/local/opt/fzf'
 Plug 'PeterRincker/vim-argumentative'
-Plug 'SirVer/ultisnips'
 Plug 'airblade/vim-gitgutter'
 Plug 'ajh17/VimCompletesMe'
 Plug 'elixir-lang/vim-elixir'
-Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'lokaltog/vim-easymotion'
@@ -75,6 +72,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'vim-scripts/AutoComplPop'
 Plug 'vim-scripts/ZoomWin'
 Plug 'w0rp/ale'
 
@@ -88,6 +86,11 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_javascript_eslint_use_global = 1
+
+" }}}
+" Autocomplete {{{
+
+inoremap cl<space> console.log(
 
 " }}}
 " Buffers {{{
@@ -327,7 +330,6 @@ set autowrite
 set backspace=indent,eol,start
 set colorcolumn=0
 set cursorline
-set dictionary=/usr/share/dict/words
 set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
 set expandtab
