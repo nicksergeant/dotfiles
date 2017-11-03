@@ -27,7 +27,6 @@ nnoremap k gk
 nnoremap n nzv
 noremap ; :Neoformat<cr>
 noremap <m-s> :wa<cr>
-noremap <m-d> :wa<cr>
 noremap <m-w> :q<cr>
 noremap H ^
 noremap L g_
@@ -90,7 +89,7 @@ let g:ale_javascript_eslint_use_global = 1
 " }}}
 " Autocomplete {{{
 
-inoremap cl<space> console.log(
+inoremap cl<space> console.log()<esc>i
 
 " }}}
 " Buffers {{{
