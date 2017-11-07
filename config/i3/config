@@ -118,15 +118,6 @@ bar {
   tray_padding 5
 }
 
-# Start Redshift (https://wiki.archlinux.org/index.php/redshift)
-exec redshift &
-
-# Start xcape (https://github.com/alols/xcape)
-exec xcape &
-
-# Start Compton (https://github.com/chjj/compton)
-exec compton -b
-
 # Bind applications to workspaces
 assign [instance="google-chrome"] "3"
 assign [class="Slack"] "4"
@@ -147,4 +138,5 @@ exec google-chrome-stable --app="https://calendar.google.com"
 exec google-chrome-stable --app="https://tweetdeck.twitter.com"
 exec google-chrome-stable --app="https://siftie.com"
 exec google-chrome-stable &
+exec dropbox &
 exec slack &

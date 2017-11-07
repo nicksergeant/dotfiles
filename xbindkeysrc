@@ -26,6 +26,9 @@
 "gcolor2"
   Control+Shift+Alt + r
 
+"remmina -c ~/.config/remmina/macmini.remmina"
+  Control+Shift+Alt + m
+
 # Scripts
 
 "import -taint ~/.screenshot.jpg && /home/nick/Sources/dotfiles/bin/upload-screenshot /home/nick/.screenshot.jpg"

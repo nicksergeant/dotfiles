@@ -48,5 +48,14 @@ xset r rate 285 30
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
 
+# Start Redshift (https://wiki.archlinux.org/index.php/redshift)
+redshift &
+
+# Start xcape (https://github.com/alols/xcape)
+xcape &
+
+# Start Compton (https://github.com/chjj/compton)
+compton -b
+
 # Start i3
 exec i3
