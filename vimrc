@@ -4,13 +4,11 @@ execute "set <M-w>=\ew"
 execute "set <M-s>=\es"
 inoremap <F1> <nop>
 inoremap jk <esc>
-let g:UltiSnipsExpandTrigger = "<D-d>"
 let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
-let g:sparkupExecuteMapping = "<D-e>"
 let mapleader = ","
 set timeoutlen=1000 ttimeoutlen=0
-map <leader>c :let @/=''<CR>
+map <leader>c :let @/=''<cr>
 nmap <tab> %
 nnoremap <F1> <nop>
 nnoremap <c-]> f<space>
@@ -28,8 +26,8 @@ nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
 noremap ; :Neoformat<cr>
-noremap <M-s> :wa<cr>
-noremap <M-w> :q<cr>
+noremap <m-s> :wa<cr>
+noremap <m-w> :q<cr>
 noremap H ^
 noremap L g_
 set mouse=a
@@ -51,11 +49,9 @@ endfunction
 Plug '/usr/bin/fzf'
 Plug '/usr/local/opt/fzf'
 Plug 'PeterRincker/vim-argumentative'
-Plug 'Shougo/neocomplete.vim'
-Plug 'SirVer/ultisnips'
 Plug 'airblade/vim-gitgutter'
+Plug 'ajh17/VimCompletesMe'
 Plug 'elixir-lang/vim-elixir'
-Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'lokaltog/vim-easymotion'
@@ -75,6 +71,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'vim-scripts/AutoComplPop'
 Plug 'vim-scripts/ZoomWin'
 Plug 'w0rp/ale'
 
@@ -90,10 +87,15 @@ let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_javascript_eslint_use_global = 1
 
 " }}}
+" Autocomplete {{{
+
+inoremap cl<space> console.log()<esc>i
+
+" }}}
 " Buffers {{{
 
-map <C-h> <C-w>h
-map <C-l> <C-w>l
+map <c-h> <c-w>h
+map <c-l> <c-w>l
 
 " }}}
 " CoffeeScript {{{
@@ -108,12 +110,12 @@ silent! colorscheme badwolf
 " }}}
 " Copying and pasting {{{
 
-imap <C-v> <C-r><C-o>+
-nnoremap <C-v> c<ESC>"+p
+imap <c-v> <c-r><c-o>+
+nnoremap <c-v> c<ESC>"+p
 nnoremap Y y$
-vmap <C-c> "+y
-vmap <C-v> c<ESC>"+p
-vmap <C-x> "+c
+vmap <c-c> "+y
+vmap <c-v> c<ESC>"+p
+vmap <c-x> "+c
 
 " }}}
 " Commentary {{{
@@ -195,12 +197,12 @@ set foldtext=MyFoldText()
 " }}}
 " fzf and ripgrep {{{
 
-nnoremap <c-g> :Files<CR>
+nnoremap <c-g> :Files<cr>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
 nnoremap <leader>a :Rg<space>
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>l :Lines<CR>
-nnoremap <leader>r :History<CR>
+nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>l :Lines<cr>
+nnoremap <leader>r :History<cr>
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -214,8 +216,8 @@ command! -bang -nargs=* Rg
 
 let g:github_enterprise_urls = ['https://git.hubteam.com']
 
-nnoremap <leader>g :Gbrowse<CR>
-vnoremap <leader>g :Gbrowse<CR>
+nnoremap <leader>g :Gbrowse<cr>
+vnoremap <leader>g :Gbrowse<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
@@ -269,13 +271,6 @@ augroup END
 com! FormatJSON %!python -m json.tool
 
 " }}}
-" Neocomplete {{{
-
-let g:neocomplete#enable_at_startup = 1
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-
-" }}}
 " Neoformat {{{
 
 let g:neoformat_elixir_exfmt = {
@@ -321,9 +316,9 @@ let NERDTreeDirArrows = 1
 " }}}
 " Quick edit files {{{
 
-nnoremap <leader>ez <C-w>s<C-w>j<C-w>L:e ~/.zshrc<CR>
-nnoremap <leader>ei <C-w>s<C-w>j<C-w>L:e ~/.config/i3/config<CR>
-nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<CR>
+nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
+nnoremap <leader>ei <c-w>s<c-w>j<c-w>L:e ~/.config/i3/config<cr>
+nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e $MYVIMRC<cr>
 
 " }}}
 " Settings {{{
@@ -334,7 +329,6 @@ set autowrite
 set backspace=indent,eol,start
 set colorcolumn=0
 set cursorline
-set dictionary=/usr/share/dict/words
 set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
 set expandtab
