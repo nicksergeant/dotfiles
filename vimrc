@@ -356,6 +356,7 @@ set smartindent
 set softtabstop=2
 set splitbelow
 set splitright
+set statusline=\ %f%=\ [%l/%L]\ 
 set synmaxcol=800
 set t_Co=256
 set tabstop=2
