@@ -280,13 +280,13 @@ let g:neoformat_elixir_exfmt = {
   \ }
 
 let g:neoformat_javascript_prettier = {
-  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
-  \ 'args': ['--config /Users/nsergeant/Code/ContentEditorUI/prettier.config.js'],
+  \ 'exe': '/home/nick/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
+  \ 'args': ['--config /home/nick/Code/ContentEditorUI/prettier.config.js'],
   \ 'stdin': 1
   \ }
 
 let g:neoformat_scss_prettier = {
-  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
+  \ 'exe': '/home/nick/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
   \ 'args': ['--parser postcss', '--single-quote'],
   \ 'stdin': 1
   \ }
