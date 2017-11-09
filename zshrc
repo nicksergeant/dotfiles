@@ -1,8 +1,14 @@
 # Environment variables
 
 export EDITOR='vim'
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH=$PATH:~/$PYENV_ROOT/bin:~/Sources/dotfiles/bin:~/.local/bin
+export INFOPATH=/home/linuxbrew/.linuxbrew/share/info:$INFOPATH
+export MANPATH=/home/linuxbrew/.linuxbrew/share/man:$MANPATH
+export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+export PATH=$PATH:~/$PYENV_ROOT/bin
+export PATH=$PATH:~/Sources/dotfiles/bin
+export PATH=$PATH:~/.local/bin
+export PATH=$PATH:/home/linuxbrew/.linuxbrew/Homebrew/Library/Homebrew/vendor/portable-ruby/2.0.0-p648/bin
+export PYENV_ROOT=$HOME/.pyenv
 export ZSH=~/.oh-my-zsh
 
 # oh-my-zsh
