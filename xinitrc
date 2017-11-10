@@ -53,5 +53,8 @@ xcape &
 # Start Compton (https://github.com/chjj/compton)
 compton -b &
 
+# Start twmn (https://github.com/sboli/twmn)
+twmn &
+
 # Start i3
 exec i3
