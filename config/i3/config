@@ -6,9 +6,23 @@ floating_modifier $mod
 # Font for window titles
 font pango:Menlo For Powerline 10
 
-# Remove window borders and title bar
-hide_edge_borders both
-new_window pixel 0
+# Remove title bar
+new_window pixel 3
+
+# Colors
+
+set $bg-color            #383C4A
+set $bd-color            #00AFFF
+set $inactive-bg-color   #383C4A
+set $inactive-bd-color   #383C4A
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+#                           border          background      text                 indicator  child border 
+client.focused              $bd-color       $bg-color       $text-color          $bd-color  $bd-color  
+client.unfocused            $bg-color       $bg-color       $inactive-text-color $bg-color  $bg-color
+client.focused_inactive     $bg-color       $bg-color       $inactive-text-color $bg-color  $bg-color
+client.urgent               $bg-color       $bg-color       $text-color          $bg-color  $bg-color
+client.background                           $bg-color
 
 # i3-gaps (https://github.com/Airblader/i3)
 gaps inner 30
