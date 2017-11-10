@@ -44,10 +44,6 @@ xrandr --dpi 168
 # Faster key repeat
 xset r rate 285 30
 
-# Sync clipboards
-autocutsel -fork &
-autocutsel -selection PRIMARY -fork &
-
 # Start Redshift (https://wiki.archlinux.org/index.php/redshift)
 redshift &
 
@@ -55,7 +51,7 @@ redshift &
 xcape &
 
 # Start Compton (https://github.com/chjj/compton)
-compton -b
+compton -b &
 
 # Start i3
 exec i3
