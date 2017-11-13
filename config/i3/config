@@ -74,16 +74,16 @@ bindsym $mod+Shift+period workspace next
 bindsym $mod+Shift+comma workspace prev
 
 # Switch to named workspace
-bindsym Control+Shift+semicolon workspace number 1
-bindsym Control+Shift+h workspace number 2
-bindsym Control+Shift+j workspace number 3
-bindsym Control+Shift+o workspace number 4
-bindsym Control+Shift+m workspace number 5
-bindsym Control+Shift+s workspace number 6
-bindsym Control+Shift+l workspace number 7
-bindsym Control+Shift+e workspace number 8
-bindsym Control+Shift+r workspace number 9
-bindsym Control+Shift+k workspace number 10
+bindsym Control+Shift+semicolon workspace number 1 
+bindsym Control+Shift+h workspace number 2 
+bindsym Control+Shift+j workspace number 3 
+bindsym Control+Shift+o workspace number 4 
+bindsym Control+Shift+m workspace number 5 
+bindsym Control+Shift+s workspace number 6 
+bindsym Control+Shift+l workspace number 7 
+bindsym Control+Shift+e workspace number 8 
+bindsym Control+Shift+r workspace number 9 
+bindsym Control+Shift+k workspace number 10 
 
 # Move focused container to workspace
 bindsym $mod+Control+Shift+1 move container to workspace number 1
@@ -131,17 +131,16 @@ bindsym $mod+r mode "resize"
 bar {
   position top
   status_command i3blocks -c ~/.config/i3/i3blocks.conf
-  strip_workspace_numbers yes
   tray_padding 5
 }
 
 # Bind applications to workspaces
-assign [instance="google-chrome"] "3"
-assign [class="Slack"] "4"
-assign [instance="mail.google.com"] "5"
-assign [instance="calendar.google.com"] "7"
-assign [instance="tweetdeck.twitter.com"] "8"
-assign [instance="siftie.com"] "9"
+assign [instance="google-chrome"] "3 "
+assign [class="Slack"] "4 "
+assign [instance="mail.google.com"] "5 "
+assign [instance="calendar.google.com"] "7 "
+assign [instance="tweetdeck.twitter.com"] "8 "
+assign [instance="siftie.com"] "9 "
 
 # Set X background color (visible if no wallpaper)
 exec --no-startup-id xsetroot -solid "#333333"

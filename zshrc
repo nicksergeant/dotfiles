@@ -135,6 +135,16 @@ m() {
   fi
 }
 
+# Temporary. Need to properly reinitialize this stuff after
+# waking from suspend.
+resume() {
+  xbindkeys
+  xinput set-prop "USB OPTICAL MOUSE" 283 0, 1
+  xinput set-prop "USB OPTICAL MOUSE" 286 0, 0, 1
+  xmodmap ~/.Xmodmap
+  xset r rate 285 30
+}
+
 ti() {
   tmux new-session -d -s primary -n shell
   tmux split-window -t primary -h
