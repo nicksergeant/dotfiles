@@ -15,10 +15,10 @@
 "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
   F9
 
-"pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -6%"
+"ponymix decrease 5"
   F11
 
-"pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +6%"
+"ponymix increase 5"
   F12
 
 # Programs
