@@ -29,6 +29,9 @@
 "remmina -c ~/.config/remmina/macmini.remmina"
   Control+Shift+Alt + m
 
+"urxvt -e ncpamixer"
+  Control+Shift+Alt + s
+
 # Scripts
 
 "import -taint ~/.screenshot.jpg && /home/nick/Sources/dotfiles/bin/upload-screenshot /home/nick/.screenshot.jpg"
