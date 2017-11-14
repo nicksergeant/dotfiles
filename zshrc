@@ -138,7 +138,6 @@ m() {
 # Temporary. Need to properly reinitialize this stuff after
 # waking from suspend.
 resume() {
-  xbindkeys -p -f ~/.xbindkeysrc
   xinput set-prop "USB OPTICAL MOUSE" 283 0, 1
   xinput set-prop "USB OPTICAL MOUSE" 286 0, 0, 1
   xmodmap ~/.Xmodmap
