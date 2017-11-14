@@ -39,6 +39,9 @@
 
 # URLs
 
+"https://www.usaa.com/inet/ent_home/CpHome"
+  Control+Shift + b
+
 "xdg-open https://www.wunderground.com/weather/us/ny/shortsville"
   Control+Shift + w
 

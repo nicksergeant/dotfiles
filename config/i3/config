@@ -64,10 +64,10 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # Focus the parent container
-bindsym $mod+a focus parent
+# bindsym $mod+a focus parent
 
 # Focus the child container
-bindsym $mod+d focus child
+# bindsym $mod+d focus child
 
 # Next / previous workspace
 bindsym $mod+Shift+period workspace next
