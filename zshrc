@@ -27,7 +27,7 @@ source ~/Sources/z/z.sh
 
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
-alias n='vim ~/Dropbox/Documents/Misc/Notes.txt'
+alias n='vim ~/Dropbox/Documents/Notes/Notes.txt'
 alias ta='tmux attach -t'
 unalias gd
 unalias gpd
@@ -145,8 +145,7 @@ o() {
 # Temporary reinitializations for USB keyboard and mouse after
 # waking from suspend. Need to set this up on a systemd resume config.
 resume() {
-  xinput set-prop "USB OPTICAL MOUSE" 283 0, 1
-  xinput set-prop "USB OPTICAL MOUSE" 286 0, 0, 1
+  xinput set-prop "Logitech USB Laser Mouse" 286 0, 0, 1
   xmodmap ~/.Xmodmap
   xset r rate 285 30
   killall xcape
