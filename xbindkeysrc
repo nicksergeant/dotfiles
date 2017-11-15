@@ -24,13 +24,13 @@
 # Programs
 
 "gcolor2"
-  Control+Shift+Alt + r
+  Shift+Alt + 4
 
 "remmina -c ~/.config/remmina/macmini.remmina"
-  Control+Shift+Alt + m
+  Shift+Alt + 3
 
 "urxvt -e ncpamixer"
-  Control+Shift+Alt + s
+  Shift+Alt + 2
 
 # Scripts
 
