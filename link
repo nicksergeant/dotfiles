@@ -15,6 +15,8 @@ ln -sf /home/nick/Sources/dotfiles/config/i3/config /home/nick/.config/i3/config
 ln -sf /home/nick/Sources/dotfiles/config/i3/i3blocks.conf /home/nick/.config/i3/i3blocks.conf
 ln -sf /home/nick/Sources/dotfiles/config/i3/mail /home/nick/.config/i3/mail
 ln -sf /home/nick/Sources/dotfiles/config/i3/weather /home/nick/.config/i3/weather
+ln -sf /home/nick/Sources/dotfiles/config/mimeapps.list /home/nick/.config/mimeapps.list
+ln -sf /home/nick/Sources/dotfiles/config/mimeapps.list /home/nick/.local/share/applications/mimeapps.list
 ln -sf /home/nick/Sources/dotfiles/config/redshift.conf /home/nick/.config/redshift.conf
 ln -sf /home/nick/Sources/dotfiles/gitconfig /home/nick/.gitconfig
 ln -sf /home/nick/Sources/dotfiles/gitignore /home/nick/.gitignore

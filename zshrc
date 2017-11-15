@@ -28,7 +28,6 @@ source ~/Sources/z/z.sh
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
 alias n='vim ~/Dropbox/Documents/Misc/Notes.txt'
-alias o='open'
 alias ta='tmux attach -t'
 unalias gd
 unalias gpd
@@ -132,6 +131,14 @@ m() {
     vim $@
   else
     vim .
+  fi
+}
+
+o() {
+  if [ "$@" ] ; then
+    xdg-open $@
+  else
+    xdg-open .
   fi
 }
 

@@ -1,0 +1,6 @@
+[Default Applications]
+application/json=vim-usercreated-1.desktop;
+image/jpeg=mpv-usercreated-3.desktop;
+image/png=mpv-usercreated-4.desktop;
+application/javascript=vim-usercreated-2.desktop;
+text/markdown=vim-usercreated-3.desktop;
