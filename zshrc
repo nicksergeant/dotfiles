@@ -145,6 +145,7 @@ o() {
 # Temporary reinitializations for USB keyboard and mouse after
 # waking from suspend. Need to set this up on a systemd resume config.
 resume() {
+  xinput set-prop "Logitech USB Laser Mouse" 283 0, 1
   xinput set-prop "Logitech USB Laser Mouse" 286 0, 0, 1
   xmodmap ~/.Xmodmap
   xset r rate 285 30

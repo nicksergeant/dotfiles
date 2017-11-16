@@ -55,6 +55,7 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'junegunn/fzf.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'lokaltog/vim-easymotion'
+Plug 'maksimr/vim-jsbeautify'
 Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
 Plug 'moll/vim-node'
 Plug 'mustache/vim-mustache-handlebars'
