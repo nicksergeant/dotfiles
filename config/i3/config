@@ -83,7 +83,8 @@ bindsym Control+Shift+s workspace number 6 
 bindsym Control+Shift+l workspace number 7 
 bindsym Control+Shift+e workspace number 8 
 bindsym Control+Shift+r workspace number 9 
-bindsym Control+Shift+k workspace number 10 
+bindsym Control+Shift+k workspace number 10 
+bindsym Control+Shift+a workspace number 11 
 
 # Move focused container to workspace
 bindsym $mod+Control+Shift+semicolon move container to workspace number 1 
@@ -95,7 +96,8 @@ bindsym $mod+Control+Shift+s move container to workspace number 6 
 bindsym $mod+Control+Shift+l move container to workspace number 7 
 bindsym $mod+Control+Shift+e move container to workspace number 8 
 bindsym $mod+Control+Shift+r move container to workspace number 9 
-bindsym $mod+Control+Shift+k move container to workspace number 10 
+bindsym $mod+Control+Shift+k move container to workspace number 10 
+bindsym $mod+Control+Shift+a move container to workspace number 11 
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
