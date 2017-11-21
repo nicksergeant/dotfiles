@@ -153,6 +153,8 @@ resume() {
   xset r rate 285 30
   killall xcape
   /usr/bin/xcape
+  xrandr --output DP-1 --primary --mode 3840x2160 --pos 0x0 --output eDP-1 --mode 2560x1440 --pos 3840x0
+  feh --bg-scale ~/.wallpaper.png
 }
 
 ti() {
