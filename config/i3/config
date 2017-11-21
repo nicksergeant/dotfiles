@@ -133,6 +133,7 @@ bindsym $mod+r mode "resize"
 bar {
   position top
   status_command i3blocks -c ~/.config/i3/i3blocks.conf
+  tray_output primary
   tray_padding 5
 }
 
