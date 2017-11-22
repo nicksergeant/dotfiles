@@ -86,6 +86,7 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_javascript_eslint_use_global = 1
+let g:ale_lint_on_text_changed = 'never'
 
 " }}}
 " Autocomplete {{{
@@ -281,13 +282,13 @@ let g:neoformat_elixir_exfmt = {
   \ }
 
 let g:neoformat_javascript_prettier = {
-  \ 'exe': '/home/nick/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
-  \ 'args': ['--config /home/nick/Code/ContentEditorUI/prettier.config.js'],
+  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
+  \ 'args': ['--config /Users/nsergeant/Code/ContentEditorUI/prettier.config.js'],
   \ 'stdin': 1
   \ }
 
 let g:neoformat_scss_prettier = {
-  \ 'exe': '/home/nick/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
+  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
   \ 'args': ['--parser postcss', '--single-quote'],
   \ 'stdin': 1
   \ }
