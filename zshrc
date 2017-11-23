@@ -28,8 +28,6 @@ source ~/Sources/z/z.sh
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
 alias n='vim ~/Dropbox/Documents/Notes/Notes.md'
-alias rm='echo "Use trash instead."; false'
-alias t=trash
 alias ta='tmux attach -t'
 unalias gd
 unalias gpd
