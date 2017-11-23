@@ -5,10 +5,12 @@
 *.swp
 *.un~
 .DS_Store
+.elixir_ls
 .hg
 .hgignore
 .python-version
 .sass-cache
+.vscode
 id_dsa
 id_dsa.pub
 id_rsa
