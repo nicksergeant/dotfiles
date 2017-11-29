@@ -40,12 +40,6 @@ vmap <tab> %
 
 call plug#begin('~/.vim/plugged')
 
-function! BuildTern(info)
-  if a:info.status == 'installed' || a:info.force
-    !npm install
-  endif
-endfunction
-
 " Plug '/usr/bin/fzf'
 " Plug '/usr/local/opt/fzf'
 " Plug 'junegunn/fzf.vim'
@@ -57,7 +51,6 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'kchmck/vim-coffee-script'
 Plug 'lokaltog/vim-easymotion'
 Plug 'maksimr/vim-jsbeautify'
-Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
 Plug 'mileszs/ack.vim'
 Plug 'moll/vim-node'
 Plug 'mustache/vim-mustache-handlebars'
