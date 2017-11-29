@@ -199,18 +199,6 @@ vnoremap <Space> za
 " cursor happens to be.
 nnoremap zO zCzO
 
-" "Focus" the current line.  Basically:
-"
-" 1. Close all folds.
-" 2. Open just the folds containing the current line.
-" 3. Move the line to a little bit (15 lines) above the center of the screen.
-" 4. Pulse the cursor line.  My eyes are bad.
-"
-" This mapping wipes out the z mark, which I never use.
-"
-" I use :sus for the rare times I want to actually background Vim.
-"nnoremap <c-z> mzzMzvzz15<c-e>`z:Pulse<cr>
-
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
 
