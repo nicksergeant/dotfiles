@@ -19,7 +19,7 @@ nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
-nnoremap <c-return> $hhgf
+nnoremap gi $hhgf
 nnoremap gs *<c-o>
 nnoremap j gj
 nnoremap k gk
