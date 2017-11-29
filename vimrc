@@ -46,17 +46,19 @@ function! BuildTern(info)
   endif
 endfunction
 
-Plug '/usr/bin/fzf'
-Plug '/usr/local/opt/fzf'
+" Plug '/usr/bin/fzf'
+" Plug '/usr/local/opt/fzf'
+" Plug 'junegunn/fzf.vim'
 Plug 'PeterRincker/vim-argumentative'
 Plug 'airblade/vim-gitgutter'
 Plug 'ajh17/VimCompletesMe'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elixir-lang/vim-elixir'
-Plug 'junegunn/fzf.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'lokaltog/vim-easymotion'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'marijnh/tern_for_vim', { 'do': function('BuildTern') }
+Plug 'mileszs/ack.vim'
 Plug 'moll/vim-node'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'mxw/vim-jsx'
@@ -80,13 +82,22 @@ call plug#end()
 
 " }}}
 
+" Ack {{{
+
+let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
+
+" Ack for last search.
+nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
+nnoremap <leader>a :Ack!<space>
+
+" }}}
 " Ale {{{
 
-let g:ale_sign_column_always = 1
-let g:ale_sign_warning = '>>'
+let g:ale_enabled = 0
 let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_javascript_eslint_use_global = 1
-let g:ale_lint_on_text_changed = 'never'
+let g:ale_sign_column_always = 1
+let g:ale_sign_warning = '>>'
 
 " }}}
 " Autocomplete {{{
@@ -97,6 +108,8 @@ inoremap cl<space> console.log()<esc>i
 " Buffers {{{
 
 map <c-h> <c-w>h
+map <c-j> <c-w>j
+map <c-k> <c-w>k
 map <c-l> <c-w>l
 
 " }}}
@@ -141,6 +154,34 @@ augroup ft_css
     " positioned inside of them AND the following code doesn't get unfolded.
     au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><cr><esc>kcc
 augroup END
+
+" }}}
+" Ctrl-P {{{
+
+let g:ctrlp_dont_split = 'NERD_tree_2'
+let g:ctrlp_jump_to_buffer = 0
+let g:ctrlp_map = '<c-g>'
+let g:ctrlp_match_window_reversed = 1
+let g:ctrlp_max_height = 20
+let g:ctrlp_split_window = 0
+let g:ctrlp_use_caching  = 0
+let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
+let g:ctrlp_working_path_mode = 0
+
+let g:ctrlp_prompt_mappings = {
+\ 'PrtHistory(-1)':       ['<c-n>'],
+\ 'PrtHistory(1)':        ['<c-p>'],
+\ 'PrtSelectMove("j")':   ['<down>', '<s-tab>'],
+\ 'PrtSelectMove("k")':   ['<up>', '<tab>'],
+\ 'ToggleFocus()':        ['<c-tab>'],
+\ }
+
+nnoremap <leader>/ :CtrlPBufTag<cr>
+" nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
+" nnoremap <leader>a :Rg<space>
+" nnoremap <leader>b :Buffers<cr>
+" nnoremap <leader>l :Lines<cr>
+" nnoremap <leader>r :History<cr>
 
 " }}}
 " Elixir {{{
@@ -199,19 +240,34 @@ set foldtext=MyFoldText()
 " }}}
 " fzf and ripgrep {{{
 
-nnoremap <c-g> :Files<cr>
-nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
-nnoremap <leader>a :Rg<space>
-nnoremap <leader>b :Buffers<cr>
-nnoremap <leader>l :Lines<cr>
-nnoremap <leader>r :History<cr>
+" nnoremap <c-g> :Files<cr>
+" nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
+" nnoremap <leader>a :Rg<space>
+" nnoremap <leader>b :Buffers<cr>
+" nnoremap <leader>l :Lines<cr>
+" nnoremap <leader>r :History<cr>
 
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --ignore-case --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+" command! -bang -nargs=* Rg
+"   \ call fzf#vim#grep(
+"   \   'rg --ignore-case --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+"   \   <bang>0 ? fzf#vim#with_preview('up:60%')
+"   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+"   \   <bang>0)
+
+" let g:fzf_colors =
+" \ { 'fg':      ['fg', 'Normal'],
+"   \ 'bg':      ['bg', 'Normal'],
+"   \ 'hl':      ['fg', 'Comment'],
+"   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+"   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+"   \ 'hl+':     ['fg', 'Statement'],
+"   \ 'info':    ['fg', 'PreProc'],
+"   \ 'border':  ['fg', 'Ignore'],
+"   \ 'prompt':  ['fg', 'Conditional'],
+"   \ 'pointer': ['fg', 'Exception'],
+"   \ 'marker':  ['fg', 'Keyword'],
+"   \ 'spinner': ['fg', 'Label'],
+"   \ 'header':  ['fg', 'Comment'] }
 
 " }}}
 " Fugitive and Hub {{{

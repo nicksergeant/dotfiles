@@ -128,9 +128,9 @@ gpf() {
 
 m() {
   if [ "$@" ] ; then
-    vim $@
+    mvim $@
   else
-    vim .
+    mvim .
   fi
 }
 
