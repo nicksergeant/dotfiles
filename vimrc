@@ -7,7 +7,6 @@ inoremap jk <esc>
 let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
-set timeoutlen=1000 ttimeoutlen=0
 map <leader>c :let @/=''<cr>
 nmap <tab> %
 nnoremap <F1> <nop>
@@ -30,7 +29,6 @@ noremap <m-s> :wa<cr>
 noremap <m-w> :q<cr>
 noremap H ^
 noremap L g_
-set mouse=a
 syntax enable
 vmap <c-t> :sort<cr>
 vmap <tab> %
@@ -376,8 +374,10 @@ set ignorecase
 set incsearch
 set laststatus=2
 set lazyredraw
+set linespace=1
 set list
 set listchars=tab:▸\ ,extends:❯,precedes:❮
+set mouse=a
 set nobackup
 set nocompatible
 set noswapfile
@@ -397,6 +397,7 @@ set statusline=\ %f%=\ [%l/%L]\
 set synmaxcol=800
 set t_Co=256
 set tabstop=2
+set timeoutlen=1000 ttimeoutlen=0
 set title
 set undofile
 set visualbell
