@@ -164,7 +164,7 @@ let g:ctrlp_map = '<c-g>'
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 20
 let g:ctrlp_split_window = 0
-let g:ctrlp_use_caching  = 0
+let g:ctrlp_use_caching  = 1
 let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
 let g:ctrlp_working_path_mode = 0
 
@@ -176,12 +176,10 @@ let g:ctrlp_prompt_mappings = {
 \ 'ToggleFocus()':        ['<c-tab>'],
 \ }
 
-nnoremap <leader>/ :CtrlPBufTag<cr>
-" nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
-" nnoremap <leader>a :Rg<space>
-" nnoremap <leader>b :Buffers<cr>
-" nnoremap <leader>l :Lines<cr>
-" nnoremap <leader>r :History<cr>
+nnoremap <leader>5 :CtrlPClearCache<cr>
+nnoremap <leader>b :CtrlPBuffer<cr>
+nnoremap <leader>l :CtrlPLine<cr>
+nnoremap <leader>r :CtrlPMRUFiles<cr>
 
 " }}}
 " Elixir {{{
