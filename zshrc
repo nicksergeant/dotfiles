@@ -117,6 +117,10 @@ glu() {
   git checkout -
 }
 
+gpa() {
+  find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git pull && echo)' \;
+}
+
 gpd() {
   git push
   make deploy
@@ -126,12 +130,24 @@ gpf() {
   git pushf
 }
 
+gsa() {
+  find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status && echo)' \;
+}
+
 m() {
   if [ "$@" ] ; then
     mvim $@
   else
     mvim .
   fi
+}
+
+npmrc-hs() {
+  cp ~/.npmrc-hs ~/.npmrc
+}
+
+npmrc-reset() {
+  rm ~/.npmrc
 }
 
 o() {
