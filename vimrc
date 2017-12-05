@@ -9,6 +9,7 @@ let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
 nmap <tab> %
+nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
 nnoremap <c-]> f<space>
 nnoremap <c-^> <nop>
@@ -467,5 +468,24 @@ function! QFixToggle(forced) " {{{
 endfunction " }}}
 
 nmap <silent> <f4> :QFixToggle<cr>
+
+" }}}
+" Zoom {{{
+" Zoom / Restore window.
+
+function! s:ZoomToggle() abort
+  if exists('t:zoomed') && t:zoomed
+    execute t:zoom_winrestcmd
+    let t:zoomed = 0
+  else
+    let t:zoom_winrestcmd = winrestcmd()
+    resize
+    vertical resize
+    let t:zoomed = 1
+  endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nunmap
+nnoremap <silent> <c-f>o :ZoomToggle<cr>
 
 " }}}
