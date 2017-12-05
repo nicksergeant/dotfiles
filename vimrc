@@ -485,7 +485,6 @@ function! s:ZoomToggle() abort
   endif
 endfunction
 command! ZoomToggle call s:ZoomToggle()
-nunmap
 nnoremap <silent> <c-f>o :ZoomToggle<cr>
 
 " }}}
