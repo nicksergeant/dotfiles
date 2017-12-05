@@ -66,7 +66,6 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/AutoComplPop'
-Plug 'vim-scripts/ZoomWin'
 Plug 'w0rp/ale'
 
 call plug#end()
