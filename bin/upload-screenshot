@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/zsh
 
 file=$1
 extension="${file##*.}"
 
 uuid=$(uuidgen)
-uuid_lower="${uuid:u}"
+uuid_lower="${uuid:l}"
 uuid_clean=${uuid_lower//-/}
 
 filename="$uuid_clean.$extension"
