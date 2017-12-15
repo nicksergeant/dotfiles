@@ -11,13 +11,13 @@ filename="$uuid_clean.$extension"
 
 if command -v xclip; then
   aws s3 cp "$1" s3://i.nick.sg/$filename >> /dev/null &&
-    url="http://i.nick.sg/$filename" &&
+    url="https://i.nick.sg/$filename" &&
     echo -n $url | xclip -in -selection clipboard &&
     echo $url &&
     paplay /usr/share/sounds/freedesktop/stereo/camera-shutter.oga
 else
   /Users/nsergeant/.pyenv/shims/aws s3 cp "$1" s3://i.nick.sg/$filename >> /dev/null &&
-    url="http://i.nick.sg/$filename" &&
+    url="https://i.nick.sg/$filename" &&
     echo -n $url | pbcopy &&
     echo $url &&
     afplay /System/Library/Sounds/Glass.aiff

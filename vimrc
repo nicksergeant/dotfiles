@@ -42,9 +42,9 @@ call plug#begin('~/.vim/plugged')
 " Plug '/usr/bin/fzf'
 " Plug '/usr/local/opt/fzf'
 " Plug 'junegunn/fzf.vim'
+Plug 'JazzCore/ctrlp-cmatcher'
 Plug 'PeterRincker/vim-argumentative'
 Plug 'airblade/vim-gitgutter'
-Plug 'ajh17/VimCompletesMe'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'kchmck/vim-coffee-script'
@@ -94,7 +94,7 @@ let g:ale_linters = {'javascript': ['eslint']}
 " }}}
 " Autocomplete {{{
 
-inoremap cl<space> console.log()<esc>i
+inoremap <c-l> console.log()<esc>i
 
 " }}}
 " Buffers {{{
@@ -153,10 +153,11 @@ augroup END
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = '<c-g>'
+let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 20
 let g:ctrlp_split_window = 0
-let g:ctrlp_use_caching  = 1
+let g:ctrlp_use_caching  = 0
 let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
 let g:ctrlp_working_path_mode = 0
 
@@ -309,9 +310,9 @@ com! FormatJSON %!python -m json.tool
 " }}}
 " Neoformat {{{
 
-let g:neoformat_elixir_exfmt = {
+let g:neoformat_elixir_mixformat = {
   \ 'exe': 'mix',
-  \ 'args': ['exfmt', '--stdin'],
+  \ 'args': ['format', '-'],
   \ 'stdin': 1
   \ }
 
@@ -327,7 +328,7 @@ let g:neoformat_scss_prettier = {
   \ 'stdin': 1
   \ }
 
-let g:neoformat_enabled_elixir = ['exfmt']
+let g:neoformat_enabled_elixir = ['mixformat']
 let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_enabled_scss = ['prettier']
 
