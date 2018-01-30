@@ -1,2 +1,10 @@
 export CFLAGS=
 export CPPFLAGS=
+
+m() {
+  if [ "$@" ] ; then
+    vim $@
+  else
+    vim .
+  fi
+}
