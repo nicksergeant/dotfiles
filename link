@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir -p /home/nsergeant/.config/fontconfig
+mkdir -p /home/nsergeant/.config/gtk-2.0
 mkdir -p /home/nsergeant/.config/i3
 mkdir -p /home/nsergeant/.fonts
 
@@ -9,6 +10,7 @@ ln -sf /home/nsergeant/Sources/dotfiles/Xresources /home/nsergeant/.Xresources
 ln -sf /home/nsergeant/Sources/dotfiles/compton.conf /home/nsergeant/.compton.conf
 ln -sf /home/nsergeant/Sources/dotfiles/config/chrome-flags.conf /home/nsergeant/.config/chrome-flags.conf
 ln -sf /home/nsergeant/Sources/dotfiles/config/fontconfig/fonts.conf /home/nsergeant/.config/fontconfig/fonts.conf
+ln -sf /home/nsergeant/Sources/dotfiles/config/gtk-2.0/gtkfilechooser.ini /home/nsergeant/.config/gtk-2.0/gtkfilechooser.ini
 ln -sf /home/nsergeant/Sources/dotfiles/config/gtk-3.0/gtk.css /home/nsergeant/.config/gtk-3.0/gtk.css
 ln -sf /home/nsergeant/Sources/dotfiles/config/i3/battery /home/nsergeant/.config/i3/battery
 ln -sf /home/nsergeant/Sources/dotfiles/config/i3/config /home/nsergeant/.config/i3/config
