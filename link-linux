@@ -27,6 +27,7 @@ ln -sf /home/nsergeant/Sources/dotfiles/gitignore /home/nsergeant/.gitignore
 ln -sf /home/nsergeant/Sources/dotfiles/gvimrc /home/nsergeant/.gvimrc
 ln -sf /home/nsergeant/Sources/dotfiles/tmux-linux.conf /home/nsergeant/.tmux.conf
 ln -sf /home/nsergeant/Sources/dotfiles/vimrc /home/nsergeant/.vimrc
+ln -sf /home/nsergeant/Sources/dotfiles/vimrc-linux /home/nsergeant/.vimrc-env
 ln -sf /home/nsergeant/Sources/dotfiles/wallpaper.png /home/nsergeant/.wallpaper.png
 ln -sf /home/nsergeant/Sources/dotfiles/xbindkeysrc /home/nsergeant/.xbindkeysrc
 ln -sf /home/nsergeant/Sources/dotfiles/xinitrc /home/nsergeant/.xinitrc

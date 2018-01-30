@@ -489,3 +489,9 @@ command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <c-f>o :ZoomToggle<cr>
 
 " }}}
+
+" Environment Specific {{{
+
+source ~/.vimrc-env
+
+" }}}
