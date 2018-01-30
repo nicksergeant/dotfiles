@@ -1,37 +1,37 @@
 #!/bin/bash
 
-mkdir -p /home/nick/.config/fontconfig
-mkdir -p /home/nick/.config/i3
-mkdir -p /home/nick/.fonts
+mkdir -p /home/nsergeant/.config/fontconfig
+mkdir -p /home/nsergeant/.config/i3
+mkdir -p /home/nsergeant/.fonts
 
-ln -sf /home/nick/Sources/dotfiles/Xmodmap /home/nick/.Xmodmap
-ln -sf /home/nick/Sources/dotfiles/Xresources /home/nick/.Xresources
-ln -sf /home/nick/Sources/dotfiles/compton.conf /home/nick/.compton.conf
-ln -sf /home/nick/Sources/dotfiles/config/chrome-flags.conf /home/nick/.config/chrome-flags.conf
-ln -sf /home/nick/Sources/dotfiles/config/fontconfig/fonts.conf /home/nick/.config/fontconfig/fonts.conf
-ln -sf /home/nick/Sources/dotfiles/config/gtk-3.0/gtk.css /home/nick/.config/gtk-3.0/gtk.css
-ln -sf /home/nick/Sources/dotfiles/config/i3/battery /home/nick/.config/i3/battery
-ln -sf /home/nick/Sources/dotfiles/config/i3/config /home/nick/.config/i3/config
-ln -sf /home/nick/Sources/dotfiles/config/i3/i3blocks.conf /home/nick/.config/i3/i3blocks.conf
-ln -sf /home/nick/Sources/dotfiles/config/i3/mail /home/nick/.config/i3/mail
-ln -sf /home/nick/Sources/dotfiles/config/i3/weather /home/nick/.config/i3/weather
-ln -sf /home/nick/Sources/dotfiles/config/mimeapps.list /home/nick/.config/mimeapps.list
-ln -sf /home/nick/Sources/dotfiles/config/mimeapps.list /home/nick/.local/share/applications/mimeapps.list
-ln -sf /home/nick/Sources/dotfiles/config/redshift.conf /home/nick/.config/redshift.conf
-ln -sf /home/nick/Sources/dotfiles/gitconfig /home/nick/.gitconfig
-ln -sf /home/nick/Sources/dotfiles/gitignore /home/nick/.gitignore
-ln -sf /home/nick/Sources/dotfiles/gvimrc /home/nick/.gvimrc
-ln -sf /home/nick/Sources/dotfiles/tmux.conf /home/nick/.tmux.conf
-ln -sf /home/nick/Sources/dotfiles/vimrc /home/nick/.vimrc
-ln -sf /home/nick/Sources/dotfiles/wallpaper.png /home/nick/.wallpaper.png
-ln -sf /home/nick/Sources/dotfiles/xbindkeysrc /home/nick/.xbindkeysrc
-ln -sf /home/nick/Sources/dotfiles/xinitrc /home/nick/.xinitrc
-ln -sf /home/nick/Sources/dotfiles/zshrc /home/nick/.zshrc
-sudo ln -sf /home/nick/Sources/dotfiles/etc/X11/xorg.conf.d/30-touchpad.conf /etc/X11/xorg.conf.d/30-touchpad.conf
-sudo ln -sf /home/nick/Sources/dotfiles/etc/sysctl.d/99-sysctl.conf /etc/sysctl.d/99-sysctl.conf
-sudo ln -sf /home/nick/Sources/dotfiles/etc/systemd/system/suspend@.service /etc/systemd/system/suspend@.service
-sudo ln -sf /home/nick/Sources/dotfiles/etc/udev/rules.d/90-backlight.rules /etc/udev/rules.d/90-backlight.rules
+ln -sf /home/nsergeant/Sources/dotfiles/Xmodmap /home/nsergeant/.Xmodmap
+ln -sf /home/nsergeant/Sources/dotfiles/Xresources /home/nsergeant/.Xresources
+ln -sf /home/nsergeant/Sources/dotfiles/compton.conf /home/nsergeant/.compton.conf
+ln -sf /home/nsergeant/Sources/dotfiles/config/chrome-flags.conf /home/nsergeant/.config/chrome-flags.conf
+ln -sf /home/nsergeant/Sources/dotfiles/config/fontconfig/fonts.conf /home/nsergeant/.config/fontconfig/fonts.conf
+ln -sf /home/nsergeant/Sources/dotfiles/config/gtk-3.0/gtk.css /home/nsergeant/.config/gtk-3.0/gtk.css
+ln -sf /home/nsergeant/Sources/dotfiles/config/i3/battery /home/nsergeant/.config/i3/battery
+ln -sf /home/nsergeant/Sources/dotfiles/config/i3/config /home/nsergeant/.config/i3/config
+ln -sf /home/nsergeant/Sources/dotfiles/config/i3/i3blocks.conf /home/nsergeant/.config/i3/i3blocks.conf
+ln -sf /home/nsergeant/Sources/dotfiles/config/i3/mail /home/nsergeant/.config/i3/mail
+ln -sf /home/nsergeant/Sources/dotfiles/config/i3/weather /home/nsergeant/.config/i3/weather
+ln -sf /home/nsergeant/Sources/dotfiles/config/mimeapps.list /home/nsergeant/.config/mimeapps.list
+ln -sf /home/nsergeant/Sources/dotfiles/config/mimeapps.list /home/nsergeant/.local/share/applications/mimeapps.list
+ln -sf /home/nsergeant/Sources/dotfiles/config/redshift.conf /home/nsergeant/.config/redshift.conf
+ln -sf /home/nsergeant/Sources/dotfiles/gitconfig /home/nsergeant/.gitconfig
+ln -sf /home/nsergeant/Sources/dotfiles/gitignore /home/nsergeant/.gitignore
+ln -sf /home/nsergeant/Sources/dotfiles/gvimrc /home/nsergeant/.gvimrc
+ln -sf /home/nsergeant/Sources/dotfiles/tmux.conf /home/nsergeant/.tmux.conf
+ln -sf /home/nsergeant/Sources/dotfiles/vimrc /home/nsergeant/.vimrc
+ln -sf /home/nsergeant/Sources/dotfiles/wallpaper.png /home/nsergeant/.wallpaper.png
+ln -sf /home/nsergeant/Sources/dotfiles/xbindkeysrc /home/nsergeant/.xbindkeysrc
+ln -sf /home/nsergeant/Sources/dotfiles/xinitrc /home/nsergeant/.xinitrc
+ln -sf /home/nsergeant/Sources/dotfiles/zshrc /home/nsergeant/.zshrc
+sudo ln -sf /home/nsergeant/Sources/dotfiles/etc/X11/xorg.conf.d/30-touchpad.conf /etc/X11/xorg.conf.d/30-touchpad.conf
+sudo ln -sf /home/nsergeant/Sources/dotfiles/etc/sysctl.d/99-sysctl.conf /etc/sysctl.d/99-sysctl.conf
+sudo ln -sf /home/nsergeant/Sources/dotfiles/etc/systemd/system/suspend@.service /etc/systemd/system/suspend@.service
+sudo ln -sf /home/nsergeant/Sources/dotfiles/etc/udev/rules.d/90-backlight.rules /etc/udev/rules.d/90-backlight.rules
 
-chmod u+x /home/nick/.config/i3/battery
-chmod u+x /home/nick/.config/i3/mail
-chmod u+x /home/nick/.config/i3/weather
+chmod u+x /home/nsergeant/.config/i3/battery
+chmod u+x /home/nsergeant/.config/i3/mail
+chmod u+x /home/nsergeant/.config/i3/weather
