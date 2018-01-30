@@ -142,7 +142,7 @@ assign [instance="google-chrome"] "3 "
 assign [class="Slack"] "4 "
 assign [instance="mail.google.com"] "5 "
 assign [instance="calendar.google.com"] "7 "
-assign [instance="tweetdeck.twitter.com"] "8 "
+assign [instance="twitter.com"] "8 "
 assign [instance="siftie.com"] "9 "
 
 # Set X background color (visible if no wallpaper)
@@ -154,7 +154,7 @@ exec --no-startup-id feh --bg-scale ~/.wallpaper.png
 # Start initial applications
 exec google-chrome-stable --app="https://mail.google.com"
 exec google-chrome-stable --app="https://calendar.google.com"
-exec google-chrome-stable --app="https://tweetdeck.twitter.com"
+exec google-chrome-stable --app="https://twitter.com"
 exec google-chrome-stable --app="https://siftie.com"
 exec google-chrome-stable &
 exec dropbox &
