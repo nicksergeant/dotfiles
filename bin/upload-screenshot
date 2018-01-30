@@ -10,7 +10,7 @@ uuid_clean=${uuid_lower//-/}
 filename="$uuid_clean.$extension"
 
 if command -v xclip; then
-  aws s3 cp "$1" s3://i.nick.sg/$filename >> /dev/null &&
+  /home/nsergeant/.pyenv/shims/aws s3 cp "$1" s3://i.nick.sg/$filename >> /dev/null &&
     url="https://i.nick.sg/$filename" &&
     echo -n $url | xclip -in -selection clipboard &&
     echo $url &&
