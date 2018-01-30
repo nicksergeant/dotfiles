@@ -17,6 +17,7 @@ ln -sf /home/nsergeant/Sources/dotfiles/config/i3/config /home/nsergeant/.config
 ln -sf /home/nsergeant/Sources/dotfiles/config/i3/i3blocks.conf /home/nsergeant/.config/i3/i3blocks.conf
 ln -sf /home/nsergeant/Sources/dotfiles/config/i3/mail /home/nsergeant/.config/i3/mail
 ln -sf /home/nsergeant/Sources/dotfiles/config/i3/weather /home/nsergeant/.config/i3/weather
+ln -sf /home/nsergeant/Sources/dotfiles/config/libinput-gestures.conf /home/nsergeant/.config/libinput-gestures.conf
 ln -sf /home/nsergeant/Sources/dotfiles/config/mimeapps.list /home/nsergeant/.config/mimeapps.list
 ln -sf /home/nsergeant/Sources/dotfiles/config/mimeapps.list /home/nsergeant/.local/share/applications/mimeapps.list
 ln -sf /home/nsergeant/Sources/dotfiles/config/redshift.conf /home/nsergeant/.config/redshift.conf
