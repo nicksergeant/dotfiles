@@ -43,7 +43,6 @@ prompt pure
 
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --no-rehash -)"
-  eval "$(pyenv virtualenv-init -)"
 fi
 
 # fzf
@@ -183,3 +182,4 @@ ti() {
 # Import private settings
 
 source ~/Sources/dotfiles-private/zshrc
+source ~/.zshrc-env

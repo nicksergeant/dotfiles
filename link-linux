@@ -25,12 +25,13 @@ ln -sf /home/nsergeant/Sources/dotfiles/fonts/fontawesome-webfont.ttf /home/nser
 ln -sf /home/nsergeant/Sources/dotfiles/gitconfig /home/nsergeant/.gitconfig
 ln -sf /home/nsergeant/Sources/dotfiles/gitignore /home/nsergeant/.gitignore
 ln -sf /home/nsergeant/Sources/dotfiles/gvimrc /home/nsergeant/.gvimrc
-ln -sf /home/nsergeant/Sources/dotfiles/tmux.conf /home/nsergeant/.tmux.conf
+ln -sf /home/nsergeant/Sources/dotfiles/tmux-linux.conf /home/nsergeant/.tmux.conf
 ln -sf /home/nsergeant/Sources/dotfiles/vimrc /home/nsergeant/.vimrc
 ln -sf /home/nsergeant/Sources/dotfiles/wallpaper.png /home/nsergeant/.wallpaper.png
 ln -sf /home/nsergeant/Sources/dotfiles/xbindkeysrc /home/nsergeant/.xbindkeysrc
 ln -sf /home/nsergeant/Sources/dotfiles/xinitrc /home/nsergeant/.xinitrc
 ln -sf /home/nsergeant/Sources/dotfiles/zshrc /home/nsergeant/.zshrc
+ln -sf /home/nsergeant/Sources/dotfiles/zshrc-linux /home/nsergeant/.zshrc-env
 sudo ln -sf /home/nsergeant/Sources/dotfiles/etc/X11/xorg.conf.d/30-touchpad.conf /etc/X11/xorg.conf.d/30-touchpad.conf
 sudo ln -sf /home/nsergeant/Sources/dotfiles/etc/sysctl.d/99-sysctl.conf /etc/sysctl.d/99-sysctl.conf
 sudo ln -sf /home/nsergeant/Sources/dotfiles/etc/systemd/system/suspend@.service /etc/systemd/system/suspend@.service
