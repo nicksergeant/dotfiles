@@ -20,6 +20,8 @@ ln -sf /home/nsergeant/Sources/dotfiles/config/i3/weather /home/nsergeant/.confi
 ln -sf /home/nsergeant/Sources/dotfiles/config/mimeapps.list /home/nsergeant/.config/mimeapps.list
 ln -sf /home/nsergeant/Sources/dotfiles/config/mimeapps.list /home/nsergeant/.local/share/applications/mimeapps.list
 ln -sf /home/nsergeant/Sources/dotfiles/config/redshift.conf /home/nsergeant/.config/redshift.conf
+ln -sf /home/nsergeant/Sources/dotfiles/fonts/Menlo-ForPowerline.ttc /home/nsergeant/.fonts/Menlo-ForPowerline.ttc
+ln -sf /home/nsergeant/Sources/dotfiles/fonts/fontawesome-webfont.ttf /home/nsergeant/.fonts/fontawesome-webfont.ttf
 ln -sf /home/nsergeant/Sources/dotfiles/gitconfig /home/nsergeant/.gitconfig
 ln -sf /home/nsergeant/Sources/dotfiles/gitignore /home/nsergeant/.gitignore
 ln -sf /home/nsergeant/Sources/dotfiles/gvimrc /home/nsergeant/.gvimrc
