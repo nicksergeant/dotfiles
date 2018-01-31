@@ -33,21 +33,21 @@ gaps outer 0
 bindsym $mod+Return exec urxvt -e tmux
 bindsym $mod+Shift+Control+bracketright [urgent=latest] focus
 bindsym $mod+Shift+q kill
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+Shift+h focus left
+bindsym $mod+Shift+j focus down
+bindsym $mod+Shift+k focus up
+bindsym $mod+Shift+l focus right
 bindsym Control+shift+period exec speedcrunch
 
 # Move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+# bindsym $mod+Shift+j move left
+# bindsym $mod+Shift+k move down
+# bindsym $mod+Shift+l move up
+# bindsym $mod+Shift+semicolon move right
 
 # Splitting
-bindsym $mod+Shift+h split h
-bindsym $mod+Shift+v split v
+# bindsym $mod+Shift+h split h
+# bindsym $mod+Shift+v split v
 
 # Make window fullscreen
 bindsym $mod+f fullscreen toggle
