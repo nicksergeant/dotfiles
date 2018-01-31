@@ -46,16 +46,16 @@ bindsym Control+shift+period exec speedcrunch
 # bindsym $mod+Shift+semicolon move right
 
 # Splitting
-# bindsym $mod+Shift+h split h
-# bindsym $mod+Shift+v split v
+bindsym $mod+Shift+v split h
+bindsym $mod+Shift+s split v
 
 # Make window fullscreen
 bindsym $mod+f fullscreen toggle
 
 # Change container layout (stacked, tabbed, toggle split)
-bindsym $mod+Shift+s layout stacking
-bindsym $mod+Shift+w layout tabbed
-bindsym $mod+Shift+t layout toggle split
+# bindsym $mod+Shift+s layout stacking
+# bindsym $mod+Shift+w layout tabbed
+# bindsym $mod+Shift+t layout toggle split
 
 # Toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
