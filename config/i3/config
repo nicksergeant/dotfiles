@@ -80,7 +80,7 @@ bindsym Control+Shift+o workspace number 4 
 bindsym Control+Shift+m workspace number 5 
 bindsym Control+Shift+s workspace number 6 
 bindsym Control+Shift+l workspace number 7 
-bindsym Control+Shift+e workspace number 8 
+bindsym Control+Shift+p workspace number 8 
 bindsym Control+Shift+r workspace number 9 
 bindsym Control+Shift+k workspace number 10 
 bindsym Control+Shift+a workspace number 11 
@@ -93,17 +93,17 @@ bindsym $mod+Control+Shift+o move container to workspace number 4 
 bindsym $mod+Control+Shift+m move container to workspace number 5 
 bindsym $mod+Control+Shift+s move container to workspace number 6 
 bindsym $mod+Control+Shift+l move container to workspace number 7 
-bindsym $mod+Control+Shift+e move container to workspace number 8 
+bindsym $mod+Control+Shift+p move container to workspace number 8 
 bindsym $mod+Control+Shift+r move container to workspace number 9 
 bindsym $mod+Control+Shift+k move container to workspace number 10 
 bindsym $mod+Control+Shift+a move container to workspace number 11 
 
 # Slack keybindings
-bindsym --release $mod+Shift+Control+bracketright exec --no-startup-id xdotool key --clearmodifiers Alt+Shift+116
-bindsym --release $mod+bracketleft exec --no-startup-id xdotool key --clearmodifiers Alt+113
-bindsym --release $mod+bracketright exec --no-startup-id xdotool key --clearmodifiers Alt+114
-bindsym --release $mod+Shift+bracketleft exec --no-startup-id xdotool key --clearmodifiers Alt+111
-bindsym --release $mod+Shift+bracketright exec --no-startup-id xdotool key --clearmodifiers Alt+116
+# bindsym --release $mod+Shift+Control+bracketright exec --no-startup-id xdotool key --clearmodifiers Alt+Shift+116
+# bindsym --release $mod+bracketleft exec --no-startup-id xdotool key --clearmodifiers Alt+113
+# bindsym --release $mod+bracketright exec --no-startup-id xdotool key --clearmodifiers Alt+114
+# bindsym --release $mod+Shift+bracketleft exec --no-startup-id xdotool key --clearmodifiers Alt+111
+# bindsym --release $mod+Shift+bracketright exec --no-startup-id xdotool key --clearmodifiers Alt+116
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
