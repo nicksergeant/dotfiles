@@ -3,6 +3,8 @@
 export CFLAGS=-Qunused-arguments
 export CPPFLAGS=-Qunused-arguments
 export EDITOR='vim'
+export GOPATH=$HOME/.go
+export GOROOT=/usr/local/opt/go/libexec
 export INFOPATH=/home/linuxbrew/.linuxbrew/share/info:$INFOPATH
 export MANPATH=/home/linuxbrew/.linuxbrew/share/man:$MANPATH
 export PYENV_ROOT=$HOME/.pyenv
@@ -10,6 +12,8 @@ export PATH=$PATH:/home/linuxbrew/.linuxbrew/Homebrew/Library/Homebrew/vendor/po
 export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/Sources/dotfiles/bin
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin
 export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 export ZSH=~/.oh-my-zsh
 
@@ -138,9 +142,9 @@ gsa() {
 
 m() {
   if [ "$@" ] ; then
-    atom $@
+    mvim $@
   else
-    atom .
+    mvim .
   fi
 }
 

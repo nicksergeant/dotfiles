@@ -1,7 +1,7 @@
 " General {{{ 
 
-execute "set <M-w>=\ew"
 execute "set <M-s>=\es"
+execute "set <M-w>=\ew"
 inoremap <F1> <nop>
 inoremap jk <esc>
 let g:jsx_ext_required = 0
@@ -153,7 +153,7 @@ augroup END
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = '<c-g>'
-" let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 20
 let g:ctrlp_split_window = 0
@@ -173,6 +173,8 @@ nnoremap <leader>5 :CtrlPClearCache<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>l :CtrlPLine<cr>
 nnoremap <leader>r :CtrlPMRUFiles<cr>
+nnoremap <M-n> :cn<cr>
+nnoremap <M-p> :cp<cr>
 
 " }}}
 " Elixir {{{
@@ -253,19 +255,13 @@ set foldtext=MyFoldText()
 
 let g:github_enterprise_urls = ['https://git.hubteam.com']
 
-nnoremap <leader>g :Gbrowse<cr>
-vnoremap <leader>g :Gbrowse<cr>
-nnoremap <leader>gd :Gdiff<cr>
-nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gw :Gwrite<cr>
+nnoremap <leader>eg :Gblame<cr>
 nnoremap <leader>ga :Gadd<cr>
 nnoremap <leader>gb :Gblame<cr>
-vnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gco :Gcheckout<cr>
-nnoremap <leader>gci :Gcommit<cr>
-nnoremap <leader>gm :Gmove<cr>
-nnoremap <leader>gr :Gremove<cr>
-nnoremap <leader>gl :Shell git gl -18<cr>:wincmd \|<cr>
+nnoremap <leader>gd :Git! diff<cr>
+nnoremap <leader>gg :Gbrowse<cr>
+nnoremap <leader>gs :Gstatus<cr>
+vnoremap <leader>gg :Gbrowse<cr>
 
 augroup ft_fugitive
     au!
@@ -374,6 +370,7 @@ set hidden
 set hlsearch
 set ignorecase
 set incsearch
+set invmmta
 set laststatus=2
 set lazyredraw
 set linespace=1
