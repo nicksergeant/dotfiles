@@ -331,9 +331,10 @@ let g:neoformat_enabled_scss = ['prettier']
 " }}}
 " NERD Tree {{{
 
-noremap  <F2> :NERDTreeToggle<cr>
-noremap  <D-1> :NERDTreeToggle<cr>
 inoremap <F2> <esc>:NERDTreeToggle<cr>
+noremap  <D-1> :NERDTreeToggle<cr>
+noremap  <D-\> :NERDTreeToggle<cr>
+noremap  <F2> :NERDTreeToggle<cr>
 noremap  <leader>f :NERDTreeFind<cr>
 noremap  <leader>f :NERDTreeFind<cr>
 
