@@ -78,7 +78,7 @@ call plug#end()
 let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
 
 " Ack for last search.
-nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<CR>
+nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<cr>
 nnoremap <leader>a :Ack!<space>
 
 " }}}
@@ -155,7 +155,6 @@ augroup END
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '<c-g>'
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 20
@@ -172,6 +171,7 @@ let g:ctrlp_prompt_mappings = {
 \ 'ToggleFocus()':        ['<c-tab>'],
 \ }
 
+nnoremap <leader>, :CtrlP<cr>
 nnoremap <leader>5 :CtrlPClearCache<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
 nnoremap <leader>l :CtrlPLine<cr>
