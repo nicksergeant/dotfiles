@@ -61,6 +61,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'sbdchd/neoformat'
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/badwolf'
+Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -355,6 +356,11 @@ let NERDTreeDirArrows = 1
 nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
 nnoremap <leader>ei <c-w>s<c-w>j<c-w>L:e ~/.config/i3/config<cr>
 nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e $MYVIMRC<cr>
+
+" }}}
+" QFGrep {{{
+
+nmap <leader>d <Plug>QFGrepG
 
 " }}}
 " Settings {{{
