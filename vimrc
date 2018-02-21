@@ -44,12 +44,12 @@ call plug#begin('~/.vim/plugged')
 " Plug 'junegunn/fzf.vim'
 Plug 'JazzCore/ctrlp-cmatcher'
 Plug 'PeterRincker/vim-argumentative'
-Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'kchmck/vim-coffee-script'
 Plug 'lokaltog/vim-easymotion'
 Plug 'maksimr/vim-jsbeautify'
+Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'moll/vim-node'
 Plug 'mustache/vim-mustache-handlebars'
@@ -113,6 +113,9 @@ autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
 " Colors {{{
 
 silent! colorscheme badwolf
+highlight DiffAdd    guibg=#1C1B1A guifg=#AEEE00
+highlight DiffChange guibg=#1C1B1A guifg=#ffa724
+highlight DiffDelete guibg=#1C1B1A guifg=#FF2C4B
 
 " }}}
 " Copying and pasting {{{
