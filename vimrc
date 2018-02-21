@@ -1,5 +1,6 @@
 " General {{{ 
 
+au FocusLost * silent! wa
 execute "set <M-s>=\es"
 execute "set <M-w>=\ew"
 inoremap <F1> <nop>
@@ -113,9 +114,6 @@ autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
 " Colors {{{
 
 silent! colorscheme badwolf
-highlight DiffAdd    guibg=#1C1B1A guifg=#AEEE00
-highlight DiffChange guibg=#1C1B1A guifg=#ffa724
-highlight DiffDelete guibg=#1C1B1A guifg=#FF2C4B
 
 " }}}
 " Copying and pasting {{{
@@ -155,6 +153,7 @@ augroup END
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
+let g:ctrlp_map = '<c-g>'
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 20
@@ -430,6 +429,17 @@ set wildignore +=tmp
 set wildignore +=vendor
 set wildmenu
 set wildmode=list:longest
+
+" }}}
+" Signify {{{
+
+highlight DiffAdd    guibg=#1C1B1A guifg=#179923
+highlight DiffChange guibg=#1C1B1A guifg=#B0B030
+highlight DiffDelete guibg=#1C1B1A guifg=#B82128
+
+let g:signify_realtime = 1
+let g:signify_sign_change = '~'
+let g:signify_vcs_list = [ 'git' ]
 
 " }}}
 " Vim {{{
