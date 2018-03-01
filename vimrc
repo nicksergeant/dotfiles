@@ -316,13 +316,13 @@ let g:neoformat_elixir_mixformat = {
   \ }
 
 let g:neoformat_javascript_prettier = {
-  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
+  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin-prettier.js',
   \ 'args': ['--config /Users/nsergeant/Code/ContentEditorUI/prettier.config.js'],
   \ 'stdin': 1
   \ }
 
 let g:neoformat_scss_prettier = {
-  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin/prettier.js',
+  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin-prettier.js',
   \ 'args': ['--parser postcss', '--single-quote'],
   \ 'stdin': 1
   \ }
