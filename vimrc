@@ -117,6 +117,12 @@ autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
 silent! colorscheme badwolf
 
 " }}}
+" Commentary {{{
+
+nmap <leader>c<space> <Plug>CommentaryLine
+xmap <leader>c<space> <Plug>Commentary
+
+" }}}
 " Copying and pasting {{{
 
 imap <c-v> <c-r><c-o>+
@@ -125,12 +131,6 @@ nnoremap Y y$
 vmap <c-c> "+y
 vmap <c-v> c<ESC>"+p
 vmap <c-x> "+c
-
-" }}}
-" Commentary {{{
-
-nmap <leader>c<space> <Plug>CommentaryLine
-xmap <leader>c<space> <Plug>Commentary
 
 " }}}
 " CSS {{{
@@ -180,16 +180,16 @@ nnoremap <M-n> :cn<cr>
 nnoremap <M-p> :cp<cr>
 
 " }}}
-" Elixir {{{
-
-autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
-autocmd BufNewFile,BufReadPost *.ex setl foldmethod=indent
-
-" }}}
 " EasyMotion {{{
 
 let g:EasyMotion_do_mapping = 0
 nmap s <Plug>(easymotion-overwin-f2)
+
+" }}}
+" Elixir {{{
+
+autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
+autocmd BufNewFile,BufReadPost *.ex setl foldmethod=indent
 
 " }}}
 " Folding {{{
@@ -222,6 +222,24 @@ endfunction " }}}
 set foldtext=MyFoldText()
 
 " }}}
+" Fugitive and Hub {{{
+
+let g:github_enterprise_urls = ['https://git.hubteam.com']
+
+nnoremap <leader>eg :Gblame<cr>
+nnoremap <leader>ga :Gadd<cr>
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gd :Git! diff<cr>
+nnoremap <leader>gg :Gbrowse<cr>
+nnoremap <leader>gs :Gstatus<cr>
+vnoremap <leader>gg :Gbrowse<cr>
+
+augroup ft_fugitive
+    au!
+    au BufNewFile,BufRead .git/index setlocal nolist
+augroup END
+
+" }}}
 " fzf and ripgrep {{{
 
 " nnoremap <c-g> :Files<cr>
@@ -252,24 +270,6 @@ set foldtext=MyFoldText()
 "   \ 'marker':  ['fg', 'Keyword'],
 "   \ 'spinner': ['fg', 'Label'],
 "   \ 'header':  ['fg', 'Comment'] }
-
-" }}}
-" Fugitive and Hub {{{
-
-let g:github_enterprise_urls = ['https://git.hubteam.com']
-
-nnoremap <leader>eg :Gblame<cr>
-nnoremap <leader>ga :Gadd<cr>
-nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gd :Git! diff<cr>
-nnoremap <leader>gg :Gbrowse<cr>
-nnoremap <leader>gs :Gstatus<cr>
-vnoremap <leader>gg :Gbrowse<cr>
-
-augroup ft_fugitive
-    au!
-    au BufNewFile,BufRead .git/index setlocal nolist
-augroup END
 
 " }}}
 " HTML {{{
@@ -351,16 +351,16 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 
 " }}}
+" QFGrep {{{
+
+nmap <leader>d <Plug>QFGrepG
+
+" }}}
 " Quick edit files {{{
 
 nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
 nnoremap <leader>ei <c-w>s<c-w>j<c-w>L:e ~/.config/i3/config<cr>
 nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e $MYVIMRC<cr>
-
-" }}}
-" QFGrep {{{
-
-nmap <leader>d <Plug>QFGrepG
 
 " }}}
 " Settings {{{
