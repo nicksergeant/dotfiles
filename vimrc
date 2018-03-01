@@ -9,6 +9,7 @@ let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
+map <esc> :let @/=''<cr>
 nmap <tab> %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
@@ -171,6 +172,9 @@ let g:ctrlp_prompt_mappings = {
 \ 'ToggleFocus()':        ['<c-tab>'],
 \ }
 
+nmap <C-j> :let g:ctrlp_default_input = expand('<cword>') \|
+    \ call ctrlp#init(0) \| unlet g:ctrlp_default_input<cr><cr>
+nmap <C-k> gd/'<cr>Lhh<C-j><esc>
 nnoremap <leader>, :CtrlP<cr>
 nnoremap <leader>5 :CtrlPClearCache<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
