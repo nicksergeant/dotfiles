@@ -172,9 +172,9 @@ let g:ctrlp_prompt_mappings = {
 \ 'ToggleFocus()':        ['<c-tab>'],
 \ }
 
-nmap <C-j> :let g:ctrlp_default_input = expand('<cword>') \|
+nmap gj :let g:ctrlp_default_input = expand('<cword>') \|
     \ call ctrlp#init(0) \| unlet g:ctrlp_default_input<cr><cr>
-nmap <C-k> gd/'<cr>Lhh<C-j><esc>
+nmap gk gd/'<cr>g_hhgj<esc>
 nnoremap <leader>, :CtrlP<cr>
 nnoremap <leader>5 :CtrlPClearCache<cr>
 nnoremap <leader>b :CtrlPBuffer<cr>
