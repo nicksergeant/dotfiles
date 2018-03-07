@@ -383,7 +383,7 @@ set hidden
 set hlsearch
 set ignorecase
 set incsearch
-set invmmta
+silent! set invmmta
 set laststatus=2
 set lazyredraw
 set linespace=1
