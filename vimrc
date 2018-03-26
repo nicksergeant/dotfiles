@@ -259,7 +259,7 @@ command! -nargs=* Rg call fzf#run({
   \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always "%s"',
   \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
   \ 'sink*':    function('<sid>rg_handler'),
-  \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+  \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
   \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
   \            '--color hl:68,hl+:110',
   \ 'down':    '50%'
