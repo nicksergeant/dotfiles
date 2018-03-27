@@ -8,6 +8,7 @@ mkdir -p /home/nsergeant/.fonts
 ln -sf /home/nsergeant/Sources/dotfiles/Xmodmap /home/nsergeant/.Xmodmap
 ln -sf /home/nsergeant/Sources/dotfiles/Xresources /home/nsergeant/.Xresources
 ln -sf /home/nsergeant/Sources/dotfiles/compton.conf /home/nsergeant/.compton.conf
+ln -sf /home/nsergeant/Sources/dotfiles/ctags /home/nsergeant/.ctags
 ln -sf /home/nsergeant/Sources/dotfiles/config/chrome-flags.conf /home/nsergeant/.config/chrome-flags.conf
 ln -sf /home/nsergeant/Sources/dotfiles/config/fontconfig/fonts.conf /home/nsergeant/.config/fontconfig/fonts.conf
 ln -sf /home/nsergeant/Sources/dotfiles/config/gtk-2.0/gtkfilechooser.ini /home/nsergeant/.config/gtk-2.0/gtkfilechooser.ini

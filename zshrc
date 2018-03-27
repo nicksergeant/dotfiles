@@ -31,6 +31,7 @@ source ~/Sources/z/z.sh
 
 # Aliases
 
+alias ct='ctags --options=$HOME/.ctags .'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='hub browse -- commit/$(~/Sources/dotfiles/bin/get_last_commit)'
 alias n='vim ~/Dropbox/Documents/Notes/Notes.md'
