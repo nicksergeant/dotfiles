@@ -140,6 +140,12 @@ augroup ft_css
 augroup END
 
 " }}}
+" Ctags {{{
+
+nnoremap <leader>T :exec "Tag ".expand("<cword>")<cr>
+nnoremap <leader>t :exec "!ctags --options=$HOME/.ctags ."<cr><cr>
+
+" }}}
 " EasyMotion {{{
 
 let g:EasyMotion_do_mapping = 0
@@ -202,10 +208,8 @@ augroup END
 " }}}
 " fzf and ripgrep {{{
 
-nnoremap <c-g> :FuzzyFile<cr>
 nnoremap <leader>, :FuzzyFile<cr>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
-nnoremap <leader>T :exec "Tag ".expand("<cword>")<cr>
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>l :Lines<cr>
@@ -402,11 +406,11 @@ set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
 set expandtab
 set fillchars=diff:⣿,vert:│
+set foldlevelstart=20
 set hidden
 set hlsearch
 set ignorecase
 set incsearch
-silent! set invmmta
 set laststatus=2
 set lazyredraw
 set linespace=1
@@ -462,6 +466,7 @@ set wildignore +=tmp
 set wildignore +=vendor
 set wildmenu
 set wildmode=list:longest
+silent! set invmmta
 
 " }}}
 " Signify {{{
