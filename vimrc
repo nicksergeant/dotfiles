@@ -203,6 +203,7 @@ augroup END
 " fzf and ripgrep {{{
 
 nnoremap <c-g> :FuzzyFile<cr>
+nnoremap <leader>, :FuzzyFile<cr>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
 nnoremap <leader>T :exec "Tag ".expand("<cword>")<cr>
 nnoremap <leader>a :Rg<space>
