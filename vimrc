@@ -13,7 +13,6 @@ map <esc> :let @/=''<cr>
 nmap <tab> %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
-nnoremap <c-]> f<space>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
 nnoremap <c-i> <c-i>
@@ -22,11 +21,13 @@ nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
-nnoremap gi $hhgf
+nnoremap gi <c-]>
 nnoremap gs *<c-o>
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
+nnoremap tn :tn<cr>
+nnoremap tp :tp<cr>
 noremap ; :Neoformat<cr>
 noremap <m-s> :wa<cr>
 noremap <m-w> :q<cr>
@@ -203,6 +204,7 @@ augroup END
 
 nnoremap <c-g> :FuzzyFile<cr>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
+nnoremap <leader>T :exec "Tag ".expand("<cword>")<cr>
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>l :Lines<cr>

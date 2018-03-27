@@ -1,0 +1,7 @@
+--exclude=*.css
+--exclude=deps
+--exclude=dev
+--exclude=node_modules
+--exclude=package-lock.json
+--exclude=priv
+-R
