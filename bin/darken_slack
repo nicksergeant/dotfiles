@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 SLACK_PATH='/Applications/Slack.app/Contents/Resources'
 CSS_URL='https://raw.githubusercontent.com/laCour/slack-night-mode/master/css/raw/black.css'
 
