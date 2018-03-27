@@ -15,7 +15,7 @@ nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
-nnoremap <c-i> <c-i>
+nnoremap <c-p> <c-i>
 nnoremap <leader>ee :ALEToggle<cr>
 nnoremap N Nzv
 nnoremap Vat vatV
