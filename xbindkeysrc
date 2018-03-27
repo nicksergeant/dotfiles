@@ -34,7 +34,7 @@
 
 # Scripts
 
-"import -taint ~/.screenshot.jpg && /home/nsergeant/Sources/dotfiles/bin/upload-screenshot /home/nsergeant/.screenshot.jpg"
+"import -taint ~/.screenshot.jpg && /home/nsergeant/Sources/dotfiles/bin/upload_screenshot /home/nsergeant/.screenshot.jpg"
   Shift+Alt + 1
 
 # URLs
