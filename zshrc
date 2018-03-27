@@ -7,9 +7,7 @@ export GOPATH=$HOME/.go
 export GOROOT=/usr/local/opt/go/libexec
 export INFOPATH=/home/linuxbrew/.linuxbrew/share/info:$INFOPATH
 export MANPATH=/home/linuxbrew/.linuxbrew/share/man:$MANPATH
-export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/Homebrew/Library/Homebrew/vendor/portable-ruby/2.0.0-p648/bin
-export PATH=$PATH:$PYENV_ROOT/bin
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/Sources/dotfiles/bin
 export PATH=$PATH:$GOPATH/bin
@@ -43,12 +41,6 @@ unalias gpd
 
 autoload -U promptinit; promptinit
 prompt pure
-
-# Python
-
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --no-rehash -)"
-fi
 
 # fzf
 
