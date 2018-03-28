@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 SLACK_PATH='/Applications/Slack.app/Contents/Resources'
-CSS_URL='https://raw.githubusercontent.com/nicksergeant/slack-night-mode/master/css/raw/black.css'
+CSS_URL='https://raw.githubusercontent.com/nicksergeant/slack-night-mode/master/css/raw/variants/nicksergeant.css'
 
 if ! grep -q "$CSS_URL" "${SLACK_PATH}"/app.asar.unpacked/src/static/ssb-interop.js; then
 bash -c "cat >> \"${SLACK_PATH}\"/app.asar.unpacked/src/static/ssb-interop.js" << EOF
