@@ -86,8 +86,6 @@ nnoremap <leader>a :Ack!<space>
 " Ale {{{
 
 let g:ale_cache_executable_check_failures = 1
-let g:ale_javascript_eslint_executable = 'eslint_d'
-let g:ale_javascript_eslint_use_global = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {'javascript': ['eslint']}
@@ -292,7 +290,7 @@ let g:neoformat_javascript_prettier = {
 
 let g:neoformat_scss_prettier = {
   \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin-prettier.js',
-  \ 'args': ['--parser postcss', '--single-quote'],
+  \ 'args': ['--parser css', '--single-quote'],
   \ 'stdin': 1
   \ }
 
