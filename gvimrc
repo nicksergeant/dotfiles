@@ -4,7 +4,7 @@ set guioptions-=l        " Hide toolbar.
 set guioptions-=L        " Hide toolbar.
 set guioptions-=r        " Hide toolbar.
 set guioptions-=R        " Hide toolbar.
-set guifont=Menlo:h14
+set guifont=Menlo:h17
 set lines=48 columns=162 " Window dimensions.
 
 iunmenu File.Save 
