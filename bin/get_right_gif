@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+result=`curl -s -d "text=$1" -X POST https://rightgif.com/search/web | /usr/local/bin/jq -r ".url"`
+result=`echo "$result" | sed "s/media\.giphy/i\.giphy/"`
+
+echo -n $result | pbcopy &&
+echo $result &&
+open $result &&
+afplay /System/Library/Sounds/Glass.aiff
