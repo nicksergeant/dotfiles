@@ -290,7 +290,7 @@ let g:neoformat_javascript_prettier = {
 
 let g:neoformat_scss_prettier = {
   \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin-prettier.js',
-  \ 'args': ['--parser postcss', '--single-quote'],
+  \ 'args': ['--parser css', '--single-quote'],
   \ 'stdin': 1
   \ }
 
