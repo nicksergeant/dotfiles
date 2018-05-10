@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+url=$(hub browse -u -- commit/$(git log --no-merges -1 --pretty=oneline))
+echo -n $url | pbcopy
+open $url

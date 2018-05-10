@@ -31,7 +31,7 @@ source ~/Sources/z/z.sh
 
 alias ct='ctags --options=$HOME/.ctags .'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
-alias glco='hub browse -u -- commit/$(git log --no-merges -1 --pretty=oneline) | pbcopy | xargs open'
+alias glco='get_last_commit'
 alias n='vim ~/Dropbox/Documents/Notes/Notes.md'
 alias ta='tmux attach -t'
 unalias gd
