@@ -69,8 +69,87 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'w0rp/ale'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 call plug#end()
+
+" }}}
+" Settings {{{
+
+set autoindent
+set autoread
+set autowrite
+set backspace=indent,eol,start
+set colorcolumn=0
+set cursorline
+set directory=$HOME/.vim/tmp//,.
+set encoding=utf-8
+set expandtab
+set fillchars=diff:⣿,vert:│
+set foldlevelstart=20
+set hidden
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
+set lazyredraw
+set linespace=1
+set list
+set listchars=tab:▸\ ,extends:❯,precedes:❮
+set mouse=a
+set nobackup
+set nocompatible
+set noswapfile
+set nowrap
+set nowritebackup
+set re=1
+set ruler
+set scrolloff=3
+set shell=/bin/bash
+set shiftwidth=2
+set smartcase
+set smartindent
+set softtabstop=2
+set splitbelow
+set splitright
+set statusline=\ %f%=\ [%l/%L]\ 
+set synmaxcol=800
+set t_Co=256
+set tabstop=2
+set timeoutlen=1000 ttimeoutlen=0
+set title
+set undofile
+set visualbell
+set wildignore +=*.db
+set wildignore +=*.pyc
+set wildignore +=*.spl
+set wildignore +=*.sql
+set wildignore +=*.swo
+set wildignore +=*.swp
+set wildignore +=*.un~
+set wildignore +=.git
+set wildignore +=.hg
+set wildignore +=.sass-cache
+set wildignore +=.svn
+set wildignore +=__init__.py
+set wildignore +=__pycache__
+set wildignore +=_site
+set wildignore +=build
+set wildignore +=cache
+set wildignore +=client/vendor
+set wildignore +=client/vendor-manual
+set wildignore +=dist
+set wildignore +=migrations
+set wildignore +=node_modules
+set wildignore +=staticfiles
+set wildignore +=tmp
+set wildignore +=vendor
+set wildmenu
+set wildmode=list:longest
+silent! set invmmta
 
 " }}}
 
@@ -274,6 +353,23 @@ augroup END
 com! FormatJSON %!python -m json.tool
 
 " }}}
+" JavaScript Language Server {{{
+
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_serverCommands = {}
+
+if executable('javascript-typescript-stdio')
+  let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
+  autocmd FileType javascript.jsx setlocal omnifunc=LanguageClient#complete
+else
+  echo "javascript-typescript-stdio not installed!\n"
+  :cq
+endif
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> go :call LanguageClient_textDocument_definition()<CR>
+
+" }}}
 " Neoformat {{{
 
 let g:neoformat_elixir_mixformat = {
@@ -334,81 +430,6 @@ nnoremap <M-p> :cp<cr>
 nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
 nnoremap <leader>ei <c-w>s<c-w>j<c-w>L:e ~/.config/i3/config<cr>
 nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e $MYVIMRC<cr>
-
-" }}}
-" Settings {{{
-
-set autoindent
-set autoread
-set autowrite
-set backspace=indent,eol,start
-set colorcolumn=0
-set cursorline
-set directory=$HOME/.vim/tmp//,.
-set encoding=utf-8
-set expandtab
-set fillchars=diff:⣿,vert:│
-set foldlevelstart=20
-set hidden
-set hlsearch
-set ignorecase
-set incsearch
-set laststatus=2
-set lazyredraw
-set linespace=1
-set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮
-set mouse=a
-set nobackup
-set nocompatible
-set noswapfile
-set nowrap
-set nowritebackup
-set re=1
-set ruler
-set scrolloff=3
-set shell=/bin/bash
-set shiftwidth=2
-set smartcase
-set smartindent
-set softtabstop=2
-set splitbelow
-set splitright
-set statusline=\ %f%=\ [%l/%L]\ 
-set synmaxcol=800
-set t_Co=256
-set tabstop=2
-set timeoutlen=1000 ttimeoutlen=0
-set title
-set undofile
-set visualbell
-set wildignore +=*.db
-set wildignore +=*.pyc
-set wildignore +=*.spl
-set wildignore +=*.sql
-set wildignore +=*.swo
-set wildignore +=*.swp
-set wildignore +=*.un~
-set wildignore +=.git
-set wildignore +=.hg
-set wildignore +=.sass-cache
-set wildignore +=.svn
-set wildignore +=__init__.py
-set wildignore +=__pycache__
-set wildignore +=_site
-set wildignore +=build
-set wildignore +=cache
-set wildignore +=client/vendor
-set wildignore +=client/vendor-manual
-set wildignore +=dist
-set wildignore +=migrations
-set wildignore +=node_modules
-set wildignore +=staticfiles
-set wildignore +=tmp
-set wildignore +=vendor
-set wildmenu
-set wildmode=list:longest
-silent! set invmmta
 
 " }}}
 " Signify {{{
