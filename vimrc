@@ -357,6 +357,9 @@ com! FormatJSON %!python -m json.tool
 
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_serverCommands = {}
+let g:LanguageClient_rootMarkers = {
+    \ 'javascript.jsx': ['tsconfig.json'],
+    \ }
 
 if executable('javascript-typescript-stdio')
   let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
