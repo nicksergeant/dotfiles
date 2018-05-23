@@ -28,7 +28,7 @@ nnoremap k gk
 nnoremap n nzv
 nnoremap tn :tn<cr>
 nnoremap tp :tp<cr>
-noremap ; :Neoformat<cr>
+noremap ; :ALEFix prettier<cr>
 noremap <m-s> :wa<cr>
 noremap <m-w> :q<cr>
 noremap H ^
@@ -57,7 +57,6 @@ Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'nvie/vim-flake8'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'sbdchd/neoformat'
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/badwolf'
 Plug 'sk1418/QFGrep'
@@ -69,10 +68,10 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'w0rp/ale'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 
 call plug#end()
 
@@ -347,7 +346,6 @@ augroup ft_javascript
     au!
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
-    " au BufWritePre *.js Neoformat
 augroup END
 
 com! FormatJSON %!python -m json.tool
@@ -355,47 +353,22 @@ com! FormatJSON %!python -m json.tool
 " }}}
 " JavaScript Language Server {{{
 
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_serverCommands = {}
-let g:LanguageClient_rootMarkers = {
-    \ 'javascript.jsx': ['tsconfig.json'],
-    \ }
+" let g:LanguageClient_autoStart = 1
+" let g:LanguageClient_serverCommands = {}
+" let g:LanguageClient_rootMarkers = {
+"     \ 'javascript.jsx': ['tsconfig.json'],
+"     \ }
 
-if executable('javascript-typescript-stdio')
-  let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
-  autocmd FileType javascript.jsx setlocal omnifunc=LanguageClient#complete
-else
-  echo "javascript-typescript-stdio not installed!\n"
-  :cq
-endif
+" if executable('javascript-typescript-stdio')
+"   let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
+"   autocmd FileType javascript.jsx setlocal omnifunc=LanguageClient#complete
+" else
+"   echo "javascript-typescript-stdio not installed!\n"
+"   :cq
+" endif
 
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> go :call LanguageClient_textDocument_definition()<CR>
-
-" }}}
-" Neoformat {{{
-
-let g:neoformat_elixir_mixformat = {
-  \ 'exe': 'mix',
-  \ 'args': ['format', '-'],
-  \ 'stdin': 1
-  \ }
-
-let g:neoformat_javascript_prettier = {
-  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin-prettier.js',
-  \ 'args': ['--config /Users/nsergeant/Code/ContentEditorUI/prettier.config.js'],
-  \ 'stdin': 1
-  \ }
-
-let g:neoformat_scss_prettier = {
-  \ 'exe': '/Users/nsergeant/Code/ContentEditorUI/node_modules/prettier/bin-prettier.js',
-  \ 'args': ['--parser css', '--single-quote'],
-  \ 'stdin': 1
-  \ }
-
-let g:neoformat_enabled_elixir = ['mixformat']
-let g:neoformat_enabled_javascript = ['prettier']
-let g:neoformat_enabled_scss = ['prettier']
+" nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+" nnoremap <silent> go :call LanguageClient_textDocument_definition()<CR>
 
 " }}}
 " NERD Tree {{{
