@@ -28,7 +28,7 @@ nnoremap k gk
 nnoremap n nzv
 nnoremap tn :tn<cr>
 nnoremap tp :tp<cr>
-noremap ; :ALEFix prettier<cr>
+noremap ; :ALEFix<cr>
 noremap <m-s> :wa<cr>
 noremap <m-w> :q<cr>
 noremap H ^
@@ -167,6 +167,13 @@ let g:ale_cache_executable_check_failures = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {'javascript': ['eslint']}
+let g:ale_fixers = {
+\ 'css': ['prettier'],
+\ 'javascript': ['prettier'],
+\ 'json': ['prettier'],
+\ 'sass': ['prettier'],
+\ 'scss': ['prettier']
+\ }
 
 " }}}
 " Autocomplete {{{
