@@ -12,7 +12,6 @@ export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/Sources/dotfiles/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:$(bend yarn global bin)
 export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 export ZSH=~/.oh-my-zsh
 
