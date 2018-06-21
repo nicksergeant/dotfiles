@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "paths": {
+      "BlogEditorUI/*": ["BlogEditorUI/static/js/*"],
+      "ContentEditorUI/*": ["ContentEditorUI/static/js/*"],
+      "ContentModulesUI/*": ["../content_static/ContentModulesUI/static/js/*"],
+      "EmailDragDropEditorUI/*": ["EmailDragDropEditorUI/static/js/*"],
+      "InpageEditorUI/*": ["InpageEditorUI/static/js/*"],
+      "LayoutBuilderUI/*": ["LayoutBuilderUI/static/js/*"],
+      "PageEditorUI/*": ["PageEditorUI/static/js/*"],
+      "UIComponents/*": ["../UIComponents/UIComponents/static/js/*"]
+    },
+    "baseUrl": "."
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
