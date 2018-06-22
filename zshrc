@@ -135,9 +135,9 @@ gsa() {
 
 m() {
   if [ "$@" ] ; then
-    code $@
+    mvim $@
   else
-    code .
+    mvim .
   fi
 }
 
