@@ -237,6 +237,7 @@ augroup END
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = ',,'
+let g:ctrlp_match_current_file = 1
 let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 20
