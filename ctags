@@ -1,9 +1,12 @@
 --exclude=*.css
+--exclude=.cache
 --exclude=.meteor
---exclude=jquery*.js
 --exclude=deps
 --exclude=dev
+--exclude=jquery*.js
 --exclude=node_modules
 --exclude=package-lock.json
 --exclude=priv
+--exclude=public/dist
+--exclude=public/node_modules
 -R

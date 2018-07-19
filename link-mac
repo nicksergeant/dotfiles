@@ -1,8 +1,6 @@
 #!/bin/bash
 
 ln -sf /Users/nsergeant/Sources/dotfiles/ctags /Users/nsergeant/.ctags
-ln -sf /Users/nsergeant/Sources/dotfiles/eslintrc.json /Users/nsergeant/Code/.eslintrc.json
-ln -sf /Users/nsergeant/Sources/dotfiles/eslintrc.json /Users/nsergeant/Coden/.eslintrc.json
 ln -sf /Users/nsergeant/Sources/dotfiles/gitconfig /Users/nsergeant/.gitconfig
 ln -sf /Users/nsergeant/Sources/dotfiles/gitignore /Users/nsergeant/.gitignore
 ln -sf /Users/nsergeant/Sources/dotfiles/gvimrc /Users/nsergeant/.gvimrc
