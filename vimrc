@@ -53,7 +53,7 @@ Plug 'mileszs/ack.vim'
 Plug 'moll/vim-node'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'mxw/vim-jsx'
-Plug 'nixprime/cpsm', { 'do': 'env PY3=OFF ./install.sh' }
+Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'nvie/vim-flake8'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
@@ -167,10 +167,12 @@ let g:ale_cache_executable_check_failures = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {'javascript': ['eslint']}
+let g:ale_python_black_standard_executable = '/Users/nsergeant/.virtualenvs/djn/bin/black'
 let g:ale_fixers = {
 \ 'css': ['prettier'],
 \ 'javascript': ['prettier'],
 \ 'json': ['prettier'],
+\ 'python': ['black'],
 \ 'sass': ['prettier'],
 \ 'scss': ['prettier']
 \ }
