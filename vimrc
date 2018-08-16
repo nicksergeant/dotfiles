@@ -167,7 +167,7 @@ let g:ale_cache_executable_check_failures = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {'javascript': ['eslint']}
-let g:ale_python_black_standard_executable = '/Users/nsergeant/.virtualenvs/djn/bin/black'
+let g:ale_python_black_standard_executable = '/Users/nsergeant/.virtualenvs/casl/bin/black'
 let g:ale_fixers = {
 \ 'css': ['prettier'],
 \ 'javascript': ['prettier'],
@@ -334,7 +334,6 @@ augroup END
 au BufNewFile,BufRead *.ejs setlocal filetype=html
 au BufNewFile,BufRead *.app setlocal filetype=html
 au BufNewFile,BufRead *.cmp setlocal filetype=html
-au BufNewFile,BufRead *.html nnoremap <buffer> <leader>f Vatzf
 au BufNewFile,BufRead *.html setlocal foldmethod=manual
 au FileType html setlocal tabstop=2
 au FileType html setlocal shiftwidth=2
@@ -389,7 +388,6 @@ inoremap <F2> <esc>:NERDTreeToggle<cr>
 noremap  <D-1> :NERDTreeToggle<cr>
 noremap  <D-\> :NERDTreeToggle<cr>
 noremap  <F2> :NERDTreeToggle<cr>
-noremap  <leader>f :NERDTreeFind<cr>
 noremap  <leader>f :NERDTreeFind<cr>
 
 au Filetype nerdtree setlocal nolist

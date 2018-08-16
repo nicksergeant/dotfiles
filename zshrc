@@ -34,6 +34,7 @@ alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='get_last_commit'
 alias n='vim ~/Dropbox/Documents/Notes/Notes.md'
 alias ta='tmux attach -t'
+alias pm='python manage.py'
 unalias gd
 unalias gpd
 
