@@ -30,6 +30,7 @@ source ~/Sources/z/z.sh
 # Aliases
 
 alias ct='ctags --options=$HOME/.ctags .'
+alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='get_last_commit'
 alias n='vim ~/Dropbox/Documents/Notes/Notes.md'
