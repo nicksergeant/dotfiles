@@ -34,6 +34,7 @@ alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='get_last_commit'
 alias n='vim ~/Dropbox/Documents/Notes/Notes.md'
+alias o='open'
 alias ta='tmux attach -t'
 alias pm='python manage.py'
 unalias gd
@@ -142,10 +143,6 @@ gpd() {
   make deploy
 }
 
-gpf() {
-  git pushf
-}
-
 gsa() {
   find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status && echo)' \;
 }
@@ -164,14 +161,6 @@ npmrc-hs() {
 
 npmrc-reset() {
   rm ~/.npmrc
-}
-
-o() {
-  if [ "$@" ] ; then
-    xdg-open $@
-  else
-    xdg-open .
-  fi
 }
 
 # Temporary reinitializations for USB keyboard and mouse after
