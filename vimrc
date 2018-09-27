@@ -243,7 +243,7 @@ let g:ctrlp_map = ',,'
 let g:ctrlp_match_current_file = 1
 let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
 let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_max_height = 20
+let g:ctrlp_max_height = 10
 let g:ctrlp_split_window = 0
 let g:ctrlp_use_caching  = 1
 let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
@@ -279,6 +279,11 @@ nmap s <Plug>(easymotion-overwin-f2)
 
 autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
 autocmd BufNewFile,BufReadPost *.ex setl foldmethod=indent
+
+" }}}
+" Focus {{{
+
+nnoremap <leader>v <c-w>v <c-w>v :e /tmp/null<cr><esc><c-w>h <c-w>h :e /tmp/null<cr><esc><c-w>l
 
 " }}}
 " Folding {{{
