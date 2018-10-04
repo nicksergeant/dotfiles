@@ -245,7 +245,7 @@ let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 10
 let g:ctrlp_split_window = 0
-let g:ctrlp_use_caching  = 1
+let g:ctrlp_use_caching = 0
 let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
 let g:ctrlp_working_path_mode = 0
 
