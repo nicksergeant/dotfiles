@@ -132,12 +132,6 @@ gla() {
   find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git pull && echo)' \;
 }
 
-glu() {
-  git checkout master
-  git pull
-  git checkout -
-}
-
 gpd() {
   git push
   make deploy
