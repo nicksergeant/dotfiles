@@ -42,30 +42,30 @@ vmap <tab> %
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'PeterRincker/vim-argumentative'
+" Plug 'PeterRincker/vim-argumentative'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'elixir-lang/vim-elixir'
+" Plug 'elixir-lang/vim-elixir'
 Plug 'kchmck/vim-coffee-script'
-Plug 'lokaltog/vim-easymotion'
-Plug 'maksimr/vim-jsbeautify'
+" Plug 'lokaltog/vim-easymotion'
+" Plug 'maksimr/vim-jsbeautify'
 Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
-Plug 'moll/vim-node'
-Plug 'mustache/vim-mustache-handlebars'
+" Plug 'moll/vim-node'
+" Plug 'mustache/vim-mustache-handlebars'
 Plug 'mxw/vim-jsx'
 Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
-Plug 'nvie/vim-flake8'
-Plug 'othree/html5.vim'
+" Plug 'nvie/vim-flake8'
+" Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'scrooloose/nerdtree'
 Plug 'nicksergeant/badwolf'
 Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'w0rp/ale'
 " Plug 'autozimu/LanguageClient-neovim', {
@@ -423,9 +423,9 @@ nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/.vimrc<cr>
 " }}}
 " Signify {{{
 
-highlight DiffAdd    guibg=#1C1B1A guifg=#179923
-highlight DiffChange guibg=#1C1B1A guifg=#B0B030
-highlight DiffDelete guibg=#1C1B1A guifg=#B82128
+highlight DiffAdd           cterm=bold ctermbg=none ctermfg=119
+highlight DiffDelete        cterm=bold ctermbg=none ctermfg=167
+highlight DiffChange        cterm=bold ctermbg=none ctermfg=227
 
 let g:signify_realtime = 1
 let g:signify_sign_change = '~'
