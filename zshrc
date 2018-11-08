@@ -174,6 +174,10 @@ ti() {
   tmux attach
 }
 
+wo() {
+  source .venv
+}
+
 # Import private settings
 
 source ~/Sources/dotfiles-private/zshrc

@@ -2,6 +2,7 @@
 
 mkdir -p /Users/nsergeant/Library/Application\ Support/MailMate/Resources/KeyBindings
 
+ln -sf /Users/nsergeant/Sources/dotfiles/config/nvim/init.vim /Users/nsergeant/.config/nvim/init.vim
 ln -sf /Users/nsergeant/Sources/dotfiles/ctags /Users/nsergeant/.ctags
 ln -sf /Users/nsergeant/Sources/dotfiles/gitconfig /Users/nsergeant/.gitconfig
 ln -sf /Users/nsergeant/Sources/dotfiles/gitignore /Users/nsergeant/.gitignore

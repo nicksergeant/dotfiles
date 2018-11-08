@@ -1,8 +1,8 @@
 " General {{{ 
 
 au FocusLost * silent! wa
-execute "set <M-s>=\es"
-execute "set <M-w>=\ew"
+" execute "set <M-s>=\es"
+" execute "set <M-w>=\ew"
 inoremap <F1> <nop>
 inoremap jk <esc>
 let g:jsx_ext_required = 0
@@ -82,6 +82,7 @@ set autoindent
 set autoread
 set autowrite
 set backspace=indent,eol,start
+set clipboard=unnamed
 set colorcolumn=0
 set cursorline
 set directory=$HOME/.vim/tmp//,.
@@ -167,7 +168,6 @@ let g:ale_cache_executable_check_failures = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {'javascript': ['eslint']}
-let g:ale_python_black_standard_executable = '/Users/nsergeant/.virtualenvs/casl/bin/black'
 let g:ale_fixers = {
 \ 'css': ['prettier'],
 \ 'javascript': ['prettier'],
@@ -418,7 +418,7 @@ nnoremap <M-p> :cp<cr>
 
 nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
 nnoremap <leader>ei <c-w>s<c-w>j<c-w>L:e ~/.config/i3/config<cr>
-nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e $MYVIMRC<cr>
+nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/.vimrc<cr>
 
 " }}}
 " Signify {{{
