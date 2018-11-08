@@ -58,7 +58,7 @@ Plug 'nvie/vim-flake8'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'scrooloose/nerdtree'
-Plug 'sjl/badwolf'
+Plug 'nicksergeant/badwolf'
 Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -82,7 +82,7 @@ set autoindent
 set autoread
 set autowrite
 set backspace=indent,eol,start
-set clipboard=unnamed
+" set clipboard=unnamed
 set colorcolumn=0
 set cursorline
 set directory=$HOME/.vim/tmp//,.
