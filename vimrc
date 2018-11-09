@@ -43,29 +43,30 @@ vmap <tab> %
 call plug#begin('~/.vim/plugged')
 
 " Plug 'PeterRincker/vim-argumentative'
-Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'elixir-lang/vim-elixir'
-Plug 'kchmck/vim-coffee-script'
 " Plug 'lokaltog/vim-easymotion'
 " Plug 'maksimr/vim-jsbeautify'
-Plug 'mhinz/vim-signify'
-Plug 'mileszs/ack.vim'
 " Plug 'moll/vim-node'
 " Plug 'mustache/vim-mustache-handlebars'
-Plug 'mxw/vim-jsx'
-Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 " Plug 'nvie/vim-flake8'
 " Plug 'othree/html5.vim'
+" Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-unimpaired'
+Plug '/usr/bin/fzf'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'kchmck/vim-coffee-script'
+Plug 'mhinz/vim-signify'
+Plug 'mxw/vim-jsx'
+Plug 'nicksergeant/badwolf'
+Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'pangloss/vim-javascript'
 Plug 'scrooloose/nerdtree'
-Plug 'nicksergeant/badwolf'
 Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-" Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
-" Plug 'tpope/vim-surround'
-" Plug 'tpope/vim-unimpaired'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'w0rp/ale'
 " Plug 'autozimu/LanguageClient-neovim', {
@@ -82,7 +83,6 @@ set autoindent
 set autoread
 set autowrite
 set backspace=indent,eol,start
-" set clipboard=unnamed
 set colorcolumn=0
 set cursorline
 set directory=$HOME/.vim/tmp//,.
@@ -153,15 +153,6 @@ silent! set invmmta
 
 " }}}
 
-" Ack {{{
-
-let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
-
-" Ack for last search.
-nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<cr>
-nnoremap <leader>a :Ack!<space>
-
-" }}}
 " Ale {{{
 
 let g:ale_cache_executable_check_failures = 1
@@ -218,6 +209,13 @@ vmap <c-v> c<ESC>"+p
 vmap <c-x> "+c
 
 " }}}
+" Cursors {{{
+
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+
+" }}}
 " CSS {{{
 
 augroup ft_css
@@ -233,35 +231,6 @@ augroup ft_css
     " positioned inside of them AND the following code doesn't get unfolded.
     au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><cr><esc>kcc
 augroup END
-
-" }}}
-" Ctrlp {{{
-
-let g:ctrlp_dont_split = 'NERD_tree_2'
-let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = ',,'
-let g:ctrlp_match_current_file = 1
-let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_max_height = 10
-let g:ctrlp_split_window = 0
-let g:ctrlp_use_caching = 0
-let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
-let g:ctrlp_working_path_mode = 0
-
-let g:ctrlp_prompt_mappings = {
-\ 'PrtHistory(-1)':       ['<c-n>'],
-\ 'PrtHistory(1)':        ['<c-p>'],
-\ 'PrtSelectMove("j")':   ['<down>', '<s-tab>'],
-\ 'PrtSelectMove("k")':   ['<up>', '<tab>'],
-\ 'ToggleFocus()':        ['<c-tab>'],
-\ }
-
-nnoremap <leader>, :CtrlP<cr>
-nnoremap <leader>b :CtrlPBuffer<cr>
-nnoremap <leader>l :CtrlPLine<cr>
-nnoremap <leader>r :CtrlPMRUFiles<cr>
-nnoremap <leader>. :CtrlPClearCache<cr>
 
 " }}}
 " Ctags {{{
@@ -314,6 +283,82 @@ function! MyFoldText() " {{{
     return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
 endfunction " }}}
 set foldtext=MyFoldText()
+
+" }}}
+" fzf and ripgrep {{{
+
+nnoremap <leader>, :FuzzyFile<cr>
+nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
+nnoremap <leader>a :Rg<space>
+nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>l :Lines<cr>
+nnoremap <leader>r :History<cr>
+
+function! s:rg_to_qf(line)
+  let parts = split(a:line, ':')
+  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
+        \ 'text': join(parts[3:], ':')}
+endfunction
+
+function! s:filename_to_qf(f)
+  return {'filename': a:f}
+endfunction
+
+function! s:rg_handler(lines)
+  if len(a:lines) < 2 | return | endif
+
+  let cmd = get({'ctrl-x': 'split',
+               \ 'ctrl-v': 'vertical split',
+               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+  let list = map(a:lines[1:], 's:rg_to_qf(v:val)')
+
+  let first = list[0]
+  execute cmd escape(first.filename, ' %#\')
+  execute first.lnum
+  execute 'normal!' first.col.'|zz'
+
+  if len(list) > 1
+    call setqflist(list)
+    copen
+    wincmd p
+  endif
+endfunction
+
+function! s:files_handler(lines)
+  if len(a:lines) < 2 | return | endif
+  let cmd = get({'ctrl-x': 'split',
+               \ 'ctrl-v': 'vertical split',
+               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+
+  execute cmd escape(a:lines[1], ' %#\')
+
+  let list = map(a:lines[1:], 's:filename_to_qf(v:val)')
+
+  if len(list) > 1
+    call setqflist(list)
+    copen
+    wincmd p
+  endif
+endfunction
+
+command! -nargs=* Rg call fzf#run({
+  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always "%s"',
+  \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+  \ 'sink*':    function('<sid>rg_handler'),
+  \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
+  \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+  \            '--color hl:68,hl+:110',
+  \ 'down':    '50%'
+  \ })
+
+command! -nargs=0 FuzzyFile call fzf#run({
+  \ 'source': 'rg --files --no-heading ',
+  \ 'sink*': function('<sid>files_handler'),
+  \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
+  \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+  \            '--color hl:68,hl+:110',
+  \ 'down': '50%'
+  \ })
 
 " }}}
 " Fugitive and Hub {{{
