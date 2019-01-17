@@ -1,15 +1,14 @@
 " General {{{ 
 
 au FocusLost * silent! wa
-" execute "set <M-s>=\es"
-" execute "set <M-w>=\ew"
+execute "set <M-s>=\es"
+execute "set <M-w>=\ew"
 inoremap <F1> <nop>
 inoremap jk <esc>
 let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
-map <esc> :let @/=''<cr>
 nmap <tab> %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>

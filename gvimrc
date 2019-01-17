@@ -15,4 +15,5 @@ if has("gui_macvim")
   nnoremap <D-CR> :set invfullscreen<CR>
   macm File.Close key=<nop>
   nnoremap <silent> <D-w> <Esc>:quit<CR>
+  map <esc> :let @/=''<cr>
 end
