@@ -159,8 +159,8 @@ npmrc-hs() {
   cp ~/.npmrc-hs ~/.npmrc
 }
 
-npmrc-reset() {
-  rm ~/.npmrc
+npmrc-ns() {
+  cp ~/.npmrc-ns ~/.npmrc
 }
 
 # Temporary reinitializations for USB keyboard and mouse after

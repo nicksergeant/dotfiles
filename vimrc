@@ -67,6 +67,7 @@ Plug 'nicksergeant/badwolf'
 Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'pangloss/vim-javascript'
 Plug 'scrooloose/nerdtree'
+Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
