@@ -130,6 +130,10 @@ c() {
   fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
 }
 
+doge() {
+  suchvalue DAYrpmB2mVGZeRdLRmz2Jwf5VccN7t3nRf DAqKq1SG9abegwcpPEcdmYsr4NWfZSZLA6 DT45nQ43qBCGbPS9ud4JXBKAMUMsnq6MuU DFebfjwBLp248Rr4fZ3yXJHg4B25N9Npau
+}
+
 gd() {
   git diff HEAD
 }
