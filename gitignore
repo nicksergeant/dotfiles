@@ -10,7 +10,6 @@
 .hgignore
 .python-version
 .sass-cache
-.venv
 .vscode
 id_dsa
 id_dsa.pub

@@ -198,3 +198,6 @@ wo() {
 
 source ~/Sources/dotfiles-private/zshrc
 source ~/.zshrc-env
+
+# Added by nex: https://git.hubteam.com/HubSpot/nex
+. ~/.hubspot/shellrc

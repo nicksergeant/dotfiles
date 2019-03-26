@@ -9,11 +9,13 @@ let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
+nmap <silent> <c-n> <Plug>(ale_next_wrap)
 nmap <tab> %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
+nnoremap <c-i> :JsFileImport<cr>
 nnoremap <c-p> <c-i>
 nnoremap <leader>ee :ALEToggle<cr>
 nnoremap N Nzv
@@ -59,7 +61,7 @@ call plug#begin('~/.vim/plugged')
 " Plug '/usr/local/opt/fzf'
 " Plug 'junegunn/fzf.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'kchmck/vim-coffee-script'
+Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
@@ -193,11 +195,6 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 
 " }}}
-" CoffeeScript {{{
-
-autocmd BufNewFile,BufReadPost *.coffee setl foldmethod=indent
-
-" }}}
 " Colors {{{
 
 silent! colorscheme badwolf
@@ -275,12 +272,6 @@ nnoremap <leader>r :CtrlPMRUFiles<cr>
 nnoremap <leader>. :CtrlPClearCache<cr>
 
  " }}}
-" EasyMotion {{{
-
-let g:EasyMotion_do_mapping = 0
-nmap s <Plug>(easymotion-overwin-f2)
-
-" }}}
 " Elixir {{{
 
 autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
@@ -514,15 +505,11 @@ nnoremap <M-p> :cp<cr>
 " Quick edit files {{{
 
 nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
-nnoremap <leader>ei <c-w>s<c-w>j<c-w>L:e ~/.config/i3/config<cr>
 nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/.vimrc<cr>
 
 " }}}
 " Signify {{{
 
-" highlight DiffAdd           cterm=bold ctermbg=none ctermfg=119
-" highlight DiffDelete        cterm=bold ctermbg=none ctermfg=167
-" highlight DiffChange        cterm=bold ctermbg=none ctermfg=227
 highlight DiffAdd    guibg=#1C1B1A guifg=#179923
 highlight DiffChange guibg=#1C1B1A guifg=#B0B030
 highlight DiffDelete guibg=#1C1B1A guifg=#B82128
@@ -559,7 +546,7 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 " Window Toggles {{{
 
 command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
-function! QFixToggle(forced) " {{{
+function! QFixToggle(forced)
     if exists("g:qfix_win") && a:forced == 0
         cclose
         unlet g:qfix_win
@@ -567,27 +554,9 @@ function! QFixToggle(forced) " {{{
         copen 10
         let g:qfix_win = bufnr("$")
     endif
-endfunction " }}}
+endfunction
 
 nmap <silent> <f4> :QFixToggle<cr>
-
-" }}}
-" Zoom {{{
-" Zoom / Restore window.
-
-function! s:ZoomToggle() abort
-  if exists('t:zoomed') && t:zoomed
-    execute t:zoom_winrestcmd
-    let t:zoomed = 0
-  else
-    let t:zoom_winrestcmd = winrestcmd()
-    resize
-    vertical resize
-    let t:zoomed = 1
-  endif
-endfunction
-command! ZoomToggle call s:ZoomToggle()
-nnoremap <silent> <c-f>o :ZoomToggle<cr>
 
 " }}}
 
