@@ -15,7 +15,7 @@ nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
-nnoremap <c-i> :JsFileImport<cr>
+nnoremap <leader>im :JsFileImport<cr>
 nnoremap <c-p> <c-i>
 nnoremap <leader>ee :ALEToggle<cr>
 nnoremap N Nzv
@@ -62,6 +62,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'junegunn/fzf.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
