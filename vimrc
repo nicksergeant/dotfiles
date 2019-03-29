@@ -129,8 +129,11 @@ set timeoutlen=1000 ttimeoutlen=0
 set title
 set undofile
 set visualbell
+set wildignore=*.db
 set wildignore+=*.git/**
 set wildignore+=*.hg*
+set wildignore+=*.jquery*.js
+set wildignore+=*.meteor
 set wildignore+=*.pyc
 set wildignore+=*.sass-cache
 set wildignore+=*.spl
@@ -146,13 +149,14 @@ set wildignore+=*client/vendor/**
 set wildignore+=*dist/**
 set wildignore+=*migrations/**
 set wildignore+=*node_modules/**
+set wildignore+=*package-lock.json
+set wildignore+=*public/dist/**
 set wildignore+=*staticfiles/**
 set wildignore+=*tmp/**
 set wildignore+=*vendor/**
 set wildignore+=__init__.py
 set wildignore+=__pycache__
 set wildignore+=_site
-set wildignore=*.db
 set wildmenu
 set wildmode=list:longest
 silent! set invmmta
@@ -239,11 +243,6 @@ augroup ft_css
     " positioned inside of them AND the following code doesn't get unfolded.
     au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><cr><esc>kcc
 augroup END
-
-" }}}
-" Ctags {{{
-
-nnoremap <leader>t :exec "!ctags --options=$HOME/.ctags ."<cr><cr>
 
 " }}}
 " Ctrlp {{{
