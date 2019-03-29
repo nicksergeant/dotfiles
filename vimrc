@@ -128,30 +128,30 @@ set timeoutlen=1000 ttimeoutlen=0
 set title
 set undofile
 set visualbell
-set wildignore +=*.db
-set wildignore +=*.pyc
-set wildignore +=*.spl
-set wildignore +=*.sql
-set wildignore +=*.swo
-set wildignore +=*.swp
-set wildignore +=*.un~
-set wildignore +=.git
-set wildignore +=.hg
-set wildignore +=.sass-cache
-set wildignore +=.svn
-set wildignore +=__init__.py
-set wildignore +=__pycache__
-set wildignore +=_site
-set wildignore +=build
-set wildignore +=cache
-set wildignore +=client/vendor
-set wildignore +=client/vendor-manual
-set wildignore +=dist
-set wildignore +=migrations
-set wildignore +=node_modules
-set wildignore +=staticfiles
-set wildignore +=tmp
-set wildignore +=vendor
+set wildignore+=*.git/**
+set wildignore+=*.hg*
+set wildignore+=*.pyc
+set wildignore+=*.sass-cache
+set wildignore+=*.spl
+set wildignore+=*.sql
+set wildignore+=*.svn
+set wildignore+=*.swo
+set wildignore+=*.swp
+set wildignore+=*.un~
+set wildignore+=*build/**
+set wildignore+=*cache/**
+set wildignore+=*client/vendor-manual/**
+set wildignore+=*client/vendor/**
+set wildignore+=*dist/**
+set wildignore+=*migrations/**
+set wildignore+=*node_modules/**
+set wildignore+=*staticfiles/**
+set wildignore+=*tmp/**
+set wildignore+=*vendor/**
+set wildignore+=__init__.py
+set wildignore+=__pycache__
+set wildignore+=_site
+set wildignore=*.db
 set wildmenu
 set wildmode=list:longest
 silent! set invmmta
