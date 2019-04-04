@@ -22,7 +22,7 @@ nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
-nnoremap gi <c-]>
+nnoremap gt <c-]>
 nnoremap gs *<c-o>
 nnoremap j gj
 nnoremap k gk
@@ -43,8 +43,11 @@ vmap <tab> %
 
 call plug#begin('~/.vim/plugged')
 
+" Plug '/usr/bin/fzf'
+" Plug '/usr/local/opt/fzf'
 " Plug 'PeterRincker/vim-argumentative'
 " Plug 'elixir-lang/vim-elixir'
+" Plug 'junegunn/fzf.vim'
 " Plug 'lokaltog/vim-easymotion'
 " Plug 'maksimr/vim-jsbeautify'
 " Plug 'moll/vim-node'
@@ -53,19 +56,18 @@ call plug#begin('~/.vim/plugged')
 " Plug 'othree/html5.vim'
 " Plug 'tpope/vim-repeat'
 " Plug 'tpope/vim-unimpaired'
+" Plug 'vim-scripts/AutoComplPop'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
 "     \ 'do': 'bash install.sh',
 "     \ }
-" Plug '/usr/bin/fzf'
-" Plug '/usr/local/opt/fzf'
-" Plug 'junegunn/fzf.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'nicksergeant/badwolf'
 Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'pangloss/vim-javascript'
@@ -77,7 +79,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
-Plug 'vim-scripts/AutoComplPop'
 Plug 'w0rp/ale'
 
 call plug#end()
@@ -178,7 +179,7 @@ let g:ale_sign_warning = '>>'
 let g:ale_linters = {'javascript': ['eslint']}
 let g:ale_fixers = {
 \ 'css': ['prettier'],
-\ 'javascript': ['prettier'],
+\ 'javascript': ['prettier', 'eslint'],
 \ 'json': ['prettier'],
 \ 'python': ['black'],
 \ 'sass': ['prettier'],
@@ -198,6 +199,28 @@ map <c-h> <c-w>h
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
+
+" }}}
+" CoC {{{
+
+nmap <silent> go <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+"" use <tab> for trigger completion and navigate to next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"<Paste>
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " }}}
 " Colors {{{
