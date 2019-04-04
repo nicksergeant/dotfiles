@@ -18,4 +18,4 @@
   email = nsergeant@hubspot.com
   name = Nick Sergeant
 [push]
-  default = simple
+  default = current

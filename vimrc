@@ -62,6 +62,7 @@ call plug#begin('~/.vim/plugged')
 "     \ 'do': 'bash install.sh',
 "     \ }
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'jiangmiao/auto-pairs'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-signify'
