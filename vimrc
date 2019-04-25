@@ -29,7 +29,8 @@ nnoremap k gk
 nnoremap n nzv
 nnoremap tn :tn<cr>
 nnoremap tp :tp<cr>
-noremap ; :ALEFix<cr>
+noremap ' :ALEFix<cr>
+noremap ; :Prettier<cr>
 noremap <m-s> :wa<cr>
 noremap <m-w> :q<cr>
 noremap H ^
@@ -43,26 +44,7 @@ vmap <tab> %
 
 call plug#begin('~/.vim/plugged')
 
-" Plug '/usr/bin/fzf'
-" Plug '/usr/local/opt/fzf'
-" Plug 'PeterRincker/vim-argumentative'
-" Plug 'elixir-lang/vim-elixir'
-" Plug 'junegunn/fzf.vim'
-" Plug 'lokaltog/vim-easymotion'
-" Plug 'maksimr/vim-jsbeautify'
-" Plug 'moll/vim-node'
-" Plug 'mustache/vim-mustache-handlebars'
-" Plug 'nvie/vim-flake8'
-" Plug 'othree/html5.vim'
-" Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-unimpaired'
-" Plug 'vim-scripts/AutoComplPop'
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'jiangmiao/auto-pairs'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-signify'
@@ -72,6 +54,7 @@ Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'nicksergeant/badwolf'
 Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'pangloss/vim-javascript'
+Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'sk1418/QFGrep'
@@ -179,13 +162,15 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {'javascript': ['eslint']}
 let g:ale_fixers = {
-\ 'css': ['prettier'],
-\ 'javascript': ['prettier', 'eslint'],
-\ 'json': ['prettier'],
+\ 'javascript': ['eslint'],
 \ 'python': ['black'],
-\ 'sass': ['prettier'],
-\ 'scss': ['prettier']
 \ }
+
+" }}}
+" Prettier {{{
+
+let g:prettier#exec_cmd_async = 1
+let g:prettier#autoformat = 0
 
 " }}}
 " Autocomplete {{{
@@ -205,9 +190,6 @@ map <c-l> <c-w>l
 " CoC {{{
 
 nmap <silent> go <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 "" use <tab> for trigger completion and navigate to next complete item
 function! s:check_back_space() abort
@@ -337,97 +319,6 @@ endfunction " }}}
 set foldtext=MyFoldText()
 
 " }}}
-" fzf and ripgrep {{{
-
-" nnoremap <leader>, :FuzzyFile<cr>
-" nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
-" nnoremap <leader>a :Rg<space>
-" nnoremap <leader>b :Buffers<cr>
-" nnoremap <leader>l :Lines<cr>
-" nnoremap <leader>r :History<cr>
-
-" function! s:rg_to_qf(line)
-"   let parts = split(a:line, ':')
-"   return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
-"         \ 'text': join(parts[3:], ':')}
-" endfunction
-
-" function! s:filename_to_qf(f)
-"   return {'filename': a:f}
-" endfunction
-
-" function! s:rg_handler(lines)
-"   if len(a:lines) < 2 | return | endif
-
-"   let cmd = get({'ctrl-x': 'split',
-"                \ 'ctrl-v': 'vertical split',
-"                \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-"   let list = map(a:lines[1:], 's:rg_to_qf(v:val)')
-
-"   let first = list[0]
-"   execute cmd escape(first.filename, ' %#\')
-"   execute first.lnum
-"   execute 'normal!' first.col.'|zz'
-
-"   if len(list) > 1
-"     call setqflist(list)
-"     copen
-"     wincmd p
-"   endif
-" endfunction
-
-" function! s:files_handler(lines)
-"   if len(a:lines) < 2 | return | endif
-"   let cmd = get({'ctrl-x': 'split',
-"                \ 'ctrl-v': 'vertical split',
-"                \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-
-"   execute cmd escape(a:lines[1], ' %#\')
-
-"   let list = map(a:lines[1:], 's:filename_to_qf(v:val)')
-
-"   if len(list) > 1
-"     call setqflist(list)
-"     copen
-"     wincmd p
-"   endif
-" endfunction
-
-" command! -nargs=* Rg call fzf#run({
-"   \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always "%s"',
-"   \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-"   \ 'sink*':    function('<sid>rg_handler'),
-"   \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
-"   \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-"   \            '--color hl:68,hl+:110',
-"   \ 'down':    '50%'
-"   \ })
-
-" command! -nargs=0 FuzzyFile call fzf#run({
-"   \ 'source': 'rg --files --no-heading ',
-"   \ 'sink*': function('<sid>files_handler'),
-"   \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
-"   \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
-"   \            '--color hl:68,hl+:110',
-"   \ 'down': '50%'
-"   \ })
-
-" let g:fzf_colors =
-" \ { 'fg':      ['fg', 'Normal'],
-"   \ 'bg':      ['bg', 'Normal'],
-"   \ 'hl':      ['fg', 'Comment'],
-"   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-"   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-"   \ 'hl+':     ['fg', 'Statement'],
-"   \ 'info':    ['fg', 'PreProc'],
-"   \ 'border':  ['fg', 'Ignore'],
-"   \ 'prompt':  ['fg', 'Conditional'],
-"   \ 'pointer': ['fg', 'Exception'],
-"   \ 'marker':  ['fg', 'Keyword'],
-"   \ 'spinner': ['fg', 'Label'],
-"   \ 'header':  ['fg', 'Comment'] }
-
-" }}}
 " Fugitive and Hub {{{
 
 let g:github_enterprise_urls = ['https://git.hubteam.com']
@@ -477,26 +368,6 @@ augroup ft_javascript
 augroup END
 
 com! FormatJSON %!python -m json.tool
-
-" }}}
-" JavaScript Language Server {{{
-
-" let g:LanguageClient_autoStart = 1
-" let g:LanguageClient_serverCommands = {}
-" let g:LanguageClient_rootMarkers = {
-"     \ 'javascript.jsx': ['tsconfig.json'],
-"     \ }
-
-" if executable('javascript-typescript-stdio')
-"   let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
-"   autocmd FileType javascript.jsx setlocal omnifunc=LanguageClient#complete
-" else
-"   echo "javascript-typescript-stdio not installed!\n"
-"   :cq
-" endif
-
-" nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-" nnoremap <silent> go :call LanguageClient_textDocument_definition()<CR>
 
 " }}}
 " NERD Tree {{{
