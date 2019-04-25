@@ -9,7 +9,6 @@ ln -sf /Users/nsergeant/Sources/dotfiles/gitignore /Users/nsergeant/.gitignore
 ln -sf /Users/nsergeant/Sources/dotfiles/gvimrc /Users/nsergeant/.gvimrc
 ln -sf /Users/nsergeant/Sources/dotfiles/jsconfig-ceui.json /Users/nsergeant/Code/ContentEditorUI/jsconfig.json
 ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.json /Users/nsergeant/.config/karabiner/karabiner.json
-ln -sf /Users/nsergeant/Sources/dotfiles/noop /Users/nsergeant/.vimrc-env
 ln -sf /Users/nsergeant/Sources/dotfiles/noop /Users/nsergeant/.zshrc-env
 # ln -sf /Users/nsergeant/Sources/dotfiles/prettier.config.js /Users/nsergeant/Code/prettier.config.js
 # ln -sf /Users/nsergeant/Sources/dotfiles/prettier.config.js /Users/nsergeant/Coden/prettier.config.js

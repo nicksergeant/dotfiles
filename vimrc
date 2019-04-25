@@ -454,9 +454,3 @@ endfunction
 nmap <silent> <f4> :QFixToggle<cr>
 
 " }}}
-
-" Environment Specific {{{
-
-source ~/.vimrc-env
-
-" }}}
