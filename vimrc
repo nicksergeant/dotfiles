@@ -50,7 +50,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 Plug 'nicksergeant/badwolf'
 Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'pangloss/vim-javascript'
@@ -412,6 +412,12 @@ highlight DiffDelete guibg=#1C1B1A guifg=#B82128
 let g:signify_realtime = 1
 let g:signify_sign_change = '~'
 let g:signify_vcs_list = [ 'git' ]
+
+" }}}
+" Text editing {{{
+
+nmap <leader>cc :s/ - / - ✅ /<cr><esc><c-o>llll
+nmap <leader>cn :s/ - ✅ / - /<cr><esc><c-o>hhhh
 
 " }}}
 " Vim {{{
