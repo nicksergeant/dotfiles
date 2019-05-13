@@ -1,21 +1,19 @@
 " General {{{ 
 
-au FocusLost * silent! wa
-execute "set <M-s>=\es"
-execute "set <M-w>=\ew"
+" au FocusLost * silent! wa
 inoremap <F1> <nop>
 inoremap jk <esc>
 let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
+map <esc> :let @/=''<cr>
 nmap <silent> <c-n> <Plug>(ale_next_wrap)
 nmap <tab> %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
-nnoremap <leader>im :JsFileImport<cr>
 nnoremap <c-p> <c-i>
 nnoremap <leader>ee :ALEToggle<cr>
 nnoremap N Nzv
@@ -31,8 +29,6 @@ nnoremap tn :tn<cr>
 nnoremap tp :tp<cr>
 noremap ' :ALEFix<cr>
 noremap ; :Prettier<cr>
-noremap <m-s> :wa<cr>
-noremap <m-w> :q<cr>
 noremap H ^
 noremap L g_
 syntax enable
@@ -44,26 +40,25 @@ vmap <tab> %
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+Plug '/usr/local/opt/fzf'
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 Plug 'nicksergeant/badwolf'
-Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
 Plug 'shumphrey/fugitive-gitlab.vim'
-Plug 'sk1418/QFGrep'
 Plug 'tommcdo/vim-fubitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
+Plug 'wincent/terminus'
 
 call plug#end()
 
@@ -113,6 +108,7 @@ set tabstop=2
 set timeoutlen=1000 ttimeoutlen=0
 set title
 set undofile
+set updatetime=100
 set visualbell
 set wildignore=*.db
 set wildignore+=*.git/**
@@ -148,13 +144,6 @@ silent! set invmmta
 
 " }}}
 
-" Ack {{{
-
-let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
-nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<cr>
-nnoremap <leader>a :Ack!<space>
-
- " }}}
 " Ale {{{
 
 let g:ale_cache_executable_check_failures = 1
@@ -251,33 +240,6 @@ augroup ft_css
 augroup END
 
 " }}}
-" Ctrlp {{{
-
-let g:ctrlp_dont_split = 'NERD_tree_2'
-let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = ',,'
-let g:ctrlp_match_current_file = 1
-let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_max_height = 10
-let g:ctrlp_split_window = 0
-let g:ctrlp_use_caching = 0
-let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_prompt_mappings = {
-\ 'PrtHistory(-1)':       ['<c-n>'],
-\ 'PrtHistory(1)':        ['<c-p>'],
-\ 'PrtSelectMove("j")':   ['<down>', '<s-tab>'],
-\ 'PrtSelectMove("k")':   ['<up>', '<tab>'],
-\ 'ToggleFocus()':        ['<c-tab>'],
-\ }
-nnoremap <leader>, :CtrlP<cr>
-nnoremap <leader>b :CtrlPBuffer<cr>
-nnoremap <leader>l :CtrlPLine<cr>
-nnoremap <leader>r :CtrlPMRUFiles<cr>
-nnoremap <leader>. :CtrlPClearCache<cr>
-
- " }}}
 " Elixir {{{
 
 autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
@@ -335,6 +297,104 @@ augroup ft_fugitive
     au!
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
+
+" }}}
+" fzf and ripgrep {{{
+
+nnoremap <leader>, :FuzzyFile<cr>
+nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
+nnoremap <leader>a :Rg<space>
+nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>l :Lines<cr>
+nnoremap <leader>r :History<cr>
+
+function! s:rg_to_qf(line)
+  let parts = split(a:line, ':')
+  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
+        \ 'text': join(parts[3:], ':')}
+endfunction
+
+function! s:filename_to_qf(f)
+  return {'filename': a:f}
+endfunction
+
+function! s:rg_handler(lines)
+  if len(a:lines) < 2 | return | endif
+
+  let cmd = get({'ctrl-x': 'split',
+               \ 'ctrl-v': 'vertical split',
+               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+  let list = map(a:lines[1:], 's:rg_to_qf(v:val)')
+
+  let first = list[0]
+  execute cmd escape(first.filename, ' %#\')
+  execute first.lnum
+  execute 'normal!' first.col.'|zz'
+
+  if len(list) > 1
+    call setqflist(list)
+    copen
+    wincmd p
+  endif
+endfunction
+
+function! s:files_handler(lines)
+  if len(a:lines) < 2 | return | endif
+  let cmd = get({'ctrl-x': 'split',
+               \ 'ctrl-v': 'vertical split',
+               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+
+  execute cmd escape(a:lines[1], ' %#\')
+
+  let list = map(a:lines[1:], 's:filename_to_qf(v:val)')
+
+  if len(list) > 1
+    call setqflist(list)
+    copen
+    wincmd p
+  endif
+endfunction
+
+command! -nargs=* Rg call fzf#run({
+  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always "%s"',
+  \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
+  \ 'sink*':    function('<sid>rg_handler'),
+  \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
+  \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+  \            '--color hl:68,hl+:110',
+  \ 'down':    '50%'
+  \ })
+
+command! -nargs=0 FuzzyFile call fzf#run({
+  \ 'source': 'rg --files --no-heading ',
+  \ 'sink*': function('<sid>files_handler'),
+  \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
+  \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
+  \            '--color hl:68,hl+:110',
+  \ 'down': '50%'
+  \ })
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" }}}
+" Gitgutter {{{
+
+highlight GitGutterAdd    guifg=#aeee00 ctermfg=2
+highlight GitGutterChange guifg=#ffa724 ctermfg=3
+highlight GitGutterDelete guifg=#ff2c4b ctermfg=1
 
 " }}}
 " HTML {{{
@@ -401,17 +461,6 @@ nnoremap <M-p> :cp<cr>
 
 nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
 nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/.vimrc<cr>
-
-" }}}
-" Signify {{{
-
-highlight DiffAdd    guibg=#1C1B1A guifg=#179923
-highlight DiffChange guibg=#1C1B1A guifg=#B0B030
-highlight DiffDelete guibg=#1C1B1A guifg=#B82128
-
-let g:signify_realtime = 1
-let g:signify_sign_change = '~'
-let g:signify_vcs_list = [ 'git' ]
 
 " }}}
 " Text editing {{{
