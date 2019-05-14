@@ -202,15 +202,10 @@ silent! colorscheme badwolf
 nmap <leader>c<space> <Plug>CommentaryLine
 xmap <leader>c<space> <Plug>Commentary
 
-" }}}
+" }}
 " Copying and pasting {{{
 
-" imap <c-v> <c-r><c-o>+
-" nnoremap <c-v> c<ESC>"+p
-" nnoremap Y y$
-" vmap <c-c> "+y
-" vmap <c-v> c<ESC>"+p
-" vmap <c-x> "+c
+vnoremap y "+y
 
 " }}}
 " CSS {{{

@@ -15,6 +15,8 @@ export PATH=$PATH:$GOROOT/bin
 export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 export ZSH=~/.oh-my-zsh
 
+fpath+=${ZDOTDIR:-~}/.zsh_functions
+
 # oh-my-zsh
 
 DISABLE_UNTRACKED_FILES_DIRTY="true"
