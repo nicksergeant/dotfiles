@@ -1,6 +1,5 @@
 " General {{{ 
 
-" au FocusLost * silent! wa
 inoremap <F1> <nop>
 inoremap jk <esc>
 let g:jsx_ext_required = 0
@@ -101,8 +100,8 @@ set splitbelow
 set splitright
 set statusline=\ %f%=\ [%l/%L]\ 
 set synmaxcol=800
-set t_Co=256
 set tabstop=2
+set termguicolors
 set timeoutlen=1000 ttimeoutlen=0
 set title
 set undofile
@@ -206,19 +205,12 @@ xmap <leader>c<space> <Plug>Commentary
 " }}}
 " Copying and pasting {{{
 
-imap <c-v> <c-r><c-o>+
-nnoremap <c-v> c<ESC>"+p
-nnoremap Y y$
-vmap <c-c> "+y
-vmap <c-v> c<ESC>"+p
-vmap <c-x> "+c
-
-" }}}
-" Cursors {{{
-
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" imap <c-v> <c-r><c-o>+
+" nnoremap <c-v> c<ESC>"+p
+" nnoremap Y y$
+" vmap <c-c> "+y
+" vmap <c-v> c<ESC>"+p
+" vmap <c-x> "+c
 
 " }}}
 " CSS {{{
