@@ -2,19 +2,17 @@
 
 mkdir -p /Users/nsergeant/Library/Application\ Support/MailMate/Resources/KeyBindings
 
+ln -sf /Users/nsergeant/Sources/dotfiles/config/alacritty/alacritty.yml /Users/nsergeant/.config/alacritty/alacritty.yml
 ln -sf /Users/nsergeant/Sources/dotfiles/config/nvim/init.vim /Users/nsergeant/.config/nvim/init.vim
 ln -sf /Users/nsergeant/Sources/dotfiles/ctags /Users/nsergeant/.ctags
 ln -sf /Users/nsergeant/Sources/dotfiles/gitconfig /Users/nsergeant/.gitconfig
 ln -sf /Users/nsergeant/Sources/dotfiles/gitignore /Users/nsergeant/.gitignore
 ln -sf /Users/nsergeant/Sources/dotfiles/gvimrc /Users/nsergeant/.gvimrc
-ln -sf /Users/nsergeant/Sources/dotfiles/jsconfig-ceui.json /Users/nsergeant/Code/ContentEditorUI/jsconfig.json
 ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.json /Users/nsergeant/.config/karabiner/karabiner.json
+ln -sf /Users/nsergeant/Sources/dotfiles/mailmate-keybindings.plist /Users/nsergeant/Library/Application\ Support/MailMate/Resources/KeyBindings/nsergeant.plist
 ln -sf /Users/nsergeant/Sources/dotfiles/noop /Users/nsergeant/.zshrc-env
-# ln -sf /Users/nsergeant/Sources/dotfiles/prettier.config.js /Users/nsergeant/Code/prettier.config.js
-# ln -sf /Users/nsergeant/Sources/dotfiles/prettier.config.js /Users/nsergeant/Coden/prettier.config.js
 ln -sf /Users/nsergeant/Sources/dotfiles/tmux-mac.conf /Users/nsergeant/.tmux.conf
 ln -sf /Users/nsergeant/Sources/dotfiles/vimrc /Users/nsergeant/.vimrc
 ln -sf /Users/nsergeant/Sources/dotfiles/zshrc /Users/nsergeant/.zshrc
-ln -sf /Users/nsergeant/Sources/dotfiles/mailmate-keybindings.plist /Users/nsergeant/Library/Application\ Support/MailMate/Resources/KeyBindings/nsergeant.plist
 
 echo ✅ Done
