@@ -21,7 +21,7 @@ nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
 nnoremap gt <c-]>
-nnoremap gs *<c-o>
+nnoremap gs *<c-o>zz
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
