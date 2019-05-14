@@ -390,9 +390,9 @@ let g:fzf_colors =
 " }}}
 " Gitgutter {{{
 
-highlight GitGutterAdd    ctermfg=2
-highlight GitGutterChange ctermfg=172
-highlight GitGutterDelete ctermfg=1
+highlight GitGutterAdd    guifg=#88dd00 ctermfg=2
+highlight GitGutterChange guifg=#d78602 ctermfg=172
+highlight GitGutterDelete guifg=#ea4040 ctermfg=1
 
 " }}}
 " HTML {{{
