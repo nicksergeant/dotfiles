@@ -58,7 +58,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
-Plug 'wincent/terminus'
 
 call plug#end()
 
@@ -392,9 +391,9 @@ let g:fzf_colors =
 " }}}
 " Gitgutter {{{
 
-highlight GitGutterAdd    guifg=#aeee00 ctermfg=2
-highlight GitGutterChange guifg=#ffa724 ctermfg=3
-highlight GitGutterDelete guifg=#ff2c4b ctermfg=1
+highlight GitGutterAdd    ctermfg=2
+highlight GitGutterChange ctermfg=172
+highlight GitGutterDelete ctermfg=1
 
 " }}}
 " HTML {{{
