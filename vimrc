@@ -9,12 +9,11 @@ let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
 nmap <silent> <c-n> <Plug>(ale_next_wrap)
-nmap <tab> %
+nmap m %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
-nnoremap <c-p> <c-i>
 nnoremap <leader>ee :ALEToggle<cr>
 nnoremap N Nzv
 nnoremap Vat vatV
@@ -52,6 +51,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
 Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'sk1418/QFGrep'
 Plug 'tommcdo/vim-fubitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -440,8 +440,8 @@ nmap <leader>d <Plug>QFGrepG
 " }}}
 " QuickFix {{{
 
-nnoremap <M-n> :cn<cr>
-nnoremap <M-p> :cp<cr>
+nnoremap <c-n> :cn<cr>
+nnoremap <c-p> :cp<cr>
 
 " }}}
 " Quick edit files {{{
