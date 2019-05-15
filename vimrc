@@ -8,13 +8,11 @@ let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
-nmap <silent> <c-n> <Plug>(ale_next_wrap)
 nmap m %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
-nnoremap <leader>ee :ALEToggle<cr>
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
@@ -26,7 +24,6 @@ nnoremap k gk
 nnoremap n nzv
 nnoremap tn :tn<cr>
 nnoremap tp :tp<cr>
-noremap ' :ALEFix<cr>
 noremap ; :Prettier<cr>
 noremap H ^
 noremap L g_
@@ -40,7 +37,6 @@ vmap <tab> %
 call plug#begin('~/.vim/plugged')
 
 Plug '/usr/local/opt/fzf'
-Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mileszs/ack.vim'
@@ -52,12 +48,10 @@ Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'sk1418/QFGrep'
-Plug 'tommcdo/vim-fubitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
-Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -143,18 +137,6 @@ silent! set invmmta
 
 " }}}
 
-" Ale {{{
-
-let g:ale_cache_executable_check_failures = 1
-let g:ale_sign_column_always = 1
-let g:ale_sign_warning = '>>'
-let g:ale_linters = {'javascript': ['eslint']}
-let g:ale_fixers = {
-\ 'javascript': ['eslint'],
-\ 'python': ['black'],
-\ }
-
-" }}}
 " Prettier {{{
 
 let g:prettier#exec_cmd_async = 1
