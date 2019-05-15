@@ -419,8 +419,7 @@ com! FormatJSON %!python -m json.tool
 " }}}
 " NERD Tree {{{
 
-inoremap <D-1> <esc> :NERDTreeToggle<cr>
-noremap  <D-1> :NERDTreeToggle<cr>
+noremap  <leader>x :NERDTreeToggle<cr>
 noremap  <leader>f :NERDTreeFind<cr>
 
 au Filetype nerdtree setlocal nolist
@@ -448,12 +447,6 @@ nnoremap <c-p> :cp<cr>
 
 nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
 nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/.vimrc<cr>
-
-" }}}
-" Text editing {{{
-
-nmap <leader>cc :s/ - / - ✅ /<cr><esc><c-o>llll
-nmap <leader>cn :s/ - ✅ / - /<cr><esc><c-o>hhhh
 
 " }}}
 " Vim {{{
