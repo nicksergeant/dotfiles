@@ -8,6 +8,7 @@ let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
+" nmap <silent> <c-n> <Plug>(ale_next_wrap) // remap
 nmap m %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
@@ -25,6 +26,7 @@ nnoremap n nzv
 nnoremap tn :tn<cr>
 nnoremap tp :tp<cr>
 noremap ; :Prettier<cr>
+noremap ' :ALEFix<cr>
 noremap H ^
 noremap L g_
 syntax enable
@@ -40,6 +42,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'junegunn/fzf.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
@@ -54,6 +57,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
+Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -144,6 +148,18 @@ silent! set invmmta
 let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
 nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<cr>
 nnoremap <leader>a :Ack!<space>
+
+" }}}
+" Ale {{{
+
+let g:ale_cache_executable_check_failures = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_warning = '>>'
+let g:ale_linters = {'javascript': ['eslint']}
+let g:ale_fixers = {
+\ 'javascript': ['eslint'],
+\ 'python': ['black'],
+\ }
 
 " }}}
 " Autocomplete {{{
@@ -389,13 +405,6 @@ augroup END
 "   \ 'header':  ['fg', 'Comment'] }
 
 " }}}
-" Gitgutter {{{
-
-highlight GitGutterAdd    guifg=#88dd00 ctermfg=2
-highlight GitGutterChange guifg=#d78602 ctermfg=172
-highlight GitGutterDelete guifg=#ea4040 ctermfg=1
-
-" }}}
 " HTML {{{
 
 au BufNewFile,BufRead *.ejs setlocal filetype=html
@@ -448,6 +457,17 @@ let NERDTreeDirArrows = 1
 
 let g:prettier#exec_cmd_async = 1
 let g:prettier#autoformat = 0
+
+" }}}
+" Signify {{{
+
+highlight DiffAdd    guibg=#1C1B1A guifg=#179923
+highlight DiffChange guibg=#1C1B1A guifg=#B0B030
+highlight DiffDelete guibg=#1C1B1A guifg=#B82128
+
+let g:signify_realtime = 1
+let g:signify_sign_change = '~'
+let g:signify_vcs_list = [ 'git' ]
 
 " }}}
 " QFGrep {{{
