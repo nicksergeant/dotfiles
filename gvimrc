@@ -11,9 +11,11 @@ iunmenu File.Save
 inoremenu <silent> File.Save <Esc>:if expand("%") == ""<Bar>browse confirm w<Bar>else<Bar>confirm w<Bar>endif<CR>
 
 if has("gui_macvim")
-  macmenu &File.New\ Tab key=<nop>
-  nnoremap <D-CR> :set invfullscreen<CR>
+  au FocusLost * silent! :wa
   macm File.Close key=<nop>
-  nnoremap <silent> <D-w> <Esc>:quit<CR>
+  macmenu &File.New\ Tab key=<nop>
   map <esc> :let @/=''<cr>
+  nnoremap <d-cr> :set invfullscreen<cr>
+  nnoremap <silent> <d-w> <Esc>:quit<cr>
+  noremap <d-s> :wa<cr>
 end
