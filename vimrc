@@ -152,7 +152,6 @@ nnoremap <leader>a :Ack!<space>
 " }}}
 " Ale {{{
 
-let g:ale_cache_executable_check_failures = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {'javascript': ['eslint']}
@@ -465,7 +464,6 @@ highlight DiffAdd    guibg=#1C1B1A guifg=#179923
 highlight DiffChange guibg=#1C1B1A guifg=#B0B030
 highlight DiffDelete guibg=#1C1B1A guifg=#B82128
 
-let g:signify_realtime = 1
 let g:signify_sign_change = '~'
 let g:signify_vcs_list = [ 'git' ]
 
