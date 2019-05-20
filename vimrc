@@ -8,7 +8,7 @@ let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
-" nmap <silent> <c-n> <Plug>(ale_next_wrap) // remap
+nmap <silent> <c-m> <Plug>(ale_next_wrap)
 nmap m %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
