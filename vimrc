@@ -475,6 +475,7 @@ nmap <leader>d <Plug>QFGrepG
 " }}}
 " QuickFix {{{
 
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 nnoremap <c-n> :cn<cr>
 nnoremap <c-p> :cp<cr>
 
