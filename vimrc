@@ -154,7 +154,10 @@ nnoremap <leader>a :Ack!<space>
 
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
-let g:ale_linters = {'javascript': ['eslint']}
+let g:ale_linters = {
+\ 'javascript': ['eslint'],
+\ 'scss': [],
+\ }
 let g:ale_fixers = {
 \ 'javascript': ['eslint'],
 \ 'python': ['black'],
