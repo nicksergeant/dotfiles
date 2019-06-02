@@ -204,7 +204,8 @@ ti() {
 }
 
 wo() {
-  source .venv
+  VENV=`cat .venv`
+  source ~/.virtualenvs/$VENV/bin/activate
 }
 
 # Import private settings
