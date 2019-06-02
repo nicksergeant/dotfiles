@@ -1,0 +1,5 @@
+User nsergeant
+
+Host server.nicksergeant.com
+  HostName server.nicksergeant.com
+  ProxyCommand None
