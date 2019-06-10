@@ -9,7 +9,7 @@ let g:mustache_abbreviations = 1
 let mapleader = ","
 map <leader>c :let @/=''<cr>
 nmap <silent> <c-m> <Plug>(ale_next_wrap)
-nmap m %
+nmap <tab> %
 nnoremap <c-f> <nop>
 nnoremap <F1> <nop>
 nnoremap <c-^> <nop>
