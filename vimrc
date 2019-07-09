@@ -45,6 +45,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
+Plug 'digitaltoad/vim-pug'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 Plug 'nicksergeant/badwolf'
 Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
@@ -156,6 +157,7 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {
 \ 'html': [],
+\ 'htmldjango': [],
 \ 'javascript': ['eslint'],
 \ 'markdown': [],
 \ 'scss': [],
