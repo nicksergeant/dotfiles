@@ -10,7 +10,7 @@ let mapleader = ","
 map <leader>c :let @/=''<cr>
 nmap <silent> <c-m> <Plug>(ale_next_wrap)
 nmap <tab> %
-nnoremap <c-f> <nop>
+nnoremap <c-p> <c-i>
 nnoremap <F1> <nop>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
@@ -485,8 +485,8 @@ nmap <leader>d <Plug>QFGrepG
 " QuickFix {{{
 
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
-nnoremap <c-n> :cn<cr>
-nnoremap <c-p> :cp<cr>
+nnoremap <M-n> :cn<cr>
+nnoremap <M-p> :cp<cr>
 
 " }}}
 " Quick edit files {{{
