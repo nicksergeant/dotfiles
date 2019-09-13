@@ -271,7 +271,7 @@ autocmd BufNewFile,BufReadPost *.ex setl foldmethod=indent
 " }}}
 " Focus {{{
 
-nnoremap <leader>v <c-w>v <c-w>v :e /tmp/null<cr><esc><c-w>h <c-w>h :e /tmp/null<cr><esc><c-w>l
+nnoremap <leader>v <c-w>v <c-w>v :e /tmp/null<cr>:vertical resize-20<cr><esc><c-w>h <c-w>h :e /tmp/null<cr>:vertical resize-18<esc><c-w>l
 
 " }}}
 " Folding {{{
