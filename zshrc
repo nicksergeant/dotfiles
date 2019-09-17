@@ -42,6 +42,7 @@ alias ta='tmux attach -t'
 alias pm='python manage.py'
 unalias gd
 unalias gpd
+unalias gst
 
 # Prompt
 
@@ -184,6 +185,10 @@ npmrc-hs() {
 
 npmrc-ns() {
   cp ~/.npmrc-ns ~/.npmrc
+}
+
+s() {
+  git status -s
 }
 
 # Temporary reinitializations for USB keyboard and mouse after
