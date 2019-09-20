@@ -167,6 +167,10 @@ gpd() {
   make deploy
 }
 
+gs() {
+  git status -s
+}
+
 gsa() {
   find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status && echo)' \;
 }
@@ -185,10 +189,6 @@ npmrc-hs() {
 
 npmrc-ns() {
   cp ~/.npmrc-ns ~/.npmrc
-}
-
-s() {
-  git status -s
 }
 
 # Temporary reinitializations for USB keyboard and mouse after
