@@ -65,20 +65,19 @@ fi
 
 fzf-git-branches-widget() {
   local branches branch
-  branches=$(git for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  branches=$(git for-each-ref --count=500 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branch=$(echo "$branches" | fzf -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
-zle     -N   fzf-git-branches-widget
+zle -N fzf-git-branches-widget
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-messages --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 bindkey '^G' fzf-file-widget
 bindkey '^J' fzf-cd-widget
-bindkey '^B' fzf-git-branches-widget
+bindkey '^O' fzf-git-branches-widget
 
 # Node
 
