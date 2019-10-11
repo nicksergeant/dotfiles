@@ -12,7 +12,8 @@ export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/Sources/dotfiles/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
-export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
+export PATH=$PATH:/usr/local/sbin
 export ZSH=~/.oh-my-zsh
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
@@ -216,6 +217,4 @@ wo() {
 
 source ~/Sources/dotfiles-private/zshrc
 source ~/.zshrc-env
-
-# Added by nex: https://git.hubteam.com/HubSpot/nex
 . ~/.hubspot/shellrc
