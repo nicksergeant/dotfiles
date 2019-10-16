@@ -40,13 +40,13 @@ call plug#begin('~/.vim/plugged')
 
 " Plug '/usr/local/opt/fzf'
 " Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'digitaltoad/vim-pug'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier'
@@ -491,8 +491,8 @@ nnoremap <M-p> :cp<cr>
 " }}}
 " Quick edit files {{{
 
-nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
-nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/.vimrc<cr>
+nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/zshrc<cr>
+nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/vimrc<cr>
 
 " }}}
 " Vim {{{
