@@ -93,48 +93,6 @@ alias nvm='unalias nvm; unalias node; unalias npm; nvm_load; nvm $@'
 
 # Functions
 
-bu() {
-  echo ------------ App Databases ------------
-  echo
-  budb
-  echo 
-  echo ------------ Mac Dropbox to Seagate ------------
-  echo
-  rsync -ahL --progress ~/Dropbox\ \(Personal\)/ /Volumes/Seagate/Dropbox/
-  echo 
-  echo ------------ Mac Dropbox to Time Machine ------------
-  echo
-  rsync -ahL --progress ~/Dropbox\ \(Personal\)/ /Volumes/Time\ Machine/Dropbox/
-  echo 
-  echo ------------ Mac Photo Booth Library to Seagate ------------
-  echo
-  rsync -ahL --progress ~/Pictures/Photo\ Booth\ Library/ /Volumes/Seagate/Photo\ Booth\ Library/
-  echo
-  echo ------------ Mac Photo Booth Library to Time Machine ------------
-  echo
-  rsync -ahL --progress ~/Pictures/Photo\ Booth\ Library/ /Volumes/Time\ Machine/Photo\ Booth\ Library/
-  echo 
-  echo ------------ Mac Photos Library to Seagate ------------
-  echo
-  rsync -ahL --progress ~/Pictures/Photos\ Library.photoslibrary/ /Volumes/Seagate/Photos\ Library.photoslibrary/
-  echo
-  echo ------------ Mac Photos Library to Time Machine ------------
-  echo
-  rsync -ahL --progress ~/Pictures/Photos\ Library.photoslibrary/ /Volumes/Time\ Machine/Photos\ Library.photoslibrary/
-  echo 
-  echo ------------ Seagate Photo Booth Photos to Time Machine ------------
-  echo
-  rsync -ahL --progress /Volumes/Seagate/Photo\ Booth\ Photos/ /Volumes/Time\ Machine/Photo\ Booth\ Photos/
-  echo 
-  echo ------------ Seagate Photos to Time Machine ------------
-  echo
-  rsync -ahL --progress /Volumes/Seagate/Photos/ /Volumes/Time\ Machine/Photos/
-  echo 
-  echo ------------ Seagate Wedding Video to Time Machine ------------
-  echo
-  rsync -ahL --progress /Volumes/Seagate/Wedding\ Video/ /Volumes/Time\ Machine/Wedding\ Video/
-}
-
 # c - browse chrome history
 c() {
   local cols sep
