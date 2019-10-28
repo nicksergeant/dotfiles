@@ -47,7 +47,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
+" Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
@@ -242,7 +242,7 @@ let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = ',,'
 let g:ctrlp_match_current_file = 1
-let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
+" let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 10
 let g:ctrlp_split_window = 0

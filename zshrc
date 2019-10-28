@@ -71,11 +71,19 @@ fzf-git-branches-widget() {
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
+bend-multi() {
+  local packages selected_packages
+  packages=$(find ~/Code -type f -maxdepth 3 -name 'webpack.config.js' ! -path '*/node_modules/*' | sed -E 's|/[^/]+$||' | sort | uniq) &&
+  selected_packages=$(echo "$packages" | fzf -m --query "$1") &&
+  bend reactor serve $(echo $selected_packages[@]) --update
+}
+
 zle -N fzf-git-branches-widget
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-messages --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+alias bs="bend-multi"
 bindkey '^G' fzf-file-widget
 bindkey '^J' fzf-cd-widget
 bindkey '^O' fzf-git-branches-widget
@@ -135,9 +143,9 @@ gsa() {
 
 m() {
   if [ "$@" ] ; then
-    mvim $@
+    open -a /Applications/MacVim.app $@
   else
-    mvim .
+    open -a /Applications/MacVim.app .
   fi
 }
 
