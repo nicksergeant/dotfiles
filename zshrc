@@ -71,11 +71,19 @@ fzf-git-branches-widget() {
   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
+bend-multi() {
+  local packages selected_packages
+  packages=$(find ~/Code -type f -maxdepth 3 -name 'webpack.config.js' ! -path '*/node_modules/*' | sed -E 's|/[^/]+$||' | sort | uniq) &&
+  selected_packages=$(echo "$packages" | fzf -m --query "$1") &&
+  bend reactor serve $(echo $selected_packages[@]) --update
+}
+
 zle -N fzf-git-branches-widget
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-messages --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+alias bs="bend-multi"
 bindkey '^G' fzf-file-widget
 bindkey '^J' fzf-cd-widget
 bindkey '^O' fzf-git-branches-widget
@@ -92,48 +100,6 @@ alias npm='unalias nvm; unalias node; unalias npm; nvm_load; npm $@'
 alias nvm='unalias nvm; unalias node; unalias npm; nvm_load; nvm $@'
 
 # Functions
-
-bu() {
-  echo ------------ App Databases ------------
-  echo
-  budb
-  echo 
-  echo ------------ Mac Dropbox to Seagate ------------
-  echo
-  rsync -ahL --progress ~/Dropbox\ \(Personal\)/ /Volumes/Seagate/Dropbox/
-  echo 
-  echo ------------ Mac Dropbox to Time Machine ------------
-  echo
-  rsync -ahL --progress ~/Dropbox\ \(Personal\)/ /Volumes/Time\ Machine/Dropbox/
-  echo 
-  echo ------------ Mac Photo Booth Library to Seagate ------------
-  echo
-  rsync -ahL --progress ~/Pictures/Photo\ Booth\ Library/ /Volumes/Seagate/Photo\ Booth\ Library/
-  echo
-  echo ------------ Mac Photo Booth Library to Time Machine ------------
-  echo
-  rsync -ahL --progress ~/Pictures/Photo\ Booth\ Library/ /Volumes/Time\ Machine/Photo\ Booth\ Library/
-  echo 
-  echo ------------ Mac Photos Library to Seagate ------------
-  echo
-  rsync -ahL --progress ~/Pictures/Photos\ Library.photoslibrary/ /Volumes/Seagate/Photos\ Library.photoslibrary/
-  echo
-  echo ------------ Mac Photos Library to Time Machine ------------
-  echo
-  rsync -ahL --progress ~/Pictures/Photos\ Library.photoslibrary/ /Volumes/Time\ Machine/Photos\ Library.photoslibrary/
-  echo 
-  echo ------------ Seagate Photo Booth Photos to Time Machine ------------
-  echo
-  rsync -ahL --progress /Volumes/Seagate/Photo\ Booth\ Photos/ /Volumes/Time\ Machine/Photo\ Booth\ Photos/
-  echo 
-  echo ------------ Seagate Photos to Time Machine ------------
-  echo
-  rsync -ahL --progress /Volumes/Seagate/Photos/ /Volumes/Time\ Machine/Photos/
-  echo 
-  echo ------------ Seagate Wedding Video to Time Machine ------------
-  echo
-  rsync -ahL --progress /Volumes/Seagate/Wedding\ Video/ /Volumes/Time\ Machine/Wedding\ Video/
-}
 
 # c - browse chrome history
 c() {
@@ -177,9 +143,9 @@ gsa() {
 
 m() {
   if [ "$@" ] ; then
-    mvim $@
+    open -a /Applications/MacVim.app $@
   else
-    mvim .
+    open -a /Applications/MacVim.app .
   fi
 }
 

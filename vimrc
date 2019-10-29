@@ -40,14 +40,14 @@ call plug#begin('~/.vim/plugged')
 
 " Plug '/usr/local/opt/fzf'
 " Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'digitaltoad/vim-pug'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'mhinz/vim-signify'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
-Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
@@ -242,7 +242,7 @@ let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_map = ',,'
 let g:ctrlp_match_current_file = 1
-let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
+" let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_max_height = 10
 let g:ctrlp_split_window = 0
@@ -491,8 +491,8 @@ nnoremap <M-p> :cp<cr>
 " }}}
 " Quick edit files {{{
 
-nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/.zshrc<cr>
-nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/.vimrc<cr>
+nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/zshrc<cr>
+nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/vimrc<cr>
 
 " }}}
 " Vim {{{
