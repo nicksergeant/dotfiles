@@ -114,15 +114,15 @@ font:
     #style: Regular
 
   # Bold font face
-  #bold:
-    # Font family
-    #
-    # If the bold family is not specified, it will fall back to the
-    # value specified for the normal font.
-    #family: monospace
+  bold:
+     # Font family
+    
+     # If the bold family is not specified, it will fall back to the
+     # value specified for the normal font.
+    # family: Georgia
 
     # The `style` can be specified to pick a specific face.
-    #style: Bold
+    style: Regular
 
   # Italic font face
   #italic:
@@ -214,29 +214,29 @@ colors:
     white:   '0xf8f6f2'
 
   # Bright colors
-  bright:
-    black:   '0x1c1b1a'
-    red:     '0xeb4451'
-    green:   '0xbcec4a'
-    yellow:  '0xf3ab46'
-    blue:    '0x55baf9'
-    magenta: '0xeb6291'
-    cyan:    '0x5dcbef'
-    white:   '0xf8f6f2'
+  # bright:
+  #   black:   '0x1c1b1a'
+  #   red:     '0xeb4451'
+  #   green:   '0xbcec4a'
+  #   yellow:  '0xf3ab46'
+  #   blue:    '0x55baf9'
+  #   magenta: '0xeb6291'
+  #   cyan:    '0x5dcbef'
+  #   white:   '0xf8f6f2'
 
   # Dim colors
   #
   # If the dim colors are not set, they will be calculated automatically based
   # on the `normal` colors.
-  dim:
-    black:   '0x1c1b1a'
-    red:     '0xeb4451'
-    green:   '0xbcec4a'
-    yellow:  '0xf3ab46'
-    blue:    '0x55baf9'
-    magenta: '0xeb6291'
-    cyan:    '0x5dcbef'
-    white:   '0xf8f6f2'
+  # dim:
+    # black:   '0x1c1b1a'
+    # red:     '0xeb4451'
+    # green:   '0xbcec4a'
+    # yellow:  '0xf3ab46'
+    # blue:    '0x55baf9'
+    # magenta: '0xeb6291'
+    # cyan:    '0x5dcbef'
+    # white:   '0xf8f6f2'
 
   # Indexed Colors
   #
