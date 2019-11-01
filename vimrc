@@ -40,17 +40,14 @@ call plug#begin('~/.vim/plugged')
 
 Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
-Plug 'digitaltoad/vim-pug'
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nicksergeant/badwolf'
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
-Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -143,13 +140,6 @@ silent! set invmmta
 
 " }}}
 
-" Ack {{{
-
-let g:ackprg = "rg --smart-case ---vimgrep --no-heading --hidden --glob '!.git'"
-nnoremap <silent> <leader>A :execute "Ack! '" . substitute(substitute(substitute(@/, "\\\\<", "\\\\b", ""), "\\\\>", "\\\\b", ""), "\\\\v", "", "") . "'"<cr>
-nnoremap <leader>a :Ack!<space>
-
-" }}}
 " Ale {{{
 
 let g:ale_cache_executable_check_failures = 1
