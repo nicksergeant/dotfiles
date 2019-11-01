@@ -143,9 +143,9 @@ gsa() {
 
 m() {
   if [ "$@" ] ; then
-    open -a /Applications/MacVim.app $@
+    vim $@
   else
-    open -a /Applications/MacVim.app .
+    vim .
   fi
 }
 

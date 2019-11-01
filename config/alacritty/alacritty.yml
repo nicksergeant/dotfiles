@@ -637,4 +637,5 @@ key_bindings:
   - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                      }
   - { key: NumpadEnter,             chars: "\n"                              }
   - { key: Return,   mods: Command, action: ToggleSimpleFullscreen           }
-  - { key: Apostrophe,   mods: Command, action: ToggleFullscreen             }
+  - { key: Apostrophe, mods: Command, action: ToggleFullscreen               }
+  - { key: N,        mods: Command, action: SpawnNewInstance                 }

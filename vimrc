@@ -39,20 +39,18 @@ vmap <tab> %
 call plug#begin('~/.vim/plugged')
 
 Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
-" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'digitaltoad/vim-pug'
+Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mileszs/ack.vim'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'nixprime/cpsm', { 'do': 'env PY3=ON ./install.sh' }
+Plug 'nicksergeant/badwolf'
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
 Plug 'shumphrey/fugitive-gitlab.vim'
-Plug 'sjl/badwolf'
 Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -234,33 +232,6 @@ augroup ft_css
     " positioned inside of them AND the following code doesn't get unfolded.
     au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><cr><esc>kcc
 augroup END
-
-" }}}
-" Ctrlp {{{
-
-" let g:ctrlp_dont_split = 'NERD_tree_2'
-" let g:ctrlp_jump_to_buffer = 0
-" let g:ctrlp_map = ',,'
-" let g:ctrlp_match_current_file = 1
-" " let g:ctrlp_match_func = { 'match': 'cpsm#CtrlPMatch' }
-" let g:ctrlp_match_window_reversed = 1
-" let g:ctrlp_max_height = 10
-" let g:ctrlp_split_window = 0
-" let g:ctrlp_use_caching = 0
-" let g:ctrlp_user_command = "rg --files --hidden --glob '!.git' %s"
-" let g:ctrlp_working_path_mode = 0
-" let g:ctrlp_prompt_mappings = {
-" \ 'PrtHistory(-1)':       ['<c-n>'],
-" \ 'PrtHistory(1)':        ['<c-p>'],
-" \ 'PrtSelectMove("j")':   ['<down>', '<s-tab>'],
-" \ 'PrtSelectMove("k")':   ['<up>', '<tab>'],
-" \ 'ToggleFocus()':        ['<c-tab>'],
-" \ }
-" nnoremap <leader>, :CtrlP<cr>
-" nnoremap <leader>b :CtrlPBuffer<cr>
-" nnoremap <leader>l :CtrlPLine<cr>
-" nnoremap <leader>r :CtrlPMRUFiles<cr>
-" nnoremap <leader>. :CtrlPClearCache<cr>
 
 " }}}
 " Elixir {{{
