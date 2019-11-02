@@ -639,3 +639,6 @@ key_bindings:
   - { key: Return,   mods: Command, action: ToggleSimpleFullscreen           }
   - { key: Apostrophe, mods: Command, action: ToggleFullscreen               }
   - { key: N,        mods: Command, action: SpawnNewInstance                 }
+  - { key: A,        mods: Alt,     chars: "\x1ba"                           }
+  - { key: C,        mods: Alt,     chars: "\x1bc"                           }
+  - { key: D,        mods: Alt,     chars: "\x1bd"                           }
