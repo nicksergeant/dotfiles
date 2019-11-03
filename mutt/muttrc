@@ -4,9 +4,9 @@ source ~/.mutt/alias
 
 # Account settings
 set mbox_type = maildir
-set spoolfile = "+nick-nicksergeant.com/INBOX"
-set mbox      = "+nick-nicksergeant.com/archive"
-set postponed = "+nick-nicksergeant.com/drafts"
+set spoolfile = "+INBOX"
+set mbox      = "+archive"
+set postponed = "+drafts"
 
 # Paths
 set alias_file       = ~/.mutt/alias         # where to store aliases
@@ -67,13 +67,13 @@ macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "ma
 # Saner copy/move dialogs
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
-macro index,pager d "<save-message>=nick-nicksergeant.com/archive<enter>" "archive a message"
+macro index,pager d "<save-message>=archive<enter>" "archive a message"
 
 # Moving to other folders
-macro index,pager gi <change-folder>=nick-nicksergeant.com/INBOX<enter>
+macro index,pager gi <change-folder>=INBOX<enter>
 macro index,pager \062 <change-folder>=temporary/search<enter>
-macro index,pager gs <change-folder>=nick-nicksergeant.com/sent<enter>
-macro index,pager ga <change-folder>=nick-nicksergeant.com/archive<enter>
+macro index,pager gs <change-folder>=sent<enter>
+macro index,pager ga <change-folder>=archive<enter>
 
 # Pager view options
 set pager_index_lines = 10 # number of index lines to show
