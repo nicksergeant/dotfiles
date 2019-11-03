@@ -16,7 +16,7 @@ set certificate_file = ~/.mutt/certificates  # where to store certs
 set mailcap_path     = ~/.mutt/mailcap       # entries for filetypes
 set tmpdir           = ~/.mutt/temp          # where to keep temp files
 set signature        = ~/.mutt/sig           # my signature file
-set display_filter = "clean_mail"
+# set display_filter = "clean_mail"
 
 # Options
 set timeout = 3           # idle time before scanning
