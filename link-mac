@@ -11,7 +11,7 @@ ln -sf /Users/nsergeant/Sources/dotfiles/gitignore /Users/nsergeant/.gitignore
 ln -sf /Users/nsergeant/Sources/dotfiles/gvimrc /Users/nsergeant/.gvimrc
 ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.json /Users/nsergeant/.config/karabiner/karabiner.json
 ln -sf /Users/nsergeant/Sources/dotfiles/mailmate-keybindings.plist /Users/nsergeant/Library/Application\ Support/MailMate/Resources/KeyBindings/nsergeant.plist
-ln -sf /Users/nsergeant/Sources/dotfiles/muttrc /Users/nsergeant/.muttrc
+ln -sf /Users/nsergeant/Sources/dotfiles/mutt /Users/nsergeant/.mutt
 ln -sf /Users/nsergeant/Sources/dotfiles/noop /Users/nsergeant/.zshrc-env
 ln -sf /Users/nsergeant/Sources/dotfiles/ssh/custom_ssh_config /Users/nsergeant/.ssh/custom_ssh_config
 ln -sf /Users/nsergeant/Sources/dotfiles/tmux-mac.conf /Users/nsergeant/.tmux.conf
