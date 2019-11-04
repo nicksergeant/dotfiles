@@ -659,3 +659,5 @@ key_bindings:
   - { key: Key6,       mods: Command,     chars: "\x1b6"                     }
   - { key: Key7,       mods: Command,     chars: "\x1b7"                     }
   - { key: Key0,       mods: Command,     chars: "\x1b0"                     }
+
+  - { key: D,          mods: Command|Shift,     chars: "\x1bD"                     }
