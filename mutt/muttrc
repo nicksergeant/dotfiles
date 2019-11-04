@@ -67,7 +67,7 @@ macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "ma
 # Saner copy/move dialogs
 macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
 macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
-macro index,pager d "<save-message>=archive<enter>" "archive a message"
+macro index,pager e "<save-message>=archive<enter>" "archive a message"
 
 # Moving to other folders
 macro index,pager gi <change-folder>=INBOX<enter>
