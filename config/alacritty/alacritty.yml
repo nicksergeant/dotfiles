@@ -642,7 +642,8 @@ key_bindings:
   - { key: A,          mods: Alt,     chars: "\x1ba"                         }
   - { key: C,          mods: Alt,     chars: "\x1bc"                         }
   - { key: D,          mods: Alt,     chars: "\x1bd"                         }
-  - { key: Space,      mods: Alt,     chars: "\x1b "                     }
+  - { key: K,          mods: Shift|Alt, chars: "\x1bk"                       }
+  - { key: Space,      mods: Alt,     chars: "\x1b "                         }
   - { key: Grave,      mods: Command,     chars: "\x1b`"                     }
   - { key: Key1,       mods: Command,     chars: "\x1b1"                     }
   - { key: Key2,       mods: Command,     chars: "\x1b2"                     }
