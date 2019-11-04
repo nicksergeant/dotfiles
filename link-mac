@@ -2,6 +2,9 @@
 
 mkdir -p /Users/nsergeant/Library/Application\ Support/MailMate/Resources/KeyBindings
 
+unlink ~/.mutt
+unlink ~/.weechat
+
 ln -sf /Users/nsergeant/Sources/dotfiles-private/offlineimaprc /Users/nsergeant/.offlineimaprc
 ln -sf /Users/nsergeant/Sources/dotfiles-private/weechat /Users/nsergeant/.weechat
 ln -sf /Users/nsergeant/Sources/dotfiles/config/alacritty/alacritty.yml /Users/nsergeant/.config/alacritty/alacritty.yml
