@@ -636,14 +636,20 @@ key_bindings:
   - { key: F11,      mods: Super,   chars: "\x1b[23;3~"                      }
   - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                      }
   - { key: NumpadEnter,             chars: "\n"                              }
+
   - { key: Return,     mods: Command, action: ToggleSimpleFullscreen         }
   - { key: Apostrophe, mods: Command, action: ToggleFullscreen               }
   - { key: N,          mods: Command, action: SpawnNewInstance               }
+
+  - { key: K,          mods: Shift|Alt, chars: "\x1bk"                       }
+
   - { key: A,          mods: Alt,     chars: "\x1ba"                         }
   - { key: C,          mods: Alt,     chars: "\x1bc"                         }
   - { key: D,          mods: Alt,     chars: "\x1bd"                         }
-  - { key: K,          mods: Shift|Alt, chars: "\x1bk"                       }
+  - { key: F,          mods: Alt,     chars: "\x1bf"                         }
+  - { key: N,          mods: Alt,     chars: "\x1bn"                         }
   - { key: Space,      mods: Alt,     chars: "\x1b "                         }
+
   - { key: Grave,      mods: Command,     chars: "\x1b`"                     }
   - { key: Key1,       mods: Command,     chars: "\x1b1"                     }
   - { key: Key2,       mods: Command,     chars: "\x1b2"                     }
