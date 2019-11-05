@@ -65,7 +65,6 @@ set autoindent
 set autoread
 set autowrite
 set backspace=indent,eol,start
-set clipboard=unnamed
 set colorcolumn=0
 set cursorline
 set directory=$HOME/.vim/tmp//,.
@@ -201,6 +200,12 @@ silent! colorscheme badwolf
 
 nmap <leader>c<space> <Plug>CommentaryLine
 xmap <leader>c<space> <Plug>Commentary
+
+" }}}
+" Copying and pasting {{{
+
+vnoremap y "+y
+nnoremap yy "+yy
 
 " }}}
 " CSS {{{
