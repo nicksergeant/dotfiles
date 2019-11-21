@@ -86,7 +86,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 alias bs="bend-multi"
 bindkey '^G' fzf-file-widget
 bindkey '^J' fzf-cd-widget
-bindkey '^B' fzf-git-branches-widget
+bindkey '^O' fzf-git-branches-widget
 
 # Node
 
