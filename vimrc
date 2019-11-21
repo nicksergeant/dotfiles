@@ -19,7 +19,7 @@ nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
 nnoremap gi <c-]>
-nnoremap gs *<c-o>zz
+nnoremap gs *Nzz
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
