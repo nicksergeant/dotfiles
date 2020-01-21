@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir -p /Users/nsergeant/Library/Application\ Support/MailMate/Resources/KeyBindings
+mkdir -p /Users/nsergeant/.config/nvim
 
 unlink ~/.mutt
 unlink ~/.weechat
@@ -18,6 +19,7 @@ ln -sf /Users/nsergeant/Sources/dotfiles/mutt /Users/nsergeant/.mutt
 ln -sf /Users/nsergeant/Sources/dotfiles/noop /Users/nsergeant/.zshrc-env
 ln -sf /Users/nsergeant/Sources/dotfiles/ssh/custom_ssh_config /Users/nsergeant/.ssh/custom_ssh_config
 ln -sf /Users/nsergeant/Sources/dotfiles/tmux-mac.conf /Users/nsergeant/.tmux.conf
+ln -sf /Users/nsergeant/Sources/dotfiles/vimrc /Users/nsergeant/.config/nvim/init.vim
 ln -sf /Users/nsergeant/Sources/dotfiles/vimrc /Users/nsergeant/.vimrc
 ln -sf /Users/nsergeant/Sources/dotfiles/zshrc /Users/nsergeant/.zshrc
 
