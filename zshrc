@@ -37,10 +37,11 @@ alias deact='deactivate'
 alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='get_last_commit'
+alias gp='git push -u origin HEAD'
 alias n='vim ~/Dropbox/Documents/Notes/Notes.md'
 alias o='open'
-alias ta='tmux attach -t'
 alias pm='python manage.py'
+alias ta='tmux attach -t'
 unalias gd
 unalias gpd
 unalias gst
@@ -90,14 +91,14 @@ bindkey '^O' fzf-git-branches-widget
 
 # Node
 
-export NVM_DIR="$HOME/.nvm"
-nvm_load() {
-  . $NVM_DIR/nvm.sh
-  . $NVM_DIR/bash_completion
-}
-alias node='unalias nvm; unalias node; unalias npm; nvm_load; node $@'
-alias npm='unalias nvm; unalias node; unalias npm; nvm_load; npm $@'
-alias nvm='unalias nvm; unalias node; unalias npm; nvm_load; nvm $@'
+# export NVM_DIR="$HOME/.nvm"
+# nvm_load() {
+#   . $NVM_DIR/nvm.sh
+#   . $NVM_DIR/bash_completion
+# }
+# alias node='unalias nvm; unalias node; unalias npm; nvm_load; node $@'
+# alias npm='unalias nvm; unalias node; unalias npm; nvm_load; npm $@'
+# alias nvm='unalias nvm; unalias node; unalias npm; nvm_load; nvm $@'
 
 # Functions
 
