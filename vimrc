@@ -14,6 +14,7 @@ nnoremap <c-p> <c-i>
 nnoremap <F1> <nop>
 nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
+nnoremap K <nop>
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
