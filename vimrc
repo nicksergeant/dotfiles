@@ -76,7 +76,6 @@ set autoread
 set autowrite
 set backspace=indent,eol,start
 set colorcolumn=0
-set conceallevel=2
 set cursorline
 set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
@@ -421,8 +420,19 @@ com! FormatJSON %!python -m json.tool
 " }}}
 " Markdown {{{
 
-nnoremap <leader>d ^r+
-nnoremap <leader>n ^r-
+let g:vim_markdown_new_list_item_indent = 0
+
+function! LeaderD()
+  if &buftype ==# 'quickfix'
+    execute QFGrep#grep_QuickFix(0)
+  else
+    normal! ^r+
+  endif
+endfunction
+
+au BufNewFile,BufRead *.md setlocal conceallevel=2
+
+nnoremap <leader>d :call LeaderD()<cr>
 
 " }}}
 " NERD Tree {{{
@@ -456,11 +466,6 @@ let g:signify_sign_change = '~'
 let g:signify_vcs_list = [ 'git' ]
 
 " }}}
-" QFGrep {{{
-
-nmap <leader>d <Plug>QFGrepG
-
-" }}}
 " QuickFix {{{
 
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
@@ -470,8 +475,8 @@ nnoremap <M-p> :cp<cr>
 " }}}
 " Quick edit files {{{
 
-nnoremap <leader>en <c-w>s<c-w>j<c-w>L:e ~/Documents/Notes.md<cr>
-nnoremap <leader>et <c-w>s<c-w>j<c-w>L:e ~/Documents/Tasks.md<cr>
+nnoremap <leader>en <c-w>s<c-w>j<c-w>L:e ~/Documents/Notes/Notes.md<cr>
+nnoremap <leader>et <c-w>s<c-w>j<c-w>L:e ~/Documents/Notes/Tasks.md<cr>
 nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/vimrc<cr>
 nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/zshrc<cr>
 
