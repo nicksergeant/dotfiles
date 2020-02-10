@@ -47,11 +47,13 @@ call plug#begin('~/.vim/plugged')
 
 Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
+Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
+Plug 'plasticboy/vim-markdown'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/badwolf'
@@ -73,6 +75,7 @@ set autoread
 set autowrite
 set backspace=indent,eol,start
 set colorcolumn=0
+set conceallevel=2
 set cursorline
 set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
@@ -413,6 +416,11 @@ augroup ft_javascript
 augroup END
 
 com! FormatJSON %!python -m json.tool
+
+" }}}
+" Markdown {{{
+
+let g:vim_markdown_new_list_item_indent = 2
 
 " }}}
 " NERD Tree {{{
