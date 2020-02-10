@@ -1,6 +1,7 @@
 " General {{{ 
 
 inoremap <F1> <nop>
+inoremap <s-tab> <c-d>
 inoremap jk <esc>
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum" " Fix colors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum" " Fix colors
@@ -420,7 +421,8 @@ com! FormatJSON %!python -m json.tool
 " }}}
 " Markdown {{{
 
-let g:vim_markdown_new_list_item_indent = 2
+nnoremap <leader>d ^r+
+nnoremap <leader>n ^r-
 
 " }}}
 " NERD Tree {{{
@@ -468,8 +470,10 @@ nnoremap <M-p> :cp<cr>
 " }}}
 " Quick edit files {{{
 
-nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/zshrc<cr>
+nnoremap <leader>en <c-w>s<c-w>j<c-w>L:e ~/Documents/Notes.md<cr>
+nnoremap <leader>et <c-w>s<c-w>j<c-w>L:e ~/Documents/Tasks.md<cr>
 nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/vimrc<cr>
+nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/zshrc<cr>
 
 " }}}
 " Vim {{{
