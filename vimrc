@@ -75,6 +75,8 @@ set autoindent
 set autoread
 set autowrite
 set backspace=indent,eol,start
+set breakindent
+set breakindentopt=shift:2,min:40,sbr
 set colorcolumn=0
 set cursorline
 set directory=$HOME/.vim/tmp//,.
@@ -303,6 +305,9 @@ nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>l :Lines<cr>
 nnoremap <leader>r :History<cr>
 
+" Make :Lines prompt at the bottom like other fzf actions.
+command! -bang -nargs=* Lines call fzf#vim#lines(<q-args>, {'options': '--no-reverse'}, <bang>0)
+
 function! s:rg_to_qf(line)
   let parts = split(a:line, ':')
   return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
@@ -429,8 +434,6 @@ function! LeaderD()
     normal! ^r+
   endif
 endfunction
-
-au BufNewFile,BufRead *.md setlocal conceallevel=2
 
 nnoremap <leader>d :call LeaderD()<cr>
 
