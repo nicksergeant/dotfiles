@@ -648,6 +648,7 @@ key_bindings:
   - { key: D,          mods: Alt,     chars: "\x1bd"                         }
   - { key: F,          mods: Alt,     chars: "\x1bf"                         }
   - { key: N,          mods: Alt,     chars: "\x1bn"                         }
+  - { key: P,          mods: Alt,     chars: "\x1bp"                         }
   - { key: Space,      mods: Alt,     chars: "\x1b "                         }
 
   - { key: Grave,      mods: Command,     chars: "\x1b`"                     }
