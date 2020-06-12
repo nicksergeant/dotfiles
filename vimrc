@@ -432,11 +432,13 @@ autocmd BufNewFile,BufReadPost *.md setl wrap
 let g:vim_markdown_new_list_item_indent = 0
 
 function! LeaderD()
+  let save_pos = getpos(".")
   if &buftype ==# 'quickfix'
     execute QFGrep#grep_QuickFix(0)
   else
     normal! ^r+
   endif
+  call setpos('.', save_pos)
 endfunction
 
 command! -bar -nargs=1 OpenURL :!open <args>
