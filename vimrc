@@ -21,6 +21,7 @@ nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
 nnoremap gi <c-]>
+nnoremap gj :call <SNR>99_OpenUrlUnderCursor()<cr>
 nnoremap gs *Nzz
 nnoremap j gj
 nnoremap k gk
