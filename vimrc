@@ -426,6 +426,8 @@ com! FormatJSON %!python -m json.tool
 " }}}
 " Markdown {{{
 
+autocmd BufNewFile,BufReadPost *.md setl wrap
+
 let g:vim_markdown_new_list_item_indent = 0
 
 function! LeaderD()
