@@ -21,7 +21,7 @@ nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
 nnoremap gi <c-]>
-nnoremap gj :call <SNR>99_OpenUrlUnderCursor()<cr>
+nnoremap gj :call GoToUrl()<cr>
 nnoremap gs *Nzz
 nnoremap j gj
 nnoremap k gk
@@ -437,6 +437,24 @@ function! LeaderD()
   else
     normal! ^r+
   endif
+endfunction
+
+command! -bar -nargs=1 OpenURL :!open <args>
+
+function! OpenURLUnderCursor()
+    let l:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+    if l:uri != ""
+        exec '!open "' . l:uri . '"'
+    else
+        echo 'No URL found in line'
+    endif
+endfunction
+
+function! GoToUrl()
+  let save_pos = getpos(".")
+  normal! g_
+  silent exec OpenURLUnderCursor()
+  call setpos('.', save_pos)
 endfunction
 
 nnoremap <leader>d :call LeaderD()<cr>
