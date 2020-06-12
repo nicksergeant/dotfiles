@@ -48,7 +48,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
-Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mxw/vim-jsx'
@@ -84,12 +83,14 @@ set encoding=utf-8
 set expandtab
 set fillchars=diff:⣿,vert:│
 set foldlevelstart=20
+set formatoptions=l
 set hidden
 set hlsearch
 set ignorecase
 set incsearch
 set laststatus=2
 set lazyredraw
+set lbr
 set linespace=0
 set list
 set listchars=tab:▸\ ,extends:❯,precedes:❮
