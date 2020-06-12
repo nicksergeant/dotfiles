@@ -21,7 +21,7 @@ nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
 nnoremap gi <c-]>
-nnoremap gj :call GoToUrl()<cr>
+nnoremap gj :call GoToUrlAtEndOfLine()<cr>
 nnoremap gs *Nzz
 nnoremap j gj
 nnoremap k gk
@@ -452,7 +452,7 @@ function! OpenURLUnderCursor()
     endif
 endfunction
 
-function! GoToUrl()
+function! GoToUrlAtEndOfLine()
   let save_pos = getpos(".")
   normal! g_
   silent exec OpenURLUnderCursor()
