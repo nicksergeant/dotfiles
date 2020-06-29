@@ -538,7 +538,9 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 " }}}
 " {{{ VimWiki
 
-let g:vimwiki_list = [{'path':'~/Documents/Notes', 'path_html':'~/Documents/Notes/HTML/'}]
+let g:vimwiki_list = [{'path': '~/Documents/Notes', 'path_html': '~/Documents/Notes/HTML/',
+      \ 'syntax': 'markdown', 'ext': '.md'}]
+
 
 " }}}
 " Window Toggles {{{
