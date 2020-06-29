@@ -36,7 +36,7 @@ syntax enable
 vmap <c-t> :sort<cr>
 vmap <tab> %
 
-:au FocusLost * silent! wa
+:au FocusLost * :wa
 
 " }}}
 " Plugins {{{
@@ -463,7 +463,7 @@ function! GoToUrlAtEndOfLine()
   call setpos('.', save_pos)
 endfunction
 
-nnoremap <leader>d :call LeaderD()<cr>
+" nnoremap <leader>d :call LeaderD()<cr>
 
 " }}}
 " NERD Tree {{{
@@ -540,7 +540,12 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 
 let g:vimwiki_list = [{'path': '~/Documents/Notes', 'path_html': '~/Documents/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_url_maxsave=0
 
+autocmd BufNewFile *.md :r! echo \\# %:t:r
+autocmd BufNewFile *.md :norm kddo
+
+nnoremap <leader>d :VimwikiToggleListItem<cr>
 
 " }}}
 " Window Toggles {{{
