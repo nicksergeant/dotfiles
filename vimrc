@@ -546,6 +546,7 @@ autocmd BufNewFile *.md :r! echo \\# %:t:r
 autocmd BufNewFile *.md :norm kddo
 
 nnoremap <leader>d :VimwikiToggleListItem<cr>
+nnoremap <leader>m :VimwikiIncrementListItem<cr>
 
 " }}}
 " Window Toggles {{{
