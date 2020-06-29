@@ -36,6 +36,8 @@ syntax enable
 vmap <c-t> :sort<cr>
 vmap <tab> %
 
+:au FocusLost * silent! wa
+
 " }}}
 " Plugins {{{
 
@@ -58,6 +60,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/badwolf'
+Plug 'sjl/vitality.vim'
 Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
