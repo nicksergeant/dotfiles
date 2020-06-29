@@ -67,6 +67,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
+Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
 
 call plug#end()
@@ -533,6 +534,11 @@ augroup END
 " Quick source mappings
 vnoremap <leader>S y:execute @@<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>
+
+" }}}
+" {{{ VimWiki
+
+let g:vimwiki_list = [{'path':'~/Documents/Notes', 'path_html':'~/Documents/Notes/HTML/'}]
 
 " }}}
 " Window Toggles {{{
