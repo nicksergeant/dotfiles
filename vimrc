@@ -447,7 +447,7 @@ endfunction
 command! -bar -nargs=1 OpenURL :!open <args>
 
 function! OpenURLUnderCursor()
-    let l:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+    let l:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:\#]*')
     if l:uri != ""
         exec '!open "' . l:uri . '"'
     else

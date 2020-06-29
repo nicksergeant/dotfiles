@@ -6,7 +6,7 @@ mkdir -p /Users/nsergeant/.config/nvim
 unlink ~/.mutt
 unlink ~/.weechat
 
-ln -sf /Users/nsergeant/Sources/dotfiles-private/offlineimaprc /Users/nsergeant/.offlineimaprc
+ln -sf /Users/nsergeant/Sources/dotfiles/offlineimaprc /Users/nsergeant/.offlineimaprc
 ln -sf /Users/nsergeant/Sources/dotfiles-private/weechat /Users/nsergeant/.weechat
 ln -sf /Users/nsergeant/Sources/dotfiles/config/alacritty/alacritty.yml /Users/nsergeant/.config/alacritty/alacritty.yml
 ln -sf /Users/nsergeant/Sources/dotfiles/ctags /Users/nsergeant/.ctags
