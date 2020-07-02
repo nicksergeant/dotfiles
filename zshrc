@@ -170,7 +170,13 @@ resume() {
 }
 
 ti() {
-  tmux new-session -d -s primary -n shell
+  tmux new-session -d -s primary -n social
+  tmux split-window -t primary -h
+  tmux attach
+}
+
+tv() {
+  tmux new-session -d -s secondary -n social
   tmux split-window -t primary -h
   tmux attach
 }
