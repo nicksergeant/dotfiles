@@ -428,6 +428,8 @@ augroup END
 
 com! FormatJSON %!python -m json.tool
 
+autocmd FileType javascript nnoremap <buffer><leader>t {jV}k :sort<cr>:let @/=''<cr>
+
 " }}}
 " Markdown {{{
 
@@ -545,9 +547,9 @@ let g:vimwiki_url_maxsave=0
 autocmd BufNewFile *.md :r! echo \\# %:t:r
 autocmd BufNewFile *.md :norm kddo
 
-nnoremap <leader>d :VimwikiToggleListItem<cr>
-nnoremap <leader>m :VimwikiIncrementListItem<cr>
-nnoremap <leader>t ?#<space><cr>jV}k :sort!<cr>:let @/=''<cr>
+autocmd FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
+autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
+autocmd FileType vimwiki nnoremap <buffer><leader>t ?#<space><cr>jV}k :sort!<cr>:let @/=''<cr>
 
 " }}}
 " Window Toggles {{{
