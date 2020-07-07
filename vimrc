@@ -36,8 +36,6 @@ syntax enable
 vmap <c-t> :sort<cr>
 vmap <tab> %
 
-:au FocusLost * :wa
-
 " }}}
 " Plugins {{{
 

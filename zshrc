@@ -169,15 +169,19 @@ resume() {
   feh --bg-scale ~/.wallpaper.png
 }
 
-ti() {
-  tmux new-session -d -s primary -n social
-  tmux split-window -t primary -h
+tn() {
+  tmux new-session -d -s notes -n notes
+  tmux attach
+}
+
+ts() {
+  tmux new-session -d -s shell -n shell
+  tmux split-window -t shell -h
   tmux attach
 }
 
 tv() {
-  tmux new-session -d -s secondary -n social
-  tmux split-window -t primary -h
+  tmux new-session -d -s vim -n vim
   tmux attach
 }
 
