@@ -80,6 +80,7 @@ set backspace=indent,eol,start
 set breakindent
 set breakindentopt=shift:2,min:40,sbr
 set colorcolumn=0
+set conceallevel=0
 set cursorline
 set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
@@ -541,6 +542,7 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 let g:vimwiki_list = [{'path': '~/Documents/Notes', 'path_html': '~/Documents/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_url_maxsave=0
+let g:vimwiki_conceallevel=0
 
 autocmd BufNewFile *.md :r! echo \\# %:t:r
 autocmd BufNewFile *.md :norm kddo
