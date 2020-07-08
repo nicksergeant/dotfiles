@@ -8,7 +8,7 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum" " Fix colors
 let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
-map <leader>c :let @/=''<cr>
+nmap <esc> :nohl<cr>
 nmap <silent> <c-m> <Plug>(ale_next_wrap)
 nmap <tab> %
 nnoremap <c-p> <c-i>
