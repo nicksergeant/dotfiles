@@ -50,6 +50,7 @@ call plug#begin('~/.vim/plugged')
 Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
+Plug 'masukomi/vim-markdown-folding'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
@@ -536,8 +537,9 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 
 let g:vimwiki_list = [{'path': '~/Dropbox (Personal)/Notes', 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
-let g:vimwiki_url_maxsave=0
-let g:vimwiki_conceallevel=0
+let g:vimwiki_url_maxsave = 0
+let g:vimwiki_conceallevel = 0
+let g:vimwiki_folding = 'custom'
 
 autocmd BufNewFile *.md :r! echo \\# %:t:r
 autocmd BufNewFile *.md :norm kddo
