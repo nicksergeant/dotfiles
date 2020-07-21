@@ -78,13 +78,11 @@ set backspace=indent,eol,start
 set breakindent
 set breakindentopt=shift:2,min:40,sbr
 set colorcolumn=0
-" set conceallevel=0
 set cursorline
 set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
 set expandtab
 set fillchars=diff:⣿,vert:│
-set foldlevelstart=20
 set formatoptions=l
 set hidden
 set hlsearch
