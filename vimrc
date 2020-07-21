@@ -50,15 +50,12 @@ call plug#begin('~/.vim/plugged')
 Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
-Plug 'plasticboy/vim-markdown'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/badwolf'
-Plug 'sjl/vitality.vim'
 Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -507,8 +504,6 @@ nnoremap <M-p> :cp<cr>
 " }}}
 " Quick edit files {{{
 
-nnoremap <leader>en <c-w>s<c-w>j<c-w>L:e ~/Documents/Notes/Notes.md<cr>
-nnoremap <leader>et <c-w>s<c-w>j<c-w>L:e ~/Documents/Notes/Tasks.md<cr>
 nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/vimrc<cr>
 nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/zshrc<cr>
 
@@ -539,10 +534,10 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 " }}}
 " {{{ VimWiki
 
-let g:vimwiki_list = [{'path': '~/Documents/Notes', 'path_html': '~/Documents/Notes/HTML/',
+let g:vimwiki_list = [{'path': '~/Dropbox (Personal)/Notes', 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_url_maxsave=0
-" let g:vimwiki_conceallevel=0
+let g:vimwiki_conceallevel=0
 
 autocmd BufNewFile *.md :r! echo \\# %:t:r
 autocmd BufNewFile *.md :norm kddo
