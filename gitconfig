@@ -17,3 +17,5 @@
 [user]
   email = nsergeant@hubspot.com
   name = Nick Sergeant
+[pull]
+  rebase = true
