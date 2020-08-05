@@ -542,10 +542,17 @@ let g:vimwiki_folding = 'custom'
 autocmd BufNewFile *.md :r! echo \\# %:t:r
 autocmd BufNewFile *.md :norm kddo
 
+function! MarkTodoItemDone()
+  let save_pos = getpos(".")
+  normal! dd
+  normal! {j
+  normal! p
+  call setpos('.', save_pos)
+endfunction
+
 autocmd FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
 autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
-autocmd FileType vimwiki nnoremap <buffer><leader>t dd?#<cr>p :nohl<cr>
-" autocmd FileType vimwiki nnoremap <buffer><leader>t ?#<space><cr>jV}k :sort!<cr>:let @/=''<cr>
+autocmd FileType vimwiki nnoremap <buffer><leader>t :call MarkTodoItemDone()<cr>
 
 " }}}
 " Window Toggles {{{
