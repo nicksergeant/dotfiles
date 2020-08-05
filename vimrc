@@ -544,15 +544,14 @@ autocmd BufNewFile *.md :norm kddo
 
 function! MarkTodoItemDone()
   let save_pos = getpos(".")
-  normal! dd
-  normal! {j
-  normal! p
+  execute "normal \<Plug>VimwikiToggleListItem"
+  normal! dd{jp
   call setpos('.', save_pos)
 endfunction
 
-autocmd FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
+autocmd FileType vimwiki nnoremap <buffer><leader>d :call MarkTodoItemDone()<cr>
 autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
-autocmd FileType vimwiki nnoremap <buffer><leader>t :call MarkTodoItemDone()<cr>
+" autocmd FileType vimwiki nnoremap <buffer><leader>t :call MarkTodoItemDone()<cr>
 
 " }}}
 " Window Toggles {{{
