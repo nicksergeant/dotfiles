@@ -83,6 +83,7 @@ set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
 set expandtab
 set fillchars=diff:⣿,vert:│
+set foldlevelstart=20
 set formatoptions=l
 set hidden
 set hlsearch
@@ -357,7 +358,7 @@ function! s:files_handler(lines)
 endfunction
 
 command! -nargs=* Rg call fzf#run({
-  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always "%s"',
+  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always --glob="!spec" "%s"',
   \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
   \ 'sink*':    function('<sid>rg_handler'),
   \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
