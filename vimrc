@@ -20,7 +20,7 @@ nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
-nnoremap gi <c-]>
+nnoremap go <c-]>
 nnoremap gj :call GoToUrlAtEndOfLine()<cr>
 nnoremap gs *Nzz
 nnoremap j gj
@@ -50,9 +50,9 @@ call plug#begin('~/.vim/plugged')
 Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'masukomi/vim-markdown-folding'
 Plug 'mxw/vim-jsx'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
@@ -184,25 +184,6 @@ map <c-h> <c-w>h
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
-
-" }}}
-" CoC {{{
-
-nmap <silent> go <Plug>(coc-definition)
-
-"" use <tab> for trigger completion and navigate to next complete item
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"<Paste>
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " }}}
 " Colors {{{
@@ -358,7 +339,7 @@ function! s:files_handler(lines)
 endfunction
 
 command! -nargs=* Rg call fzf#run({
-  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always --glob="!spec" "%s"',
+  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always "%s"',
   \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
   \ 'sink*':    function('<sid>rg_handler'),
   \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.

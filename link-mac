@@ -2,6 +2,7 @@
 
 mkdir -p /Users/nsergeant/Library/Application\ Support/MailMate/Resources/KeyBindings
 mkdir -p /Users/nsergeant/.config/nvim
+mkdir -p /Users/nsergeant/.config/ctags
 
 unlink ~/.mutt
 unlink ~/.weechat
@@ -9,7 +10,7 @@ unlink ~/.weechat
 ln -sf /Users/nsergeant/Sources/dotfiles/offlineimaprc /Users/nsergeant/.offlineimaprc
 ln -sf /Users/nsergeant/Sources/dotfiles-private/weechat /Users/nsergeant/.weechat
 ln -sf /Users/nsergeant/Sources/dotfiles/config/alacritty/alacritty.yml /Users/nsergeant/.config/alacritty/alacritty.yml
-ln -sf /Users/nsergeant/Sources/dotfiles/ctags /Users/nsergeant/.ctags
+ln -sf /Users/nsergeant/Sources/dotfiles/config/ctags/ctags.ctags /Users/nsergeant/.config/ctags/ctags.ctags
 ln -sf /Users/nsergeant/Sources/dotfiles/gitconfig /Users/nsergeant/.gitconfig
 ln -sf /Users/nsergeant/Sources/dotfiles/gitignore /Users/nsergeant/.gitignore
 ln -sf /Users/nsergeant/Sources/dotfiles/gvimrc /Users/nsergeant/.gvimrc
