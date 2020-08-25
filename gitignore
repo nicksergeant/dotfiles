@@ -1,5 +1,5 @@
-*.dump*
 *.cache
+*.dump*
 *.pyc
 *.swo
 *.swp
@@ -10,6 +10,7 @@
 .hgignore
 .python-version
 .sass-cache
+.vim
 .vscode
 id_dsa
 id_dsa.pub

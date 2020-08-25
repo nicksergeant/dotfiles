@@ -20,7 +20,7 @@ nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
-nnoremap go <c-]>
+nnoremap gi <c-]>
 nnoremap gj :call GoToUrlAtEndOfLine()<cr>
 nnoremap gs *Nzz
 nnoremap j gj
@@ -53,6 +53,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'masukomi/vim-markdown-folding'
 Plug 'mxw/vim-jsx'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
@@ -184,6 +185,11 @@ map <c-h> <c-w>h
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
+
+" }}}
+" CoC {{{
+
+nmap <silent> go <Plug>(coc-definition)
 
 " }}}
 " Colors {{{
