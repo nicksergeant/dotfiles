@@ -55,7 +55,10 @@ Plug 'masukomi/vim-markdown-folding'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
-Plug 'prettier/vim-prettier'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'branch': 'release/0.x'
+  \ }
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/badwolf'
 Plug 'sk1418/QFGrep'
