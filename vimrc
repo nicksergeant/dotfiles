@@ -49,6 +49,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
+Plug 'elixir-editors/vim-elixir'
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'masukomi/vim-markdown-folding'
@@ -173,6 +174,7 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \ 'javascript': ['eslint'],
 \ 'python': ['black'],
+\ 'elixir': ['mix_format'],
 \ }
 
 " }}}
