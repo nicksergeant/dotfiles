@@ -538,13 +538,17 @@ autocmd BufNewFile *.md :norm kddo
 function! MarkTodoItemDone()
   let save_pos = getpos(".")
   execute "normal \<Plug>VimwikiToggleListItem"
-  normal! dd
-  execute "normal! ?[X\r"
-  normal! p
-  call setpos('.', save_pos)
+  echo getline(".")
+  if getline(".") =~ '^\-\ \['
+    normal! dd
+    execute "normal! ?[X\r"
+    normal! p
+    call setpos('.', save_pos)
+  endif
 endfunction
 
 autocmd FileType vimwiki nnoremap <buffer><leader>d :call MarkTodoItemDone()<cr>
+autocmd FileType vimwiki nnoremap <buffer><leader>z :VimwikiToggleListItem<cr>
 autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
 
 " }}}
