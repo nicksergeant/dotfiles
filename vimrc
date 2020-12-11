@@ -49,10 +49,9 @@ call plug#begin('~/.vim/plugged')
 
 Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
-Plug 'elixir-editors/vim-elixir'
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'masukomi/vim-markdown-folding'
+Plug 'michal-h21/vim-zettel'
 Plug 'mxw/vim-jsx'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
@@ -62,7 +61,6 @@ Plug 'prettier/vim-prettier', {
   \ }
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/badwolf'
-Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -165,17 +163,17 @@ let g:ale_cache_executable_check_failures = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {
-\ 'html': [],
-\ 'htmldjango': [],
-\ 'javascript': ['eslint'],
-\ 'markdown': [],
-\ 'scss': [],
-\ }
+  \ 'html': [],
+  \ 'htmldjango': [],
+  \ 'javascript': ['eslint'],
+  \ 'markdown': [],
+  \ 'scss': [],
+  \ }
 let g:ale_fixers = {
-\ 'javascript': ['eslint'],
-\ 'python': ['black'],
-\ 'elixir': ['mix_format'],
-\ }
+  \ 'javascript': ['eslint'],
+  \ 'python': ['black'],
+  \ 'elixir': ['mix_format'],
+  \ }
 
 " }}}
 " Autocomplete {{{
@@ -528,23 +526,27 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 
 let g:vimwiki_list = [{'path': '~/Dropbox (Personal)/Notes', 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
-let g:vimwiki_url_maxsave = 0
-let g:vimwiki_conceallevel = 0
+" let g:vimwiki_url_maxsave = 0
+" let g:vimwiki_conceallevel = 2
 let g:vimwiki_folding = 'custom'
+let g:zettel_fzf_command = "rg --files --column --line-number --ignore-case --no-heading --color=always "
 
 autocmd BufNewFile *.md :r! echo \\# %:t:r
 autocmd BufNewFile *.md :norm kddo
 
 function! MarkTodoItemDone()
-  let save_pos = getpos(".")
+  " let current_line_number = line(".")
+  " let save_pos = getpos(".")
+
   execute "normal \<Plug>VimwikiToggleListItem"
-  echo getline(".")
-  if getline(".") =~ '^\-\ \['
-    normal! dd
-    execute "normal! ?[X\r"
-    normal! p
-    call setpos('.', save_pos)
-  endif
+
+"   if getline(".") =~ '^\-\ \['
+"     normal! dd
+"     execute "normal! ?[X\r"
+"     execute "normal! /[\r"
+"     normal! P
+"     call setpos('.', save_pos)
+"   endif
 endfunction
 
 autocmd FileType vimwiki nnoremap <buffer><leader>d :call MarkTodoItemDone()<cr>
