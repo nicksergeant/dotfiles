@@ -9,7 +9,7 @@ let g:jsx_ext_required = 0
 let g:mustache_abbreviations = 1
 let mapleader = ","
 nmap <esc> :nohl<cr>
-nmap <silent> <c-m> <Plug>(ale_next_wrap)
+nmap <silent> <c-n> <Plug>(ale_next_wrap)
 nmap <tab> %
 nnoremap <c-p> <c-i>
 nnoremap <F1> <nop>
@@ -381,7 +381,7 @@ let g:fzf_colors =
 " }}}
 " Goyo and Limelight {{{
 
-nnoremap <leader>v :Goyo<cr>
+nnoremap <c-m> :Goyo<cr>
 nnoremap <leader>s :Limelight!!<cr>
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
