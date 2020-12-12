@@ -50,6 +50,7 @@ call plug#begin('~/.vim/plugged')
 Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'michal-h21/vim-zettel'
 Plug 'mxw/vim-jsx'
@@ -235,11 +236,6 @@ autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
 autocmd BufNewFile,BufReadPost *.ex setl foldmethod=indent
 
 " }}}
-" Focus {{{
-
-nnoremap <leader>v <c-w>v <c-w>v :e /tmp/null<cr>:vertical resize-20<cr><esc><c-w>h <c-w>h :e /tmp/null<cr>:vertical resize-18<esc><c-w>l
-
-" }}}
 " Folding {{{
 
 " Shamelessly stolen from https://github.com/sjl/dotfiles/
@@ -380,6 +376,11 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+" }}}
+" Goyo {{{
+
+nnoremap <leader>v :Goyo<cr>
 
 " }}}
 " HTML {{{
