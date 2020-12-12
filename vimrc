@@ -51,6 +51,7 @@ Plug '/usr/local/opt/fzf'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'michal-h21/vim-zettel'
 Plug 'mxw/vim-jsx'
@@ -286,7 +287,7 @@ augroup END
 " }}}
 " fzf and ripgrep {{{
 
-nnoremap <leader>, :FuzzyFile<cr>
+nnoremap <c-g> :FuzzyFile<cr>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
 nnoremap <leader>a :Rg<space>
 nnoremap <leader>b :Buffers<cr>
@@ -378,9 +379,12 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 " }}}
-" Goyo {{{
+" Goyo and Limelight {{{
 
 nnoremap <leader>v :Goyo<cr>
+nnoremap <leader>s :Limelight!!<cr>
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
 
 " }}}
 " HTML {{{
