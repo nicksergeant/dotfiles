@@ -436,7 +436,7 @@ endfunction
 command! -bar -nargs=1 OpenURL :!open <args>
 
 function! OpenURLUnderCursor()
-    let l:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+    let l:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:()]*')
     if l:uri != ""
         exec "!clear && open " . shellescape(l:uri, 1)
     else
