@@ -1,80 +1,37 @@
-" General {{{ 
+" Mappings {{{ 
+
+let mapleader = ","
 
 inoremap <F1> <nop>
+inoremap <c-u> <esc>viwUi
 inoremap <s-tab> <c-d>
 inoremap jk <esc>
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum" " Fix colors
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum" " Fix colors
-let g:jsx_ext_required = 0
-let g:mustache_abbreviations = 1
-let mapleader = ","
-nmap <esc> :nohl<cr>
-nmap <silent> <c-n> <Plug>(ale_next_wrap)
-nmap <tab> %
-nnoremap <c-p> <c-i>
 nnoremap <F1> <nop>
-nnoremap <c-^> <nop>
 nnoremap <c-e> <c-^>
+nnoremap <c-p> <c-i>
+nnoremap <esc> :nohl<cr>
+nnoremap <tab> %
+nnoremap H ^
 nnoremap K <nop>
+nnoremap L g_
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
 nnoremap gi <c-]>
-nnoremap gj :call GoToUrlAtEndOfLine()<cr>
 nnoremap gs *Nzz
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
 nnoremap tn :tn<cr>
 nnoremap tp :tp<cr>
-noremap ; :Prettier<cr>
-noremap ' :ALEFix<cr>
-noremap H ^
-noremap L g_
-syntax enable
-vmap <c-t> :sort<cr>
-vmap <tab> %
-
-" }}}
-" Plugins {{{
-
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin('~/.vim/plugged')
-
-Plug '/usr/local/opt/fzf'
-Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'michal-h21/vim-zettel'
-Plug 'mxw/vim-jsx'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'pangloss/vim-javascript'
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'branch': 'release/0.x'
-  \ }
-Plug 'scrooloose/nerdtree'
-Plug 'sjl/badwolf'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-surround'
-Plug 'vimwiki/vimwiki'
-Plug 'w0rp/ale'
-
-call plug#end()
+vnoremap <c-t> :sort<cr>
+vnoremap <tab> %
 
 " }}}
 " Settings {{{
+
+syntax enable
 
 set autoindent
 set autoread
@@ -158,8 +115,48 @@ set wildmode=list:longest
 silent! set invmmta
 
 " }}}
+" Plugins {{{
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+
+Plug '/usr/local/opt/fzf'
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'michal-h21/vim-zettel'
+Plug 'mxw/vim-jsx'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'pangloss/vim-javascript'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'branch': 'release/0.x'
+  \ }
+Plug 'scrooloose/nerdtree'
+Plug 'sjl/badwolf'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-surround'
+Plug 'vimwiki/vimwiki'
+Plug 'w0rp/ale'
+
+call plug#end()
+
+" }}}
 
 " Ale {{{
+
+nnoremap ' :ALEFix<cr>
+nnoremap <silent> <c-n> <Plug>(ale_next_wrap)
 
 let g:ale_cache_executable_check_failures = 1
 let g:ale_sign_column_always = 1
@@ -411,6 +408,8 @@ augroup END
 au BufNewFile,BufRead *.es6 setlocal filetype=javascript
 au BufNewFile,BufRead *.jsx setlocal filetype=javascript
 
+let g:jsx_ext_required = 0
+
 augroup ft_javascript
     au!
     au FileType javascript setlocal foldmethod=marker
@@ -427,16 +426,6 @@ autocmd FileType javascript nnoremap <buffer><leader>t {jV}k :sort<cr>:let @/=''
 autocmd BufNewFile,BufReadPost *.md setl wrap
 
 let g:vim_markdown_new_list_item_indent = 0
-
-function! LeaderD()
-  let save_pos = getpos(".")
-  if &buftype ==# 'quickfix'
-    execute QFGrep#grep_QuickFix(0)
-  else
-    normal! ^r+
-  endif
-  call setpos('.', save_pos)
-endfunction
 
 command! -bar -nargs=1 OpenURL :!open <args>
 
@@ -456,7 +445,7 @@ function! GoToUrlAtEndOfLine()
   call setpos('.', save_pos)
 endfunction
 
-" nnoremap <leader>d :call LeaderD()<cr>
+nnoremap gj :call GoToUrlAtEndOfLine()<cr>
 
 " }}}
 " NERD Tree {{{
@@ -475,6 +464,8 @@ let NERDTreeDirArrows = 1
 
 " }}}
 " Prettier {{{
+
+nnoremap ; :Prettier<cr>
 
 let g:prettier#exec_cmd_async = 1
 let g:prettier#autoformat = 0
