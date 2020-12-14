@@ -411,6 +411,8 @@ function! GoToUrlAtEndOfLine()
 endfunction
 
 nnoremap gj :call GoToUrlAtEndOfLine()<cr>
+vnoremap <leader>l <esc>`<i[<esc>`>ea]()<esc>i
+vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
 
 " }}}
 " NERDTree {{{
