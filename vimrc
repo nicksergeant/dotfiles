@@ -114,7 +114,6 @@ set wildmenu
 set wildmode=list:longest
 
 silent! set invmmta
-silent! colorscheme badwolf
 
 " }}}
 " Plugins {{{
@@ -152,6 +151,8 @@ Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
 
 call plug#end()
+
+silent! colorscheme badwolf
 
 " }}}
 
