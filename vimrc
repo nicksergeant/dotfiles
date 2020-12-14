@@ -27,6 +27,8 @@ nnoremap tn :tn<cr>
 nnoremap tp :tp<cr>
 vnoremap <c-t> :sort<cr>
 vnoremap <tab> %
+vnoremap H ^
+vnoremap L g_
 
 " }}}
 " Settings {{{
@@ -364,6 +366,13 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 " }}}
+" gitgutter {{{
+
+highlight DiffAdd    guibg=#1C1B1A guifg=#179923
+highlight DiffChange guibg=#1C1B1A guifg=#B0B030
+highlight DiffDelete guibg=#1C1B1A guifg=#B82128
+
+" }}}
 " JavaScript {{{
 
 let g:jsx_ext_required = 0
@@ -494,5 +503,10 @@ autocmd BufNewFile *.md :norm kddo
 
 autocmd FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
 autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
+
+augroup ft_vimwiki
+    au!
+    au FileType vimwiki setlocal foldmethod=marker
+augroup END
 
 " }}}
