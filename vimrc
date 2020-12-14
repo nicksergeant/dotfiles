@@ -1,6 +1,7 @@
 " Mappings {{{ 
 
 let mapleader = ","
+let maplocalleader = "\\"
 
 inoremap <F1> <nop>
 inoremap <c-u> <esc>viwUi
@@ -82,7 +83,6 @@ set title
 set undofile
 set updatetime=100
 set visualbell
-set wildignore=*.db
 set wildignore+=*.git/**
 set wildignore+=*.hg*
 set wildignore+=*.jquery*.js
@@ -110,9 +110,12 @@ set wildignore+=*vendor/**
 set wildignore+=__init__.py
 set wildignore+=__pycache__
 set wildignore+=_site
+set wildignore=*.db
 set wildmenu
 set wildmode=list:longest
+
 silent! set invmmta
+silent! colorscheme badwolf
 
 " }}}
 " Plugins {{{
@@ -175,37 +178,26 @@ let g:ale_fixers = {
   \ }
 
 " }}}
-" Autocomplete {{{
-
-inoremap <c-l> console.log()<esc>i
-inoremap <c-k> console.table({})<esc>hi
-
-" }}}
 " Buffers {{{
 
-map <c-h> <c-w>h
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
 
 " }}}
 " CoC {{{
 
-nmap <silent> go <Plug>(coc-definition)
-
-" }}}
-" Colors {{{
-
-silent! colorscheme badwolf
+nnoremap <silent> go <Plug>(coc-definition)
 
 " }}}
 " Commentary {{{
 
-nmap <leader>c<space> <Plug>CommentaryLine
-xmap <leader>c<space> <Plug>Commentary
+nnoremap <leader>c<space> <Plug>CommentaryLine
+xnoremap <leader>c<space> <Plug>Commentary
 
 " }}}
-" Copying and pasting {{{
+" Copy and paste {{{
 
 vnoremap y "+y
 nnoremap yy "+yy
@@ -215,23 +207,14 @@ nnoremap yy "+yy
 
 augroup ft_css
     au!
-    au BufNewFile,BufRead *.less setlocal filetype=scss
-    au BufNewFile,BufRead *.css setlocal filetype=css
-    au Filetype less,css,scss setlocal foldmethod=marker
-    au Filetype less,css,scss setlocal foldmarker={,}
-    au Filetype less,css,scss setlocal iskeyword+=-
-    au Filetype less,css,scss setlocal colorcolumn=0
+    au Filetype css,scss setlocal foldmethod=marker
+    au Filetype css,scss setlocal foldmarker={,}
+    au Filetype css,scss setlocal iskeyword+=-
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><cr><esc>kcc
+    au BufNewFile,BufRead *.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><cr><esc>kcc
 augroup END
-
-" }}}
-" Elixir {{{
-
-autocmd BufNewFile,BufReadPost *.exs setl foldmethod=indent
-autocmd BufNewFile,BufReadPost *.ex setl foldmethod=indent
 
 " }}}
 " Folding {{{
@@ -261,7 +244,17 @@ function! MyFoldText() " {{{
     let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
     return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
 endfunction " }}}
+
 set foldtext=MyFoldText()
+
+" }}}
+" Focus modes {{{
+
+nnoremap <c-m> :Goyo<cr>
+nnoremap <leader>s :Limelight!!<cr>
+
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
 
 " }}}
 " Fugitive and Hub {{{
@@ -269,11 +262,6 @@ set foldtext=MyFoldText()
 let g:github_enterprise_urls = ['https://git.hubteam.com']
 
 nnoremap <leader>eg :Gblame<cr>
-nnoremap <leader>ga :Gadd<cr>
-nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gd :Git! diff<cr>
-nnoremap <leader>gg :Gbrowse<cr>
-nnoremap <leader>gs :Gstatus<cr>
 vnoremap <leader>gg :Gbrowse<cr>
 
 augroup ft_fugitive
@@ -376,37 +364,7 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 " }}}
-" Goyo and Limelight {{{
-
-nnoremap <c-m> :Goyo<cr>
-nnoremap <leader>s :Limelight!!<cr>
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
-
-" }}}
-" HTML {{{
-
-au BufNewFile,BufRead *.ejs setlocal filetype=html
-au BufNewFile,BufRead *.app setlocal filetype=html
-au BufNewFile,BufRead *.cmp setlocal filetype=html
-au BufNewFile,BufRead *.html setlocal foldmethod=manual
-au FileType html setlocal tabstop=2
-au FileType html setlocal shiftwidth=2
-au FileType html setlocal softtabstop=2
-
-" }}}
-" Jade {{{
-
-augroup ft_jade
-    au!
-    au BufNewFile,BufRead *.jade setlocal filetype=pug
-augroup END
-
-" }}}
 " JavaScript {{{
-
-au BufNewFile,BufRead *.es6 setlocal filetype=javascript
-au BufNewFile,BufRead *.jsx setlocal filetype=javascript
 
 let g:jsx_ext_required = 0
 
@@ -417,8 +375,6 @@ augroup ft_javascript
 augroup END
 
 com! FormatJSON %!python -m json.tool
-
-autocmd FileType javascript nnoremap <buffer><leader>t {jV}k :sort<cr>:let @/=''<cr>
 
 " }}}
 " Markdown {{{
@@ -448,7 +404,7 @@ endfunction
 nnoremap gj :call GoToUrlAtEndOfLine()<cr>
 
 " }}}
-" NERD Tree {{{
+" NERDTree {{{
 
 noremap  <leader>x :NERDTreeToggle<cr>
 noremap  <leader>f :NERDTreeFind<cr>
@@ -471,27 +427,39 @@ let g:prettier#exec_cmd_async = 1
 let g:prettier#autoformat = 0
 
 " }}}
-" Signify {{{
-
-highlight DiffAdd    guibg=#1C1B1A guifg=#179923
-highlight DiffChange guibg=#1C1B1A guifg=#B0B030
-highlight DiffDelete guibg=#1C1B1A guifg=#B82128
-
-let g:signify_sign_change = '~'
-let g:signify_vcs_list = [ 'git' ]
-
-" }}}
-" QuickFix {{{
+" Quickfix window {{{
 
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+
 nnoremap <M-n> :cn<cr>
 nnoremap <M-p> :cp<cr>
+
+function! QFixToggle(forced)
+    if exists("g:qfix_win") && a:forced == 0
+        cclose
+        unlet g:qfix_win
+    else
+        copen 10
+        let g:qfix_win = bufnr("$")
+    endif
+endfunction
+
+command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
+
+nnoremap <silent> <f4> :QFixToggle<cr>
 
 " }}}
 " Quick edit files {{{
 
-nnoremap <leader>ev <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/vimrc<cr>
-nnoremap <leader>ez <c-w>s<c-w>j<c-w>L:e ~/Sources/dotfiles/zshrc<cr>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" }}}
+" Snippets {{{
+
+inoremap <c-l> console.log()<esc>i
+inoremap <c-k> console.table({})<esc>hi
 
 " }}}
 " Vim {{{
@@ -513,56 +481,18 @@ augroup line_return
         \ endif
 augroup END
 
-" Quick source mappings
-vnoremap <leader>S y:execute @@<cr>
-nnoremap <leader>S ^vg_y:execute @@<cr>
-
 " }}}
-" {{{ VimWiki
+" VimWiki {{{
 
 let g:vimwiki_list = [{'path': '~/Dropbox (Personal)/Notes', 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
-" let g:vimwiki_url_maxsave = 0
-" let g:vimwiki_conceallevel = 2
 let g:vimwiki_folding = 'custom'
 let g:zettel_fzf_command = "rg --files --column --line-number --ignore-case --no-heading --color=always "
 
 autocmd BufNewFile *.md :r! echo \\# %:t:r
 autocmd BufNewFile *.md :norm kddo
 
-function! MarkTodoItemDone()
-  " let current_line_number = line(".")
-  " let save_pos = getpos(".")
-
-  execute "normal \<Plug>VimwikiToggleListItem"
-
-"   if getline(".") =~ '^\-\ \['
-"     normal! dd
-"     execute "normal! ?[X\r"
-"     execute "normal! /[\r"
-"     normal! P
-"     call setpos('.', save_pos)
-"   endif
-endfunction
-
-autocmd FileType vimwiki nnoremap <buffer><leader>d :call MarkTodoItemDone()<cr>
-autocmd FileType vimwiki nnoremap <buffer><leader>z :VimwikiToggleListItem<cr>
+autocmd FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
 autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
-
-" }}}
-" Window Toggles {{{
-
-command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
-function! QFixToggle(forced)
-    if exists("g:qfix_win") && a:forced == 0
-        cclose
-        unlet g:qfix_win
-    else
-        copen 10
-        let g:qfix_win = bufnr("$")
-    endif
-endfunction
-
-nmap <silent> <f4> :QFixToggle<cr>
 
 " }}}
