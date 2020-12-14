@@ -6,7 +6,6 @@ let maplocalleader = "\\"
 inoremap <F1> <nop>
 inoremap <c-u> <esc>viwUi
 inoremap <s-tab> <c-d>
-inoremap jk <esc>
 nnoremap <F1> <nop>
 nnoremap <c-e> <c-^>
 nnoremap <c-p> <c-i>
