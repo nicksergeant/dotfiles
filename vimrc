@@ -257,8 +257,8 @@ set foldtext=MyFoldText()
 " }}}
 " Focus modes {{{
 
-nnoremap <c-m> :Goyo<cr>
-nnoremap <leader>s :Limelight!!<cr>
+nnoremap <M-return> :Goyo<cr>
+nnoremap <leader>h :Limelight!!<cr>
 
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
