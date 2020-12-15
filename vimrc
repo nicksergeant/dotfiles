@@ -203,8 +203,11 @@ omap <leader>c<space> <Plug>Commentary
 " Copy and paste {{{
 
 nnoremap yy "+yy
-vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
 vnoremap y "+y
+
+inoremap <c-v> <esc>"+pa
+nnoremap <c-v> "+Pa<esc>
+vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
 
 " }}}
 " CSS {{{
@@ -388,11 +391,19 @@ augroup END
 com! FormatJSON %!python -m json.tool
 
 " }}}
-" Markdown {{{
-
-autocmd BufNewFile,BufReadPost *.md setl wrap
+" Markdown and vimwiki {{{
 
 let g:vim_markdown_new_list_item_indent = 0
+let g:vimwiki_list = [{'path': '~/Dropbox (Personal)/Notes', 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
+      \ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_folding = 'custom'
+let g:zettel_fzf_command = "rg --files --column --line-number --ignore-case --no-heading --color=always "
+
+autocmd BufNewFile,BufReadPost *.md setl wrap
+autocmd BufNewFile *.md :r! echo \\# %:t:r
+autocmd BufNewFile *.md :norm kddo
+autocmd FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
+autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
 
 command! -bar -nargs=1 OpenURL :!open <args>
 
@@ -413,6 +424,11 @@ function! GoToUrlAtEndOfLine()
 endfunction
 
 nnoremap gj :call GoToUrlAtEndOfLine()<cr>
+
+augroup ft_vimwiki
+    au!
+    au FileType vimwiki setlocal foldmethod=marker
+augroup END
 
 " }}}
 " NERDTree {{{
@@ -490,25 +506,6 @@ augroup line_return
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \     execute 'normal! g`"zvzz' |
         \ endif
-augroup END
-
-" }}}
-" VimWiki {{{
-
-let g:vimwiki_list = [{'path': '~/Dropbox (Personal)/Notes', 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
-      \ 'syntax': 'markdown', 'ext': '.md'}]
-let g:vimwiki_folding = 'custom'
-let g:zettel_fzf_command = "rg --files --column --line-number --ignore-case --no-heading --color=always "
-
-autocmd BufNewFile *.md :r! echo \\# %:t:r
-autocmd BufNewFile *.md :norm kddo
-
-autocmd FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
-autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
-
-augroup ft_vimwiki
-    au!
-    au FileType vimwiki setlocal foldmethod=marker
 augroup END
 
 " }}}
