@@ -263,6 +263,8 @@ nnoremap <leader>h :Limelight!!<cr>
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
+let g:goyo_width = 120
+
 " }}}
 " Fugitive and Hub {{{
 
