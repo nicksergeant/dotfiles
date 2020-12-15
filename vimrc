@@ -206,7 +206,7 @@ nnoremap yy "+yy
 vnoremap y "+y
 
 inoremap <c-v> <esc>"+pa
-nnoremap <c-v> bi[<esc>ea]()<esc>h"+p
+nnoremap <c-v> viwo<esc>i[<esc>ea]()<esc>h"+p
 vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
 
 " }}}
