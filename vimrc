@@ -195,14 +195,16 @@ nnoremap <silent> go <Plug>(coc-definition)
 " }}}
 " Commentary {{{
 
-nnoremap <leader>c<space> <Plug>CommentaryLine
-xnoremap <leader>c<space> <Plug>Commentary
+nmap <leader>c<space> <Plug>Commentary
+xmap <leader>c<space> <Plug>Commentary
+omap <leader>c<space> <Plug>Commentary
 
 " }}}
 " Copy and paste {{{
 
-vnoremap y "+y
 nnoremap yy "+yy
+vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
+vnoremap y "+y
 
 " }}}
 " CSS {{{
@@ -411,8 +413,6 @@ function! GoToUrlAtEndOfLine()
 endfunction
 
 nnoremap gj :call GoToUrlAtEndOfLine()<cr>
-vnoremap <leader>l <esc>`<i[<esc>`>ea]()<esc>i
-vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
 
 " }}}
 " NERDTree {{{
