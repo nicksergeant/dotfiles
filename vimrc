@@ -407,25 +407,17 @@ autocmd BufNewFile *.md :norm kddo
 autocmd FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
 autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
 
-command! -bar -nargs=1 OpenURL :!open <args>
-
-function! OpenURLUnderCursor()
-    let l:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:()]*')
-    if l:uri != ""
-        exec "!clear && open " . shellescape(l:uri, 1)
-    else
-        echo 'No URL found in line'
-    endif
+function! GoToMarkdownLinkInLine()
+  let l:uri = matchstr(getline("."), '](')
+  if l:uri != ""
+    let save_pos = getpos(".")
+    execute "normal ^/](/\<cr>"
+    execute "VimwikiFollowLink"
+    call setpos('.', save_pos)
+  endif
 endfunction
 
-function! GoToUrlAtEndOfLine()
-  let save_pos = getpos(".")
-  normal! g_
-  silent exec OpenURLUnderCursor()
-  call setpos('.', save_pos)
-endfunction
-
-nnoremap gj :call GoToUrlAtEndOfLine()<cr>
+nnoremap gj :call GoToMarkdownLinkInLine()<cr>
 
 augroup ft_vimwiki
     au!
