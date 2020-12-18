@@ -9,9 +9,9 @@ export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/Sources/dotfiles/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:/opt/homebrew/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:~/Library/Python/3.8/bin
 export ZSH=~/.oh-my-zsh
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
@@ -30,13 +30,13 @@ source ~/Sources/z/z.sh
 
 # Aliases
 
-alias brew='arch -x86_64 /usr/local/bin/brew'
 alias ct='ctags --options=$HOME/.ctags .'
 alias deact='deactivate'
 alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='get_last_commit'
 alias gp='git push -u origin HEAD'
+alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias n='vim ~/Dropbox/Documents/Notes/Notes.md'
 alias o='open'
 alias pm='python manage.py'
