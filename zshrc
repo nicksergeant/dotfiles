@@ -2,18 +2,15 @@
 
 export CFLAGS=-Qunused-arguments
 export CPPFLAGS=-Qunused-arguments
-export EDITOR='vim'
+export EDITOR='nvim'
 export GOPATH=$HOME/.go
 export GOROOT=/usr/local/opt/go/libexec
-export INFOPATH=/home/linuxbrew/.linuxbrew/share/info:$INFOPATH
-export MANPATH=/home/linuxbrew/.linuxbrew/share/man:$MANPATH
-export PATH=$PATH:/home/linuxbrew/.linuxbrew/Homebrew/Library/Homebrew/vendor/portable-ruby/2.0.0-p648/bin
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/Sources/dotfiles/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 export PATH=$PATH:/usr/local/sbin
+export PATH=$PATH:/opt/homebrew/bin
 export ZSH=~/.oh-my-zsh
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
