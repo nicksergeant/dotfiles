@@ -123,7 +123,7 @@ silent! set invmmta
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  au! VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -212,11 +212,11 @@ vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
 " }}}
 " CSS {{{
 
-augroup ft_css
+augroup filetype_css
     au!
-    au Filetype css,scss setlocal foldmethod=marker
-    au Filetype css,scss setlocal foldmarker={,}
-    au Filetype css,scss setlocal iskeyword+=-
+    au FileType css,scss setlocal foldmethod=marker
+    au FileType css,scss setlocal foldmarker={,}
+    au FileType css,scss setlocal iskeyword+=-
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
@@ -260,8 +260,11 @@ set foldtext=MyFoldText()
 nnoremap <M-return> :Goyo<cr>
 nnoremap <leader>h :Limelight!!<cr>
 
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
+augroup goyo
+    au!
+    au User GoyoEnter Limelight
+    au User GoyoLeave Limelight!
+augroup END
 
 let g:goyo_width = 120
 
@@ -273,7 +276,7 @@ let g:github_enterprise_urls = ['https://git.hubteam.com']
 nnoremap <leader>eg :Gblame<cr>
 vnoremap <leader>gg :Gbrowse<cr>
 
-augroup ft_fugitive
+augroup filetype_git
     au!
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
@@ -384,7 +387,7 @@ highlight DiffDelete guibg=#1C1B1A guifg=#B82128
 
 let g:jsx_ext_required = 0
 
-augroup ft_javascript
+augroup filetype_javascript
     au!
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
@@ -401,12 +404,6 @@ let g:vimwiki_list = [{'path': '~/Dropbox (Personal)/Notes', 'path_html': '~/Dro
 let g:vimwiki_folding = 'custom'
 let g:zettel_fzf_command = "rg --files --column --line-number --ignore-case --no-heading --color=always "
 
-autocmd BufNewFile,BufReadPost *.md setl wrap
-autocmd BufNewFile *.md :r! echo \\# %:t:r
-autocmd BufNewFile *.md :norm kddo
-autocmd FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
-autocmd FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
-
 function! GoToMarkdownLinkInLine()
   let l:uri = matchstr(getline("."), '](')
   if l:uri != ""
@@ -419,9 +416,18 @@ endfunction
 
 nnoremap gj :call GoToMarkdownLinkInLine()<cr>
 
-augroup ft_vimwiki
+augroup filetype_markdown
     au!
+    au BufNewFile *.md :r! echo \\# %:t:r
+    au BufNewFile *.md :norm kddo
+augroup END
+
+augroup filetype_vimwiki
+    au!
+    au FileType vimwiki setlocal wrap
     au FileType vimwiki setlocal foldmethod=marker
+    au FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
+    au FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
 augroup END
 
 " }}}
@@ -430,8 +436,11 @@ augroup END
 noremap  <leader>x :NERDTreeToggle<cr>
 noremap  <leader>f :NERDTreeFind<cr>
 
-au Filetype nerdtree setlocal nolist
-au Filetype nerdtree setlocal colorcolumn=0
+augroup nerdtree
+    au!
+    au FileType nerdtree setlocal nolist
+    au FileType nerdtree setlocal colorcolumn=0
+augroup END
 
 let NERDTreeHighlightCursorline=1
 let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index', 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json', '.*\.o$', 'db.db']
@@ -450,7 +459,10 @@ let g:prettier#autoformat = 0
 " }}}
 " Quickfix window {{{
 
-autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+augroup quickfix
+    au!
+    au BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+augroup END
 
 nnoremap <M-n> :cn<cr>
 nnoremap <M-p> :cp<cr>
@@ -485,13 +497,13 @@ inoremap <c-k> console.table({})<esc>hi
 " }}}
 " Vim {{{
 
-augroup ft_vim
+augroup filetype_vim
     au!
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    au VimResized * exe "normal! \<c-w>="
 augroup END
-au VimResized * exe "normal! \<c-w>="
 
 " Stay on same line
 augroup line_return
