@@ -426,8 +426,9 @@ augroup filetype_vimwiki
     au!
     au FileType vimwiki setlocal wrap
     au FileType vimwiki setlocal foldmethod=marker
-    au FileType vimwiki nnoremap <buffer><leader>d :VimwikiToggleListItem<cr>
-    au FileType vimwiki nnoremap <buffer><leader>m :VimwikiIncrementListItem<cr>
+    au FileType vimwiki nmap <buffer> <leader>d <Plug>VimwikiToggleListItem
+    au FileType vimwiki vmap <buffer> <leader>d <Plug>VimwikiToggleListItem
+    au FileType vimwiki nmap <buffer> <leader>m <Plug>VimwikiIncrementListItem
 augroup END
 
 " }}}
