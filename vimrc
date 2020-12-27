@@ -23,8 +23,6 @@ nnoremap gs *Nzz
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
-nnoremap tn :tn<cr>
-nnoremap tp :tp<cr>
 vnoremap <c-t> :sort<cr>
 vnoremap <tab> %
 vnoremap H ^
