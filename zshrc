@@ -10,6 +10,7 @@ export PATH=$PATH:~/Sources/dotfiles/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/usr/local/sbin
+export PATH=$PATH:/opt/homebrew/bin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:~/Library/Python/3.8/bin
 export ZSH=~/.oh-my-zsh
@@ -30,6 +31,7 @@ source ~/Sources/z/z.sh
 
 # Aliases
 
+alias brew='/opt/homebrew/bin/brew'
 alias ct='ctags --options=$HOME/.ctags .'
 alias deact='deactivate'
 alias dokku='$HOME/.dokku/contrib/dokku_client.sh'

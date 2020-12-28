@@ -193,7 +193,8 @@ nnoremap <silent> go <Plug>(coc-definition)
 " }}}
 " Commentary {{{
 
-nmap <leader>c<space> <Plug>Commentary
+nmap <leader>c<space> <Plug>CommentaryLine
+vmap <leader>c<space> <Plug>Commentary
 xmap <leader>c<space> <Plug>Commentary
 omap <leader>c<space> <Plug>Commentary
 
@@ -255,7 +256,7 @@ set foldtext=MyFoldText()
 " }}}
 " Focus modes {{{
 
-nnoremap <M-return> :Goyo<cr>
+nnoremap <leader>v :Goyo<cr>
 nnoremap <leader>h :Limelight!!<cr>
 
 augroup goyo
@@ -264,7 +265,8 @@ augroup goyo
     au User GoyoLeave Limelight!
 augroup END
 
-let g:goyo_width = 120
+let g:goyo_height = '100%'
+let g:goyo_width = 100
 
 " }}}
 " Fugitive and Hub {{{
