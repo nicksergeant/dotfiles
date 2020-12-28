@@ -408,13 +408,13 @@ function! GoToMarkdownLinkInLine()
   let l:uri = matchstr(getline("."), '](')
   if l:uri != ""
     let save_pos = getpos(".")
-    execute "normal ^/](/\<cr>"
-    execute "VimwikiFollowLink"
+    silent execute "normal ^/](/\<cr>"
+    silent execute "VimwikiFollowLink"
     call setpos('.', save_pos)
   endif
 endfunction
 
-nnoremap gj :call GoToMarkdownLinkInLine()<cr>
+nnoremap <silent> gj :call GoToMarkdownLinkInLine()<cr>
 
 augroup filetype_markdown
     au!
