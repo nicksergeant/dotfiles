@@ -1,19 +1,24 @@
 # Environment variables
 
 export CFLAGS=-Qunused-arguments
-export CPPFLAGS=-Qunused-arguments
+export CPPFLAGS="-I/opt/homebrew/opt/ruby/include -Qunused-arguments"
 export EDITOR='nvim'
 export GOPATH=$HOME/.go
 export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:~/.local/bin
-export PATH=$PATH:~/Sources/dotfiles/bin
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:/usr/local/sbin
-export PATH=$PATH:/opt/homebrew/bin
-export PATH=$PATH:/usr/local/bin
-export PATH=$PATH:~/Library/Python/3.8/bin
+export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+export PKG_CONFIG_PATH=/opt/homebrew/opt/ruby/lib/pkgconfig
 export ZSH=~/.oh-my-zsh
+
+export PATH=~/.local/bin:$PATH
+export PATH=~/Sources/dotfiles/bin:$PATH
+export PATH=$GOPATH/bin:$PATH
+export PATH=$GOROOT/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
+export PATH=/opt/homebrew/bin:$PATH
+export PATH=/usr/local/bin:$PATH
+export PATH=~/Library/Python/3.8/bin:$PATH
+export PATH=/opt/homebrew/opt/ruby/bin:$PATH
+export PATH=/opt/homebrew/lib/ruby/gems/3.0.0/bin:$PATH
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
