@@ -40,6 +40,7 @@ set backspace=indent,eol,start
 set breakindent
 set breakindentopt=shift:2,min:40,sbr
 set colorcolumn=0
+set conceallevel=0
 set cursorline
 set directory=$HOME/.vim/tmp//,.
 set encoding=utf-8
@@ -426,6 +427,7 @@ augroup filetype_vimwiki
     au!
     au FileType vimwiki setlocal wrap
     au FileType vimwiki setlocal foldmethod=marker
+    au FileType vimwiki setlocal conceallevel=2
     au FileType vimwiki nmap <buffer> <leader>d <Plug>VimwikiToggleListItem
     au FileType vimwiki vmap <buffer> <leader>d <Plug>VimwikiToggleListItem
     au FileType vimwiki nmap <buffer> <leader>m <Plug>VimwikiIncrementListItem

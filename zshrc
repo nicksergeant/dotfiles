@@ -1,12 +1,10 @@
 # Environment variables
 
 export CFLAGS=-Qunused-arguments
-export CPPFLAGS="-I/opt/homebrew/opt/ruby/include -Qunused-arguments"
+export CPPFLAGS="-Qunused-arguments"
 export EDITOR='nvim'
 export GOPATH=$HOME/.go
 export GOROOT=/usr/local/opt/go/libexec
-export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
-export PKG_CONFIG_PATH=/opt/homebrew/opt/ruby/lib/pkgconfig
 export ZSH=~/.oh-my-zsh
 
 export PATH=~/.local/bin:$PATH
@@ -17,13 +15,18 @@ export PATH=/usr/local/sbin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/usr/local/bin:$PATH
 export PATH=~/Library/Python/3.8/bin:$PATH
-export PATH=/opt/homebrew/opt/ruby/bin:$PATH
-export PATH=/opt/homebrew/lib/ruby/gems/3.0.0/bin:$PATH
 
-fpath+=${ZDOTDIR:-~}/.zsh_functions
+# Ruby
+export PATH=/opt/homebrew/lib/ruby/gems/2.7.0/bin:$PATH
+export PATH=/opt/homebrew/opt/ruby@2.7/bin:$PATH
+
+export CPPFLAGS="-I/opt/homebrew/opt/ruby@2.7/include -Qunused-arguments"
+export LDFLAGS="-L/opt/homebrew/opt/ruby@2.7/lib"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby@2.7/lib/pkgconfig"
 
 # oh-my-zsh
 
+fpath+=${ZDOTDIR:-~}/.zsh_functions
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 ZSH_THEME=""
 plugins=(git zsh-autosuggestions)
@@ -196,8 +199,8 @@ wo() {
   source ~/.virtualenvs/$VENV/bin/activate
 }
 
-# Import private settings
+# Import other things
 
-source ~/Sources/dotfiles-private/zshrc
+source ~/.hubspot/shellrc
 source ~/.zshrc-env
-. ~/.hubspot/shellrc
+source ~/Sources/dotfiles-private/zshrc
