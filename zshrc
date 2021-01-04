@@ -180,17 +180,28 @@ resume() {
 
 tn() {
   tmux new-session -d -s notes -n notes
+  tmux send-keys j Space Notes Enter
+  tmux send-keys m Enter
   tmux attach
 }
 
 ts() {
   tmux new-session -d -s shell -n shell
+  tmux send-keys -t shell C-l
   tmux split-window -t shell -h
+  tmux send-keys -t shell C-l
+  tmux new-window -n servers
+  tmux send-keys -t servers C-l
+  tmux split-window -t servers -h
+  tmux send-keys -t servers C-l
+  tmux next-window
   tmux attach
 }
 
 tv() {
-  tmux new-session -d -s vim -n vim
+  tmux new-session -d -s vim -n social
+  tmux send-keys j Space Social Enter
+  tmux send-keys m Enter
   tmux attach
 }
 
