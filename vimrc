@@ -407,12 +407,23 @@ let g:vimwiki_folding = 'custom'
 let g:zettel_fzf_command = "rg --files --column --line-number --ignore-case --no-heading --color=always "
 
 function! GoToMarkdownLinkInLine()
-  let l:uri = matchstr(getline("."), '](')
+  let line = getline(".")
+  let l:uri = matchstr(line, '](')
+
   if l:uri != ""
     let save_pos = getpos(".")
     silent execute "normal ^/](/\<cr>"
     silent execute "VimwikiFollowLink"
     call setpos('.', save_pos)
+  else
+    let l:uri = matchstr(line, '[a-z]*:\/\/[^ >,;:]*')
+    if l:uri != ""
+        let save_pos = getpos(".")
+        silent execute "!clear && open " . shellescape(l:uri, 1)
+        call setpos('.', save_pos)
+    else
+        echo 'No URL found in line'
+    endif
   endif
 endfunction
 
@@ -426,12 +437,12 @@ augroup END
 
 augroup filetype_vimwiki
     au!
-    au FileType vimwiki setlocal wrap
     au FileType vimwiki setlocal foldmethod=marker
-    au FileType vimwiki setlocal conceallevel=1
+    au FileType vimwiki setlocal conceallevel=2
     au FileType vimwiki nmap <buffer> <leader>d <Plug>VimwikiToggleListItem
     au FileType vimwiki vmap <buffer> <leader>d <Plug>VimwikiToggleListItem
     au FileType vimwiki nmap <buffer> <leader>m <Plug>VimwikiIncrementListItem
+    au FileType vimwiki nmap <buffer> <leader>we :set wrap!<cr>
 augroup END
 
 " }}}
