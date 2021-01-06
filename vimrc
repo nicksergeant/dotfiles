@@ -160,7 +160,7 @@ silent! colorscheme badwolf
 " Ale {{{
 
 nnoremap ' :ALEFix<cr>
-nnoremap <silent> <c-n> <Plug>(ale_next_wrap)
+nmap <silent> <c-n> <Plug>(ale_next_wrap)
 
 let g:ale_cache_executable_check_failures = 1
 let g:ale_sign_column_always = 1
@@ -189,7 +189,7 @@ nnoremap <c-l> <c-w>l
 " }}}
 " CoC {{{
 
-nnoremap <silent> go <Plug>(coc-definition)
+nmap <silent> go <Plug>(coc-definition)
 
 " }}}
 " Commentary {{{
@@ -275,6 +275,7 @@ let g:goyo_width = 100
 let g:github_enterprise_urls = ['https://git.hubteam.com']
 
 nnoremap <leader>eg :Gblame<cr>
+nnoremap <leader>gg :Gbrowse<cr>
 vnoremap <leader>gg :Gbrowse<cr>
 
 augroup filetype_git

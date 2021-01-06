@@ -211,7 +211,6 @@ wo() {
 }
 
 # Import other things
-
-source ~/.hubspot/shellrc
-source ~/.zshrc-env
-source ~/Sources/dotfiles-private/zshrc
+. ~/.zshrc-env
+. ~/Sources/dotfiles-private/zshrc
+. ~/.hubspot/shellrc
