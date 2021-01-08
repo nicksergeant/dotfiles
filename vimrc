@@ -259,12 +259,10 @@ set foldtext=MyFoldText()
 
 nnoremap <leader>v :Goyo<cr>
 nnoremap <leader>h :Limelight!!<cr>
+nnoremap <leader>we :set wrap!<cr>
 
-augroup goyo
-    au!
-    au User GoyoEnter Limelight
-    au User GoyoLeave Limelight!
-augroup END
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
 
 let g:goyo_height = '100%'
 let g:goyo_width = 100
@@ -442,7 +440,6 @@ augroup filetype_vimwiki
     au FileType vimwiki nmap <buffer> <leader>d <Plug>VimwikiToggleListItem
     au FileType vimwiki vmap <buffer> <leader>d <Plug>VimwikiToggleListItem
     au FileType vimwiki nmap <buffer> <leader>m <Plug>VimwikiIncrementListItem
-    au FileType vimwiki nmap <buffer> <leader>we :set wrap!<cr>
 augroup END
 
 " }}}
