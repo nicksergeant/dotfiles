@@ -160,7 +160,7 @@ silent! colorscheme badwolf
 " Ale {{{
 
 nnoremap ' :ALEFix<cr>
-nmap <silent> <c-n> <Plug>(ale_next_wrap)
+nnoremap <silent> <c-n> :ALENextWrap<cr>
 
 let g:ale_cache_executable_check_failures = 1
 let g:ale_sign_column_always = 1
@@ -189,15 +189,14 @@ nnoremap <c-l> <c-w>l
 " }}}
 " CoC {{{
 
-nmap <silent> go <Plug>(coc-definition)
+nnoremap <silent> go :CocAction('jumpDefinition')<cr>
 
 " }}}
 " Commentary {{{
 
-nmap <leader>c<space> <Plug>CommentaryLine
-vmap <leader>c<space> <Plug>Commentary
-xmap <leader>c<space> <Plug>Commentary
-omap <leader>c<space> <Plug>Commentary
+nnoremap <leader>c<space> :Commentary<cr>
+vnoremap <leader>c<space> :Commentary<cr>
+onoremap <leader>c<space> :Commentary<cr>
 
 " }}}
 " Copy and paste {{{
@@ -437,9 +436,9 @@ augroup filetype_vimwiki
     au!
     au FileType vimwiki setlocal foldmethod=marker
     au FileType vimwiki setlocal conceallevel=2
-    au FileType vimwiki nmap <buffer> <leader>d <Plug>VimwikiToggleListItem
-    au FileType vimwiki vmap <buffer> <leader>d <Plug>VimwikiToggleListItem
-    au FileType vimwiki nmap <buffer> <leader>m <Plug>VimwikiIncrementListItem
+    au FileType vimwiki nnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
+    au FileType vimwiki vnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
+    au FileType vimwiki nnoremap <buffer> <leader>m :VimwikiIncrementListItem<cr>
 augroup END
 
 " }}}
@@ -473,7 +472,7 @@ let g:prettier#autoformat = 0
 
 augroup quickfix
     au!
-    au BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+    au BufReadPost quickfix nnoremap <buffer> <cr> <cr>
 augroup END
 
 nnoremap <M-n> :cn<cr>
