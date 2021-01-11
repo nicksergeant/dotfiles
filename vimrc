@@ -258,8 +258,9 @@ augroup filetype_css
     au FileType css,scss setlocal foldmarker={,}
     au FileType css,scss setlocal iskeyword+=-
 
-    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-    " positioned inside of them AND the following code doesn't get unfolded.
+    " Make {<cr> insert a pair of brackets in such a way that the
+    " cursor is correctly positioned inside of them AND the following
+    " code doesn't get unfolded.
     au BufNewFile,BufRead *.css,*.scss inoremap <buffer> {<cr> {}<left><cr><space><space><cr><esc>kcc
 augroup END
 
@@ -460,7 +461,6 @@ augroup END
 
 let NERDTreeDirArrows = 1
 let NERDTreeHighlightCursorline=1
-let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index', 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json', '.*\.o$', 'db.db']
 let NERDTreeMinimalUI = 1
 
 " }}}
@@ -468,8 +468,8 @@ let NERDTreeMinimalUI = 1
 
 nnoremap ; :Prettier<cr>
 
-let g:prettier#exec_cmd_async = 1
 let g:prettier#autoformat = 0
+let g:prettier#exec_cmd_async = 1
 
 " }}}
 " Quickfix window ------------------------------------------------ {{{
