@@ -24,9 +24,13 @@ nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
 vnoremap <c-t> :sort<cr>
-vnoremap <tab> %
 vnoremap H ^
 vnoremap L g_
+
+" Use <tab> for matching things.
+map <tab> %
+silent! unmap [%
+silent! unmap ]%
 
 " }}}
 " Settings {{{
@@ -76,7 +80,7 @@ set splitbelow
 set splitright
 set statusline=\ %f%=\ [%l/%L]\ 
 set synmaxcol=800
-set tabstop=2
+set tabstop=8
 set termguicolors
 set timeoutlen=1000 ttimeoutlen=0
 set title
@@ -128,6 +132,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug '/usr/local/opt/fzf'
+Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
@@ -513,9 +518,11 @@ inoremap <c-k> console.table({})<esc>hi
 
 augroup filetype_vim
     au!
-    au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    au FileType help setlocal textwidth=78
+    au FileType vim nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
+    au FileType vim setlocal foldmethod=marker
+    au FileType vim vnoremap <leader>S y:@"<CR>
     au VimResized * exe "normal! \<c-w>="
 augroup END
 
