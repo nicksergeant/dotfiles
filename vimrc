@@ -3,13 +3,13 @@
 let mapleader = ","
 let maplocalleader = "\\"
 
-inoremap <F1> <nop>
 inoremap <c-u> <esc>viwUi
+inoremap <f1> <nop>
 inoremap <s-tab> <c-d>
-nnoremap <F1> <nop>
 nnoremap <c-e> <c-^>
 nnoremap <c-p> <c-i>
 nnoremap <esc> :nohl<cr>
+nnoremap <f1> <nop>
 nnoremap <tab> %
 nnoremap H ^
 nnoremap K <nop>
@@ -434,11 +434,14 @@ augroup END
 
 augroup filetype_vimwiki
     au!
-    au FileType vimwiki setlocal foldmethod=marker
-    au FileType vimwiki setlocal conceallevel=2
+    au FileType vimwiki imap <buffer> <s-tab> <Plug>VimwikiDecreaseLvlSingleItem
+    au FileType vimwiki imap <buffer> <tab> <Plug>VimwikiIncreaseLvlSingleItem
     au FileType vimwiki nnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
-    au FileType vimwiki vnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
     au FileType vimwiki nnoremap <buffer> <leader>m :VimwikiIncrementListItem<cr>
+    au FileType vimwiki setlocal conceallevel=2
+    au FileType vimwiki setlocal foldmethod=marker
+    au FileType vimwiki setlocal shiftwidth=6
+    au FileType vimwiki vnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
 augroup END
 
 " }}}
