@@ -5,6 +5,8 @@
 " and his vimrc, which is certainly worth checking out:
 " https://hg.stevelosh.com/dotfiles/file/tip/vim/vimrc
 
+" ----- Vim settings -------------------------------------------------
+
 " Setup ---------------------------------------------------------- {{{
 
 set nocompatible
@@ -21,7 +23,7 @@ set encoding=utf-8
 set fillchars=diff:⣿,vert:│
 set hidden
 set laststatus=2
-set lazyredraw " AUDIT BELOW
+set lazyredraw " AUDIT FROM HERE
 set linespace=0
 set list
 set listchars=tab:▸\ ,extends:❯,precedes:❮
@@ -97,6 +99,10 @@ let maplocalleader = "\\"
 inoremap <c-u> <esc>viwUi
 inoremap <s-tab> <c-d>
 nnoremap <c-e> <c-^>
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
 nnoremap <c-p> <c-i>
 nnoremap <esc> :nohl<cr>
 nnoremap <tab> %
@@ -136,7 +142,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'michal-h21/vim-zettel'
 Plug 'mxw/vim-jsx'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
 Plug 'scrooloose/nerdtree'
@@ -167,6 +173,7 @@ silent! colorscheme badwolf
 set wildmenu
 set wildmode=list:longest
 
+set wildignore=*.db
 set wildignore+=*.git/**
 set wildignore+=*.hg*
 set wildignore+=*.jquery*.js
@@ -194,11 +201,10 @@ set wildignore+=*vendor/**
 set wildignore+=__init__.py
 set wildignore+=__pycache__
 set wildignore+=_site
-set wildignore=*.db
 
 " }}}
 
-" ----- Plugin and filetype settings -----
+" ----- Plugin and filetype settings ---------------------------------
 
 " Ale ------------------------------------------------------------ {{{
 
@@ -220,14 +226,6 @@ let g:ale_fixers = {
   \ 'python': ['black'],
   \ 'elixir': ['mix_format'],
   \ }
-
-" }}}
-" Buffers -------------------------------------------------------- {{{
-
-nnoremap <c-h> <c-w>h
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-l> <c-w>l
 
 " }}}
 " CoC ------------------------------------------------------------ {{{
@@ -267,8 +265,8 @@ augroup END
 
 " }}}
 " Cursorline ----------------------------------------------------- {{{
-" Only show cursorline in the current window and in normal mode.
 
+" Only show cursorline in the current window and in normal mode.
 augroup cline
     au!
     au WinLeave,InsertEnter * set nocursorline
@@ -303,7 +301,7 @@ endfunction " }}}
 set foldtext=MyFoldText()
 
 " }}}
-" Focus modes ---------------------------------------------------- {{{
+" Focus ---------------------------------------------------------- {{{
 
 nnoremap <leader>v :Goyo<cr>
 nnoremap <leader>h :Limelight!!<cr>
@@ -316,21 +314,7 @@ let g:goyo_height = '100%'
 let g:goyo_width = 100
 
 " }}}
-" Fugitive and Hub ----------------------------------------------- {{{
-
-let g:github_enterprise_urls = ['https://git.hubteam.com']
-
-nnoremap <leader>eg :Gblame<cr>
-nnoremap <leader>gg :Gbrowse<cr>
-vnoremap <leader>gg :Gbrowse<cr>
-
-augroup filetype_git
-    au!
-    au BufNewFile,BufRead .git/index setlocal nolist
-augroup END
-
-" }}}
-" fzf and ripgrep ------------------------------------------------ {{{
+" Fzf ------------------------------------------------------------ {{{
 
 nnoremap <leader>, :FuzzyFile<cr>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
@@ -424,17 +408,30 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 " }}}
-" gitgutter ------------------------------------------------------ {{{
+" Git ------------------------------------------------------------ {{{
+
+let g:github_enterprise_urls = ['https://git.hubteam.com']
 
 highlight DiffAdd    guibg=#1C1B1A guifg=#179923
 highlight DiffChange guibg=#1C1B1A guifg=#B0B030
 highlight DiffDelete guibg=#1C1B1A guifg=#B82128
+
+nnoremap <leader>eg :Gblame<cr>
+nnoremap <leader>gg :Gbrowse<cr>
+vnoremap <leader>gg :Gbrowse<cr>
+
+augroup filetype_git
+    au!
+    au BufNewFile,BufRead .git/index setlocal nolist
+augroup END
 
 " }}}
 " HTML ----------------------------------------------------------- {{{
 
 augroup filetype_html
   au!
+
+  " Fold the current tag.
   au FileType html,htmldjango nnoremap <buffer> <localleader>f Vatzf
 augroup END
 
@@ -445,20 +442,97 @@ let g:jsx_ext_required = 0
 
 augroup filetype_javascript
     au!
-    au FileType javascript setlocal foldmethod=marker
+    au FileType javascript inoremap <buffer> <c-k> console.table({})<esc>hi
+    au FileType javascript inoremap <buffer> <c-l> console.log()<esc>i
     au FileType javascript setlocal foldmarker={,}
+    au FileType javascript setlocal foldmethod=marker
 augroup END
 
-com! FormatJSON %!python -m json.tool
+" }}}
+" NERDTree ------------------------------------------------------- {{{
+
+noremap  <leader>f :NERDTreeFind<cr>
+
+augroup nerdtree
+    au!
+    au FileType nerdtree setlocal nolist
+augroup END
+
+let NERDTreeDirArrows = 1
+let NERDTreeHighlightCursorline=1
+let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index', 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json', '.*\.o$', 'db.db']
+let NERDTreeMinimalUI = 1
 
 " }}}
-" Markdown and vimwiki ------------------------------------------- {{{
+" Prettier ------------------------------------------------------- {{{
+
+nnoremap ; :Prettier<cr>
+
+let g:prettier#exec_cmd_async = 1
+let g:prettier#autoformat = 0
+
+" }}}
+" Quickfix window ------------------------------------------------ {{{
+
+augroup quickfix
+    au!
+    au BufReadPost quickfix nnoremap <buffer> <cr> <cr>
+augroup END
+
+function! QFixToggle(forced)
+    if exists("g:qfix_win") && a:forced == 0
+        cclose
+        unlet g:qfix_win
+    else
+        copen 10
+        let g:qfix_win = bufnr("$")
+    endif
+endfunction
+
+command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
+
+nnoremap <M-n> :cn<cr>
+nnoremap <M-p> :cp<cr>
+nnoremap <silent> <f4> :QFixToggle<cr>
+
+" }}}
+" Source files -------------------------------------------------- {{{
+
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" }}}
+" Vimrc ---------------------------------------------------------- {{{
+
+augroup filetype_vim
+    au!
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    au FileType vim nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
+    au FileType vim setlocal foldmethod=marker
+    au FileType vim setlocal shiftwidth=4
+    au FileType vim vnoremap <leader>S y:@"<CR>
+    au VimResized * exe "normal! \<c-w>="
+augroup END
+
+" Stay on same line?
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
+" }}}
+" Vimwiki -------------------------------------------------------- {{{
 
 let g:vim_markdown_new_list_item_indent = 0
-let g:vimwiki_list = [{'path': '~/Dropbox (Personal)/Notes', 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
+let g:vimwiki_list = [{
+      \ 'path': '~/Dropbox (Personal)/Notes',
+      \ 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_folding = 'custom'
-let g:zettel_fzf_command = "rg --files --column --line-number --ignore-case --no-heading --color=always "
 
 function! GoToMarkdownLinkInLine()
   let line = getline(".")
@@ -481,8 +555,6 @@ function! GoToMarkdownLinkInLine()
   endif
 endfunction
 
-nnoremap <silent> gj :call GoToMarkdownLinkInLine()<cr>
-
 augroup filetype_markdown
     au!
     au BufNewFile *.md :r! echo \\# %:t:r
@@ -495,96 +567,11 @@ augroup filetype_vimwiki
     au FileType vimwiki imap <buffer> <tab> <Plug>VimwikiIncreaseLvlSingleItem
     au FileType vimwiki nnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
     au FileType vimwiki nnoremap <buffer> <leader>m :VimwikiIncrementListItem<cr>
+    au FileType vimwiki nnoremap <silent> gj :call GoToMarkdownLinkInLine()<cr>
     au FileType vimwiki setlocal conceallevel=2
     au FileType vimwiki setlocal foldmethod=marker
     au FileType vimwiki setlocal shiftwidth=6
     au FileType vimwiki vnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
-augroup END
-
-" }}}
-" NERDTree ------------------------------------------------------- {{{
-
-noremap  <leader>x :NERDTreeToggle<cr>
-noremap  <leader>f :NERDTreeFind<cr>
-
-augroup nerdtree
-    au!
-    au FileType nerdtree setlocal nolist
-    au FileType nerdtree setlocal colorcolumn=0
-augroup END
-
-let NERDTreeHighlightCursorline=1
-let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index', 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json', '.*\.o$', 'db.db']
-
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-
-" }}}
-" Prettier ------------------------------------------------------- {{{
-
-nnoremap ; :Prettier<cr>
-
-let g:prettier#exec_cmd_async = 1
-let g:prettier#autoformat = 0
-
-" }}}
-" Quickfix window ------------------------------------------------ {{{
-
-augroup quickfix
-    au!
-    au BufReadPost quickfix nnoremap <buffer> <cr> <cr>
-augroup END
-
-nnoremap <M-n> :cn<cr>
-nnoremap <M-p> :cp<cr>
-
-function! QFixToggle(forced)
-    if exists("g:qfix_win") && a:forced == 0
-        cclose
-        unlet g:qfix_win
-    else
-        copen 10
-        let g:qfix_win = bufnr("$")
-    endif
-endfunction
-
-command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
-
-nnoremap <silent> <f4> :QFixToggle<cr>
-
-" }}}
-" Quick edit files ----------------------------------------------- {{{
-
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-
-" }}}
-" Snippets ------------------------------------------------------- {{{
-
-inoremap <c-l> console.log()<esc>i
-inoremap <c-k> console.table({})<esc>hi
-
-" }}}
-" vimrc ---------------------------------------------------------- {{{
-
-augroup filetype_vim
-    au!
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-    au FileType vim nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
-    au FileType vim setlocal foldmethod=marker
-    au FileType vim setlocal shiftwidth=4
-    au FileType vim vnoremap <leader>S y:@"<CR>
-    au VimResized * exe "normal! \<c-w>="
-augroup END
-
-" Stay on same line
-augroup line_return
-    au!
-    au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     execute 'normal! g`"zvzz' |
-        \ endif
 augroup END
 
 " }}}
