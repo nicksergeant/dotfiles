@@ -1,15 +1,104 @@
-" Mappings {{{ 
+" Author: Nick Sergeant <nick@nicksergeant.com>
+" Source: https://github.com/nicksergeant/dotfiles/blob/master/vimrc
+"
+" Many things here are inspired by or otherwise stolen from Steve Losh
+" and his vimrc, which is certainly worth checking out:
+" https://hg.stevelosh.com/dotfiles/file/tip/vim/vimrc
+
+" Setup ---------------------------------------------------------- {{{
+
+set nocompatible
+set shell=/bin/bash\ --login
+
+" }}}
+" Basic settings ------------------------------------------------- {{{
+
+set autoread
+set autowrite
+set backspace=indent,eol,start
+set colorcolumn=0
+set encoding=utf-8
+set fillchars=diff:⣿,vert:│
+set hidden
+set laststatus=2
+set lazyredraw " AUDIT BELOW
+set linespace=0
+set list
+set listchars=tab:▸\ ,extends:❯,precedes:❮
+set mouse=a
+set nobackup
+set nowritebackup
+set re=1
+set ruler
+set scrolloff=3
+set splitbelow
+set splitright
+set statusline=\ %f%=\ [%l/%L]\ 
+set synmaxcol=800
+set timeoutlen=1000 ttimeoutlen=0
+set title
+set updatetime=100
+set visualbell
+
+silent! set invmmta
+
+" }}}
+" Backups -------------------------------------------------------- {{{
+
+set backup
+set noswapfile
+set undofile
+
+set backupdir=~/.vim/tmp/backup//
+set directory=~/.vim/tmp/swap//
+set undodir=~/.vim/tmp/undo//
+
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
+
+" }}}
+" Tabs, spaces, wrapping, and indentation ------------------------ {{{
+
+set autoindent
+set breakindent
+set breakindentopt=shift:2,min:40,sbr
+set expandtab
+set formatoptions=qrn1j
+set lbr
+set nowrap
+set shiftwidth=2
+set smartindent
+set softtabstop=2
+set tabstop=8
+set textwidth=80
+
+" }}}
+" Text search ---------------------------------------------------- {{{
+
+set hlsearch
+set ignorecase
+set incsearch
+set smartcase
+
+" }}}
+" Global mappings ------------------------------------------------ {{{
 
 let mapleader = ","
 let maplocalleader = "\\"
 
 inoremap <c-u> <esc>viwUi
-inoremap <f1> <nop>
 inoremap <s-tab> <c-d>
 nnoremap <c-e> <c-^>
 nnoremap <c-p> <c-i>
 nnoremap <esc> :nohl<cr>
-nnoremap <f1> <nop>
 nnoremap <tab> %
 nnoremap H ^
 nnoremap K <nop>
@@ -34,60 +123,50 @@ silent! unmap [%
 silent! unmap ]%
 
 " }}}
-" Settings {{{
+" Plugins -------------------------------------------------------- {{{
 
-syntax enable
+call plug#begin('~/.vim/plugged')
 
-set autoindent
-set autoread
-set autowrite
-set backspace=indent,eol,start
-set breakindent
-set breakindentopt=shift:2,min:40,sbr
-set colorcolumn=0
-set conceallevel=0
-set cursorline
-set directory=$HOME/.vim/tmp//,.
-set encoding=utf-8
-set expandtab
-set fillchars=diff:⣿,vert:│
-set foldlevelstart=20
-set formatoptions=l
-set hidden
-set hlsearch
-set ignorecase
-set incsearch
-set laststatus=2
-set lazyredraw
-set lbr
-set linespace=0
-set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮
-set mouse=a
-set nobackup
-set nocompatible
-set noswapfile
-set nowrap
-set nowritebackup
-set re=1
-set ruler
-set scrolloff=3
-set shell=/bin/bash
-set shiftwidth=2
-set smartcase
-set smartindent
-set softtabstop=2
-set splitbelow
-set splitright
-set statusline=\ %f%=\ [%l/%L]\ 
-set synmaxcol=800
-set tabstop=8
+Plug '/usr/local/opt/fzf'
+Plug 'adelarsq/vim-matchit'
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'michal-h21/vim-zettel'
+Plug 'mxw/vim-jsx'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'pangloss/vim-javascript'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
+Plug 'scrooloose/nerdtree'
+Plug 'sjl/badwolf'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-surround'
+Plug 'vimwiki/vimwiki'
+Plug 'w0rp/ale'
+
+call plug#end()
+
+" }}}
+" Color scheme --------------------------------------------------- {{{
+
+syntax on
+
+set background=dark
 set termguicolors
-set timeoutlen=1000 ttimeoutlen=0
-set title
-set undofile
-set updatetime=100
-set visualbell
+
+silent! colorscheme badwolf
+
+" }}}
+" Wildmenu ------------------------------------------------------- {{{
+
+set wildmenu
+set wildmode=list:longest
+
 set wildignore+=*.git/**
 set wildignore+=*.hg*
 set wildignore+=*.jquery*.js
@@ -116,54 +195,12 @@ set wildignore+=__init__.py
 set wildignore+=__pycache__
 set wildignore+=_site
 set wildignore=*.db
-set wildmenu
-set wildmode=list:longest
-
-silent! set invmmta
-
-" }}}
-" Plugins {{{
-
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  au! VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin('~/.vim/plugged')
-
-Plug '/usr/local/opt/fzf'
-Plug 'adelarsq/vim-matchit'
-Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'michal-h21/vim-zettel'
-Plug 'mxw/vim-jsx'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'pangloss/vim-javascript'
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'branch': 'release/0.x'
-  \ }
-Plug 'scrooloose/nerdtree'
-Plug 'sjl/badwolf'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-surround'
-Plug 'vimwiki/vimwiki'
-Plug 'w0rp/ale'
-
-call plug#end()
-
-silent! colorscheme badwolf
 
 " }}}
 
-" Ale {{{
+" ----- Plugin and filetype settings -----
+
+" Ale ------------------------------------------------------------ {{{
 
 nnoremap ' :ALEFix<cr>
 nnoremap <silent> <c-n> :ALENextWrap<cr>
@@ -185,7 +222,7 @@ let g:ale_fixers = {
   \ }
 
 " }}}
-" Buffers {{{
+" Buffers -------------------------------------------------------- {{{
 
 nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
@@ -193,19 +230,19 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
 " }}}
-" CoC {{{
+" CoC ------------------------------------------------------------ {{{
 
 nnoremap <silent> go :CocAction('jumpDefinition')<cr>
 
 " }}}
-" Commentary {{{
+" Commentary ----------------------------------------------------- {{{
 
 nnoremap <leader>c<space> :Commentary<cr>
 vnoremap <leader>c<space> :Commentary<cr>
 onoremap <leader>c<space> :Commentary<cr>
 
 " }}}
-" Copy and paste {{{
+" Copy and paste ------------------------------------------------- {{{
 
 nnoremap yy "+yy
 vnoremap y "+y
@@ -215,7 +252,7 @@ nnoremap <c-v> viwo<esc>i[<esc>ea]()<esc>h"+p
 vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
 
 " }}}
-" CSS {{{
+" CSS ------------------------------------------------------------ {{{
 
 augroup filetype_css
     au!
@@ -229,17 +266,23 @@ augroup filetype_css
 augroup END
 
 " }}}
-" Folding {{{
+" Cursorline ----------------------------------------------------- {{{
+" Only show cursorline in the current window and in normal mode.
 
-" Shamelessly stolen from https://github.com/sjl/dotfiles/
+augroup cline
+    au!
+    au WinLeave,InsertEnter * set nocursorline
+    au WinEnter,InsertLeave * set cursorline
+augroup END
+
+" }}}
+" Folding -------------------------------------------------------- {{{
+
+set foldlevelstart=0
 
 " Space to toggle folds.
 nnoremap <Space> za
 vnoremap <Space> za
-
-" Make zO recursively open whatever top level fold we're in, no matter where the
-" cursor happens to be.
-nnoremap zO zCzO
 
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
@@ -260,7 +303,7 @@ endfunction " }}}
 set foldtext=MyFoldText()
 
 " }}}
-" Focus modes {{{
+" Focus modes ---------------------------------------------------- {{{
 
 nnoremap <leader>v :Goyo<cr>
 nnoremap <leader>h :Limelight!!<cr>
@@ -273,7 +316,7 @@ let g:goyo_height = '100%'
 let g:goyo_width = 100
 
 " }}}
-" Fugitive and Hub {{{
+" Fugitive and Hub ----------------------------------------------- {{{
 
 let g:github_enterprise_urls = ['https://git.hubteam.com']
 
@@ -287,7 +330,7 @@ augroup filetype_git
 augroup END
 
 " }}}
-" fzf and ripgrep {{{
+" fzf and ripgrep ------------------------------------------------ {{{
 
 nnoremap <leader>, :FuzzyFile<cr>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
@@ -381,22 +424,22 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 " }}}
-" gitgutter {{{
+" gitgutter ------------------------------------------------------ {{{
 
 highlight DiffAdd    guibg=#1C1B1A guifg=#179923
 highlight DiffChange guibg=#1C1B1A guifg=#B0B030
 highlight DiffDelete guibg=#1C1B1A guifg=#B82128
 
 " }}}
-" HTML {{{
+" HTML ----------------------------------------------------------- {{{
 
-augroup ft_html
+augroup filetype_html
   au!
   au FileType html,htmldjango nnoremap <buffer> <localleader>f Vatzf
 augroup END
 
 " }}}
-" JavaScript {{{
+" JavaScript ----------------------------------------------------- {{{
 
 let g:jsx_ext_required = 0
 
@@ -409,7 +452,7 @@ augroup END
 com! FormatJSON %!python -m json.tool
 
 " }}}
-" Markdown and vimwiki {{{
+" Markdown and vimwiki ------------------------------------------- {{{
 
 let g:vim_markdown_new_list_item_indent = 0
 let g:vimwiki_list = [{'path': '~/Dropbox (Personal)/Notes', 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
@@ -459,7 +502,7 @@ augroup filetype_vimwiki
 augroup END
 
 " }}}
-" NERDTree {{{
+" NERDTree ------------------------------------------------------- {{{
 
 noremap  <leader>x :NERDTreeToggle<cr>
 noremap  <leader>f :NERDTreeFind<cr>
@@ -477,7 +520,7 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 
 " }}}
-" Prettier {{{
+" Prettier ------------------------------------------------------- {{{
 
 nnoremap ; :Prettier<cr>
 
@@ -485,7 +528,7 @@ let g:prettier#exec_cmd_async = 1
 let g:prettier#autoformat = 0
 
 " }}}
-" Quickfix window {{{
+" Quickfix window ------------------------------------------------ {{{
 
 augroup quickfix
     au!
@@ -510,27 +553,27 @@ command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
 nnoremap <silent> <f4> :QFixToggle<cr>
 
 " }}}
-" Quick edit files {{{
+" Quick edit files ----------------------------------------------- {{{
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " }}}
-" Snippets {{{
+" Snippets ------------------------------------------------------- {{{
 
 inoremap <c-l> console.log()<esc>i
 inoremap <c-k> console.table({})<esc>hi
 
 " }}}
-" Vim {{{
+" vimrc ---------------------------------------------------------- {{{
 
 augroup filetype_vim
     au!
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-    au FileType help setlocal textwidth=78
     au FileType vim nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
     au FileType vim setlocal foldmethod=marker
+    au FileType vim setlocal shiftwidth=4
     au FileType vim vnoremap <leader>S y:@"<CR>
     au VimResized * exe "normal! \<c-w>="
 augroup END
