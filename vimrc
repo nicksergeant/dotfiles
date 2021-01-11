@@ -14,6 +14,7 @@ nnoremap <tab> %
 nnoremap H ^
 nnoremap K <nop>
 nnoremap L g_
+nnoremap M 0
 nnoremap N Nzv
 nnoremap Vat vatV
 nnoremap Vit vitVkoj
@@ -385,6 +386,14 @@ let g:fzf_colors =
 highlight DiffAdd    guibg=#1C1B1A guifg=#179923
 highlight DiffChange guibg=#1C1B1A guifg=#B0B030
 highlight DiffDelete guibg=#1C1B1A guifg=#B82128
+
+" }}}
+" HTML {{{
+
+augroup ft_html
+  au!
+  au FileType html,htmldjango nnoremap <buffer> <localleader>f Vatzf
+augroup END
 
 " }}}
 " JavaScript {{{
