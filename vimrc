@@ -230,7 +230,7 @@ let g:ale_fixers = {
 " }}}
 " CoC ------------------------------------------------------------ {{{
 
-nnoremap <silent> go :CocAction('jumpDefinition')<cr>
+nmap <silent> go <Plug>(coc-definition)
 
 " }}}
 " Commentary ----------------------------------------------------- {{{
@@ -277,7 +277,7 @@ augroup END
 " }}}
 " Folding -------------------------------------------------------- {{{
 
-set foldlevelstart=0
+set foldlevelstart=-1
 
 " Space to toggle folds.
 nnoremap <Space> za
