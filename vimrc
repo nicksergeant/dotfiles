@@ -277,7 +277,7 @@ augroup END
 " }}}
 " Folding -------------------------------------------------------- {{{
 
-set foldlevelstart=-1
+set foldlevelstart=99
 
 " Space to toggle folds.
 nnoremap <Space> za
