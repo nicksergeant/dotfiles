@@ -30,13 +30,17 @@ set mouse=a
 set scrolloff=3
 set splitbelow
 set splitright
-set statusline=%f%=%y\ %c\ @\ %l/%L " AUDIT BELOW
+set statusline=%f%=%y\ %c\ @\ %l/%L
 set synmaxcol=800
-set timeoutlen=1000 ttimeoutlen=0
 set title
-set updatetime=100
 set visualbell
 
+" Timeout on key codes but not mappings.
+set notimeout
+set ttimeout
+set ttimeoutlen=10
+
+" Make macOS's option key behave as meta (<m-...).
 silent! set invmmta
 
 " }}}
@@ -50,7 +54,7 @@ set backupdir=~/.vim/tmp/backup//
 set directory=~/.vim/tmp/swap//
 set undodir=~/.vim/tmp/undo//
 
-" Make those folders automatically if they don't already exist.
+" Create those folders if they don't exist.
 if !isdirectory(expand(&undodir))
     call mkdir(expand(&undodir), "p")
 endif
@@ -74,7 +78,6 @@ set nowrap
 set shiftwidth=2
 set smartindent
 set softtabstop=2
-set tabstop=8
 set textwidth=80
 
 " }}}
@@ -92,7 +95,6 @@ set smartcase
 let mapleader = ","
 let maplocalleader = "\\"
 
-inoremap <c-u> <esc>viwUi
 inoremap <s-tab> <c-d>
 nnoremap <c-e> <c-^>
 nnoremap <c-h> <c-w>h
@@ -101,6 +103,7 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 nnoremap <c-p> <c-i>
 nnoremap <esc> :nohl<cr>
+nnoremap <leader>we :set wrap!<cr>
 nnoremap <tab> %
 nnoremap H ^
 nnoremap K <nop>
@@ -218,9 +221,9 @@ let g:ale_linters = {
   \ 'scss': [],
   \ }
 let g:ale_fixers = {
+  \ 'elixir': ['mix_format'],
   \ 'javascript': ['eslint'],
   \ 'python': ['black'],
-  \ 'elixir': ['mix_format'],
   \ }
 
 " }}}
@@ -279,7 +282,7 @@ set foldlevelstart=99
 nnoremap <Space> za
 vnoremap <Space> za
 
-function! MyFoldText() " {{{
+function! MyFoldText()
     let line = getline(v:foldstart)
 
     let nucolwidth = &fdc + &number * &numberwidth
@@ -293,7 +296,7 @@ function! MyFoldText() " {{{
     let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
     let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
     return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-endfunction " }}}
+endfunction
 
 set foldtext=MyFoldText()
 
@@ -301,8 +304,6 @@ set foldtext=MyFoldText()
 " Focus ---------------------------------------------------------- {{{
 
 nnoremap <leader>v :Goyo<cr>
-nnoremap <leader>h :Limelight!!<cr>
-nnoremap <leader>we :set wrap!<cr>
 
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
@@ -320,9 +321,6 @@ nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>l :Lines<cr>
 nnoremap <leader>r :History<cr>
 
-" Make :Lines prompt at the bottom like other fzf actions.
-command! -bang -nargs=* Lines call fzf#vim#lines(<q-args>, {'options': '--no-reverse'}, <bang>0)
-
 function! s:rg_to_qf(line)
   let parts = split(a:line, ':')
   return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
@@ -333,18 +331,16 @@ function! s:filename_to_qf(f)
   return {'filename': a:f}
 endfunction
 
-function! s:rg_handler(lines)
+function! s:files_handler(lines)
   if len(a:lines) < 2 | return | endif
 
   let cmd = get({'ctrl-x': 'split',
                \ 'ctrl-v': 'vertical split',
                \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-  let list = map(a:lines[1:], 's:rg_to_qf(v:val)')
 
-  let first = list[0]
-  execute cmd escape(first.filename, ' %#\')
-  execute first.lnum
-  execute 'normal!' first.col.'|zz'
+  execute cmd escape(a:lines[1], ' %#\')
+
+  let list = map(a:lines[1:], 's:filename_to_qf(v:val)')
 
   if len(list) > 1
     call setqflist(list)
@@ -353,15 +349,18 @@ function! s:rg_handler(lines)
   endif
 endfunction
 
-function! s:files_handler(lines)
+function! s:rg_handler(lines)
   if len(a:lines) < 2 | return | endif
+
   let cmd = get({'ctrl-x': 'split',
                \ 'ctrl-v': 'vertical split',
                \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+  let list = map(a:lines[1:], 's:rg_to_qf(v:val)')
+  let first = list[0]
 
-  execute cmd escape(a:lines[1], ' %#\')
-
-  let list = map(a:lines[1:], 's:filename_to_qf(v:val)')
+  execute cmd escape(first.filename, ' %#\')
+  execute first.lnum
+  execute 'normal!' first.col.'|zz'
 
   if len(list) > 1
     call setqflist(list)
@@ -388,21 +387,6 @@ command! -nargs=0 FuzzyFile call fzf#run({
   \            '--color hl:68,hl+:110',
   \ 'down': '50%'
   \ })
-
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
 
 " }}}
 " Git ------------------------------------------------------------ {{{
@@ -456,7 +440,7 @@ augroup nerdtree
 augroup END
 
 let NERDTreeDirArrows = 1
-let NERDTreeHighlightCursorline=1
+let NERDTreeHighlightCursorline = 1
 let NERDTreeMinimalUI = 1
 
 " }}}
@@ -487,9 +471,8 @@ endfunction
 
 command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
 
-nnoremap <M-n> :cn<cr>
-nnoremap <M-p> :cp<cr>
-nnoremap <silent> <f4> :QFixToggle<cr>
+nnoremap <m-n> :cn<cr>
+nnoremap <m-p> :cp<cr>
 
 " }}}
 " Source files -------------------------------------------------- {{{
@@ -511,7 +494,8 @@ augroup filetype_vim
     au VimResized * exe "normal! \<c-w>="
 augroup END
 
-" Stay on same line?
+" Make sure Vim returns to the same line when you reopen a file.
+" Thanks, Steve and Amit!
 augroup line_return
     au!
     au BufReadPost *
@@ -524,11 +508,12 @@ augroup END
 " Vimwiki -------------------------------------------------------- {{{
 
 let g:vim_markdown_new_list_item_indent = 0
+let g:vimwiki_folding = 'custom'
 let g:vimwiki_list = [{
       \ 'path': '~/Dropbox (Personal)/Notes',
       \ 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
-      \ 'syntax': 'markdown', 'ext': '.md'}]
-let g:vimwiki_folding = 'custom'
+      \ 'syntax': 'markdown', 'ext': '.md'
+      \ }]
 
 function! GoToMarkdownLinkInLine()
   let line = getline(".")
@@ -559,14 +544,16 @@ augroup END
 
 augroup filetype_vimwiki
     au!
+
+    au FileType vimwiki setlocal conceallevel=2
+    au FileType vimwiki setlocal foldmethod=marker
+    au FileType vimwiki setlocal shiftwidth=6
+
     au FileType vimwiki imap <buffer> <s-tab> <Plug>VimwikiDecreaseLvlSingleItem
     au FileType vimwiki imap <buffer> <tab> <Plug>VimwikiIncreaseLvlSingleItem
     au FileType vimwiki nnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
     au FileType vimwiki nnoremap <buffer> <leader>m :VimwikiIncrementListItem<cr>
     au FileType vimwiki nnoremap <silent> gj :call GoToMarkdownLinkInLine()<cr>
-    au FileType vimwiki setlocal conceallevel=2
-    au FileType vimwiki setlocal foldmethod=marker
-    au FileType vimwiki setlocal shiftwidth=6
     au FileType vimwiki vnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
 augroup END
 
