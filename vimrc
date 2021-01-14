@@ -30,7 +30,7 @@ set mouse=a
 set scrolloff=3
 set splitbelow
 set splitright
-set statusline=%f%=%y\ %c\ @\ %l/%L
+set statusline=%f%=%y\ %c\ @\ %l/%L " AUDIT BELOW
 set synmaxcol=800
 set timeoutlen=1000 ttimeoutlen=0
 set title
