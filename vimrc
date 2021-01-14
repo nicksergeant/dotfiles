@@ -23,19 +23,14 @@ set encoding=utf-8
 set fillchars=diff:⣿,vert:│
 set hidden
 set laststatus=2
-set lazyredraw " AUDIT FROM HERE
-set linespace=0
+set lazyredraw
 set list
 set listchars=tab:▸\ ,extends:❯,precedes:❮
 set mouse=a
-set nobackup
-set nowritebackup
-set re=1
-set ruler
 set scrolloff=3
 set splitbelow
 set splitright
-set statusline=\ %f%=\ [%l/%L]\ 
+set statusline=%f%=%y\ %c\ @\ %l/%L
 set synmaxcol=800
 set timeoutlen=1000 ttimeoutlen=0
 set title
@@ -85,6 +80,7 @@ set textwidth=80
 " }}}
 " Text search ---------------------------------------------------- {{{
 
+set gdefault
 set hlsearch
 set ignorecase
 set incsearch
