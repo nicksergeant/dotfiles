@@ -62,18 +62,6 @@ prompt pure
 
 # fzf
 
-if [[ -a /usr/share/fzf/key-bindings.zsh ]]; then
-  source /usr/share/fzf/key-bindings.zsh
-else
-  source /usr/local/opt/fzf/shell/key-bindings.zsh
-fi
-
-if [[ -a /usr/share/fzf/completion.zsh ]]; then
-  source /usr/share/fzf/completion.zsh
-else
-  source /usr/local/opt/fzf/shell/completion.zsh
-fi
-
 fzf-git-branches-widget() {
   local branches branch
   branches=$(git for-each-ref --count=500 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
@@ -214,3 +202,5 @@ wo() {
 . ~/.zshrc-env
 . ~/Sources/dotfiles-private/zshrc
 . ~/.hubspot/shellrc
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

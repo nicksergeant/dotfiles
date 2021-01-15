@@ -132,10 +132,9 @@ silent! unmap ]%
 
 call plug#begin('~/.vim/plugged')
 
-Plug '/usr/local/opt/fzf'
 Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
@@ -313,6 +312,12 @@ let g:goyo_width = 100
 
 " }}}
 " Fzf ------------------------------------------------------------ {{{
+
+if isdirectory('/opt/homebrew')
+  set rtp+=/opt/homebrew/opt/fzf
+elseif isdirectory('/usr/local/opt/fzf') 
+  set rtp+=/opt/homebrew/opt/fzf
+endif
 
 nnoremap <leader>, :FuzzyFile<cr>
 nnoremap <leader>A :exec "Rg ".expand("<cword>")<cr>
