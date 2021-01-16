@@ -30,7 +30,7 @@ set mouse=a
 set scrolloff=3
 set splitbelow
 set splitright
-set statusline=%f%=%y\ %c\ @\ %l/%L
+set statusline=%f%=%c\ @\ %l/%L\ %y
 set synmaxcol=800
 set title
 set visualbell
