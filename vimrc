@@ -10,7 +10,7 @@
 " Setup ---------------------------------------------------------- {{{
 
 set nocompatible
-set shell=/bin/bash\ --login
+set shell=/bin/bash
 
 " }}}
 " Basic settings ------------------------------------------------- {{{
