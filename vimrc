@@ -316,7 +316,7 @@ let g:goyo_width = 100
 if isdirectory('/opt/homebrew')
   set rtp+=/opt/homebrew/opt/fzf
 elseif isdirectory('/usr/local/opt/fzf') 
-  set rtp+=/opt/homebrew/opt/fzf
+  set rtp+=/usr/local/opt/fzf
 endif
 
 nnoremap <leader>, :FuzzyFile<cr>
