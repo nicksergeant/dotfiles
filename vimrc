@@ -27,7 +27,7 @@ set lazyredraw
 set list
 set listchars=tab:▸\ ,extends:❯,precedes:❮
 set mouse=a
-set scrolloff=3
+set scrolloff=0
 set splitbelow
 set splitright
 set statusline=%f%=%c\ @\ %l/%L\ %y
