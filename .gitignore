@@ -1,3 +1,5 @@
 mutt/accounts
 mutt/cache
 mutt/temp
+package-lock.json
+package.json
