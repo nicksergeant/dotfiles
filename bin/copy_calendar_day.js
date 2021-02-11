@@ -38,7 +38,7 @@ if (dayString) {
         }
       }
 
-      console.log(eventTime, title);
+      console.log(`- [ ] ${eventTime} ${title}`);
     }
   }
 }
