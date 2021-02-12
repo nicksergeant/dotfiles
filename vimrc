@@ -305,8 +305,8 @@ set foldtext=MyFoldText()
 
 nnoremap <leader>v :Goyo<cr>
 
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
+" autocmd! User GoyoEnter Limelight
+" autocmd! User GoyoLeave Limelight!
 
 let g:goyo_height = '100%'
 let g:goyo_width = 100

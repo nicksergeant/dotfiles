@@ -8,6 +8,8 @@ const dayString = day.match(/\w+, \w+ \d+, \d{4}$/);
 if (dayString) {
   const events = dayText.replace(dayString, '').split('\n---\n');
 
+  let firstEvent = true;
+
   for (i in events) {
     const event = events[i].trim();
     const eventLines = event.split('\n');
@@ -38,7 +40,9 @@ if (dayString) {
         }
       }
 
-      console.log(`- [ ] ${eventTime} ${title}`);
+      console.log(`${firstEvent ? '' : '- [ ] '}${eventTime} ${title}`);
+
+      firstEvent = false;
     }
   }
 }
