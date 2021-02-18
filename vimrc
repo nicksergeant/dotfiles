@@ -509,6 +509,7 @@ augroup END
 
 let g:vim_markdown_new_list_item_indent = 0
 let g:vimwiki_folding = 'custom'
+let g:vimwiki_conceallevel = 3
 let g:vimwiki_list = [{
       \ 'path': '~/Dropbox (Personal)/Notes',
       \ 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
@@ -545,7 +546,6 @@ augroup END
 augroup filetype_vimwiki
     au!
 
-    au FileType vimwiki setlocal conceallevel=3
     au FileType vimwiki setlocal concealcursor=n
     au FileType vimwiki setlocal foldmethod=marker
     au FileType vimwiki setlocal shiftwidth=6
