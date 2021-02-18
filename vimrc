@@ -545,7 +545,7 @@ augroup END
 augroup filetype_vimwiki
     au!
 
-    au FileType vimwiki setlocal conceallevel=2
+    au FileType vimwiki setlocal conceallevel=3
     au FileType vimwiki setlocal concealcursor=n
     au FileType vimwiki setlocal foldmethod=marker
     au FileType vimwiki setlocal shiftwidth=6
