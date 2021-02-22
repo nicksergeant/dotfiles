@@ -114,7 +114,7 @@ nnoremap Vat vatV
 nnoremap Vit vitVkoj
 nnoremap cs/ cgn
 nnoremap gi <c-]>
-nnoremap gs *Nzz
+nnoremap gs *N
 nnoremap j gj
 nnoremap k gk
 nnoremap n nzv
