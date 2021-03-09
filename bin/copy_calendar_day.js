@@ -36,7 +36,7 @@ if (dayString) {
         const zoomLink = event.match(/(https:\/\/hubspot.zoom.us)[^\s]+/);
 
         if (zoomLink) {
-          title = `[${eventTitle}](${zoomLink[0]})`;
+          title = `${eventTitle} ${zoomLink[0]}`;
         }
       }
 

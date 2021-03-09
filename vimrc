@@ -304,9 +304,7 @@ set foldtext=MyFoldText()
 " Focus ---------------------------------------------------------- {{{
 
 nnoremap <leader>v :Goyo<cr>
-
-" autocmd! User GoyoEnter Limelight
-" autocmd! User GoyoLeave Limelight!
+nnoremap <leader>hh :Limelight!!<cr>
 
 let g:goyo_height = '100%'
 let g:goyo_width = 100
