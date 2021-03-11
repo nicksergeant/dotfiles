@@ -49,7 +49,7 @@ if (dayString) {
   let thingsUrl = '';
 
   if (events.length) {
-    thingsUrl = `things:///add?titles=${events.join('\n')}&when=Today&tags=Meeting`;
+    thingsUrl = `things:///add?titles=${events.join('\n')}&when=Today&tags=Meeting,Work`;
   }
 
   open(thingsUrl);
