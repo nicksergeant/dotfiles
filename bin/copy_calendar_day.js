@@ -30,7 +30,7 @@ if (dayString) {
       !eventTitle.includes('Water herbs') &&
       !eventTitle.includes('Lunch (via Clockwise)')
     ) {
-      let title = eventTitle;
+      let title = eventTitle.replace('&', 'and');
 
       // if (event.includes('hubspot.zoom.us')) {
       //   const zoomLink = event.match(/(https:\/\/hubspot.zoom.us)[^\s]+/);
