@@ -96,6 +96,7 @@ let mapleader = ","
 let maplocalleader = "\\"
 
 inoremap <s-tab> <c-d>
+inoremap jk <esc>
 nnoremap <c-e> <c-^>
 nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
