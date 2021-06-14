@@ -24,7 +24,8 @@ if (dayString) {
       !eventTitle.includes("Get Arlene's mail") &&
       !eventTitle.includes('Focus Time') &&
       !eventTitle.includes('Take garbage') &&
-      !eventTitle.includes('Water herbs')
+      !eventTitle.includes('Water herbs') &&
+      !eventTitle.includes('Baby nose spray')
     ) {
       let title = eventTitle;
 
@@ -32,15 +33,16 @@ if (dayString) {
         title = 'Workout';
       }
 
-      if (event.includes('hubspot.zoom.us')) {
-        const zoomLink = event.match(/(https:\/\/hubspot.zoom.us)[^\s]+/);
+      // if (event.includes('hubspot.zoom.us')) {
+      //   const zoomLink = event.match(/(https:\/\/hubspot.zoom.us)[^\s]+/);
 
-        if (zoomLink) {
-          title = `${eventTitle} ${zoomLink[0]}`;
-        }
-      }
+      //   if (zoomLink) {
+      //     title = `${eventTitle} ${zoomLink[0]}`;
+      //   }
+      // }
 
-      console.log(`${firstEvent ? '' : '- [ ] '}${eventTime} ${title}`);
+      // console.log(`${firstEvent ? '' : '- [ ] '}${eventTime} ${title}`);
+      console.log(`- [ ] ${eventTime} ${title}`);
 
       firstEvent = false;
     }
