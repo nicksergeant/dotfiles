@@ -266,7 +266,7 @@ augroup filetype_css
 augroup END
 
 " }}}
-" Ctags ------------------------------------------------------------ {{{
+" Ctags ---------------------------------------------------------- {{{
 
 let g:gutentags_ctags_executable = "/usr/local/bin/ctags"
 
@@ -480,7 +480,7 @@ nnoremap <m-n> :cn<cr>
 nnoremap <m-p> :cp<cr>
 
 " }}}
-" Source files -------------------------------------------------- {{{
+" Source files --------------------------------------------------- {{{
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
