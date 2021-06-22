@@ -266,6 +266,11 @@ augroup filetype_css
 augroup END
 
 " }}}
+" Ctags ------------------------------------------------------------ {{{
+
+let g:gutentags_ctags_executable = "/usr/local/bin/ctags"
+
+" }}}
 " Cursorline ----------------------------------------------------- {{{
 
 " Only show cursorline in the current window and in normal mode.

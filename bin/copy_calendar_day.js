@@ -41,8 +41,8 @@ if (dayString) {
       //   }
       // }
 
-      // console.log(`${firstEvent ? '' : '- [ ] '}${eventTime} ${title}`);
-      console.log(`- [ ] ${eventTime} ${title}`);
+      console.log(`${firstEvent ? '' : '- [ ] '}${eventTime} ${title}`);
+      // console.log(`- [ ] ${eventTime} ${title}`);
 
       firstEvent = false;
     }
