@@ -1,0 +1,12 @@
+{
+  "manifest_version": 2,
+  "name": "Copy URL and Title",
+  "version": "0.1",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["copy-url-and-title.js"]
+    }
+  ],
+  "permissions": ["clipboardWrite"]
+}
