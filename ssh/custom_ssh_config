@@ -1,9 +1,0 @@
-User nsergeant
-
-Host server.nicksergeant.com
-  HostName server.nicksergeant.com
-  ProxyCommand None
-
-Host 192.168.7.48
-  HostName 192.168.7.48
-  ProxyCommand None
