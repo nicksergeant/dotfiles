@@ -57,6 +57,7 @@ unalias gst
 # Prompt
 
 autoload -U promptinit; promptinit
+export PURE_CMD_MAX_EXEC_TIME=999999
 prompt pure
 
 # fzf
