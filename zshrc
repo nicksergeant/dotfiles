@@ -18,8 +18,6 @@ export PATH=/usr/local/sbin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/usr/local/bin:$PATH
 export PATH=~/Library/Python/3.8/bin:$PATH
-
-# Ruby
 export PATH=/opt/homebrew/lib/ruby/gems/2.7.0/bin:$PATH
 export PATH=/opt/homebrew/opt/ruby@2.7/bin:$PATH
 
@@ -40,20 +38,17 @@ source $ZSH/oh-my-zsh.sh
 # Aliases ------------------------------------------ {{{
 
 alias brew='/opt/homebrew/bin/brew'
-alias ct='ctags --options=$HOME/.ctags .'
 alias deact='deactivate'
-alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
+alias gd='git diff HEAD'
 alias glco='get_last_commit'
 alias gp='git push -u origin HEAD'
+alias gs='git status -s'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
 alias o='open'
 alias pm='python manage.py'
 alias ta='tmux attach -t'
-unalias gd
-unalias gpd
-unalias gst
 
 # }}}
 # Prompt ------------------------------------------ {{{
@@ -92,71 +87,12 @@ bindkey '^O' fzf-git-branches-widget
 # }}}
 # Functions ------------------------------------------ {{{
 
-# c - browse chrome history
-c() {
-  local cols sep
-  cols=$(( COLUMNS / 3 ))
-  sep='{::}'
-
-  cp -f ~/Library/Application\ Support/Google/Chrome/Default/History /tmp/h
-
-  sqlite3 -separator $sep /tmp/h \
-    "select substr(title, 1, $cols), url
-     from urls order by last_visit_time desc" |
-  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
-  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
-}
-
-doge() {
-  suchvalue DAYrpmB2mVGZeRdLRmz2Jwf5VccN7t3nRf DAqKq1SG9abegwcpPEcdmYsr4NWfZSZLA6 DT45nQ43qBCGbPS9ud4JXBKAMUMsnq6MuU DFebfjwBLp248Rr4fZ3yXJHg4B25N9Npau
-}
-
-gd() {
-  git diff HEAD
-}
-
-gla() {
-  find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git pull && echo)' \;
-}
-
-gpd() {
-  git push
-  make deploy
-}
-
-gs() {
-  git status -s
-}
-
-gsa() {
-  find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status && echo)' \;
-}
-
 m() {
   if [ "$@" ] ; then
     nvim $@
   else
     nvim .
   fi
-}
-
-npmrc-hs() {
-  cp ~/.npmrc-hs ~/.npmrc
-}
-
-npmrc-ns() {
-  cp ~/.npmrc-ns ~/.npmrc
-}
-
-# Temporary reinitializations for USB keyboard and mouse after
-# waking from suspend. Need to set this up on a systemd resume config.
-resume() {
-  xmodmap ~/.Xmodmap
-  xset r rate 285 30
-  killall xcape
-  /usr/bin/xcape
-  xrandr --output DP-1 --primary --mode 3840x2160 --pos 0x0 --output eDP-1 --mode 2560x1440 --pos 3840x0
-  feh --bg-scale ~/.wallpaper.png
 }
 
 tn() {
