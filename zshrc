@@ -130,9 +130,9 @@ wo() {
 # }}}
 # Imports ------------------------------------------ {{{
 
+. ~/.env
+. ~/.hubspot/repo-autocomplete
 . ~/.hubspot/shellrc
-. ~/.zshrc-env
-. ~/Sources/dotfiles-private/zshrc
 . ~/Sources/z/z.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
