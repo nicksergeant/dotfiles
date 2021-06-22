@@ -1,5 +1,3 @@
-#!/opt/homebrew/bin/node
-
 const {execSync} = require('child_process');
 
 // Sensitive accounts that we don't want to touch.
