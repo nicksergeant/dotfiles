@@ -564,3 +564,11 @@ augroup filetype_vimwiki
 augroup END
 
 " }}}
+" Zshrc ---------------------------------------------------------- {{{
+
+augroup filetype_zsh
+    au!
+    au FileType zsh setlocal foldmethod=marker
+augroup END
+
+" }}}

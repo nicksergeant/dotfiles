@@ -1,4 +1,7 @@
-# Environment variables
+# Author: Nick Sergeant <nick@nicksergeant.com>
+# Source: https://github.com/nicksergeant/dotfiles/blob/master/zshrc
+
+# Environment ------------------------------------------ {{{
 
 export CFLAGS=-Qunused-arguments
 export CPPFLAGS="-Qunused-arguments"
@@ -24,7 +27,8 @@ export CPPFLAGS="-I/opt/homebrew/opt/ruby@2.7/include -Qunused-arguments"
 export LDFLAGS="-L/opt/homebrew/opt/ruby@2.7/lib"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby@2.7/lib/pkgconfig"
 
-# oh-my-zsh
+# }}}
+# Oh My Zsh ------------------------------------------ {{{
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 DISABLE_UNTRACKED_FILES_DIRTY="true"
@@ -32,12 +36,8 @@ ZSH_THEME=""
 plugins=(git zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
-# z
-
-alias j=z
-source ~/Sources/z/z.sh
-
-# Aliases
+# }}}
+# Aliases ------------------------------------------ {{{
 
 alias brew='/opt/homebrew/bin/brew'
 alias ct='ctags --options=$HOME/.ctags .'
@@ -47,6 +47,7 @@ alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='get_last_commit'
 alias gp='git push -u origin HEAD'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
+alias j=z
 alias o='open'
 alias pm='python manage.py'
 alias ta='tmux attach -t'
@@ -54,13 +55,15 @@ unalias gd
 unalias gpd
 unalias gst
 
-# Prompt
+# }}}
+# Prompt ------------------------------------------ {{{
 
 autoload -U promptinit; promptinit
 export PURE_CMD_MAX_EXEC_TIME=999999
 prompt pure
 
-# fzf
+# }}}
+# Fzf ------------------------------------------ {{{
 
 fzf-git-branches-widget() {
   local branches branch
@@ -86,18 +89,8 @@ bindkey '^G' fzf-file-widget
 bindkey '^J' fzf-cd-widget
 bindkey '^O' fzf-git-branches-widget
 
-# Node
-
-# export NVM_DIR="$HOME/.nvm"
-# nvm_load() {
-#   . $NVM_DIR/nvm.sh
-#   . $NVM_DIR/bash_completion
-# }
-# alias node='unalias nvm; unalias node; unalias npm; nvm_load; node $@'
-# alias npm='unalias nvm; unalias node; unalias npm; nvm_load; npm $@'
-# alias nvm='unalias nvm; unalias node; unalias npm; nvm_load; nvm $@'
-
-# Functions
+# }}}
+# Functions ------------------------------------------ {{{
 
 # c - browse chrome history
 c() {
@@ -198,9 +191,14 @@ wo() {
   source ~/.virtualenvs/$VENV/bin/activate
 }
 
-# Import other things
+# }}}
+# Imports ------------------------------------------ {{{
+
+. ~/.hubspot/shellrc
 . ~/.zshrc-env
 . ~/Sources/dotfiles-private/zshrc
-. ~/.hubspot/shellrc
+. ~/Sources/z/z.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# }}}
