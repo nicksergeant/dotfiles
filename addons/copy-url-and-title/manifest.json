@@ -8,5 +8,10 @@
       "js": ["copy-url-and-title.js"]
     }
   ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "extension@nicksergeant.github.com"
+    }
+  },
   "permissions": ["clipboardWrite"]
 }
