@@ -16,7 +16,7 @@ const copyUrlAndTitle = () => {
 
         markdownLabel = title.replace(
           ` · Pull Request #${pullRequestId} · ${repo}`,
-          ''
+          '',
         );
         markdownPrefix = `Pull Request #${pullRequestId}: `;
       }
@@ -47,12 +47,12 @@ const copyUrlAndTitle = () => {
   markdownLabel = markdownLabel.replace('[', '(').replace(']', ')');
 
   navigator.clipboard.writeText(
-    `${markdownPrefix}[${markdownLabel}](${markdownUrl})`
+    `${markdownPrefix}[${markdownLabel}](${markdownUrl})`,
   );
 };
 
-const handleKeyDown = (e) => {
-  if (e.altKey && e.keyCode === 18) {
+const handleKeyDown = e => {
+  if (e.altKey && e.ctrlKey && e.shiftKey && e.metaKey && e.keyCode === 32) {
     copyUrlAndTitle();
   }
 };
