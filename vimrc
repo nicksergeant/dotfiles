@@ -135,15 +135,16 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
+Plug 'hrsh7th/nvim-compe'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'michal-h21/vim-zettel'
-Plug 'mxw/vim-jsx'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/goyo.vim'
-Plug 'pangloss/vim-javascript'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'onsails/lspkind-nvim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/badwolf'
@@ -155,6 +156,7 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
+
 
 call plug#end()
 
@@ -229,9 +231,33 @@ let g:ale_fixers = {
   \ }
 
 " }}}
-" CoC ------------------------------------------------------------ {{{
+" Autocomplete ------------------------------------------------------------ {{{
 
-nmap <silent> go <Plug>(coc-definition)
+set completeopt=menuone,noselect
+
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.resolve_timeout = 800
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
+
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:true
+let g:compe.source.ultisnips = v:true
 
 " }}}
 " Commentary ----------------------------------------------------- {{{
@@ -435,6 +461,160 @@ augroup filetype_javascript
 augroup END
 
 " }}}
+" LSP ----------------------------------------------------- {{{
+
+lua <<EOF
+
+local util = require 'lspconfig/util'
+
+function getLogPath()
+    return '/Users/nsergeant/Downloads/lua.log'
+    --return vim.lsp.get_log_path()
+end
+
+function getTsserverPath()
+    return "/Users/nsergeant/.bpm/packages/hs-typescript/static-1.3/lib/tsserver.js"
+end
+
+local function organize_imports()
+  local params = {
+    command = "_typescript.organizeImports",
+    arguments = {vim.api.nvim_buf_get_name(0)},
+    title = ""
+  }
+  vim.lsp.buf.execute_command(params)
+end
+
+local on_attach = function(client, bufnr)
+ require'lsp_signature'.on_attach(client, bufnr)
+end
+
+require'lspconfig'.tsserver.setup{ 
+    cmd = {
+        "typescript-language-server", 
+        "--tsserver-log-file", getLogPath(),  
+        "--tsserver-path",  getTsserverPath(), 
+        "--stdio"
+    },
+    on_attach=on_attach,
+    root_dir = util.root_pattern(".git"),
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+    commands = {
+      OrganizeImports = {
+        organize_imports,
+        description = "Organize Imports"
+      }
+    }
+}
+
+vim.api.nvim_set_keymap("n", "<space>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<space>gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<space>gr", "<cmd>lua vim.lsp.buf.references()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<space>gca", "<cmd>lua vim.lsp.buf.code_action()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<space>gsd", "<cmd>lua vim.lsp.buf.show_line_diagnostics({ focusable = false })<CR>", {noremap = true, silent = true})
+
+require('lspkind').init({})
+
+local function printMessage(msg)
+  vim.api.nvim_command('echo "'.. msg .. '"')
+end
+
+local function is_dir(filename)
+  local stat = vim.loop.fs_stat(filename)
+  return stat and stat.type == 'directory' or false
+end
+
+local path_sep = vim.loop.os_uname().sysname == "Windows" and "\\" or "/"
+local function dirname(filepath)
+  local is_changed = false
+  local result = filepath:gsub(path_sep.."([^"..path_sep.."]+)$", function()
+    is_changed = true
+    return ""
+  end)
+  return result, is_changed
+end
+
+local function path_join(...)
+  return table.concat(vim.tbl_flatten {...}, path_sep)
+end
+
+local function buffer_find_root_dir(bufnr, is_root_path)
+  local bufname = vim.api.nvim_buf_get_name(bufnr)
+  if vim.fn.filereadable(bufname) == 0 then
+    return nil
+  end
+  local dir = bufname
+  for _ = 1, 100 do
+    local did_change
+    dir, did_change = dirname(dir)
+    if is_root_path(dir, bufname) then
+      return dir, bufname
+    end
+    if not did_change then
+      return nil
+    end
+  end
+end
+
+local javascript_lsps = {}
+local javascript_filetypes = {
+  ["javascript.jsx"] = true;
+  ["javascript"]     = true;
+  ["typescript"]     = true;
+  ["typescript.jsx"] = true;
+  ["javascriptreact"] = true;
+  ["typescriptreact"] = true;
+}
+
+local function startAssetBenderProcess(workspaces)
+    local logPath = getLogPath()
+    print('hi')
+    print(workspaces)
+    print('Asset Bender starting new client')
+    print(vim.inspect(javascript_lsps))
+    print('starting NEW asset-bender with workspaces of "' .. vim.inspect(workspaces) .. '" and log path of "'.. logPath ..'"')
+    return io.popen(
+        "bpx asset-bender reactor host --host-most-recent 100 " .. workspaces .. " >> " ..logPath .. " 2>&1"
+    )
+
+end
+
+function check_start_javascript_lsp()
+  print("asset-bender autocmd started")
+  local bufnr = vim.api.nvim_get_current_buf()
+
+  if not javascript_filetypes[vim.api.nvim_buf_get_option(bufnr, 'filetype')] then
+    return
+  end
+
+  local root_dir = buffer_find_root_dir(bufnr, function(dir)
+    return is_dir(path_join(dir, '.git'))
+  end)
+
+  if not root_dir then 
+    print('we couldnt find a root directory, ending')
+    return 
+  end
+
+  local client_id = javascript_lsps[root_dir]
+  if client_id then
+    print('already found a client_id, skipping')
+  end
+  if not client_id then
+    client_id = startAssetBenderProcess(root_dir)
+    javascript_lsps[root_dir] = client_id
+  end
+end
+
+vim.api.nvim_command [[autocmd BufReadPost * lua check_start_javascript_lsp()]]
+
+print('Asset bender plugin intialized')
+
+EOF
+
+" }}}
 " NERDTree ------------------------------------------------------- {{{
 
 noremap  <leader>f :NERDTreeFind<cr>
@@ -485,6 +665,24 @@ nnoremap <m-p> :cp<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" }}}
+" Tree-sitter ---------------------------------------------------- {{{
+
+lua <<EOF
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "all",
+  ignore_install = { "haskell" },
+  highlight = {
+    enable = true,
+  },
+  context_commentstring = {
+    enable = true
+  }
+}
+
+EOF
 
 " }}}
 " Vimrc ---------------------------------------------------------- {{{
