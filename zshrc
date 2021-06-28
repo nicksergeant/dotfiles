@@ -12,6 +12,7 @@ export ZSH=~/.oh-my-zsh
 
 export PATH=~/.local/bin:$PATH
 export PATH=~/Sources/dotfiles/bin:$PATH
+export PATH=~/neovim/bin:$PATH
 export PATH=$GOPATH/bin:$PATH
 export PATH=$GOROOT/bin:$PATH
 export PATH=/usr/local/sbin:$PATH
