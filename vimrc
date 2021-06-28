@@ -155,7 +155,6 @@ Plug 'tpope/vim-surround'
 Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
 
-
 call plug#end()
 
 " }}}
