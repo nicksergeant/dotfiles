@@ -133,6 +133,8 @@ silent! unmap ]%
 
 call plug#begin('~/.vim/plugged')
 
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
 Plug 'hrsh7th/nvim-compe'
@@ -142,7 +144,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'michal-h21/vim-zettel'
 Plug 'nicksergeant/goyo.vim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'pangloss/vim-javascript'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
 Plug 'scrooloose/nerdtree'
 Plug 'sjl/badwolf'
@@ -514,20 +516,20 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " }}}
 " Tree-sitter ---------------------------------------------------- {{{
 
-lua <<EOF
-
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",
-  ignore_install = { "haskell" },
-  highlight = {
-    enable = true,
-  },
-  context_commentstring = {
-    enable = true
-  }
-}
-
-EOF
+" lua <<EOF
+"
+" require'nvim-treesitter.configs'.setup {
+"   ensure_installed = "all",
+"   ignore_install = { "haskell" },
+"   highlight = {
+"     enable = true,
+"   },
+"   context_commentstring = {
+"     enable = true
+"   }
+" }
+"
+" EOF
 
 " }}}
 " Vimrc ---------------------------------------------------------- {{{
