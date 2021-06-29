@@ -92,9 +92,9 @@ unalias gd
 gd() {
   if [ -d .git ]
   then
-    git diff
+    git diff HEAD
   else
-    find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git diff --color | cat && echo)' \;
+    find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git diff HEAD --color | cat && echo)' \;
   fi
 }
 

@@ -201,6 +201,7 @@ set wildignore+=*vendor/**
 set wildignore+=__init__.py
 set wildignore+=__pycache__
 set wildignore+=_site
+set wildignore+=tags
 
 " }}}
 
@@ -399,7 +400,7 @@ function! s:rg_handler(lines)
 endfunction
 
 command! -nargs=* Rg call fzf#run({
-  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always "%s"',
+  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always -g "!tags" "%s"',
   \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
   \ 'sink*':    function('<sid>rg_handler'),
   \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
@@ -409,7 +410,7 @@ command! -nargs=* Rg call fzf#run({
   \ })
 
 command! -nargs=0 FuzzyFile call fzf#run({
-  \ 'source': 'rg --files --no-heading ',
+  \ 'source': 'rg --files --no-heading -g "!tags" ',
   \ 'sink*': function('<sid>files_handler'),
   \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
   \            '--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.
