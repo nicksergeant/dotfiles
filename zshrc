@@ -50,6 +50,7 @@ alias j=z
 alias o='open'
 alias pm='python manage.py'
 alias ta='tmux attach -t'
+alias vim='nvim'
 
 # }}}
 # Prompt ------------------------------------------ {{{
