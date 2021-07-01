@@ -400,7 +400,7 @@ function! s:rg_handler(lines)
 endfunction
 
 command! -nargs=* Rg call fzf#run({
-  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading --color=always -g "!tags" "%s"',
+  \ 'source':  printf('rg --ignore-case --column --line-number --no-heading -g "!tags" "%s"',
   \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
   \ 'sink*':    function('<sid>rg_handler'),
   \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x '.
