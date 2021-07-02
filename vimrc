@@ -472,6 +472,7 @@ augroup END
 let NERDTreeDirArrows = 1
 let NERDTreeHighlightCursorline = 1
 let NERDTreeMinimalUI = 1
+let NERDTreeWinSize=60
 
 " }}}
 " Prettier ------------------------------------------------------- {{{
