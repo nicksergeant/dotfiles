@@ -42,7 +42,6 @@ alias brew='/opt/homebrew/bin/brew'
 alias deact='deactivate'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias glco='get_last_commit'
-alias gp='git push -u origin HEAD'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
 alias o='open'
@@ -88,6 +87,7 @@ bindkey '^O' fzf-git-branches-widget
 # Functions ------------------------------------------ {{{
 
 unalias gd
+unalias gp
 
 gd() {
   if [ -d .git ]
@@ -104,6 +104,16 @@ gs() {
     git status -s
   else
     find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status -s && echo)' \;
+  fi
+}
+
+gp() {
+  if [[ $0:A:h =~ "/Code/flex" ]];
+  then
+    make deploy-frontend
+    git push -u origin HEAD
+  else
+    git push -u origin HEAD
   fi
 }
 
