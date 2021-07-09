@@ -112,7 +112,7 @@ gp() {
   then
     make deploy-frontend
     print
-    print Pushing to remote...
+    print Pushing and deploying to Heroku...
     print
     git push -u origin HEAD
   else
