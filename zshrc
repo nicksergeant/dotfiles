@@ -113,6 +113,7 @@ gp() {
     make deploy-frontend
     print
     print Pushing to remote...
+    print
     git push -u origin HEAD
   else
     git push -u origin HEAD
