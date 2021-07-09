@@ -111,6 +111,8 @@ gp() {
   if [[ $0:A:h =~ "/Code/flex" ]];
   then
     make deploy-frontend
+    print
+    print Pushing to remote...
     git push -u origin HEAD
   else
     git push -u origin HEAD
