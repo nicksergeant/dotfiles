@@ -175,37 +175,13 @@ draw_bold_text_with_bright_colors: false
 
 # Colors (Tomorrow Night Bright)
 colors:
-  # Default colors
+  # Light
   primary:
     background: '0xfcf2c7'
     foreground: '0x3d3836'
-
-    # Bright and dim foreground colors
-    #
-    # The dimmed foreground color is calculated automatically if it is not present.
-    # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
-    # is `false`, the normal foreground color will be used.
-    #dim_foreground: '0x9a9a9a'
-    #bright_foreground: '0xffffff'
-
-  # Cursor colors
-  #
-  # Colors which should be used to draw the terminal cursor. If these are unset,
-  # the cursor color will be the inverse of the cell color.
   cursor:
     text: '0xebdbb4'
     cursor: '0x928375'
-
-  # Selection colors
-  #
-  # Colors which should be used to draw the selection area. If selection
-  # background is unset, selection color will be the inverse of the cell colors.
-  # If only text is unset the cell text color will remain the same.
-  #selection:
-  #  text: '0xeaeaea'
-  #  background: '0x404040'
-
-  # Normal colors
   normal:
     black:   '0x282828'
     red:     '0xcc241d'
@@ -216,39 +192,23 @@ colors:
     cyan:    '0x689d6a'
     white:   '0xfaf5d7'
 
-  # Bright colors
-  # bright:
-  #   black:   '0x1c1c1c'
-  #   red:     '0xff005c'
-  #   green:   '0x95ff00'
-  #   yellow:  '0xed8432'
-  #   blue:    '0x00b2ff'
-  #   magenta: '0xff005c'
-  #   cyan:    '0x00b2ff'
-  #   white:   '0xeeeeee'
+  # Dark
+  primary:
+    background: '0x1c1c1c'
+    foreground: '0xeeeeee'
+  cursor:
+    text: '0x000000'
+    cursor: '0x00b2ff'
+  normal:
+    black:   '0x1c1c1c'
+    red:     '0xff005c'
+    green:   '0x95ff00'
+    yellow:  '0xed8432'
+    blue:    '0x00b2ff'
+    magenta: '0xff005c'
+    cyan:    '0x00b2ff'
+    white:   '0xeeeeee'
 
-  # Dim colors
-  #
-  # If the dim colors are not set, they will be calculated automatically based
-  # on the `normal` colors.
-  # dim:
-  #   black:   '0x1c1b1a'
-  #   red:     '0xeb4451'
-  #   green:   '0xbcec4a'
-  #   yellow:  '0xed8432'
-  #   blue:    '0x55baf9'
-  #   magenta: '0xeb6291'
-  #   cyan:    '0x5dcbef'
-  #   white:   '0xf8f6f2'
-
-  # Indexed Colors
-  #
-  # The indexed colors include all colors from 16 to 256.
-  # When these are not set, they're filled with sensible defaults.
-  #
-  # Example:
-  #   `- { index: 16, color: '0xff00ff' }`
-  #
   indexed_colors: []
 
 # Visual Bell

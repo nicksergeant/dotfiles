@@ -162,13 +162,16 @@ call plug#end()
 " Color scheme --------------------------------------------------- {{{
 
 syntax on
-
-set background=light
 set termguicolors
 
-let g:gruvbox_sign_column = 'bg0'
+" Light
+" set background=light
+" let g:gruvbox_sign_column = 'bg0'
+" silent! colorscheme gruvbox
 
-silent! colorscheme gruvbox
+" Dark
+set background=dark
+silent! colorscheme badwolf
 
 " }}}
 " Wildmenu ------------------------------------------------------- {{{
@@ -426,6 +429,11 @@ command! -nargs=0 FuzzyFile call fzf#run({
 
 let g:github_enterprise_urls = ['https://git.hubteam.com']
 
+" Dark mode only
+highlight DiffAdd    guibg=#1c1c1c guifg=#179923
+highlight DiffChange guibg=#1c1c1c guifg=#B0B030
+highlight DiffDelete guibg=#1c1c1c guifg=#B82128
+
 nnoremap <leader>eg :Gblame<cr>
 nnoremap <leader>gg :Gbrowse<cr>
 vnoremap <leader>gg :Gbrowse<cr>
@@ -471,7 +479,7 @@ augroup END
 let NERDTreeDirArrows = 1
 let NERDTreeHighlightCursorline = 1
 let NERDTreeMinimalUI = 1
-let NERDTreeWinSize=60
+" let NERDTreeWinSize=60
 
 " }}}
 " Prettier ------------------------------------------------------- {{{
