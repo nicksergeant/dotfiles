@@ -149,8 +149,8 @@ ts() {
 }
 
 tv() {
-  tmux new-session -d -s vim -n social
-  tmux send-keys j Space Social Enter
+  tmux new-session -d -s vim -n conversations
+  tmux send-keys j Space conversations Enter
   tmux send-keys m Enter
   tmux attach
 }

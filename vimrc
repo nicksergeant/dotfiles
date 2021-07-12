@@ -141,6 +141,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'michal-h21/vim-zettel'
+Plug 'morhetz/gruvbox'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -162,10 +163,12 @@ call plug#end()
 
 syntax on
 
-set background=dark
+set background=light
 set termguicolors
 
-silent! colorscheme badwolf
+let g:gruvbox_sign_column = 'bg0'
+
+silent! colorscheme gruvbox
 
 " }}}
 " Wildmenu ------------------------------------------------------- {{{
@@ -422,10 +425,6 @@ command! -nargs=0 FuzzyFile call fzf#run({
 " Git ------------------------------------------------------------ {{{
 
 let g:github_enterprise_urls = ['https://git.hubteam.com']
-
-highlight DiffAdd    guibg=#1C1B1A guifg=#179923
-highlight DiffChange guibg=#1C1B1A guifg=#B0B030
-highlight DiffDelete guibg=#1C1B1A guifg=#B82128
 
 nnoremap <leader>eg :Gblame<cr>
 nnoremap <leader>gg :Gbrowse<cr>
