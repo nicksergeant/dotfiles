@@ -138,7 +138,6 @@ Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
 Plug 'hrsh7th/nvim-compe'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'ray-x/lsp_signature.nvim'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
@@ -148,7 +147,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'onsails/lspkind-nvim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
 Plug 'scrooloose/nerdtree'
 Plug 'sk1418/QFGrep'
@@ -269,7 +267,10 @@ let g:compe.source.spell = v:true
 let g:compe.source.treesitter = v:true
 let g:compe.source.ultisnips = v:true
 let g:compe.source.vsnip = v:true
-" let g:compe.source.tags = v:true
+
+lua << EOF
+vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", { expr = true })
+EOF
 
 " }}}
 " Commentary ----------------------------------------------------- {{{
@@ -480,185 +481,95 @@ lua << EOF
 
 local util = require 'lspconfig/util'
 
-function getLogPath()
-    return vim.lsp.get_log_path()
-end
-
-function getTsserverPath()
-    -- TODO - have this use the output of bpx --path hs-typescript and auto update with bpx --install-only hs-typescript
-    return "/Users/nsergeant/.bpm/packages/hs-typescript/static-1.6/lib/tsserver.js"
-    -- return "/Users/brbrown/.bpm/packages/hs-typescript/static-1-canary.6/lib/tsserver.js"
-    -- return "/Users/brbrown/.bpm/packages/hs-typescript/static-1-4-0.15/lib/tsserver.js"
-end
-
-
--- local lsp_signature_on_attach = require'lsp_signature'.on_attach -- adds a popup next to autocomplete with info about the thing you're auto completing
-
-local function organize_imports()
-  local params = {
-    command = "_typescript.organizeImports",
-    arguments = {vim.api.nvim_buf_get_name(0)},
-    title = ""
-  }
-  vim.lsp.buf.execute_command(params)
-end
-
-local on_attach = function(client, bufnr)
- require'lsp_signature'.on_attach(client, bufnr)
-end
-
-require'lspconfig'.tsserver.setup{ 
+require'lspconfig'.tsserver.setup{
     cmd = {
         "typescript-language-server", 
-        "--tsserver-log-file", getLogPath(),  
-        "--tsserver-path",  getTsserverPath(), 
+        "--tsserver-log-file", vim.lsp.get_log_path(),  
+        "--tsserver-path", "/Users/nsergeant/.bpm/packages/hs-typescript/static-1.6/lib/tsserver.js",
         "--stdio"
     },
-    on_attach=on_attach,
-    -- root_dir = util.root_pattern("package.json"),
     root_dir = util.root_pattern(".git"),
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-    commands = {
-      OrganizeImports = {
-        organize_imports,
-        description = "Organize Imports"
-      }
-    }
 }
 
-vim.api.nvim_set_keymap("n", "<space>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>gr", "<cmd>lua vim.lsp.buf.references()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>gca", "<cmd>lua vim.lsp.buf.code_action()<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>gsd", "<cmd>lua vim.lsp.buf.show_line_diagnostics({ focusable = false })<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", {expr = true})
+local javascript_lsps = {}
+local javascript_filetypes = {
+  ["javascript.jsx"]  = true;
+  ["javascript"]      = true;
+  ["typescript"]      = true;
+  ["typescript.jsx"]  = true;
+  ["javascriptreact"] = true;
+  ["typescriptreact"] = true;
+}
+local path_sep = vim.loop.os_uname().sysname == "Windows" and "\\" or "/"
 
-
-require('lspkind').init({})
-
-local function printMessage(msg)
-  vim.api.nvim_command('echo "'.. msg .. '"')
-end
-
--- Some path manipulation utilities
 local function is_dir(filename)
   local stat = vim.loop.fs_stat(filename)
   return stat and stat.type == 'directory' or false
 end
 
-local path_sep = vim.loop.os_uname().sysname == "Windows" and "\\" or "/"
--- Asumes filepath is a file.
 local function dirname(filepath)
-  local is_changed = false
-  local result = filepath:gsub(path_sep.."([^"..path_sep.."]+)$", function()
-    is_changed = true
-    return ""
-  end)
-  return result, is_changed
+    local is_changed = false
+    local result = filepath:gsub(path_sep.."([^"..path_sep.."]+)$", function()
+        is_changed = true
+        return ""
+    end)
+    return result, is_changed
 end
 
 local function path_join(...)
-  return table.concat(vim.tbl_flatten {...}, path_sep)
+    return table.concat(vim.tbl_flatten {...}, path_sep)
 end
 
--- Ascend the buffer's path until we find the rootdir.
--- is_root_path is a function which returns bool
 local function buffer_find_root_dir(bufnr, is_root_path)
-  local bufname = vim.api.nvim_buf_get_name(bufnr)
-  if vim.fn.filereadable(bufname) == 0 then
-    return nil
-  end
-  local dir = bufname
-  -- Just in case our algo is buggy, don't infinite loop.
-  for _ = 1, 100 do
-    local did_change
-    dir, did_change = dirname(dir)
-    if is_root_path(dir, bufname) then
-      return dir, bufname
+    local bufname = vim.api.nvim_buf_get_name(bufnr)
+    if vim.fn.filereadable(bufname) == 0 then
+        return nil
     end
-    -- If we can't ascend further, then stop looking.
-    if not did_change then
-      return nil
+    local dir = bufname
+    for _ = 1, 100 do
+        local did_change
+        dir, did_change = dirname(dir)
+        if is_root_path(dir, bufname) then
+            return dir, bufname
+        end
+        if not did_change then
+            return nil
+        end
     end
-  end
 end
 
--- A table to store our root_dir to client_id lookup. We want one LSP per
--- root directory, and this is how we assert that.
-local javascript_lsps = {}
--- Which filetypes we want to consider.
-local javascript_filetypes = {
-  ["javascript.jsx"] = true;
-  ["javascript"]     = true;
-  ["typescript"]     = true;
-  ["typescript.jsx"] = true;
-  ["javascriptreact"] = true;
-  ["typescriptreact"] = true;
-}
-
-local function getLogPath()
-  -- return '/users/brbrown/Desktop/asset-bender-lua-plugin.log'
-  return vim.lsp.get_log_path()
-end
-
-        --[[ "bpx --branch reactor-host-cleanup asset-bender reactor host-intellisense --host-most-recent 100 " 
-        .. workspaces .. " >> " ..logPath .. " 2>&1" ]]
 local function startAssetBenderProcess(workspaces)
-
     print(workspaces)
     print('Asset Bender starting new client')
-    local logPath = getLogPath()
+    local logPath = vim.lsp.get_log_path()
     print(vim.inspect(javascript_lsps))
     print('starting NEW asset-bender with workspaces of "' .. vim.inspect(workspaces) .. '" and log path of "'.. logPath ..'"')
     return io.popen(
         "bpx asset-bender reactor host --host-most-recent 100 " .. workspaces .. " >> " ..logPath .. " 2>&1"
     )
-
 end
 
--- This needs to be global so that we can call it from the autocmd.
 function check_start_javascript_lsp()
-  -- print('-----------------------------------------------------------------------------')
-  print("asset-bender autocmd started")
   local bufnr = vim.api.nvim_get_current_buf()
-
-  -- Filter which files we are considering.
   if not javascript_filetypes[vim.api.nvim_buf_get_option(bufnr, 'filetype')] then
     return
   end
-
-  -- Try to find our root directory. We will define this as a directory which contains
-  -- node_modules. Another choice would be to check for `package.json`, or for `.git`.
   local root_dir = buffer_find_root_dir(bufnr, function(dir)
-    -- return is_dir(path_join(dir, 'node_modules'))
-    -- return vim.fn.filereadable(path_join(dir, 'package.json')) == 1
     return is_dir(path_join(dir, '.git'))
   end)
-
-  -- We couldn't find a root directory, so ignore this file.
   if not root_dir then 
-    print('we couldnt find a root directory, ending')
     return 
   end
-
-  -- Check if we have a client alredy or start and store it.
   local client_id = javascript_lsps[root_dir]
-  if client_id then
-    print('already found a client_id, skipping')
-  end
   if not client_id then
-    -- client_id = "ASSET_BENDER_STARTED" -- in all reality we dont have an id, we just need to store _something_ so it knows a process has been started
     client_id = startAssetBenderProcess(root_dir)
     javascript_lsps[root_dir] = client_id
   end
-
-  -- print('-----------------------------------------------------------------------------')
 end
 
+vim.api.nvim_set_keymap("n", "go", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
 vim.api.nvim_command [[autocmd BufReadPost * lua check_start_javascript_lsp()]]
-print('Asset bender plugin intialized')
 
 EOF
 
