@@ -540,11 +540,7 @@ local function buffer_find_root_dir(bufnr, is_root_path)
 end
 
 local function startAssetBenderProcess(workspaces)
-    print(workspaces)
-    print('Asset Bender starting new client')
     local logPath = vim.lsp.get_log_path()
-    print(vim.inspect(javascript_lsps))
-    print('starting NEW asset-bender with workspaces of "' .. vim.inspect(workspaces) .. '" and log path of "'.. logPath ..'"')
     return io.popen(
         "bpx asset-bender reactor host --host-most-recent 100 " .. workspaces .. " >> " ..logPath .. " 2>&1"
     )
