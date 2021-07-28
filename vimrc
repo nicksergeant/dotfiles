@@ -138,6 +138,7 @@ Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
 Plug 'hrsh7th/nvim-compe'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'ray-x/lsp_signature.nvim'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
@@ -265,10 +266,10 @@ let g:compe.source.nvim_lsp = v:true
 let g:compe.source.nvim_lua = v:true
 let g:compe.source.path = v:true
 let g:compe.source.spell = v:true
-let g:compe.source.tags = v:true
 let g:compe.source.treesitter = v:true
 let g:compe.source.ultisnips = v:true
 let g:compe.source.vsnip = v:true
+" let g:compe.source.tags = v:true
 
 " }}}
 " Commentary ----------------------------------------------------- {{{
@@ -532,6 +533,7 @@ vim.api.nvim_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", {
 vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>gca", "<cmd>lua vim.lsp.buf.code_action()<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>gsd", "<cmd>lua vim.lsp.buf.show_line_diagnostics({ focusable = false })<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", {expr = true})
 
 
 require('lspkind').init({})
