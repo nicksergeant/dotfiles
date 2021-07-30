@@ -492,7 +492,7 @@ require'lspconfig'.tsserver.setup{
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 }
 
-local function buffer_find_root_dir(bufnr, is_root_path)
+local function buffer_find_root_dir(bufnr)
     local bufname = vim.api.nvim_buf_get_name(bufnr)
     if vim.fn.filereadable(bufname) == 0 then
         return nil
@@ -504,7 +504,9 @@ local function buffer_find_root_dir(bufnr, is_root_path)
             did_change = true
             return ""
         end)
-        if is_root_path(dir, bufname) then
+        local filename = table.concat(vim.tbl_flatten({dir, '.git'}), "/")
+        local stat = vim.loop.fs_stat(filename)
+        if stat and stat.type == 'directory' then
             return dir, bufname
         end
         if not did_change then
@@ -535,11 +537,7 @@ function check_start_javascript_lsp()
     if not javascript_filetypes[vim.api.nvim_buf_get_option(bufnr, 'filetype')] then
         return
     end
-    local root_dir = buffer_find_root_dir(bufnr, function(dir)
-        local filename = table.concat(vim.tbl_flatten({dir, '.git'}), "/")
-        local stat = vim.loop.fs_stat(filename)
-        return stat and stat.type == 'directory' or false
-    end)
+    local root_dir = buffer_find_root_dir(bufnr)
     if not root_dir then 
         return 
     end
