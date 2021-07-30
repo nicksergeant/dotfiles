@@ -143,7 +143,6 @@ Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'michal-h21/vim-zettel'
 Plug 'morhetz/gruvbox'
-Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -479,8 +478,6 @@ augroup END
 
 lua << EOF
 
-local util = require 'lspconfig/util'
-
 require'lspconfig'.tsserver.setup{
     cmd = {
         "typescript-language-server", 
@@ -488,7 +485,6 @@ require'lspconfig'.tsserver.setup{
         "--tsserver-path", "/Users/nsergeant/.bpm/packages/hs-typescript/static-1.6/lib/tsserver.js",
         "--stdio"
     },
-    root_dir = util.root_pattern(".git"),
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 }
 
