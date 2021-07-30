@@ -492,35 +492,6 @@ require'lspconfig'.tsserver.setup{
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 }
 
-local javascript_lsps = {}
-local javascript_filetypes = {
-  ["javascript.jsx"]  = true;
-  ["javascript"]      = true;
-  ["typescript"]      = true;
-  ["typescript.jsx"]  = true;
-  ["javascriptreact"] = true;
-  ["typescriptreact"] = true;
-}
-local path_sep = vim.loop.os_uname().sysname == "Windows" and "\\" or "/"
-
-local function is_dir(filename)
-  local stat = vim.loop.fs_stat(filename)
-  return stat and stat.type == 'directory' or false
-end
-
-local function dirname(filepath)
-    local is_changed = false
-    local result = filepath:gsub(path_sep.."([^"..path_sep.."]+)$", function()
-        is_changed = true
-        return ""
-    end)
-    return result, is_changed
-end
-
-local function path_join(...)
-    return table.concat(vim.tbl_flatten {...}, path_sep)
-end
-
 local function buffer_find_root_dir(bufnr, is_root_path)
     local bufname = vim.api.nvim_buf_get_name(bufnr)
     if vim.fn.filereadable(bufname) == 0 then
@@ -528,8 +499,11 @@ local function buffer_find_root_dir(bufnr, is_root_path)
     end
     local dir = bufname
     for _ = 1, 100 do
-        local did_change
-        dir, did_change = dirname(dir)
+        local did_change = false
+        dir = dir:gsub("/([^/]+)$", function()
+            did_change = true
+            return ""
+        end)
         if is_root_path(dir, bufname) then
             return dir, bufname
         end
@@ -546,22 +520,34 @@ local function startAssetBenderProcess(workspaces)
     )
 end
 
+local javascript_lsps = {}
+
 function check_start_javascript_lsp()
-  local bufnr = vim.api.nvim_get_current_buf()
-  if not javascript_filetypes[vim.api.nvim_buf_get_option(bufnr, 'filetype')] then
-    return
-  end
-  local root_dir = buffer_find_root_dir(bufnr, function(dir)
-    return is_dir(path_join(dir, '.git'))
-  end)
-  if not root_dir then 
-    return 
-  end
-  local client_id = javascript_lsps[root_dir]
-  if not client_id then
-    client_id = startAssetBenderProcess(root_dir)
-    javascript_lsps[root_dir] = client_id
-  end
+    local bufnr = vim.api.nvim_get_current_buf()
+    local javascript_filetypes = {
+      ["javascript.jsx"]  = true;
+      ["javascript"]      = true;
+      ["typescript"]      = true;
+      ["typescript.jsx"]  = true;
+      ["javascriptreact"] = true;
+      ["typescriptreact"] = true;
+    }
+    if not javascript_filetypes[vim.api.nvim_buf_get_option(bufnr, 'filetype')] then
+        return
+    end
+    local root_dir = buffer_find_root_dir(bufnr, function(dir)
+        local filename = table.concat(vim.tbl_flatten({dir, '.git'}), "/")
+        local stat = vim.loop.fs_stat(filename)
+        return stat and stat.type == 'directory' or false
+    end)
+    if not root_dir then 
+        return 
+    end
+    local client_id = javascript_lsps[root_dir]
+    if not client_id then
+        client_id = startAssetBenderProcess(root_dir)
+        javascript_lsps[root_dir] = client_id
+    end
 end
 
 vim.api.nvim_set_keymap("n", "go", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
