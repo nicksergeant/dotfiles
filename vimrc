@@ -515,13 +515,6 @@ local function buffer_find_root_dir(bufnr)
     end
 end
 
-local function startAssetBenderProcess(workspaces)
-    local logPath = vim.lsp.get_log_path()
-    return io.popen(
-        "bpx asset-bender reactor host --host-most-recent 100 " .. workspaces .. " >> " ..logPath .. " 2>&1"
-    )
-end
-
 local javascript_lsps = {}
 
 function check_start_javascript_lsp()
@@ -543,7 +536,9 @@ function check_start_javascript_lsp()
     end
     local client_id = javascript_lsps[root_dir]
     if not client_id then
-        client_id = startAssetBenderProcess(root_dir)
+        client_id = io.popen(
+            "bpx asset-bender reactor host --host-most-recent 100 " .. root_dir .. " >> " .. vim.lsp.get_log_path() .. " 2>&1"
+        )
         javascript_lsps[root_dir] = client_id
     end
 end
