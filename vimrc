@@ -479,6 +479,16 @@ augroup END
 
 lua << EOF
 
+local function on_attach(_, bufnr)
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+        vim.lsp.diagnostic.on_publish_diagnostics, {
+            virtual_text = false,
+            signs = false,
+            update_in_insert = false,
+        }
+    )
+end
+
 require'lspconfig'.tsserver.setup{
     cmd = {
         "typescript-language-server", 
@@ -487,6 +497,7 @@ require'lspconfig'.tsserver.setup{
         "--stdio"
     },
     filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+    on_attach = on_attach
 }
 
 local function buffer_find_root_dir(bufnr)
