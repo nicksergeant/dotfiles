@@ -222,7 +222,7 @@ nnoremap <silent> <c-n> :ALENextWrap<cr>
 
 let g:ale_cache_executable_check_failures = 1
 let g:ale_javascript_eslint_options = "--resolve-plugins-relative-to '/Users/nsergeant/Code/conversations/conversations-inbox'"
-let g:ale_sign_column_always = 1
+let g:ale_sign_column_always = 0
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {
   \ 'html': [],
@@ -269,7 +269,7 @@ let g:compe.source.ultisnips = v:true
 let g:compe.source.vsnip = v:true
 
 lua << EOF
-vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", { expr = true })
+-- vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", { expr = true })
 EOF
 
 " }}}
@@ -442,9 +442,9 @@ highlight DiffAdd    guibg=#1c1c1c guifg=#179923
 highlight DiffChange guibg=#1c1c1c guifg=#B0B030
 highlight DiffDelete guibg=#1c1c1c guifg=#B82128
 
-nnoremap <leader>eg :Gblame<cr>
-nnoremap <leader>gg :Gbrowse<cr>
-vnoremap <leader>gg :Gbrowse<cr>
+nnoremap <leader>eg :Git blame<cr>
+nnoremap <leader>gg :GBrowse<cr>
+vnoremap <leader>gg :GBrowse<cr>
 
 augroup filetype_git
     au!
