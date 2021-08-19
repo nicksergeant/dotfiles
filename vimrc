@@ -528,11 +528,8 @@ local javascript_lsps = {}
 function check_start_javascript_lsp()
     local bufnr = vim.api.nvim_get_current_buf()
     local javascript_filetypes = {
-      ["javascript.jsx"]  = true;
       ["javascript"]      = true;
-      ["typescript"]      = true;
-      ["typescript.jsx"]  = true;
-      ["javascriptreact"] = true;
+      ["javascript.jsx"]  = true;
       ["typescriptreact"] = true;
     }
     if not javascript_filetypes[vim.api.nvim_buf_get_option(bufnr, 'filetype')] then
