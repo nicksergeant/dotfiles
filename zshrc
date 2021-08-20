@@ -41,6 +41,7 @@ source $ZSH/oh-my-zsh.sh
 alias brew='/opt/homebrew/bin/brew'
 alias deact='deactivate'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
+alias gdo='git --no-pager diff HEAD'
 alias glco='get_last_commit'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
