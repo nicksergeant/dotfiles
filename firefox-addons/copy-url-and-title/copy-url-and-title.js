@@ -18,7 +18,6 @@ const copyUrlAndTitle = () => {
           ` · Pull Request #${pullRequestId} · ${repo}`,
           '',
         );
-        markdownPrefix = `Pull Request #${pullRequestId}: `;
       }
     } else if (url.includes('/issues/')) {
       const urlMatches = /.*issues\/(\d+).*/i.exec(document.URL);
