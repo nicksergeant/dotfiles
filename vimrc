@@ -142,7 +142,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'michal-h21/vim-zettel'
-Plug 'morhetz/gruvbox'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
@@ -165,13 +164,6 @@ call plug#end()
 
 syntax on
 set termguicolors
-
-" Light
-" set background=light
-" let g:gruvbox_sign_column = 'bg0'
-" silent! colorscheme gruvbox
-
-" Dark
 set background=dark
 silent! colorscheme badwolf
 
@@ -245,7 +237,7 @@ set completeopt=menuone,noselect
 let g:compe = {}
 let g:compe.autocomplete = v:true
 let g:compe.debug = v:false
-let g:compe.documentation = v:true
+let g:compe.documentation = v:false
 let g:compe.enabled = v:true
 let g:compe.incomplete_delay = 400
 let g:compe.max_abbr_width = 100
@@ -477,6 +469,8 @@ augroup END
 " }}}
 " LSP ----------------------------------------------------- {{{
 
+let g:lsp_log_file = ''
+
 lua << EOF
 
 local function on_attach(_, bufnr)
@@ -492,7 +486,7 @@ end
 require'lspconfig'.tsserver.setup{
     cmd = {
         "typescript-language-server", 
-        "--tsserver-log-file", vim.lsp.get_log_path(),  
+        -- "--tsserver-log-file", vim.lsp.get_log_path(),  
         "--tsserver-path", "/Users/nsergeant/.bpm/packages/hs-typescript/static-1.6/lib/tsserver.js",
         "--stdio"
     },
