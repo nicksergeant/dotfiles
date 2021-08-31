@@ -2,7 +2,6 @@ title = document.title;
 url = document.URL;
 
 markdownLabel = title;
-markdownPrefix = '';
 markdownUrl = url;
 
 if (url.includes('git.hubteam.com')) {
@@ -26,7 +25,6 @@ if (url.includes('git.hubteam.com')) {
       const repo = /.*Issue #\d+ · (.*)/.exec(document.title)[1];
 
       markdownLabel = title.replace(` · Issue #${issueId} · ${repo}`, '');
-      markdownPrefix = `Issue #${issueId}: `;
     }
   }
 } else if (url.includes('issues.hubspotcentral.com')) {
@@ -38,10 +36,9 @@ if (url.includes('git.hubteam.com')) {
     markdownLabel = title
       .replace(`[${ticketId}] `, '')
       .replace(' - HubSpot JIRA', '');
-    markdownPrefix = `JIRA ${ticketId}: `;
   }
 }
 
 markdownLabel = markdownLabel.replace('[', '(').replace(']', ')');
 
-`${markdownPrefix}[${markdownLabel}](${markdownUrl})`;
+`[${markdownLabel}](${markdownUrl})`;

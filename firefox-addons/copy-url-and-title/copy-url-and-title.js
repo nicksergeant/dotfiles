@@ -3,7 +3,6 @@ const copyUrlAndTitle = () => {
   const url = document.URL;
 
   markdownLabel = title;
-  markdownPrefix = '';
   markdownUrl = url;
 
   if (url.includes('git.hubteam.com')) {
@@ -27,7 +26,6 @@ const copyUrlAndTitle = () => {
         const repo = /.*Issue #\d+ · (.*)/.exec(document.title)[1];
 
         markdownLabel = title.replace(` · Issue #${issueId} · ${repo}`, '');
-        markdownPrefix = `Issue #${issueId}: `;
       }
     }
   } else if (url.includes('issues.hubspotcentral.com')) {
@@ -45,7 +43,7 @@ const copyUrlAndTitle = () => {
   markdownLabel = markdownLabel.replace('[', '(').replace(']', ')');
 
   navigator.clipboard.writeText(
-    `${markdownPrefix}[${markdownLabel}](${markdownUrl})`,
+    `[${markdownLabel}](${markdownUrl})`,
   );
 };
 
