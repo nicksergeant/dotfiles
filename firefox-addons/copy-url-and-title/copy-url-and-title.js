@@ -39,7 +39,6 @@ const copyUrlAndTitle = () => {
       markdownLabel = title
         .replace(`[${ticketId}] `, '')
         .replace(' - HubSpot JIRA', '');
-      markdownPrefix = `JIRA ${ticketId}: `;
     }
   }
 
