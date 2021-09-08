@@ -111,11 +111,17 @@ gs() {
 gp() {
   if [[ $0:A:h =~ "/Code/flex" ]];
   then
-    make deploy-frontend
-    print
-    print Pushing and deploying to Heroku...
-    print
-    git push -u origin HEAD
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+    if [ "$BRANCH" = 'master' ]; then
+      make deploy-frontend
+      print
+      print Pushing and deploying to Heroku...
+      print
+      git push -u origin HEAD
+    else
+      git push -u origin HEAD
+    fi
   else
     git push -u origin HEAD
   fi
