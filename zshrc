@@ -114,7 +114,7 @@ gp() {
     BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
     if [ "$BRANCH" = 'master' ]; then
-      make deploy-frontend
+      make deploy_frontend
       print
       print Pushing and deploying to Heroku...
       print
