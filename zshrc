@@ -172,6 +172,7 @@ wo() {
 
 . ~/.env
 . ~/Sources/z/z.sh
+. ~/.nix-profile/etc/profile.d/nix.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
