@@ -171,10 +171,6 @@ wo() {
 # Imports ------------------------------------------ {{{
 
 . ~/.env
-. ~/.hubspot/repo-autocomplete
-. ~/.hubspot/shellrc
-. ~/Sources/CommunicationScripts/bash/communication_init_env.bash
-. ~/Sources/CommunicationScripts/bash/communication_run.bash
 . ~/Sources/z/z.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

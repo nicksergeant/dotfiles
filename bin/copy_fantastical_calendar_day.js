@@ -18,6 +18,7 @@ if (dayString) {
       .replace(' AM', 'a')
       .replace(' PM', 'p');
     const eventTitle = eventLines[1].replace('❇️ ', '');
+    const lastEvent = parseInt(i) === (events.length - 1);
 
     if (
       !eventTime.includes('all-day') &&
@@ -33,16 +34,7 @@ if (dayString) {
         title = 'Workout';
       }
 
-      // if (event.includes('hubspot.zoom.us')) {
-      //   const zoomLink = event.match(/(https:\/\/hubspot.zoom.us)[^\s]+/);
-
-      //   if (zoomLink) {
-      //     title = `${eventTitle} ${zoomLink[0]}`;
-      //   }
-      // }
-
-      console.log(`${firstEvent ? '' : '- [ ] '}${eventTime} ${title}`);
-      // console.log(`- [ ] ${eventTime} ${title}`);
+      console.log(`[ ] ${eventTime} ${title}${!lastEvent ? '\n': ''}`);
 
       firstEvent = false;
     }

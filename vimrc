@@ -213,7 +213,6 @@ nnoremap ' :ALEFix<cr>
 nnoremap <silent> <c-n> :ALENextWrap<cr>
 
 let g:ale_cache_executable_check_failures = 1
-let g:ale_javascript_eslint_options = "--resolve-plugins-relative-to '/Users/nsergeant/Code/conversations/conversations-inbox'"
 let g:ale_sign_column_always = 0
 let g:ale_sign_warning = '>>'
 let g:ale_linters = {
@@ -567,7 +566,6 @@ let NERDTreeMinimalUI = 1
 
 nnoremap ; :Prettier<cr>
 
-let g:prettier#exec_cmd_path = "/Users/nsergeant/Code/conversations/conversations-inbox/node_modules/prettier/bin-prettier.js"
 let g:prettier#autoformat = 0
 let g:prettier#exec_cmd_async = 1
 
