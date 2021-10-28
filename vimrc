@@ -141,6 +141,8 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
@@ -150,7 +152,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
 Plug 'scrooloose/nerdtree'
 Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
@@ -213,23 +214,27 @@ set wildignore+=tags
 
 " Ale ------------------------------------------------------------ {{{
 
-nnoremap ' :ALEFix<cr>
+nnoremap ; :ALEFix<cr>
 nnoremap <silent> <c-n> :ALENextWrap<cr>
 
 let g:ale_cache_executable_check_failures = 1
+let g:ale_linters_explicit = 1
 let g:ale_sign_column_always = 0
 let g:ale_sign_warning = '>>'
+let g:ale_fixers = {
+  \ 'elixir': ['mix_format'],
+  \ 'javascript': ['prettier'],
+  \ 'python': ['black'],
+  \ 'scss': ['prettier'],
+  \ 'typescriptreact': ['prettier'],
+  \ }
 let g:ale_linters = {
   \ 'html': [],
   \ 'htmldjango': [],
   \ 'javascript': ['eslint'],
   \ 'markdown': [],
   \ 'scss': [],
-  \ }
-let g:ale_fixers = {
-  \ 'elixir': ['mix_format'],
-  \ 'javascript': ['eslint'],
-  \ 'python': ['black'],
+  \ 'typescriptreact': ['eslint'],
   \ }
 
 " }}}
@@ -539,14 +544,6 @@ let NERDTreeDirArrows = 1
 let NERDTreeHighlightCursorline = 1
 let NERDTreeMinimalUI = 1
 " let NERDTreeWinSize=60
-
-" }}}
-" Prettier ------------------------------------------------------- {{{
-
-nnoremap ; :Prettier<cr>
-
-let g:prettier#autoformat = 0
-let g:prettier#exec_cmd_async = 1
 
 " }}}
 " Quickfix window ------------------------------------------------ {{{
