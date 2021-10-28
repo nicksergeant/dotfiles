@@ -136,7 +136,11 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
-Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/nvim-cmp'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
@@ -231,36 +235,64 @@ let g:ale_fixers = {
 " }}}
 " Autocomplete ------------------------------------------------------------ {{{
 
-set completeopt=menuone,noselect
+set completeopt=menu,menuone,noselect
 
-let g:compe = {}
-let g:compe.autocomplete = v:true
-let g:compe.debug = v:false
-let g:compe.documentation = v:false
-let g:compe.enabled = v:true
-let g:compe.incomplete_delay = 400
-let g:compe.max_abbr_width = 100
-let g:compe.max_kind_width = 100
-let g:compe.max_menu_width = 100
-let g:compe.min_length = 1
-let g:compe.preselect = 'enable'
-let g:compe.resolve_timeout = 800
-let g:compe.source_timeout = 200
-let g:compe.throttle_time = 80
+lua <<EOF
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
 
-let g:compe.source = {}
-let g:compe.source.buffer = {'ignored_filetypes': ['markdown', 'vimwiki']}
-let g:compe.source.calc = v:true
-let g:compe.source.nvim_lsp = v:true
-let g:compe.source.nvim_lua = v:true
-let g:compe.source.path = v:true
-let g:compe.source.spell = v:true
-let g:compe.source.treesitter = v:true
-let g:compe.source.ultisnips = v:true
-let g:compe.source.vsnip = v:true
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+      end,
+    },
+    mapping = {
+      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<C-y>'] = cmp.config.disable, -- If you want to remove the default `<C-y>` mapping, You can specify `cmp.config.disable` value.
+      ['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
 
-lua << EOF
--- vim.api.nvim_set_keymap("i", "<CR>", "compe#confirm('<CR>')", { expr = true })
+  -- Use buffer source for `/`.
+  cmp.setup.cmdline('/', {
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':'.
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  -- Setup lspconfig.
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  require('lspconfig').tsserver.setup {
+    capabilities = capabilities
+  }
 EOF
 
 " }}}
@@ -484,81 +516,12 @@ augroup END
 " }}}
 " LSP ----------------------------------------------------- {{{
 
-let g:lsp_log_file = ''
-
 lua << EOF
 
-local function on_attach(_, bufnr)
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics, {
-            virtual_text = false,
-            signs = false,
-            update_in_insert = false,
-        }
-    )
-end
-
-require'lspconfig'.tsserver.setup{
-    cmd = {
-        "typescript-language-server", 
-        -- "--tsserver-log-file", vim.lsp.get_log_path(),  
-        "--tsserver-path", "/Users/nsergeant/.bpm/packages/hs-typescript/static-1.6/lib/tsserver.js",
-        "--stdio"
-    },
-    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-    on_attach = on_attach
-}
-
-local function buffer_find_root_dir(bufnr)
-    local bufname = vim.api.nvim_buf_get_name(bufnr)
-    if vim.fn.filereadable(bufname) == 0 then
-        return nil
-    end
-    local dir = bufname
-    for _ = 1, 100 do
-        local did_change = false
-        dir = dir:gsub("/([^/]+)$", function()
-            did_change = true
-            return ""
-        end)
-        local filename = table.concat(vim.tbl_flatten({dir, '.git'}), "/")
-        local stat = vim.loop.fs_stat(filename)
-        if stat and stat.type == 'directory' then
-            return dir, bufname
-        end
-        if not did_change then
-            return nil
-        end
-    end
-end
-
-local javascript_lsps = {}
-
-function check_start_javascript_lsp()
-    local bufnr = vim.api.nvim_get_current_buf()
-    local javascript_filetypes = {
-      ["javascript"]      = true;
-      ["javascript.jsx"]  = true;
-      ["typescriptreact"] = true;
-    }
-    if not javascript_filetypes[vim.api.nvim_buf_get_option(bufnr, 'filetype')] then
-        return
-    end
-    local root_dir = buffer_find_root_dir(bufnr)
-    if not root_dir then 
-        return 
-    end
-    local client_id = javascript_lsps[root_dir]
-    if not client_id then
-        client_id = io.popen(
-            "bpx asset-bender reactor host --host-most-recent 100 /Users/nsergeant/Code/conversations/* >> " .. vim.lsp.get_log_path() .. " 2>&1"
-        )
-        javascript_lsps[root_dir] = client_id
-    end
-end
+local nvim_lsp = require('lspconfig')
+nvim_lsp.tsserver.setup {}
 
 vim.api.nvim_set_keymap("n", "go", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
-vim.api.nvim_command [[autocmd BufReadPost * lua check_start_javascript_lsp()]]
 
 EOF
 
