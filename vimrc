@@ -457,6 +457,22 @@ augroup END
 
 let g:jsx_ext_required = 0
 
+augroup filetype_typescriptreact
+    au!
+    au FileType typescriptreact inoremap <buffer> <c-k> console.table({})<esc>hi
+    au FileType typescriptreact inoremap <buffer> <c-l> console.log()<esc>i
+    au FileType typescriptreact setlocal foldmarker={,}
+    au FileType typescriptreact setlocal foldmethod=marker
+augroup END
+
+augroup filetype_typescript
+    au!
+    au FileType typescript inoremap <buffer> <c-k> console.table({})<esc>hi
+    au FileType typescript inoremap <buffer> <c-l> console.log()<esc>i
+    au FileType typescript setlocal foldmarker={,}
+    au FileType typescript setlocal foldmethod=marker
+augroup END
+
 augroup filetype_javascript
     au!
     au FileType javascript inoremap <buffer> <c-k> console.table({})<esc>hi
