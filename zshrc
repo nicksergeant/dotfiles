@@ -91,6 +91,18 @@ bindkey '^O' fzf-git-branches-widget
 unalias gd
 unalias gp
 
+fl() {
+  _z fl
+  wo
+  clear
+}
+
+on() {
+  _z on
+  wo
+  clear
+}
+
 gd() {
   if [ -d .git ]
   then
