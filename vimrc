@@ -224,6 +224,7 @@ let g:ale_sign_warning = '>>'
 let g:ale_fixers = {
   \ 'elixir': ['mix_format'],
   \ 'javascript': ['prettier'],
+  \ 'json': ['prettier'],
   \ 'python': ['black'],
   \ 'scss': ['prettier'],
   \ 'typescriptreact': ['prettier'],
@@ -236,69 +237,6 @@ let g:ale_linters = {
   \ 'scss': [],
   \ 'typescriptreact': ['eslint'],
   \ }
-
-" }}}
-" Autocomplete ------------------------------------------------------------ {{{
-
-set completeopt=menu,menuone,noselect
-
-lua <<EOF
-  -- Setup nvim-cmp.
-  local cmp = require'cmp'
-
-  cmp.setup({
-    snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-        -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
-      end,
-    },
-    mapping = {
-      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable, -- If you want to remove the default `<C-y>` mapping, You can specify `cmp.config.disable` value.
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    },
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
-      -- { name = 'luasnip' }, -- For luasnip users.
-      -- { name = 'ultisnips' }, -- For ultisnips users.
-      -- { name = 'snippy' }, -- For snippy users.
-    }, {
-      { name = 'buffer' },
-    })
-  })
-
-  -- Use buffer source for `/`.
-  cmp.setup.cmdline('/', {
-    sources = {
-      { name = 'buffer' }
-    }
-  })
-
-  -- Use cmdline & path source for ':'.
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
-
-  -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  require('lspconfig').tsserver.setup {
-    capabilities = capabilities
-  }
-EOF
 
 " }}}
 " Commentary ----------------------------------------------------- {{{
@@ -519,15 +457,62 @@ augroup filetype_javascript
 augroup END
 
 " }}}
-" LSP ----------------------------------------------------- {{{
+" LSP and Autocomplete ------------------------------------------- {{{
 
-lua << EOF
+set completeopt=menu,menuone,noselect
 
-local nvim_lsp = require('lspconfig')
-nvim_lsp.tsserver.setup {}
+lua <<EOF
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
 
-vim.api.nvim_set_keymap("n", "go", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
+    mapping = {
+      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<C-y>'] = cmp.config.disable, -- If you want to remove the default `<C-y>` mapping, You can specify `cmp.config.disable` value.
+      ['<C-e>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' },
+    }, {
+      { name = 'buffer' },
+    })
+  })
 
+  -- Use buffer source for `/`.
+  cmp.setup.cmdline('/', {
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':'.
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  vim.api.nvim_set_keymap("n", "go", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
+
+  -- Setup lspconfig.
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  require('lspconfig').tsserver.setup {
+    capabilities = capabilities
+  }
 EOF
 
 " }}}
@@ -576,7 +561,7 @@ nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " }}}
-" Tree-sitter ---------------------------------------------------- {{{
+" Treesitter ----------------------------------------------------- {{{
 
 lua <<EOF
 
