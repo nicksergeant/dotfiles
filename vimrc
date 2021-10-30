@@ -227,6 +227,7 @@ let g:ale_fixers = {
   \ 'json': ['prettier'],
   \ 'python': ['black'],
   \ 'scss': ['prettier'],
+  \ 'typescript': ['prettier'],
   \ 'typescriptreact': ['prettier'],
   \ }
 let g:ale_linters = {
@@ -235,6 +236,7 @@ let g:ale_linters = {
   \ 'javascript': ['eslint'],
   \ 'markdown': [],
   \ 'scss': [],
+  \ 'typescript': ['eslint'],
   \ 'typescriptreact': ['eslint'],
   \ }
 
