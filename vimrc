@@ -143,6 +143,7 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
@@ -222,6 +223,7 @@ let g:ale_linters_explicit = 1
 let g:ale_sign_column_always = 0
 let g:ale_sign_warning = '>>'
 let g:ale_fixers = {
+  \ 'css': ['prettier'],
   \ 'elixir': ['mix_format'],
   \ 'javascript': ['prettier'],
   \ 'json': ['prettier'],
