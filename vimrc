@@ -147,7 +147,7 @@ Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 Plug 'michal-h21/vim-zettel'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
@@ -225,6 +225,7 @@ let g:ale_sign_warning = '>>'
 let g:ale_fixers = {
   \ 'css': ['prettier'],
   \ 'elixir': ['mix_format'],
+  \ 'htmldjango': ['prettier'],
   \ 'javascript': ['prettier'],
   \ 'json': ['prettier'],
   \ 'python': ['black'],

@@ -1,3 +1,4 @@
+const open = require('open');
 const { execSync } = require('child_process');
 
 const dayText = execSync('pbpaste').toString();
@@ -5,38 +6,40 @@ const day = dayText.split('\n')[0];
 
 const dayString = day.match(/\w+, \w+ \d+, \d{4}$/);
 
+const mode = 'things'; // 'things' or 'markdown'
+
 if (dayString) {
-  const events = dayText.replace(dayString, '').split('\n---\n');
+  const eventsRaw = dayText.replace(dayString, '').split('\n---\n');
+  const events = [];
 
   let firstEvent = true;
 
-  for (i in events) {
-    const event = events[i].trim();
+  for (i in eventsRaw) {
+    const event = eventsRaw[i].trim();
     const eventLines = event.split('\n');
     const eventTime = eventLines[0]
       .split(' - ')[0]
       .replace(' AM', 'a')
       .replace(' PM', 'p');
     const eventTitle = eventLines[1].replace('❇️ ', '');
-    const lastEvent = parseInt(i) === (events.length - 1);
+    const lastEvent = parseInt(i) === (eventsRaw.length - 1);
 
     if (
-      !eventTime.includes('all-day') &&
-      !eventTitle.includes("Get Arlene's mail") &&
-      !eventTitle.includes('Focus Time') &&
-      !eventTitle.includes('Take garbage') &&
-      !eventTitle.includes('Water herbs') &&
-      !eventTitle.includes('Baby nose spray')
+      !eventTime.includes('all-day') && event.includes('trajector')
     ) {
       let title = eventTitle;
 
-      if (eventTitle.includes('Lunch')) {
-        title = 'Workout';
+      if (mode === 'markdown') {
+        console.log(`[ ] ${eventTime} ${title}${!lastEvent ? '\n': ''}`);
+      } else if (mode === 'things') {
+        events.push(`${eventTime} ${title}`);
       }
-
-      console.log(`[ ] ${eventTime} ${title}${!lastEvent ? '\n': ''}`);
 
       firstEvent = false;
     }
+  }
+
+  if (mode === 'things' && events.length) {
+    open(`things:///add?titles=${events.join('\n')}&when=Today&tags=Meeting`)
   }
 }
