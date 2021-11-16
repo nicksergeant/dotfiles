@@ -25,7 +25,7 @@ if (dayString) {
     const lastEvent = parseInt(i) === (eventsRaw.length - 1);
 
     if (
-      !eventTime.includes('all-day') && event.includes('trajector')
+      !eventTime.includes('all-day') && event.toLowerCase().includes('trajector')
     ) {
       let title = eventTitle;
 
