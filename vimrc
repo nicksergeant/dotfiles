@@ -613,8 +613,8 @@ let g:vim_markdown_new_list_item_indent = 0
 let g:vimwiki_folding = 'custom'
 let g:vimwiki_conceallevel = 3
 let g:vimwiki_list = [{
-      \ 'path': '~/Dropbox (Personal)/Notes',
-      \ 'path_html': '~/Dropbox (Personal)/Notes/HTML/',
+      \ 'path': '~/Documents/Notes',
+      \ 'path_html': '~/Documents/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'
       \ }]
 

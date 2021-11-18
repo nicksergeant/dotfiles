@@ -3,14 +3,14 @@ const { execSync } = require('child_process');
 
 const dayText = execSync('pbpaste').toString();
 const day = dayText.split('\n')[0];
-
 const dayString = day.match(/\w+, \w+ \d+, \d{4}$/);
-
-const mode = 'things'; // 'things' or 'markdown'
+const mode = 'markdown'; // 'things' or 'markdown'
 
 if (dayString) {
   const eventsRaw = dayText.replace(dayString, '').split('\n---\n');
   const events = [];
+
+  let firstEvent = true;
 
   for (i in eventsRaw) {
     const event = eventsRaw[i].trim();
@@ -20,7 +20,6 @@ if (dayString) {
       .replace(' AM', 'a')
       .replace(' PM', 'p');
     const eventTitle = eventLines[1].replace('❇️ ', '');
-    const lastEvent = parseInt(i) === (eventsRaw.length - 1);
 
     if (
       !eventTime.includes('all-day') && event.toLowerCase().includes('trajector')
@@ -28,7 +27,7 @@ if (dayString) {
       let title = eventTitle;
 
       if (mode === 'markdown') {
-        console.log(`[ ] ${eventTime} ${title}${!lastEvent ? '\n': ''}`);
+        console.log(`${!firstEvent ? '- [ ] ' : ''}${eventTime} ${title}`);
       } else if (mode === 'things') {
         events.push(`${eventTime} ${title}`);
       }
