@@ -12,8 +12,6 @@ if (dayString) {
   const eventsRaw = dayText.replace(dayString, '').split('\n---\n');
   const events = [];
 
-  let firstEvent = true;
-
   for (i in eventsRaw) {
     const event = eventsRaw[i].trim();
     const eventLines = event.split('\n');
