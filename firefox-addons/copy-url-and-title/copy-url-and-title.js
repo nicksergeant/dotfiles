@@ -5,7 +5,7 @@ const copyUrlAndTitle = () => {
   markdownLabel = title;
   markdownUrl = url;
 
-  if (url.includes('git.hubteam.com')) {
+  if (url.includes('github.com')) {
     if (url.includes('/pull/')) {
       const urlMatches = /.*pull\/(\d+).*/i.exec(document.URL);
 
@@ -27,16 +27,6 @@ const copyUrlAndTitle = () => {
 
         markdownLabel = title.replace(` · Issue #${issueId} · ${repo}`, '');
       }
-    }
-  } else if (url.includes('issues.hubspotcentral.com')) {
-    const urlMatches = /.*browse\/(\w+-\d+).*/i.exec(document.URL);
-
-    if (urlMatches) {
-      const ticketId = urlMatches[1];
-
-      markdownLabel = title
-        .replace(`[${ticketId}] `, '')
-        .replace(' - HubSpot JIRA', '');
     }
   }
 
