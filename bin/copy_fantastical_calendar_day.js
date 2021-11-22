@@ -1,18 +1,13 @@
-const open = require('open');
-const { execSync } = require('child_process');
+import { execSync } from 'child_process';
 
 const dayText = execSync('pbpaste').toString();
 const day = dayText.split('\n')[0];
 const dayString = day.match(/\w+, \w+ \d+, \d{4}$/);
-const mode = 'markdown'; // 'things' or 'markdown'
 
 if (dayString) {
   const eventsRaw = dayText.replace(dayString, '').split('\n---\n');
-  const events = [];
 
-  let firstEvent = true;
-
-  for (i in eventsRaw) {
+  for (var i in eventsRaw) {
     const event = eventsRaw[i].trim();
     const eventLines = event.split('\n');
     const eventTime = eventLines[0]
@@ -21,22 +16,8 @@ if (dayString) {
       .replace(' PM', 'p');
     const eventTitle = eventLines[1].replace('❇️ ', '');
 
-    if (
-      !eventTime.includes('all-day') && event.toLowerCase().includes('trajector')
-    ) {
-      let title = eventTitle;
-
-      if (mode === 'markdown') {
-        console.log(`${!firstEvent ? '- [ ] ' : ''}${eventTime} ${title}`);
-      } else if (mode === 'things') {
-        events.push(`${eventTime} ${title}`);
-      }
-
-      firstEvent = false;
+    if (!eventTime.includes('all-day')) {
+      console.log(`${eventTime} ${eventTitle}`);
     }
-  }
-
-  if (mode === 'things' && events.length) {
-    open(`things:///add?titles=${events.join('\n')}&when=Today&tags=Meeting`)
   }
 }

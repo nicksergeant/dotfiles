@@ -1,39 +1,50 @@
-import { format, isWeekend, nextMonday, startOfTomorrow } from 'date-fns';
 import fs from 'fs';
+import readline from 'readline';
+import { format, isWeekend, nextMonday, startOfTomorrow } from 'date-fns';
 
-const DATE_FORMAT = '# yyyy-LL-dd (EEEE)';
+var input = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
 
-const logFile = '/Users/nsergeant/Documents/Notes/daily.md';
-const logLines = fs.readFileSync(logFile, 'utf8');
-const newTask = process.argv[3];
-const tomorrowDate = startOfTomorrow();
-const dates = {
-  today: format(new Date(), DATE_FORMAT),
-  tomorrow: format(startOfTomorrow(), DATE_FORMAT),
-  nextWorkDay: format(
-    isWeekend(tomorrowDate) ? nextMonday(tomorrowDate) : tomorrowDate,
-    DATE_FORMAT
-  ),
-};
+input.on('line', (input) => {
+  console.log(input);
+  if (input) {
+    const DATE_FORMAT = '# yyyy-LL-dd (EEEE)';
 
-const targetDay = dates[process.argv[2]];
-const separator =
-  '\n\n----------------------------------------------------------------------\n\n';
-const [headers, logsRaw] = logLines.split(separator);
+    const logFile = '/Users/nsergeant/Documents/Notes/daily.md';
+    const logLines = fs.readFileSync(logFile, 'utf8');
+    const tomorrowDate = startOfTomorrow();
+    const dates = {
+      today: format(new Date(), DATE_FORMAT),
+      tomorrow: format(startOfTomorrow(), DATE_FORMAT),
+      nextWorkDay: format(
+        isWeekend(tomorrowDate) ? nextMonday(tomorrowDate) : tomorrowDate,
+        DATE_FORMAT
+      ),
+    };
 
-let logs = logsRaw.split('\n\n').map((l) => l.split('\n'));
-let logForTargetDay = logs.find((l) => l[0] === targetDay);
-if (logForTargetDay) {
-  logs[logs.indexOf(logForTargetDay)] = [
-    ...logForTargetDay,
-    `- [ ] ${newTask}`,
-  ];
-} else {
-  logForTargetDay = [targetDay, `- [ ] ${newTask}`];
-  logs.unshift(logForTargetDay);
-}
+    const targetDay = dates[process.argv[2]];
+    const separator =
+      '\n\n----------------------------------------------------------------------\n\n';
+    const [headers, logsRaw] = logLines.split(separator);
 
-fs.writeFileSync(
-  logFile,
-  `${headers}${separator}${logs.map((l) => l.join('\n')).join('\n\n')}`
-);
+    let logs = logsRaw.split('\n\n').map((l) => l.split('\n'));
+    let logForTargetDay = logs.find((l) => l[0] === targetDay);
+    if (logForTargetDay) {
+      logs[logs.indexOf(logForTargetDay)] = [
+        ...logForTargetDay,
+        `- [ ] ${input}`,
+      ];
+    } else {
+      logForTargetDay = [targetDay, `- [ ] ${input}`];
+      logs.unshift(logForTargetDay);
+    }
+
+    fs.writeFileSync(
+      logFile,
+      `${headers}${separator}${logs.map((l) => l.join('\n')).join('\n\n')}`
+    );
+  }
+});

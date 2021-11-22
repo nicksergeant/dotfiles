@@ -17,6 +17,8 @@ filetype plugin indent on
 " Basic settings ------------------------------------------------- {{{
 
 set autoread
+autocmd FocusGained * checktime
+
 set autowrite
 set backspace=indent,eol,start
 set colorcolumn=0
