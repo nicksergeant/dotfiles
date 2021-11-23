@@ -16,9 +16,6 @@ filetype plugin indent on
 " }}}
 " Basic settings ------------------------------------------------- {{{
 
-set autoread
-autocmd FocusGained * checktime
-
 set autowrite
 set backspace=indent,eol,start
 set colorcolumn=0
@@ -37,6 +34,13 @@ set statusline=%f%=%c\ @\ %l/%L\ %y
 set synmaxcol=800
 set title
 set visualbell
+
+" Reload file if it has changed on focus.
+set autoread
+autocmd FocusGained * checktime
+
+" Save file on focus lost.
+autocmd FocusLost * silent! wa
 
 " Timeout on key codes but not mappings.
 set notimeout
