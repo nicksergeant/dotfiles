@@ -97,10 +97,30 @@ fl() {
   clear
 }
 
+flj() {
+  fl
+  make js
+}
+
+flr() {
+  fl
+  make run
+}
+
 on() {
   _z on
   wo
   clear
+}
+
+onj() {
+  on
+  make js
+}
+
+onr() {
+  on
+  make run
 }
 
 gd() {
