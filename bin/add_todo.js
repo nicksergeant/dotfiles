@@ -27,7 +27,7 @@ input.on('line', (input) => {
 
     const targetDay = dates[process.argv[2]];
     const separator =
-      '\n\n----------------------------------------------------------------------\n\n';
+      '\n\n-----------------------------------------------\n\n';
     const [headers, logsRaw] = logLines.split(separator);
 
     let logs = logsRaw.split('\n\n').map((l) => l.split('\n'));

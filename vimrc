@@ -153,7 +153,7 @@ Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
-" Plug 'ludovicchabant/vim-gutentags'
+Plug 'junegunn/vim-after-object'
 Plug 'michal-h21/vim-zettel'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
@@ -527,6 +527,11 @@ lua <<EOF
 EOF
 
 " }}}
+" Miscellaneous -------------------------------------------------- {{{
+
+autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
+
+" }}}
 " NERDTree ------------------------------------------------------- {{{
 
 noremap  <leader>f :NERDTreeFind<cr>
@@ -623,6 +628,7 @@ let g:vimwiki_list = [{
       \ 'path_html': '~/Documents/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'
       \ }]
+let g:vimwiki_listsyms = " .oOx"
 
 function! GoToMarkdownLinkInLine()
   let line = getline(".")
