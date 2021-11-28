@@ -1,5 +1,7 @@
 {
- :applications {:chrome ["^com\\.google\\.Chrome$"]}
+  :applications {
+    :chrome ["com.google.Chrome"]
+  }
 
  :main[
    {:des "Caps Lock to Escape and Control" :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
@@ -27,7 +29,9 @@
       [:!SOl :!Sright_arrow]
       [:!SOopen_bracket :!SOup_arrow]
       [:!SOw :!SOright_arrow]
-      ]
-    }
-  ]
- }
+  ]}
+  {:des "Chrome"
+    :rules [:chrome
+    [:j :7]
+  ]}
+]}
