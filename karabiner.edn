@@ -1,0 +1,33 @@
+{
+ :applications {:chrome ["^com\\.google\\.Chrome$"]}
+
+ :main[
+   {:des "Caps Lock to Escape and Control" :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
+   {:des "Vim Mode"
+    :rules [
+      [:!O0 :!Ta]
+      [:!O4 :!Te]
+      [:!OTh :!Oleft_arrow]
+      [:!OTl :!Oright_arrow]
+      [:!Ob :!Oleft_arrow]
+      [:!Oh :left_arrow]
+      [:!Oj :down_arrow]
+      [:!Ok :up_arrow]
+      [:!Ol :right_arrow]
+      [:!Ow :!Oright_arrow]
+      [:!SO0 :!SCleft_arrow]
+      [:!SO4 :!SCright_arrow]
+      [:!SOTh :!SOleft_arrow]
+      [:!SOTl :!SOright_arrow]
+      [:!SOb :!SOleft_arrow]
+      [:!SOclose_bracket :!SOdown_arrow]
+      [:!SOh :!Sleft_arrow]
+      [:!SOj :!Sdown_arrow]
+      [:!SOk :!Sup_arrow]
+      [:!SOl :!Sright_arrow]
+      [:!SOopen_bracket :!SOup_arrow]
+      [:!SOw :!SOright_arrow]
+      ]
+    }
+  ]
+ }
