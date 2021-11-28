@@ -4,34 +4,30 @@
   }
 
  :main[
-   {:des "Caps Lock to Escape and Control" :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
+   {:des "Caps Lock to Escape and Control"
+    :rules [
+      [:##caps_lock :left_control nil {:alone :escape}] ; Caps as escape when tapped and control when held
+   ]}
    {:des "Vim Mode"
     :rules [
-      [:!O0 :!Ta]
-      [:!O4 :!Te]
-      [:!OTh :!Oleft_arrow]
-      [:!OTl :!Oright_arrow]
-      [:!Ob :!Oleft_arrow]
-      [:!Oh :left_arrow]
-      [:!Oj :down_arrow]
-      [:!Ok :up_arrow]
-      [:!Ol :right_arrow]
-      [:!Ow :!Oright_arrow]
-      [:!SO0 :!SCleft_arrow]
-      [:!SO4 :!SCright_arrow]
-      [:!SOTh :!SOleft_arrow]
-      [:!SOTl :!SOright_arrow]
-      [:!SOb :!SOleft_arrow]
-      [:!SOclose_bracket :!SOdown_arrow]
-      [:!SOh :!Sleft_arrow]
-      [:!SOj :!Sdown_arrow]
-      [:!SOk :!Sup_arrow]
-      [:!SOl :!Sright_arrow]
-      [:!SOopen_bracket :!SOup_arrow]
-      [:!SOw :!SOright_arrow]
+      [:!OTh :!Oleft_arrow] ; Move one word left
+      [:!OTl :!Oright_arrow] ; Move one word right
+      [:!Oh :left_arrow] ; Move one character left
+      [:!Oj :down_arrow] ; Move one line down
+      [:!Ok :up_arrow] ; Move one line up
+      [:!Ol :right_arrow] ; Move one character right
+      [:!SOTh :!SOleft_arrow] ; Select one word left
+      [:!SOTl :!SOright_arrow] ; Select one word right
+      [:!SOh :!Sleft_arrow] ; Select one character left
+      [:!SOj :!Sdown_arrow] ; Select one line down
+      [:!SOk :!Sup_arrow] ; Select one line up
+      [:!SOl :!Sright_arrow] ; Select one character right
   ]}
   {:des "Chrome"
     :rules [:chrome
-    [:j :7]
+      [:!STbackslash :!Ox] ; 1Password
+      [:!Cbackslash :!Ox] ; 1Password
+      [:!CSc :!COc] ; Inspect Element
+      [:!Csemicolon :!COj] ; Toggle Console
   ]}
 ]}
