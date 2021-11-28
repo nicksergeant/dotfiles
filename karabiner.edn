@@ -1,12 +1,15 @@
 {
   :applications {
+    :activity_monitor ["com.apple.ActivityMonitor"]
     :chrome ["com.google.Chrome"]
+    :firefox ["org.mozilla.firefox" "org.mozilla.firefoxdeveloperedition"]
+    :mail ["com.apple.mail"]
   }
 
  :main[
    {:des "Caps Lock to Escape and Control"
     :rules [
-      [:##caps_lock :left_control nil {:alone :escape}] ; Caps as escape when tapped and control when held
+      [:##caps_lock :left_control nil {:alone :escape}] ; Caps to escape when tapped and control when held
    ]}
    {:des "Vim Mode"
     :rules [
@@ -23,11 +26,34 @@
       [:!SOk :!Sup_arrow] ; Select one line up
       [:!SOl :!Sright_arrow] ; Select one character right
   ]}
+  {:des "Activity Monitor"
+    :rules [:activity_monitor
+      [:!Cf :!COf] ; Filter processes
+  ]}
   {:des "Chrome"
     :rules [:chrome
-      [:!STbackslash :!Ox] ; 1Password
+      [:!CSc :!COc] ; Inspect element
       [:!Cbackslash :!Ox] ; 1Password
-      [:!CSc :!COc] ; Inspect Element
-      [:!Csemicolon :!COj] ; Toggle Console
+      [:!Csemicolon :!COj] ; Toggle console
+      [:!STbackslash :!Ox] ; 1Password
+  ]}
+  {:des "Firefox"
+    :rules [:firefox
+      [:!C1 :!COk] ; Console
+      [:!C2 :!COc] ; Inspector
+      [:!C3 :!COe] ; Network
+      [:!C4 :!COz] ; Debugger
+      [:!CSc :!COc] ; Inspector
+      [:!CSn :!CSp] ; New private window
+      [:!Cbackslash :!CSperiod] ; 1Password
+      [:!Csemicolon :!COi] ; Toggle developer tools
+      [:!STbackslash :!CSperiod] ; 1Password
+  ]}
+  {:des "Mail"
+    :rules [:mail
+      [:!Ce :!CTa] ; Archive message
+      [:!Cf :!COf] ; Search
+      [:!Cj :!CSj] ; Move message to junk
+      [:!Cr :!CSr] ; Reply all
   ]}
 ]}
