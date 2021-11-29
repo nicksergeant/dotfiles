@@ -601,7 +601,7 @@
           } ],
           "conditions" : [ {
             "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "com.apple.Safari" ]
+            "bundle_identifiers" : [ "com.spotify.client" ]
           } ],
           "type" : "basic"
         } ]

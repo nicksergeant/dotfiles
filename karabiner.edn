@@ -8,7 +8,7 @@
     :notion ["notion.id"]
     :safari ["com.apple.Safari"]
     :slack ["com.tinyspeck.slackmacgap"]
-    :spotify ["com.apple.Safari"]
+    :spotify ["com.spotify.client"]
     :terminals ["io.alacritty"]
     :things ["com.culturedcode.ThingsMac"]
   }
