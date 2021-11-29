@@ -7,90 +7,116 @@
     :microsoft_teams ["com.microsoft.teams"]
     :notion ["notion.id"]
     :safari ["com.apple.Safari"]
-    :spotify ["com.apple.Safari"]
     :slack ["com.tinyspeck.slackmacgap"]
+    :spotify ["com.apple.Safari"]
+    :terminals ["io.alacritty"]
+    :things ["com.culturedcode.ThingsMac"]
   }
 
- :main[
-   {:des "Caps Lock to Escape and Control"
-    :rules [
-      [:##caps_lock :left_control nil {:alone :escape}] ; Caps to escape when tapped and control when held
-   ]}
-   {:des "Vim Mode"
-    :rules [
-      [:!OTh :!Oleft_arrow] ; Move one word left
-      [:!OTl :!Oright_arrow] ; Move one word right
-      [:!Oh :left_arrow] ; Move one character left
-      [:!Oj :down_arrow] ; Move one line down
-      [:!Ok :up_arrow] ; Move one line up
-      [:!Ol :right_arrow] ; Move one character right
-      [:!SOTh :!SOleft_arrow] ; Select one word left
-      [:!SOTl :!SOright_arrow] ; Select one word right
-      [:!SOh :!Sleft_arrow] ; Select one character left
-      [:!SOj :!Sdown_arrow] ; Select one line down
-      [:!SOk :!Sup_arrow] ; Select one line up
-      [:!SOl :!Sright_arrow] ; Select one character right
-  ]}
-  {:des "Activity Monitor"
-    :rules [:activity_monitor
-      [:!Cf :!COf] ; Filter processes
-  ]}
-  {:des "Chrome"
-    :rules [:chrome
-      [:!CSc :!COc] ; Inspect element
-      [:!Cbackslash :!Ox] ; 1Password
-      [:!Csemicolon :!COj] ; Toggle developer tools
-      [:!STbackslash :!Ox] ; 1Password
-  ]}
-  {:des "Firefox"
-    :rules [:firefox
-      [:!C1 :!COk] ; Console
-      [:!C2 :!COc] ; Inspector
-      [:!C3 :!COe] ; Network
-      [:!C4 :!COz] ; Debugger
-      [:!CSc :!COc] ; Inspector
-      [:!CSn :!CSp] ; New private window
-      [:!Cbackslash :!CSperiod] ; 1Password
-      [:!Csemicolon :!COi] ; Toggle developer tools
-      [:!STbackslash :!CSperiod] ; 1Password
-  ]}
-  {:des "Mail"
-    :rules [:mail
-      [:!Ce :!CTa] ; Archive message
-      [:!Cf :!COf] ; Search
-      [:!Cj :!CSj] ; Move message to junk
-      [:!Cr :!CSr] ; Reply all
-  ]}
-  {:des "Microsoft Teams"
-    :rules [:microsoft_teams
-      [:!CSa :!CSm] ; Toggle Mute
-  ]}
-  {:des "Notion"
-    :rules [:notion
-      [:!CSt :!CO4] ; Turn into to-do
-      [:!OTj :!CSdown_arrow] ; Move item one line down
-      [:!OTk :!CSup_arrow] ; Move item one line up
-      [:!Tg :!Cp] ; Search
-  ]}
-  {:des "Safari"
-    :rules [:safari
-      [:!CSr :!COr] ; Reload without cache
-      [:!Csemicolon :!COi] ; Toggle developer tools
-  ]}
-  {:des "Spotify"
-    :rules [:spotify
-      [:!Cf :!Cl] ; Search
-  ]}
-  {:des "Slack"
-    :rules [:slack
-      [:!COk :!Cup_arrow] ; Edit previous message
-      [:!CSTclose_bracket :!OSdown_arrow] ; Next channel with unreads
-      [:!CSTopen_bracket :!OSup_arrow] ; Previous channel with unreads
-      [:!CSclose_bracket :!Odown_arrow] ; Next channel
-      [:!CSh :!CSOTh] ; Stop calling people
-      [:!CSopen_bracket :!Oup_arrow] ; Previous channel
-      [:!Td :page_down] ; Scroll page down
-      [:!Tg :!Ck] ; Search
-      [:!Tu :page_up] ; Scroll page up
-  ]}
-]}
+  :main[
+    {:des "Caps Lock to Escape and Control"
+      :rules [
+        [:##caps_lock :left_control nil {:alone :escape}] ; Caps to escape when tapped and control when held
+    ]}
+    {:des "Vim Mode"
+      :rules [
+        [:!OTh :!Oleft_arrow] ; Move one word left
+        [:!OTl :!Oright_arrow] ; Move one word right
+        [:!Oh :left_arrow] ; Move one character left
+        [:!Oj :down_arrow] ; Move one line down
+        [:!Ok :up_arrow] ; Move one line up
+        [:!Ol :right_arrow] ; Move one character right
+        [:!SOTh :!SOleft_arrow] ; Select one word left
+        [:!SOTl :!SOright_arrow] ; Select one word right
+        [:!SOh :!Sleft_arrow] ; Select one character left
+        [:!SOj :!Sdown_arrow] ; Select one line down
+        [:!SOk :!Sup_arrow] ; Select one line up
+        [:!SOl :!Sright_arrow] ; Select one character right
+    ]}
+    {:des "Activity Monitor"
+      :rules [:activity_monitor
+        [:!Cf :!COf] ; Filter processes
+    ]}
+    {:des "Chrome"
+      :rules [:chrome
+        [:!CSc :!COc] ; Inspect element
+        [:!Cbackslash :!Ox] ; 1Password
+        [:!Csemicolon :!COj] ; Toggle developer tools
+        [:!STbackslash :!Ox] ; 1Password
+    ]}
+    {:des "Firefox"
+      :rules [:firefox
+        [:!C1 :!COk] ; Console
+        [:!C2 :!COc] ; Inspector
+        [:!C3 :!COe] ; Network
+        [:!C4 :!COz] ; Debugger
+        [:!CSc :!COc] ; Inspector
+        [:!CSn :!CSp] ; New private window
+        [:!Cbackslash :!CSperiod] ; 1Password
+        [:!Csemicolon :!COi] ; Toggle developer tools
+        [:!STbackslash :!CSperiod] ; 1Password
+    ]}
+    {:des "Mail"
+      :rules [:mail
+        [:!Ce :!CTa] ; Archive message
+        [:!Cr :!CSr] ; Reply all
+        [:!Cslash :!COf] ; Search
+    ]}
+    {:des "Microsoft Teams"
+      :rules [:microsoft_teams
+        [:!CSa :!CSm] ; Toggle Mute
+    ]}
+    {:des "Notion"
+      :rules [:notion
+        [:!CSt :!CO4] ; Turn into to-do
+        [:!OTj :!CSdown_arrow] ; Move item one line down
+        [:!OTk :!CSup_arrow] ; Move item one line up
+        [:!Tg :!Cp] ; Search
+    ]}
+    {:des "Safari"
+      :rules [:safari
+        [:!CSr :!COr] ; Reload without cache
+        [:!Csemicolon :!COi] ; Toggle developer tools
+    ]}
+    {:des "Spotify"
+      :rules [:spotify
+        [:!Cf :!Cl] ; Search
+    ]}
+    {:des "Slack"
+      :rules [:slack
+        [:!COk :!Cup_arrow] ; Edit previous message
+        [:!CSTclose_bracket :!OSdown_arrow] ; Next channel with unreads
+        [:!CSTopen_bracket :!OSup_arrow] ; Previous channel with unreads
+        [:!CSclose_bracket :!Odown_arrow] ; Next channel
+        [:!CSh :!CSOTh] ; Stop calling people
+        [:!CSopen_bracket :!Oup_arrow] ; Previous channel
+        [:!Td :page_down] ; Scroll page down
+        [:!Tg :!Ck] ; Search
+        [:!Tu :page_up] ; Scroll page up
+    ]}
+    {:des "Terminals"
+      :rules [:terminals
+        [:!CScomma [:!Tf :p]] ; Go to previous window
+        [:!CSn [:!Tf :c]] ; Create new window
+        [:!CSperiod [:!Tf :n]] ; Go to next window
+        [:!CSr [:!Tf :!Ssemicolon :r :e :n :a :m :e :hyphen :w :i :n :d :o :w :spacebar]] ; Rename tmux window
+        [:!CTr [:!Tf :!Ssemicolon :r :e :n :a :m :e :hyphen :s :e :s :s :i :o :n :spacebar]] ; Rename tmux session
+        [:!Cgrave_accent_and_tilde [:!Tf :g]] ; Go to last-active window
+        [:!Cs :escape] ; No-op as Vim auto-saves on FocusLost
+        [:!Cw [:escape :!Ssemicolon :q :return_or_enter]] ; Close Vim window
+        [:!Odelete_or_backspace :!Tw]; Delete previous word
+    ]}
+    {:des "Things"
+      :rules [:things
+        [:!C1 :!C2] ; ; Go to Today = cmd-1 to cmd-2
+        [:!C2 :!C3] ; ; Go to Upcoming = cmd-2 to cmd-3
+        [:!C3 :!C4] ; Go to Anytime = cmd-3 to cmd-4
+        [:!C4 :!C6] ; ; Go to Logbook = cmd-4 to cmd-6
+        [:!Co [:return_or_enter :down_arrow :!COreturn_or_enter]] ; ; Open URL in to-do = cmd-o to return, down-arrow, opt-cmd-return
+        [:!Creturn_or_enter :!Ck] ; ; Toggle to-do = cmd-return to cmd-k
+        [:!Cw :!Ch] ; Hide window = cmd-w to cmd-h
+        [:!OTj :!Cdown_arrow] ; ; Move to-do one line down = ctrl-opt-j to cmd-down-arrow
+        [:!OTk :!Cup_arrow] ; ; Move to-do one line up = ctrl-opt-k to cmd-up-arrow
+    ]}
+  ]
+}
