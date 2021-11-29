@@ -108,15 +108,15 @@
     ]}
     {:des "Things"
       :rules [:things
-        [:!C1 :!C2] ; ; Go to Today = cmd-1 to cmd-2
-        [:!C2 :!C3] ; ; Go to Upcoming = cmd-2 to cmd-3
-        [:!C3 :!C4] ; Go to Anytime = cmd-3 to cmd-4
-        [:!C4 :!C6] ; ; Go to Logbook = cmd-4 to cmd-6
-        [:!Co [:return_or_enter :down_arrow :!COreturn_or_enter]] ; ; Open URL in to-do = cmd-o to return, down-arrow, opt-cmd-return
-        [:!Creturn_or_enter :!Ck] ; ; Toggle to-do = cmd-return to cmd-k
-        [:!Cw :!Ch] ; Hide window = cmd-w to cmd-h
-        [:!OTj :!Cdown_arrow] ; ; Move to-do one line down = ctrl-opt-j to cmd-down-arrow
-        [:!OTk :!Cup_arrow] ; ; Move to-do one line up = ctrl-opt-k to cmd-up-arrow
+        [:!C1 :!C2] ; Go to Today
+        [:!C2 :!C3] ; Go to Upcoming
+        [:!C3 :!C4] ; Go to Anytime
+        [:!C4 :!C6] ; Go to Logbook
+        [:!Co [:return_or_enter :down_arrow :!COreturn_or_enter]] ; Open URL in to-do
+        [:!Creturn_or_enter :!Ck] ; Toggle to-do
+        [:!Cw :!Ch] ; Hide window
+        [:!OTj :!Cdown_arrow] ; Move to-do one line down
+        [:!OTk :!Cup_arrow] ; Move to-do one line up
     ]}
   ]
 }
