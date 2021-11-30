@@ -262,9 +262,9 @@ onoremap <leader>c<space> :Commentary<cr>
 nnoremap yy "+yy
 vnoremap y "+y
 
-inoremap <c-v> <esc>"+pa
-nnoremap <c-v> viwo<esc>i[<esc>ea]()<esc>h"+p
-vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
+inoremap <c-t> <esc>"+pa
+nnoremap <c-t> viwo<esc>i[<esc>ea]()<esc>h"+p
+vnoremap <c-t> <esc>`<i[<esc>`>ea]()<esc>h"+p
 
 " }}}
 " CSS ------------------------------------------------------------ {{{
@@ -663,6 +663,7 @@ augroup filetype_vimwiki
     au FileType vimwiki setlocal concealcursor=n
     au FileType vimwiki setlocal foldmethod=marker
     au FileType vimwiki setlocal shiftwidth=6
+    au FileType vimwiki lua require('cmp').setup.buffer { enabled = false }
 
     au FileType vimwiki imap <buffer> <s-tab> <Plug>VimwikiDecreaseLvlSingleItem
     au FileType vimwiki imap <buffer> <tab> <Plug>VimwikiIncreaseLvlSingleItem
