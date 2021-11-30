@@ -20,7 +20,7 @@
     ]}
     {:des "Right Command to Left Command"
       :rules [
-        [:##right_command :##left_command] ; Caps to escape when tapped and control when held
+        [:##right_command :##left_command] ; Right command to left command so we can use all of the same bindings
     ]}
     {:des "Vim Mode"
       :rules [
