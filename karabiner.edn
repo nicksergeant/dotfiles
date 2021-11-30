@@ -18,6 +18,10 @@
       :rules [
         [:##caps_lock :left_control nil {:alone :escape}] ; Caps to escape when tapped and control when held
     ]}
+    {:des "Right Command to Left Command"
+      :rules [
+        [:##right_command :##left_command] ; Caps to escape when tapped and control when held
+    ]}
     {:des "Vim Mode"
       :rules [
         [:!OTh :!Oleft_arrow] ; Move one word left
