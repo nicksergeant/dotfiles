@@ -3,6 +3,7 @@
     :activity_monitor ["com.apple.ActivityMonitor"]
     :chrome ["com.google.Chrome"]
     :firefox ["org.mozilla.firefox" "org.mozilla.firefoxdeveloperedition"]
+    :linear ["com.linear"]
     :mail ["com.apple.mail"]
     :microsoft_teams ["com.microsoft.teams"]
     :notion ["notion.id"]
@@ -121,6 +122,10 @@
         [:!Cw :!Ch] ; Hide window
         [:!OTj :!Cdown_arrow] ; Move to-do one line down
         [:!OTk :!Cup_arrow] ; Move to-do one line up
+    ]}
+    {:des "Linear"
+      :rules [:linear
+        [:!Tg :!Ck] ; Search
     ]}
   ]
 }
