@@ -262,9 +262,9 @@ onoremap <leader>c<space> :Commentary<cr>
 nnoremap yy "+yy
 vnoremap y "+y
 
-inoremap <c-t> <esc>"+pa
-nnoremap <c-t> viwo<esc>i[<esc>ea]()<esc>h"+p
-vnoremap <c-t> <esc>`<i[<esc>`>ea]()<esc>h"+p
+inoremap <c-v> <esc>"+pa
+nnoremap <c-v> viwo<esc>i[<esc>ea]()<esc>h"+p
+vnoremap <c-v> <esc>`<i[<esc>`>ea]()<esc>h"+p
 
 " }}}
 " CSS ------------------------------------------------------------ {{{
