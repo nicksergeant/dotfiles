@@ -22,7 +22,7 @@
         "basic.to_if_held_down_threshold_milliseconds" : 500
       },
       "rules" : [ {
-        "description" : "Caps Lock to Escape and Control",
+        "description" : "Global",
         "manipulators" : [ {
           "to_if_alone" : [ {
             "key_code" : "escape"
@@ -35,6 +35,17 @@
           },
           "to" : [ {
             "key_code" : "left_control"
+          } ],
+          "type" : "basic"
+        }, {
+          "from" : {
+            "key_code" : "right_command",
+            "modifiers" : {
+              "optional" : [ "any" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "left_command"
           } ],
           "type" : "basic"
         } ]
@@ -555,6 +566,22 @@
         "description" : "Safari",
         "manipulators" : [ {
           "from" : {
+            "key_code" : "1",
+            "modifiers" : {
+              "mandatory" : [ "left_command" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "c",
+            "modifiers" : [ "left_command", "left_option" ]
+          } ],
+          "conditions" : [ {
+            "type" : "frontmost_application_if",
+            "bundle_identifiers" : [ "com.apple.Safari" ]
+          } ],
+          "type" : "basic"
+        }, {
+          "from" : {
             "key_code" : "r",
             "modifiers" : {
               "mandatory" : [ "left_command", "left_shift" ]
@@ -571,6 +598,22 @@
           "type" : "basic"
         }, {
           "from" : {
+            "key_code" : "backslash",
+            "modifiers" : {
+              "mandatory" : [ "left_command" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "backslash",
+            "modifiers" : [ "left_control", "left_shift" ]
+          } ],
+          "conditions" : [ {
+            "type" : "frontmost_application_if",
+            "bundle_identifiers" : [ "com.apple.Safari" ]
+          } ],
+          "type" : "basic"
+        }, {
+          "from" : {
             "key_code" : "semicolon",
             "modifiers" : {
               "mandatory" : [ "left_command" ]
@@ -579,6 +622,36 @@
           "to" : [ {
             "key_code" : "i",
             "modifiers" : [ "left_command", "left_option" ]
+          } ],
+          "conditions" : [ {
+            "type" : "frontmost_application_if",
+            "bundle_identifiers" : [ "com.apple.Safari" ]
+          } ],
+          "type" : "basic"
+        }, {
+          "from" : {
+            "key_code" : "d",
+            "modifiers" : {
+              "mandatory" : [ "left_control" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "d"
+          } ],
+          "conditions" : [ {
+            "type" : "frontmost_application_if",
+            "bundle_identifiers" : [ "com.apple.Safari" ]
+          } ],
+          "type" : "basic"
+        }, {
+          "from" : {
+            "key_code" : "u",
+            "modifiers" : {
+              "mandatory" : [ "left_control" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "u"
           } ],
           "conditions" : [ {
             "type" : "frontmost_application_if",
@@ -754,174 +827,6 @@
         "description" : "Terminals",
         "manipulators" : [ {
           "from" : {
-            "key_code" : "comma",
-            "modifiers" : {
-              "mandatory" : [ "left_command", "left_shift" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "f",
-            "modifiers" : [ "left_control" ]
-          }, {
-            "key_code" : "p"
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "io.alacritty" ]
-          } ],
-          "type" : "basic"
-        }, {
-          "from" : {
-            "key_code" : "n",
-            "modifiers" : {
-              "mandatory" : [ "left_command", "left_shift" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "f",
-            "modifiers" : [ "left_control" ]
-          }, {
-            "key_code" : "c"
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "io.alacritty" ]
-          } ],
-          "type" : "basic"
-        }, {
-          "from" : {
-            "key_code" : "period",
-            "modifiers" : {
-              "mandatory" : [ "left_command", "left_shift" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "f",
-            "modifiers" : [ "left_control" ]
-          }, {
-            "key_code" : "n"
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "io.alacritty" ]
-          } ],
-          "type" : "basic"
-        }, {
-          "from" : {
-            "key_code" : "r",
-            "modifiers" : {
-              "mandatory" : [ "left_command", "left_shift" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "f",
-            "modifiers" : [ "left_control" ]
-          }, {
-            "key_code" : "semicolon",
-            "modifiers" : [ "left_shift" ]
-          }, {
-            "key_code" : "r"
-          }, {
-            "key_code" : "e"
-          }, {
-            "key_code" : "n"
-          }, {
-            "key_code" : "a"
-          }, {
-            "key_code" : "m"
-          }, {
-            "key_code" : "e"
-          }, {
-            "key_code" : "hyphen"
-          }, {
-            "key_code" : "w"
-          }, {
-            "key_code" : "i"
-          }, {
-            "key_code" : "n"
-          }, {
-            "key_code" : "d"
-          }, {
-            "key_code" : "o"
-          }, {
-            "key_code" : "w"
-          }, {
-            "key_code" : "spacebar"
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "io.alacritty" ]
-          } ],
-          "type" : "basic"
-        }, {
-          "from" : {
-            "key_code" : "r",
-            "modifiers" : {
-              "mandatory" : [ "left_command", "left_control" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "f",
-            "modifiers" : [ "left_control" ]
-          }, {
-            "key_code" : "semicolon",
-            "modifiers" : [ "left_shift" ]
-          }, {
-            "key_code" : "r"
-          }, {
-            "key_code" : "e"
-          }, {
-            "key_code" : "n"
-          }, {
-            "key_code" : "a"
-          }, {
-            "key_code" : "m"
-          }, {
-            "key_code" : "e"
-          }, {
-            "key_code" : "hyphen"
-          }, {
-            "key_code" : "s"
-          }, {
-            "key_code" : "e"
-          }, {
-            "key_code" : "s"
-          }, {
-            "key_code" : "s"
-          }, {
-            "key_code" : "i"
-          }, {
-            "key_code" : "o"
-          }, {
-            "key_code" : "n"
-          }, {
-            "key_code" : "spacebar"
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "io.alacritty" ]
-          } ],
-          "type" : "basic"
-        }, {
-          "from" : {
-            "key_code" : "grave_accent_and_tilde",
-            "modifiers" : {
-              "mandatory" : [ "left_command" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "f",
-            "modifiers" : [ "left_control" ]
-          }, {
-            "key_code" : "g"
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "io.alacritty" ]
-          } ],
-          "type" : "basic"
-        }, {
-          "from" : {
             "key_code" : "s",
             "modifiers" : {
               "mandatory" : [ "left_command" ]
@@ -929,28 +834,6 @@
           },
           "to" : [ {
             "key_code" : "escape"
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "io.alacritty" ]
-          } ],
-          "type" : "basic"
-        }, {
-          "from" : {
-            "key_code" : "w",
-            "modifiers" : {
-              "mandatory" : [ "left_command" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "escape"
-          }, {
-            "key_code" : "semicolon",
-            "modifiers" : [ "left_shift" ]
-          }, {
-            "key_code" : "q"
-          }, {
-            "key_code" : "return_or_enter"
           } ],
           "conditions" : [ {
             "type" : "frontmost_application_if",
@@ -1042,26 +925,6 @@
           "type" : "basic"
         }, {
           "from" : {
-            "key_code" : "o",
-            "modifiers" : {
-              "mandatory" : [ "left_command" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "return_or_enter"
-          }, {
-            "key_code" : "down_arrow"
-          }, {
-            "key_code" : "return_or_enter",
-            "modifiers" : [ "left_command", "left_option" ]
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "com.culturedcode.ThingsMac" ]
-          } ],
-          "type" : "basic"
-        }, {
-          "from" : {
             "key_code" : "return_or_enter",
             "modifiers" : {
               "mandatory" : [ "left_command" ]
@@ -1122,6 +985,25 @@
           "conditions" : [ {
             "type" : "frontmost_application_if",
             "bundle_identifiers" : [ "com.culturedcode.ThingsMac" ]
+          } ],
+          "type" : "basic"
+        } ]
+      }, {
+        "description" : "Linear",
+        "manipulators" : [ {
+          "from" : {
+            "key_code" : "g",
+            "modifiers" : {
+              "mandatory" : [ "left_control" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "k",
+            "modifiers" : [ "left_command" ]
+          } ],
+          "conditions" : [ {
+            "type" : "frontmost_application_if",
+            "bundle_identifiers" : [ "com.linear" ]
           } ],
           "type" : "basic"
         } ]

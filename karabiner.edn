@@ -102,14 +102,7 @@
     ]}
     {:des "Terminals"
       :rules [:terminals
-        [:!CScomma [:!Tf :p]] ; Go to previous window
-        [:!CSn [:!Tf :c]] ; Create new window
-        [:!CSperiod [:!Tf :n]] ; Go to next window
-        [:!CSr [:!Tf :!Ssemicolon :r :e :n :a :m :e :hyphen :w :i :n :d :o :w :spacebar]] ; Rename tmux window
-        [:!CTr [:!Tf :!Ssemicolon :r :e :n :a :m :e :hyphen :s :e :s :s :i :o :n :spacebar]] ; Rename tmux session
-        [:!Cgrave_accent_and_tilde [:!Tf :g]] ; Go to last-active window
         [:!Cs :escape] ; No-op as Vim auto-saves on FocusLost
-        [:!Cw [:escape :!Ssemicolon :q :return_or_enter]] ; Close Vim window
         [:!Odelete_or_backspace :!Tw]; Delete previous word
     ]}
     {:des "Things"
@@ -118,7 +111,6 @@
         [:!C2 :!C3] ; Go to Upcoming
         [:!C3 :!C4] ; Go to Anytime
         [:!C4 :!C6] ; Go to Logbook
-        [:!Co [:return_or_enter :down_arrow :!COreturn_or_enter]] ; Open URL in to-do
         [:!Creturn_or_enter :!Ck] ; Toggle to-do
         [:!Cw :!Ch] ; Hide window
         [:!OTj :!Cdown_arrow] ; Move to-do one line down
