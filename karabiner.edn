@@ -17,7 +17,6 @@
   :main[
     {:des "Global"
       :rules [
-        [:!Cspacebar :!Ospacebar] ; Command-Space to Option-Space
         [:##caps_lock :left_control nil {:alone :escape}] ; Caps to escape when tapped and control when held
         [:##right_command :##left_command] ; Right command to left command so we can use all of the same bindings
     ]}
@@ -82,6 +81,8 @@
         [:!CSr :!COr] ; Reload without cache
         [:!Cbackslash :!STbackslash] ; 1password
         [:!Csemicolon :!COi] ; Toggle developer tools
+        [:!Td :d] ; Page down
+        [:!Tu :u] ; Page up
     ]}
     {:des "Spotify"
       :rules [:spotify
