@@ -19,3 +19,5 @@
   name = Nick Sergeant
 [pull]
   rebase = true
+[init]
+	defaultBranch = main
