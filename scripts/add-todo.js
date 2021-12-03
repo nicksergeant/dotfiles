@@ -9,7 +9,6 @@ var input = readline.createInterface({
 });
 
 input.on("line", (input) => {
-  console.log(input);
   if (input) {
     const DATE_FORMAT = "# yyyy-LL-dd (EEEE)";
 
