@@ -30,6 +30,7 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby@2.7/lib/pkgconfig"
 # Oh My Zsh ------------------------------------------ {{{
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+fpath+=$HOME/.zsh/pure
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 DISABLE_AUTO_UPDATE="true"
 ZSH_THEME=""
@@ -205,7 +206,6 @@ wo() {
 
 . ~/.env
 . ~/Sources/z/z.sh
-. ~/.nix-profile/etc/profile.d/nix.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

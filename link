@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir -p /Users/nsergeant/.config/alacritty
 mkdir -p /Users/nsergeant/.config/ctags
 mkdir -p /Users/nsergeant/.config/karabiner
 mkdir -p /Users/nsergeant/.config/nvim
