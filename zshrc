@@ -92,18 +92,6 @@ bindkey '^O' fzf-git-branches-widget
 unalias gd
 unalias gp
 
-build_alacritty() {
-  git clone git@github.com:alacritty/alacritty.git && \
-    cd alacritty && \
-    rustup update && \
-    rustup target add x86_64-apple-darwin && \
-    rustup target add aarch64-apple-darwin && \
-    cargo check --target=x86_64-apple-darwin && \
-    cargo check --target=aarch64-apple-darwin && \
-    make dmg-universal && \
-    cp -r target/release/osx/Alacritty.app
-}
-
 fl() {
   _z fl
   wo

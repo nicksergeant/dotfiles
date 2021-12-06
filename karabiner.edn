@@ -79,7 +79,6 @@
       :rules [:safari
         [:!C1 :!COc] ; Console
         [:!CSr :!COr] ; Reload without cache
-        [:!Cbackslash :!STbackslash] ; 1password
         [:!Csemicolon :!COi] ; Toggle developer tools
         [:!Td :d] ; Page down
         [:!Tu :u] ; Page up
