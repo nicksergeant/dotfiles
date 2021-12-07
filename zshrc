@@ -10,21 +10,16 @@ export GOPATH=$HOME/.go
 export GOROOT=/usr/local/opt/go/libexec
 export ZSH=~/.oh-my-zsh
 
-export PATH=~/.local/bin:$PATH
-export PATH=~/Sources/dotfiles/bin:$PATH
-export PATH=~/neovim/bin:$PATH
-export PATH=$GOPATH/bin:$PATH
-export PATH=$GOROOT/bin:$PATH
-export PATH=/usr/local/sbin:$PATH
-export PATH=/opt/homebrew/bin:$PATH
-export PATH=/usr/local/bin:$PATH
-export PATH=~/Library/Python/3.8/bin:$PATH
-export PATH=/opt/homebrew/lib/ruby/gems/2.7.0/bin:$PATH
-export PATH=/opt/homebrew/opt/ruby@2.7/bin:$PATH
-
-export CPPFLAGS="-I/opt/homebrew/opt/ruby@2.7/include -Qunused-arguments"
-export LDFLAGS="-L/opt/homebrew/opt/ruby@2.7/lib"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby@2.7/lib/pkgconfig"
+export PATH="~/.local/bin:$PATH"
+export PATH="~/Sources/dotfiles/bin:$PATH"
+export PATH="~/neovim/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="~/Library/Python/3.8/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 # }}}
 # Oh My Zsh ------------------------------------------ {{{
@@ -91,6 +86,29 @@ bindkey '^O' fzf-git-branches-widget
 
 unalias gd
 unalias gp
+
+build_alacritty() {
+  rm -rf ~/Sources/alacritty && \
+  rm -rf /Applications/Alacritty.app && \
+  rm -rf /Applications/Alacritty\ Notes.app && \
+  rm -rf /Applications/Alacritty\ Shell.app && \
+  rm -rf /Applications/Alacritty\ Vim.app && \
+  cd ~/Sources && \
+  git clone git@github.com:alacritty/alacritty.git && \
+  cd alacritty && \
+  rustup update && \
+  rustup target add x86_64-apple-darwin && \
+  rustup target add aarch64-apple-darwin && \
+  cargo check --target=x86_64-apple-darwin && \
+  cargo check --target=aarch64-apple-darwin && \
+  make dmg-universal && \
+  cp -r target/release/osx/Alacritty.app /Applications/Alacritty.app && \
+  codesign --remove-signature /Applications/Alacritty.app && \
+  sudo codesign --force --deep --sign - /Applications/Alacritty.app && \
+  cp -r /Applications/Alacritty.app /Applications/Alacritty\ Notes.app && \
+  cp -r /Applications/Alacritty.app /Applications/Alacritty\ Shell.app && \
+  cp -r /Applications/Alacritty.app /Applications/Alacritty\ Vim.app
+}
 
 fl() {
   _z fl
@@ -190,8 +208,8 @@ ts() {
 }
 
 tv() {
-  tmux new-session -d -s vim -n conversations
-  tmux send-keys j Space conversations Enter
+  tmux new-session -d -s vim -n onboarding
+  tmux send-keys j Space onboarding Enter
   tmux send-keys m Enter
   tmux attach
 }
