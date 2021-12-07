@@ -10,16 +10,16 @@ export GOPATH=$HOME/.go
 export GOROOT=/usr/local/opt/go/libexec
 export ZSH=~/.oh-my-zsh
 
-export PATH="~/.local/bin:$PATH"
-export PATH="~/Sources/dotfiles/bin:$PATH"
-export PATH="~/neovim/bin:$PATH"
-export PATH="$GOPATH/bin:$PATH"
-export PATH="$GOROOT/bin:$PATH"
-export PATH="~/Library/Python/3.8/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
-export PATH="/usr/local/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export PATH=~/.local/bin:$PATH
+export PATH=~/Sources/dotfiles/bin:$PATH
+export PATH=~/neovim/bin:$PATH
+export PATH=$GOPATH/bin:$PATH
+export PATH=$GOROOT/bin:$PATH
+export PATH=~/Library/Python/3.8/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
+export PATH=/usr/local/bin:$PATH
+export PATH=/opt/homebrew/bin:$PATH
+export PATH=/opt/homebrew/opt/libpq/bin:$PATH
 
 # }}}
 # Oh My Zsh ------------------------------------------ {{{
