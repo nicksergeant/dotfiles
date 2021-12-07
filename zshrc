@@ -6,20 +6,12 @@
 export CFLAGS=-Qunused-arguments
 export CPPFLAGS="-Qunused-arguments"
 export EDITOR='nvim'
-export GOPATH=$HOME/.go
-export GOROOT=/usr/local/opt/go/libexec
 export ZSH=~/.oh-my-zsh
 
-export PATH=~/.local/bin:$PATH
-export PATH=~/Sources/dotfiles/bin:$PATH
-export PATH=~/neovim/bin:$PATH
-export PATH=$GOPATH/bin:$PATH
-export PATH=$GOROOT/bin:$PATH
-export PATH=~/Library/Python/3.8/bin:$PATH
-export PATH=/usr/local/sbin:$PATH
-export PATH=/usr/local/bin:$PATH
-export PATH=/opt/homebrew/bin:$PATH
-export PATH=/opt/homebrew/opt/libpq/bin:$PATH
+export PATH="/Users/nsergeant/Sources/dotfiles/bin:$PATH"
+export PATH="/Users/nsergeant/Library/Python/3.8/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 
 # }}}
 # Oh My Zsh ------------------------------------------ {{{
