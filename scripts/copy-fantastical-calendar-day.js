@@ -14,10 +14,10 @@ if (dayString) {
       .split(' - ')[0]
       .replace(' AM', 'a')
       .replace(' PM', 'p');
-    const eventTitle = eventLines[1].replace('❇️ ', '');
+    const eventTitle = eventLines[1];
 
     if (!eventTime.includes('all-day')) {
-      console.log(`${eventTime} ${eventTitle}`);
+      console.log(`[ ] ${eventTime} ${eventTitle}\n`);
     }
   }
 }
