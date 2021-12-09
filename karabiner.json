@@ -48,6 +48,18 @@
             "key_code" : "left_command"
           } ],
           "type" : "basic"
+        }, {
+          "from" : {
+            "key_code" : "w",
+            "modifiers" : {
+              "mandatory" : [ "left_control", "left_shift" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "slash",
+            "modifiers" : [ "left_command", "left_option" ]
+          } ],
+          "type" : "basic"
         } ]
       }, {
         "description" : "Vim Mode",

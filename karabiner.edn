@@ -19,6 +19,7 @@
       :rules [
         [:##caps_lock :left_control nil {:alone :escape}] ; Caps to escape when tapped and control when held
         [:##right_command :##left_command] ; Right command to left command so we can use all of the same bindings
+        [:!STw :!COslash] ; Toggle weather
     ]}
     {:des "Vim Mode"
       :rules [
