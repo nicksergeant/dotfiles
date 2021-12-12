@@ -78,7 +78,6 @@ bindkey '^O' fzf-git-branches-widget
 # Functions ------------------------------------------ {{{
 
 unalias gd
-unalias gp
 
 build_alacritty() {
   rm -rf ~/Sources/alacritty && \
