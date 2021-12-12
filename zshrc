@@ -32,6 +32,7 @@ alias deact='deactivate'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias gdo='git --no-pager diff HEAD'
 alias glco='get-last-commit'
+alias gp='git push -u origin HEAD'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
 alias o='open'
@@ -149,25 +150,6 @@ gs() {
     git status -s
   else
     find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status -s && echo)' \;
-  fi
-}
-
-gp() {
-  if [[ $0:A:h =~ "/Code/flex" ]];
-  then
-    BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
-    if [ "$BRANCH" = 'master' ]; then
-      make deploy_frontend
-      print
-      print Pushing and deploying to Heroku...
-      print
-      git push -u origin HEAD
-    else
-      git push -u origin HEAD
-    fi
-  else
-    git push -u origin HEAD
   fi
 }
 
