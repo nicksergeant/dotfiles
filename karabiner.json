@@ -656,25 +656,6 @@
           "type" : "basic"
         } ]
       }, {
-        "description" : "Spotify",
-        "manipulators" : [ {
-          "from" : {
-            "key_code" : "f",
-            "modifiers" : {
-              "mandatory" : [ "left_command" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "l",
-            "modifiers" : [ "left_command" ]
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "com.spotify.client" ]
-          } ],
-          "type" : "basic"
-        } ]
-      }, {
         "description" : "Slack",
         "manipulators" : [ {
           "from" : {

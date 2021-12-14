@@ -84,10 +84,6 @@
         [:!Td :d] ; Page down
         [:!Tu :u] ; Page up
     ]}
-    {:des "Spotify"
-      :rules [:spotify
-        [:!Cf :!Cl] ; Search
-    ]}
     {:des "Slack"
       :rules [:slack
         [:!COk :!Cup_arrow] ; Edit previous message
