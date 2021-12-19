@@ -98,7 +98,6 @@
     ]}
     {:des "Terminals"
       :rules [:terminals
-        [:!Cs :escape] ; No-op as Vim auto-saves on FocusLost
         [:!Odelete_or_backspace :!Tw]; Delete previous word
     ]}
     {:des "Things"
