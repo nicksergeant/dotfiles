@@ -141,6 +141,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
+Plug 'azabiong/vim-highlighter'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -151,7 +152,6 @@ Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'isomoar/vim-css-to-inline'
 Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'windwp/nvim-ts-autotag'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-after-object'
@@ -170,6 +170,7 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
+Plug 'windwp/nvim-ts-autotag'
 
 call plug#end()
 
