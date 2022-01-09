@@ -8,6 +8,7 @@ export CPPFLAGS="-Qunused-arguments"
 export EDITOR='nvim'
 export ZSH=~/.oh-my-zsh
 
+export PATH="/Users/nsergeant/.meteor":$PATH
 export PATH="/Users/nsergeant/Sources/dotfiles/bin:$PATH"
 export PATH="/Users/nsergeant/Library/Python/3.8/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"

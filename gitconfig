@@ -10,14 +10,14 @@
   status = auto
 [core]
   excludesfile = ~/.gitignore
-	hooksPath = /Users/nsergeant/.git_hooks
+  hooksPath = /Users/nsergeant/.git_hooks
 [hub]
-  host = git.hubteam.com
+  host = github.com
   protocol = https
 [user]
-  email = nsergeant@hubspot.com
+  email = nick@nicksergeant.com
   name = Nick Sergeant
 [pull]
   rebase = true
 [init]
-	defaultBranch = main
+  defaultBranch = main
