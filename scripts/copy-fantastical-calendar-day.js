@@ -17,7 +17,7 @@ if (dayString) {
     const eventTitle = eventLines[1];
 
     if (!eventTime.includes('all-day')) {
-      console.log(`- [ ] ${eventTime} ${eventTitle}`);
+      console.log(`[ ] ${eventTime} ${eventTitle}\n`);
     }
   }
 }
