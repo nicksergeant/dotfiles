@@ -28,7 +28,7 @@ source $ZSH/oh-my-zsh.sh
 # }}}
 # Aliases ------------------------------------------ {{{
 
-alias brew='/opt/homebrew/bin/brew'
+# alias brew='/opt/homebrew/bin/brew'
 alias deact='deactivate'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias gdo='git --no-pager diff HEAD'
@@ -202,3 +202,6 @@ wo() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # }}}
+
+# Added by nex: https://git.hubteam.com/HubSpot/nex
+. ~/.hubspot/shellrc
