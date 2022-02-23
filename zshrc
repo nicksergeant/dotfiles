@@ -12,7 +12,7 @@ export PATH="/Users/nsergeant/.meteor":$PATH
 export PATH="/Users/nsergeant/Sources/dotfiles/bin:$PATH"
 export PATH="/Users/nsergeant/Library/Python/3.8/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$(brew --prefix)/bin:$PATH"
 
 # }}}
 # Oh My Zsh ------------------------------------------ {{{
@@ -28,7 +28,7 @@ source $ZSH/oh-my-zsh.sh
 # }}}
 # Aliases ------------------------------------------ {{{
 
-# alias brew='/opt/homebrew/bin/brew'
+alias brew="$(brew --prefix)/bin/brew"
 alias deact='deactivate'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias gdo='git --no-pager diff HEAD'
