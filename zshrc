@@ -12,7 +12,11 @@ export PATH="/Users/nsergeant/.meteor":$PATH
 export PATH="/Users/nsergeant/Sources/dotfiles/bin:$PATH"
 export PATH="/Users/nsergeant/Library/Python/3.8/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
-export PATH="$(brew --prefix)/bin:$PATH"
+
+if [ "$(uname -p)" = "arm" ]
+then
+  export PATH="/opt/homebrew/bin:$PATH"
+fi
 
 # }}}
 # Oh My Zsh ------------------------------------------ {{{
