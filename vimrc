@@ -170,7 +170,6 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
-Plug 'windwp/nvim-ts-autotag'
 
 call plug#end()
 
@@ -234,6 +233,7 @@ let g:ale_sign_warning = '>>'
 let g:ale_fixers = {
   \ 'css': ['prettier'],
   \ 'elixir': ['mix_format'],
+  \ 'html': ['prettier'],
   \ 'htmldjango': ['prettier'],
   \ 'javascript': ['prettier'],
   \ 'json': ['prettier'],
@@ -633,7 +633,6 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 lua <<EOF
 
 require'nvim-treesitter.configs'.setup {
-  autotag = { enable = true },
   ensure_installed = "all",
   highlight = { enable = true },
   ignore_install = { "haskell" }
