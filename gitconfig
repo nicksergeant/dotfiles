@@ -15,7 +15,7 @@
   host = github.com
   protocol = https
 [user]
-  email = nick@nicksergeant.com
+  email = nsergeant@hubspot.com
   name = Nick Sergeant
 [pull]
   rebase = true
