@@ -150,7 +150,6 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'isomoar/vim-css-to-inline'
-Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
