@@ -10,10 +10,11 @@
   status = auto
 [core]
   excludesfile = ~/.gitignore
-  hooksPath = /Users/nsergeant/.git_hooks
+	hooksPath = /Users/nsergeant/.git_hooks
 [hub]
   host = github.com
   protocol = https
+	host = git.hubteam.com
 [user]
   email = nsergeant@hubspot.com
   name = Nick Sergeant
