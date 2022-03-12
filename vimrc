@@ -625,7 +625,7 @@ let g:vimwiki_list = [{
       \ 'path_html': '~/Documents/Notes/HTML/',
       \ 'syntax': 'markdown', 'ext': '.md'
       \ }]
-let g:vimwiki_listsyms = " .oOx"
+let g:vimwiki_listsyms = " .oOX"
 
 function! GoToMarkdownLinkInLine()
   let line = getline(".")
