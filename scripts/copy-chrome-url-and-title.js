@@ -4,7 +4,7 @@ url = document.URL;
 markdownLabel = title;
 markdownUrl = url;
 
-if (url.includes('github.com')) {
+if (url.includes('git.hubteam.com')) {
   if (url.includes('/pull/')) {
     const urlMatches = /.*pull\/(\d+).*/i.exec(document.URL);
 
