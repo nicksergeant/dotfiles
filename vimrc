@@ -154,7 +154,6 @@ Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-after-object'
 Plug 'michal-h21/vim-zettel'
 Plug 'neovim/nvim-lspconfig'
@@ -332,7 +331,6 @@ set foldtext=MyFoldText()
 " Focus ---------------------------------------------------------- {{{
 
 nnoremap <leader>v :Goyo<cr>
-nnoremap <leader>hh :Limelight!!<cr>
 
 let g:goyo_height = '100%'
 let g:goyo_width = 100
