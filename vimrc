@@ -123,13 +123,11 @@ nnoremap cs/ cgn
 nnoremap gi <c-]>
 nnoremap gs *N
 nnoremap j gj
-nnoremap p "+p
 nnoremap k gk
 nnoremap n nzv
 vnoremap <c-t> :sort<cr>
 vnoremap H ^
 vnoremap L g_
-vnoremap p "+p
 
 " Use <tab> for matching things.
 map <tab> %

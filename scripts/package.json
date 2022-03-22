@@ -16,5 +16,8 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "open": "^8.4.0"
+  }
 }
