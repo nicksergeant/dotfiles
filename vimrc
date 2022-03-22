@@ -265,11 +265,18 @@ onoremap <leader>c<space> :Commentary<cr>
 
 set clipboard=unnamedplus
 
+nnoremap D "0D
+nnoremap D "0D
 nnoremap P "0P
+nnoremap d "0d
 nnoremap p "0p
+nnoremap x "0x
 
+vnoremap D "0D
 vnoremap P "0P
+vnoremap d "0d
 vnoremap p "0p
+vnoremap x "0x
 
 inoremap <c-v> <esc>"+pa
 nnoremap <c-v> viwo<esc>i[<esc>ea]()<esc>h"+p

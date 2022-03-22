@@ -1,4 +1,3 @@
-import open from 'open';
 import { execSync } from 'child_process';
 
 const MODE = 'things'; // 'things' or 'markdown'
