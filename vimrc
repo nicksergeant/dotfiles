@@ -123,6 +123,8 @@ nnoremap cs/ cgn
 nnoremap gi <c-]>
 nnoremap gs *N
 nnoremap j gj
+
+
 nnoremap k gk
 nnoremap n nzv
 vnoremap <c-t> :sort<cr>
@@ -261,8 +263,13 @@ onoremap <leader>c<space> :Commentary<cr>
 " }}}
 " Copy and paste ------------------------------------------------- {{{
 
-nnoremap yy "+yy
-vnoremap y "+y
+set clipboard=unnamedplus
+
+nnoremap P "0P
+nnoremap p "0p
+
+vnoremap P "0P
+vnoremap p "0p
 
 inoremap <c-v> <esc>"+pa
 nnoremap <c-v> viwo<esc>i[<esc>ea]()<esc>h"+p
