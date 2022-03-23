@@ -102,10 +102,7 @@
     ]}
     {:des "Things"
       :rules [:things
-        [:!C1 :!C2] ; Go to Today
-        [:!C2 :!C3] ; Go to Upcoming
-        [:!C3 :!C4] ; Go to Anytime
-        [:!C4 :!C6] ; Go to Logbook
+        [:!C3 :!C6] ; Go to Logbook
         [:!Creturn_or_enter :!Ck] ; Toggle to-do
         [:!Cw :!Ch] ; Hide window
         [:!OTj :!Cdown_arrow] ; Move to-do one line down
