@@ -186,8 +186,8 @@ ts() {
 }
 
 tv() {
-  tmux new-session -d -s vim -n onboarding
-  tmux send-keys j Space onboarding Enter
+  tmux new-session -d -s vim -n internal-ui
+  tmux send-keys j Space internal-ui Enter
   tmux send-keys m Enter
   tmux attach
 }
