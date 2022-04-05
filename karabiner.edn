@@ -63,7 +63,6 @@
       :rules [:mail
         [:!Ce :!CTa] ; Archive message
         [:!Cr :!CSr] ; Reply all
-        [:!Cslash :!COf] ; Search
     ]}
     {:des "Microsoft Teams"
       :rules [:microsoft_teams
