@@ -471,22 +471,6 @@
             "bundle_identifiers" : [ "com.apple.mail" ]
           } ],
           "type" : "basic"
-        }, {
-          "from" : {
-            "key_code" : "slash",
-            "modifiers" : {
-              "mandatory" : [ "left_command" ]
-            }
-          },
-          "to" : [ {
-            "key_code" : "f",
-            "modifiers" : [ "left_command", "left_option" ]
-          } ],
-          "conditions" : [ {
-            "type" : "frontmost_application_if",
-            "bundle_identifiers" : [ "com.apple.mail" ]
-          } ],
-          "type" : "basic"
         } ]
       }, {
         "description" : "Microsoft Teams",
