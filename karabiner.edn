@@ -1,25 +1,9 @@
 {
-  :applications {
-    :activity_monitor ["com.apple.ActivityMonitor"]
-    :chrome ["com.google.Chrome"]
-    :firefox ["org.mozilla.firefox" "org.mozilla.firefoxdeveloperedition"]
-    :linear ["com.linear"]
-    :mail ["com.apple.mail"]
-    :microsoft_teams ["com.microsoft.teams"]
-    :notion ["notion.id"]
-    :safari ["com.apple.Safari"]
-    :slack ["com.tinyspeck.slackmacgap"]
-    :spotify ["com.spotify.client"]
-    :terminals ["io.alacritty"]
-    :things ["com.culturedcode.ThingsMac"]
-  }
-
   :main[
     {:des "Global"
       :rules [
         [:##caps_lock :left_control nil {:alone :escape}] ; Caps to escape when tapped and control when held
         [:##right_command :##left_command] ; Right command to left command so we can use all of the same bindings
-        [:!STw :!COslash] ; Toggle weather
     ]}
     {:des "Vim Mode"
       :rules [
@@ -35,81 +19,6 @@
         [:!SOj :!Sdown_arrow] ; Select one line down
         [:!SOk :!Sup_arrow] ; Select one line up
         [:!SOl :!Sright_arrow] ; Select one character right
-    ]}
-    {:des "Activity Monitor"
-      :rules [:activity_monitor
-        [:!Cf :!COf] ; Filter processes
-    ]}
-    {:des "Chrome"
-      :rules [:chrome
-        [:!CSc :!COc] ; Inspect element
-        [:!Cbackslash :!Ox] ; 1Password
-        [:!Csemicolon :!COj] ; Toggle developer tools
-        [:!STbackslash :!Ox] ; 1Password
-    ]}
-    {:des "Firefox"
-      :rules [:firefox
-        [:!C1 :!COk] ; Console
-        [:!C2 :!COc] ; Inspector
-        [:!C3 :!COe] ; Network
-        [:!C4 :!COz] ; Debugger
-        [:!CSc :!COc] ; Inspector
-        [:!CSn :!CSp] ; New private window
-        [:!Cbackslash :!CSperiod] ; 1Password
-        [:!Csemicolon :!COi] ; Toggle developer tools
-        [:!STbackslash :!CSperiod] ; 1Password
-    ]}
-    {:des "Mail"
-      :rules [:mail
-        [:!Ce :!CTa] ; Archive message
-        [:!Cr :!CSr] ; Reply all
-    ]}
-    {:des "Microsoft Teams"
-      :rules [:microsoft_teams
-        [:!CSa :!CSm] ; Toggle Mute
-    ]}
-    {:des "Notion"
-      :rules [:notion
-        [:!CSt :!CO4] ; Turn into to-do
-        [:!OTj :!CSdown_arrow] ; Move item one line down
-        [:!OTk :!CSup_arrow] ; Move item one line up
-        [:!Tg :!Cp] ; Search
-    ]}
-    {:des "Safari"
-      :rules [:safari
-        [:!C1 :!COc] ; Console
-        [:!CSr :!COr] ; Reload without cache
-        [:!Csemicolon :!COi] ; Toggle developer tools
-        [:!Td :d] ; Page down
-        [:!Tu :u] ; Page up
-    ]}
-    {:des "Slack"
-      :rules [:slack
-        [:!COk :!Cup_arrow] ; Edit previous message
-        [:!CSTclose_bracket :!OSdown_arrow] ; Next channel with unreads
-        [:!CSTopen_bracket :!OSup_arrow] ; Previous channel with unreads
-        [:!CSclose_bracket :!Odown_arrow] ; Next channel
-        [:!CSh :!CSOTh] ; Stop calling people
-        [:!CSopen_bracket :!Oup_arrow] ; Previous channel
-        [:!Td :page_down] ; Scroll page down
-        [:!Tg :!Ck] ; Search
-        [:!Tu :page_up] ; Scroll page up
-    ]}
-    {:des "Terminals"
-      :rules [:terminals
-        [:!Odelete_or_backspace :!Tw]; Delete previous word
-    ]}
-    {:des "Things"
-      :rules [:things
-        [:!C3 :!C6] ; Go to Logbook
-        [:!Creturn_or_enter :!Ck] ; Toggle to-do
-        [:!Cw :!Ch] ; Hide window
-        [:!OTj :!Cdown_arrow] ; Move to-do one line down
-        [:!OTk :!Cup_arrow] ; Move to-do one line up
-    ]}
-    {:des "Linear"
-      :rules [:linear
-        [:!Tg :!Ck] ; Search
     ]}
   ]
 }
