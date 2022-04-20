@@ -232,6 +232,7 @@ let g:ale_linters_explicit = 1
 let g:ale_sign_column_always = 0
 let g:ale_sign_warning = '>>'
 let g:ale_fixers = {
+  \ 'conf': ['prettier'],
   \ 'css': ['prettier'],
   \ 'elixir': ['mix_format'],
   \ 'html': ['prettier'],
