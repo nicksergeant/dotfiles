@@ -479,6 +479,7 @@ set completeopt=menu,menuone,noselect
 lua <<EOF
   -- Setup nvim-cmp.
   local cmp = require'cmp'
+  local types = require('cmp.types')
 
   cmp.setup({
     snippet = {
@@ -496,6 +497,24 @@ lua <<EOF
         c = cmp.mapping.close(),
       }),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<Down>'] = cmp.mapping({
+        i = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
+        c = function(fallback)
+          local cmp = require('cmp')
+          cmp.close()
+          vim.schedule(cmp.suspend())
+          fallback()
+        end,
+      }),
+      ['<Up>'] = cmp.mapping({
+        i = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
+        c = function(fallback)
+          local cmp = require('cmp')
+          cmp.close()
+          vim.schedule(cmp.suspend())
+          fallback()
+        end,
+      })
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
