@@ -20,4 +20,3 @@ jsconfig.json
 node_modules
 tags
 tags.*
-yarn.lock
