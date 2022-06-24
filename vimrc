@@ -155,6 +155,7 @@ Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-after-object'
+Plug 'mattn/emmet-vim'
 Plug 'michal-h21/vim-zettel'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
@@ -441,6 +442,10 @@ augroup filetype_html
   " Fold the current tag.
   au FileType html,htmldjango nnoremap <buffer> <localleader>f Vatzf
 augroup END
+
+let g:user_emmet_install_global = 0
+let g:user_emmet_expandabbr_key = '<tab>'
+autocmd FileType html,css EmmetInstall
 
 " }}}
 " JavaScript ----------------------------------------------------- {{{
