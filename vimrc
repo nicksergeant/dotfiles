@@ -438,14 +438,14 @@ augroup END
 
 augroup filetype_html
   au!
-
-  " Fold the current tag.
+  au FileType html,htmldjango inoremap <buffer> <c-l> class=""<esc>i
   au FileType html,htmldjango nnoremap <buffer> <localleader>f Vatzf
 augroup END
 
 let g:user_emmet_install_global = 0
 let g:user_emmet_expandabbr_key = '<tab>'
-autocmd FileType html,css EmmetInstall
+
+autocmd FileType html,htmldjango,css EmmetInstall
 
 " }}}
 " JavaScript ----------------------------------------------------- {{{
