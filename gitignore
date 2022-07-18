@@ -20,3 +20,6 @@ jsconfig.json
 node_modules
 tags
 tags.*
+
+# Gradle Enterprise
+.mvn/.gradle-enterprise/
