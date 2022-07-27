@@ -445,7 +445,7 @@ augroup END
 let g:user_emmet_install_global = 0
 let g:user_emmet_expandabbr_key = '<tab>'
 
-autocmd FileType html,htmldjango,css EmmetInstall
+autocmd FileType html,htmldjango,css,javascript EmmetInstall
 
 " }}}
 " JavaScript ----------------------------------------------------- {{{
