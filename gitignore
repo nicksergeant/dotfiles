@@ -23,3 +23,4 @@ tags.*
 
 # Gradle Enterprise
 .mvn/.gradle-enterprise/
+.gradle-enterprise/
