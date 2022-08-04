@@ -20,6 +20,7 @@ jsconfig.json
 node_modules
 tags
 tags.*
+yarn-error.log
 
 # Gradle Enterprise
 .mvn/.gradle-enterprise/
