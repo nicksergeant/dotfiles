@@ -144,6 +144,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
 Plug 'azabiong/vim-highlighter'
+Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
