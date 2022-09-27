@@ -143,7 +143,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
-Plug 'azabiong/vim-highlighter'
 Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
@@ -165,7 +164,6 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'onsails/lspkind-nvim'
 Plug 'scrooloose/nerdtree'
-Plug 'sk1418/QFGrep'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -550,6 +548,17 @@ lua <<EOF
 
   -- Setup lspconfig.
   require('lspconfig').pyright.setup { capabilities = capabilities }
+  require('lspconfig').elixirls.setup({
+    cmd = {"/opt/homebrew/bin/elixir-ls"},
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+      elixirLS = {
+        dialyzerEnabled = false,
+        fetchDeps = false
+      }
+    }
+  })
   require('lsp')
   require('asset-bender')
 EOF
@@ -612,7 +621,7 @@ lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
   highlight = { enable = true },
-  ignore_install = { "haskell" }
+  ignore_install = { "haskell", "phpdoc" }
 }
 
 EOF
