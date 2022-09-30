@@ -620,6 +620,7 @@ lua <<EOF
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
+  disable = { "html", "htmldjango" },
   highlight = { enable = true },
   ignore_install = { "haskell", "phpdoc" }
 }
