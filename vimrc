@@ -262,6 +262,12 @@ vnoremap <leader>c<space> :Commentary<cr>
 onoremap <leader>c<space> :Commentary<cr>
 
 " }}}
+" Copilot -------------------------------------------------------- {{{
+
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+
+" }}}
 " Copy and paste ------------------------------------------------- {{{
 
 nnoremap yy "+yy
