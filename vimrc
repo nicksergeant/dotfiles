@@ -155,7 +155,6 @@ Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-after-object'
-Plug 'mattn/emmet-vim'
 Plug 'michal-h21/vim-zettel'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
@@ -173,6 +172,13 @@ Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
 
 call plug#end()
+
+" }}}
+" LSP------------------------------------------------------------- {{{
+
+lua <<EOF
+require('lsp')
+EOF
 
 " }}}
 " Color scheme --------------------------------------------------- {{{
@@ -306,6 +312,48 @@ augroup cline
     au WinLeave,InsertEnter * set nocursorline
     au WinEnter,InsertLeave * set cursorline
 augroup END
+
+" }}}
+" Elixir ---------------------------------------------------------- {{{
+
+lua <<EOF
+require('lspconfig').elixirls.setup({
+    cmd = {"/opt/homebrew/bin/elixir-ls"},
+    settings = {
+      elixirLS = {
+        dialyzerEnabled = false,
+        fetchDeps = false
+      }
+    }
+})
+EOF
+
+" }}}
+" Emmet ---------------------------------------------------------- {{{
+
+lua <<EOF
+require('lspconfig').emmet_ls.setup({
+    filetypes = {
+        'css',
+        'html',
+        'htmldjango',
+        'javascript',
+        'javascriptreact',
+        'sass',
+        'scss',
+        'typescript',
+        'typescriptreact',
+    },
+    init_options = {
+      html = {
+        options = {
+          -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+          ["bem.enabled"] = true,
+        },
+      },
+    }
+})
+EOF
 
 " }}}
 " Folding -------------------------------------------------------- {{{
@@ -447,11 +495,6 @@ augroup filetype_html
   au FileType html,htmldjango nnoremap <buffer> <localleader>f Vatzf
 augroup END
 
-let g:user_emmet_install_global = 0
-let g:user_emmet_expandabbr_key = '<tab>'
-
-autocmd FileType html,htmldjango,css,javascript,javascriptreact,typescript,typescriptreact EmmetInstall
-
 " }}}
 " JavaScript ----------------------------------------------------- {{{
 
@@ -481,92 +524,73 @@ augroup filetype_javascript
     au FileType javascript setlocal foldmethod=marker
 augroup END
 
+lua <<EOF
+require('asset-bender')
+EOF
+
 " }}}
 " LSP and Autocomplete ------------------------------------------- {{{
 
 set completeopt=menu,menuone,noselect
 
 lua <<EOF
-  -- Setup nvim-cmp.
-  local cmp = require'cmp'
-  local types = require('cmp.types')
-
-  cmp.setup({
-    snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
-      end,
-    },
-    mapping = {
-      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable, -- If you want to remove the default `<C-y>` mapping, You can specify `cmp.config.disable` value.
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
-      ['<Down>'] = cmp.mapping({
-        i = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
-        c = function(fallback)
-          local cmp = require('cmp')
-          cmp.close()
-          vim.schedule(cmp.suspend())
-          fallback()
-        end,
-      }),
-      ['<Up>'] = cmp.mapping({
-        i = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
-        c = function(fallback)
-          local cmp = require('cmp')
-          cmp.close()
-          vim.schedule(cmp.suspend())
-          fallback()
-        end,
-      })
-    },
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' },
-    }, {
-      { name = 'buffer' },
-    })
+local cmp = require'cmp'
+local types = require('cmp.types')
+cmp.setup({
+snippet = {
+  expand = function(args)
+    vim.fn["vsnip#anonymous"](args.body)
+  end,
+},
+mapping = {
+  ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+  ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+  ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+  ['<C-y>'] = cmp.config.disable, -- If you want to remove the default `<C-y>` mapping, You can specify `cmp.config.disable` value.
+  ['<C-e>'] = cmp.mapping({
+    i = cmp.mapping.abort(),
+    c = cmp.mapping.close(),
+  }),
+  ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  ['<Down>'] = cmp.mapping({
+    i = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
+    c = function(fallback)
+      local cmp = require('cmp')
+      cmp.close()
+      vim.schedule(cmp.suspend())
+      fallback()
+    end,
+  }),
+  ['<Up>'] = cmp.mapping({
+    i = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
+    c = function(fallback)
+      local cmp = require('cmp')
+      cmp.close()
+      vim.schedule(cmp.suspend())
+      fallback()
+    end,
   })
-
-  -- Use buffer source for `/`.
-  cmp.setup.cmdline('/', {
-    sources = {
-      { name = 'buffer' }
-    }
-  })
-
-  -- Use cmdline & path source for ':'.
-  cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
-  })
-
-  vim.api.nvim_set_keymap("n", "go", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
-
-  -- Setup lspconfig.
-  require('lspconfig').pyright.setup { capabilities = capabilities }
-  require('lspconfig').elixirls.setup({
-    cmd = {"/opt/homebrew/bin/elixir-ls"},
-    capabilities = capabilities,
-    on_attach = on_attach,
-    settings = {
-      elixirLS = {
-        dialyzerEnabled = false,
-        fetchDeps = false
-      }
-    }
-  })
-  require('lsp')
-  require('asset-bender')
+},
+sources = cmp.config.sources({
+  { name = 'nvim_lsp' },
+  { name = 'vsnip' },
+}, {
+  { name = 'buffer' },
+})
+})
+cmp.setup.cmdline('/', {
+sources = {
+  { name = 'buffer' }
+}
+})
+cmp.setup.cmdline(':', {
+sources = cmp.config.sources({
+  { name = 'path' }
+}, {
+  { name = 'cmdline' }
+})
+})
+vim.api.nvim_set_keymap("n", "go", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
 EOF
 
 " }}}
@@ -588,6 +612,13 @@ let NERDTreeDirArrows = 1
 let NERDTreeHighlightCursorline = 1
 let NERDTreeMinimalUI = 1
 " let NERDTreeWinSize=60
+
+" }}}
+" Python --------------------------------------------------- {{{
+
+lua <<EOF
+require('lspconfig').pyright.setup{}
+EOF
 
 " }}}
 " Quickfix window ------------------------------------------------ {{{
