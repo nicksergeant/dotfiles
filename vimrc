@@ -168,7 +168,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
 
 call plug#end()
@@ -241,6 +241,7 @@ let g:ale_fixers = {
   \ 'conf': ['prettier'],
   \ 'css': ['prettier'],
   \ 'elixir': ['mix_format'],
+  \ 'heex': ['mix_format'],
   \ 'html': ['prettier'],
   \ 'htmldjango': ['prettier'],
   \ 'javascript': ['prettier'],
