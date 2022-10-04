@@ -35,6 +35,12 @@ set synmaxcol=800
 set title
 set visualbell
 
+" Disable netrw for nvim-tree.
+lua <<EOF
+vim.g.loaded = 1
+vim.g.loaded_netrwPlugin = 1
+EOF
+
 " Reload file if it has changed on focus.
 set autoread
 autocmd FocusGained * checktime
@@ -141,8 +147,8 @@ silent! unmap ]%
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
+Plug 'chrisbra/matchit'
 Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
@@ -155,20 +161,19 @@ Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-after-object'
-Plug 'michal-h21/vim-zettel'
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'onsails/lspkind-nvim'
-Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
-" Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
 
 call plug#end()
@@ -591,19 +596,23 @@ EOF
 autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 
 " }}}
-" NERDTree ------------------------------------------------------- {{{
+" nvim-tree ------------------------------------------------------ {{{
 
-noremap  <leader>f :NERDTreeFind<cr>
+lua <<EOF
+require("nvim-tree").setup()
+EOF
 
-augroup nerdtree
-    au!
-    au FileType nerdtree setlocal nolist
-augroup END
+noremap  <leader>f :NvimTreeFindFile<cr>
 
-let NERDTreeDirArrows = 1
-let NERDTreeHighlightCursorline = 1
-let NERDTreeMinimalUI = 1
-" let NERDTreeWinSize=60
+" augroup nerdtree
+"     au!
+"     au FileType nerdtree setlocal nolist
+" augroup END
+
+" let NERDTreeDirArrows = 1
+" let NERDTreeHighlightCursorline = 1
+" let NERDTreeMinimalUI = 1
+" " let NERDTreeWinSize=60
 
 " }}}
 " Python --------------------------------------------------- {{{
@@ -646,14 +655,11 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " Treesitter ----------------------------------------------------- {{{
 
 lua <<EOF
-
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
-  disable = { "html", "htmldjango" },
   highlight = { enable = true },
   ignore_install = { "haskell", "phpdoc" }
 }
-
 EOF
 
 " }}}
@@ -677,62 +683,6 @@ augroup line_return
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \     execute 'normal! g`"zvzz' |
         \ endif
-augroup END
-
-" }}}
-" Vimwiki -------------------------------------------------------- {{{
-
-let g:vim_markdown_new_list_item_indent = 0
-let g:vimwiki_folding = 'custom'
-let g:vimwiki_conceallevel = 3
-let g:vimwiki_list = [{
-      \ 'path': '~/Documents/Notes',
-      \ 'path_html': '~/Documents/Notes/HTML/',
-      \ 'syntax': 'markdown', 'ext': '.md'
-      \ }]
-let g:vimwiki_listsyms = " .oOX"
-
-function! GoToMarkdownLinkInLine()
-  let line = getline(".")
-  let l:uri = matchstr(line, '](')
-
-  if l:uri != ""
-    let save_pos = getpos(".")
-    silent execute "normal ^/](/\<cr>"
-    silent execute "VimwikiFollowLink"
-    call setpos('.', save_pos)
-  else
-    let l:uri = matchstr(line, '[a-z]*:\/\/[^ >,;:]*')
-    if l:uri != ""
-        let save_pos = getpos(".")
-        silent execute "!clear && open " . shellescape(l:uri, 1)
-        call setpos('.', save_pos)
-    else
-        echo 'No URL found in line'
-    endif
-  endif
-endfunction
-
-augroup filetype_markdown
-    au!
-    au BufNewFile *.md :r! echo \\# %:t:r
-    au BufNewFile *.md :norm kddo
-augroup END
-
-augroup filetype_vimwiki
-    au!
-
-    au FileType vimwiki setlocal concealcursor=n
-    au FileType vimwiki setlocal foldmethod=marker
-    au FileType vimwiki setlocal shiftwidth=6
-    au FileType vimwiki lua require('cmp').setup.buffer { enabled = false }
-
-    au FileType vimwiki imap <buffer> <s-tab> <Plug>VimwikiDecreaseLvlSingleItem
-    au FileType vimwiki imap <buffer> <tab> <Plug>VimwikiIncreaseLvlSingleItem
-    au FileType vimwiki nnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
-    au FileType vimwiki nnoremap <buffer> <leader>m :VimwikiIncrementListItem<cr>
-    au FileType vimwiki nnoremap <silent> gj :call GoToMarkdownLinkInLine()<cr>
-    au FileType vimwiki vnoremap <buffer> <leader>d :VimwikiToggleListItem<cr>
 augroup END
 
 " }}}
