@@ -269,12 +269,6 @@ vnoremap <leader>c<space> :Commentary<cr>
 onoremap <leader>c<space> :Commentary<cr>
 
 " }}}
-" Copilot -------------------------------------------------------- {{{
-
-imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
-
-" }}}
 " Copy and paste ------------------------------------------------- {{{
 
 nnoremap yy "+yy
@@ -336,6 +330,7 @@ lua <<EOF
 require('lspconfig').emmet_ls.setup({
     filetypes = {
         'css',
+        'heex',
         'html',
         'htmldjango',
         'javascript',
@@ -492,7 +487,7 @@ augroup END
 
 augroup filetype_html
   au!
-  au FileType html,htmldjango inoremap <buffer> <c-l> class=""<esc>i
+  au FileType html,htmldjango,heex inoremap <buffer> <c-l> class=""<esc>i
   au FileType html,htmldjango nnoremap <buffer> <localleader>f Vatzf
 augroup END
 
