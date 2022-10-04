@@ -520,10 +520,6 @@ augroup filetype_javascript
     au FileType javascript setlocal foldmethod=marker
 augroup END
 
-lua <<EOF
-require('asset-bender')
-EOF
-
 " }}}
 " LSP and Autocomplete ------------------------------------------- {{{
 
@@ -746,5 +742,11 @@ augroup filetype_zsh
     au!
     au FileType zsh setlocal foldmethod=marker
 augroup END
+
+" }}}
+
+" Imports -------------------------------------------------------- {{{
+
+source ~/.env-vimrc
 
 " }}}
