@@ -599,7 +599,15 @@ autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 " nvim-tree ------------------------------------------------------ {{{
 
 lua <<EOF
-require("nvim-tree").setup()
+require("nvim-tree").setup {
+    actions = {
+        open_file = {
+            window_picker = {
+                enable = false
+            }
+        }
+    }
+}
 EOF
 
 noremap  <leader>f :NvimTreeFindFile<cr>
