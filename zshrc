@@ -107,20 +107,24 @@ build_alacritty() {
   cp -r /Applications/Alacritty.app /Applications/Alacritty\ Vim.app
 }
 
-fl() {
+f() {
   _z fl
   wo
   clear
 }
 
-flj() {
-  fl
+fj() {
+  f
   make js
 }
 
-flr() {
-  fl
+fr() {
+  f
   make run
+}
+
+n() {
+  _z not
 }
 
 on() {
