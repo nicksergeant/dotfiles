@@ -155,13 +155,13 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'preservim/nerdtree'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-after-object'
-Plug 'kyazdani42/nvim-tree.lua'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
@@ -596,31 +596,20 @@ EOF
 autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 
 " }}}
-" nvim-tree ------------------------------------------------------ {{{
+" NERDtree ------------------------------------------------------ {{{
 
-lua <<EOF
-require("nvim-tree").setup {
-    actions = {
-        open_file = {
-            window_picker = {
-                enable = false
-            }
-        }
-    }
-}
-EOF
+noremap  <leader>f :NERDTreeFind<cr>
 
-noremap  <leader>f :NvimTreeFindFile<cr>
+augroup nerdtree
+    au!
+    au FileType nerdtree setlocal nolist
+augroup END
 
-" augroup nerdtree
-"     au!
-"     au FileType nerdtree setlocal nolist
-" augroup END
-
-" let NERDTreeDirArrows = 1
-" let NERDTreeHighlightCursorline = 1
-" let NERDTreeMinimalUI = 1
-" " let NERDTreeWinSize=60
+let NERDTreeDirArrows = 1
+let NERDTreeHighlightCursorline = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeMinimalMenu=1
+" let NERDTreeWinSize=60
 
 " }}}
 " Python --------------------------------------------------- {{{

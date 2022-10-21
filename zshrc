@@ -38,10 +38,12 @@ alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias gdo='git --no-pager diff HEAD'
 alias glco='get-last-commit'
 alias gp='git push -u origin HEAD'
+alias i='iex -S mix'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
 alias o='open'
 alias pm='python manage.py'
+alias r='mix phx.server'
 alias ta='tmux attach -t'
 alias vim='nvim'
 
