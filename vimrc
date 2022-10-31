@@ -133,7 +133,7 @@ nnoremap j gj
 
 nnoremap k gk
 nnoremap n nzv
-vnoremap <c-t> :sort<cr>
+vnoremap <c-t> :sort i<cr>
 vnoremap H ^
 vnoremap L g_
 
