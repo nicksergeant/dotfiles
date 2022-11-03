@@ -389,7 +389,7 @@ set foldtext=MyFoldText()
 nnoremap <leader>v :Goyo<cr>
 
 let g:goyo_height = '100%'
-let g:goyo_width = 100
+let g:goyo_width = 125
 
 " }}}
 " Fzf ------------------------------------------------------------ {{{
