@@ -673,7 +673,7 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
-  highlight = { enable = true },
+  highlight = { enable = true, disable = { "markdown" } },
   ignore_install = { "haskell", "phpdoc" }
 }
 EOF
