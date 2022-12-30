@@ -129,8 +129,6 @@ nnoremap cs/ cgn
 nnoremap gi <c-]>
 nnoremap gs *N
 nnoremap j gj
-
-
 nnoremap k gk
 nnoremap n nzv
 vnoremap <c-t> :sort i<cr>
@@ -253,6 +251,7 @@ let g:ale_fixers = {
   \ 'json': ['prettier'],
   \ 'python': ['black'],
   \ 'scss': ['prettier'],
+  \ 'svelte': ['prettier'],
   \ 'typescript': ['prettier'],
   \ 'typescriptreact': ['prettier'],
   \ }
@@ -552,6 +551,9 @@ set completeopt=menu,menuone,noselect
 lua <<EOF
 local cmp = require'cmp'
 local types = require('cmp.types')
+
+vim.keymap.set('n', '<c-m>', vim.diagnostic.open_float, opts)
+
 cmp.setup({
 snippet = {
   expand = function(args)
@@ -606,7 +608,6 @@ sources = cmp.config.sources({
   { name = 'cmdline' }
 })
 })
-vim.api.nvim_set_keymap("n", "go", "<cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true, silent = true})
 EOF
 
 " }}}

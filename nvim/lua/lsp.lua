@@ -60,7 +60,7 @@ end
 
 -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 local customPublishDiagnosticFunction = function(_, result, ctx, config)
     local filter = function(fun, t)
@@ -129,7 +129,7 @@ vim.lsp.handlers['textDocument/signatureHelp'] =
 vim.lsp.handlers['textDocument/hover'] =
     vim.lsp.with(vim.lsp.handlers.hover, {border = 'single'})
 
-vim.api.nvim_set_keymap("n", "<space>gd",
+vim.api.nvim_set_keymap("n", "go",
                         "<cmd>lua vim.lsp.buf.definition()<CR>",
                         {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>gi",
@@ -140,7 +140,7 @@ vim.api.nvim_set_keymap("n", "<space>gr",
                         {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>",
                         {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>",
+vim.api.nvim_set_keymap("n", "<c-k>", "<cmd>lua vim.lsp.buf.hover()<CR>",
                         {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>ga",
                         "<cmd>lua vim.lsp.buf.code_action()<CR>",
