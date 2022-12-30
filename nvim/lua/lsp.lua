@@ -140,7 +140,7 @@ vim.api.nvim_set_keymap("n", "<space>gr",
                         {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>",
                         {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<c-k>", "<cmd>lua vim.lsp.buf.hover()<CR>",
+vim.api.nvim_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.hover()<CR>",
                         {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<space>ga",
                         "<cmd>lua vim.lsp.buf.code_action()<CR>",

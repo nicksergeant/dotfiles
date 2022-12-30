@@ -361,8 +361,8 @@ EOF
 set foldlevelstart=99
 
 " Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
+nnoremap zz za
+vnoremap zz za
 
 function! MyFoldText()
     let line = getline(v:foldstart)
