@@ -132,19 +132,19 @@ vim.lsp.handlers['textDocument/hover'] =
 vim.api.nvim_set_keymap("n", "go",
                         "<cmd>lua vim.lsp.buf.definition()<CR>",
                         {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>gi",
-                        "<cmd>lua vim.lsp.buf.implementation()<CR>",
-                        {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>gr",
+vim.api.nvim_set_keymap("n", "gr",
                         "<cmd>lua vim.lsp.buf.references()<CR>",
                         {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>",
+vim.api.nvim_set_keymap("n", "mv", "<cmd>lua vim.lsp.buf.rename()<CR>",
                         {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.hover()<CR>",
+vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.hover()<CR>",
                         {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>ga",
+vim.api.nvim_set_keymap("n", "ga",
                         "<cmd>lua vim.lsp.buf.code_action()<CR>",
                         {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<space>gsd",
-                        "<cmd>lua vim.lsp.buf.show_line_diagnostics({ focusable = false })<CR>",
-                        {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap("n", "gi",
+--                         "<cmd>lua vim.lsp.buf.implementation()<CR>",
+--                         {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap("n", "<leader>gsd",
+--                         "<cmd>lua vim.lsp.buf.show_line_diagnostics({ focusable = false })<CR>",
+--                         {noremap = true, silent = true})

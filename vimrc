@@ -361,8 +361,23 @@ EOF
 set foldlevelstart=99
 
 " Space to toggle folds.
-nnoremap zz za
-vnoremap zz za
+nnoremap <space> za
+vnoremap <space> za
+
+" Make zO recursively open whatever fold we're in, even if it's partially open.
+nnoremap zO zczO
+
+" "Focus" the current line.  Basically:
+"
+" 1. Close all folds.
+" 2. Open just the folds containing the current line.
+" 3. Move the line to a little bit (15 lines) above the center of the screen.
+" 4. Pulse the cursor line.  My eyes are bad.
+"
+" This mapping wipes out the z mark, which I never use.
+"
+" I use :sus for the rare times I want to actually background Vim.
+nnoremap zf mzzMzvzz<c-e>`
 
 function! MyFoldText()
     let line = getline(v:foldstart)
