@@ -12,10 +12,10 @@ if (url.includes('git.hubteam.com')) {
       const pullRequestId = urlMatches[1];
       const repo = /.*Pull Request #\d+ · (.*)/.exec(document.title)[1];
 
-      markdownLabel = title.replace(
+      markdownLabel = `#${pullRequestId} ${title.replace(
         ` · Pull Request #${pullRequestId} · ${repo}`,
-        '',
-      );
+        ''
+      )}`;
     }
   } else if (url.includes('/issues/')) {
     const urlMatches = /.*issues\/(\d+).*/i.exec(document.URL);
@@ -24,7 +24,7 @@ if (url.includes('git.hubteam.com')) {
       const issueId = urlMatches[1];
       const repo = /.*Issue #\d+ · (.*)/.exec(document.title)[1];
 
-      markdownLabel = title.replace(` · Issue #${issueId} · ${repo}`, '');
+      markdownLabel = `#${issueId} ${title.replace(` · Issue #${issueId} · ${repo}`, '')}`;
     }
   }
 }
