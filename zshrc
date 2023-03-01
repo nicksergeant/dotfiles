@@ -211,6 +211,8 @@ wo() {
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+eval "$(github-copilot-cli alias -- "$0")"
+
 # }}}
 
 # Added by nex: https://git.hubteam.com/HubSpot/nex
