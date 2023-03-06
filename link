@@ -8,7 +8,6 @@ mkdir -p /Users/nsergeant/.config/nvim/lua/
 
 ln -sf /Users/nsergeant/Sources/dotfiles/alacritty.yml /Users/nsergeant/.config/alacritty/alacritty.yml
 ln -sf /Users/nsergeant/Sources/dotfiles/ctags.ctags /Users/nsergeant/.config/ctags/ctags.ctags
-ln -sf /Users/nsergeant/Sources/dotfiles/gitconfig /Users/nsergeant/.gitconfig
 ln -sf /Users/nsergeant/Sources/dotfiles/gitignore /Users/nsergeant/.gitignore
 ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.edn /Users/nsergeant/.config/karabiner.edn
 ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.json /Users/nsergeant/.config/karabiner/karabiner.json
