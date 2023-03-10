@@ -377,7 +377,7 @@ nnoremap zO zczO
 " This mapping wipes out the z mark, which I never use.
 "
 " I use :sus for the rare times I want to actually background Vim.
-nnoremap zf mzzMzvzz<c-e>`
+nnoremap f zMzczO`
 
 function! MyFoldText()
     let line = getline(v:foldstart)
