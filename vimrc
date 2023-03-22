@@ -561,6 +561,22 @@ augroup END
 " }}}
 " LSP and Autocomplete ------------------------------------------- {{{
 
+let g:diagnosticsEnabled = 1
+
+function! ToggleDiagnostics()
+    if g:diagnosticsEnabled
+        call ale#toggle#Disable()
+        lua vim.diagnostic.disable()
+        let g:diagnosticsEnabled = 0
+    else
+        call ale#toggle#Enable()
+        lua vim.diagnostic.enable()
+        let g:diagnosticsEnabled = 1
+    endif
+endfunction
+
+nnoremap <leader>d :call ToggleDiagnostics()<cr>
+
 set completeopt=menu,menuone,noselect
 
 lua <<EOF
