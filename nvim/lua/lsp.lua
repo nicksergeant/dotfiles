@@ -118,6 +118,7 @@ end
 
 -- npm install -g graphql-language-service-cli
 require'lspconfig'.graphql.setup {}
+require'lspconfig'.tailwindcss.setup {}
 
 -- yarn global add yaml-language-server
 require'lspconfig'.yamlls.setup {}

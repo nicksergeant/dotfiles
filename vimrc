@@ -314,7 +314,7 @@ augroup cline
 augroup END
 
 " }}}
-" Elixir ---------------------------------------------------------- {{{
+" Elixir --------------------------------------------------------- {{{
 
 lua <<EOF
 require('lspconfig').elixirls.setup({
@@ -648,7 +648,7 @@ EOF
 autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 
 " }}}
-" NERDtree ------------------------------------------------------ {{{
+" NERDtree ------------------------------------------------------- {{{
 
 noremap  <leader>f :NERDTreeFind<cr>
 
@@ -664,7 +664,7 @@ let NERDTreeMinimalMenu=1
 " let NERDTreeWinSize=60
 
 " }}}
-" Python --------------------------------------------------- {{{
+" Python --------------------------------------------------------- {{{
 
 lua <<EOF
 require('lspconfig').pyright.setup{}
