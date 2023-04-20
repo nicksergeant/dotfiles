@@ -147,13 +147,13 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'chrisbra/matchit'
+Plug 'dense-analysis/ale'
 Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'preservim/nerdtree'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'isomoar/vim-css-to-inline'
@@ -167,12 +167,12 @@ Plug 'nicksergeant/goyo.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'onsails/lspkind-nvim'
+Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
-Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -240,6 +240,7 @@ let g:ale_cache_executable_check_failures = 1
 let g:ale_linters_explicit = 1
 let g:ale_sign_column_always = 0
 let g:ale_sign_warning = '>>'
+let g:ale_fix_on_save = 1
 let g:ale_fixers = {
   \ 'conf': ['prettier'],
   \ 'css': ['prettier'],
