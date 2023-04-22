@@ -1,5 +1,5 @@
 *.cache
-*.dump*
+*.dump
 *.pyc
 *.swo
 *.swp
