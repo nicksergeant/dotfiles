@@ -6,6 +6,7 @@
 *.un~
 .DS_Store
 .elixir_ls
+.env
 .hg
 .hgignore
 .python-version
