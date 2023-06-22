@@ -104,11 +104,11 @@ scrolling:
 # Font configuration (changes require restart)
 font:
   normal:
-    family: MesloLGS NF
+    family: MesloLGS Nerd Font Mono
   bold:
-    family: MesloLGS NF
+    family: MesloLGS Nerd Font Mono
   italic:
-    family: MesloLGS NF
+    family: MesloLGS Nerd Font Mono
 
   # Point size
   size: 15.0
