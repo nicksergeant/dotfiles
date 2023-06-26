@@ -690,8 +690,8 @@ endfunction
 
 command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
 
-nnoremap <m-n> :cn<cr>
-nnoremap <m-p> :cp<cr>
+nnoremap <c-n> :cn<cr>
+nnoremap <c-p> :cp<cr>
 
 " }}}
 " Source files --------------------------------------------------- {{{
