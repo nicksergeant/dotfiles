@@ -104,11 +104,11 @@ scrolling:
 # Font configuration (changes require restart)
 font:
   normal:
-    family: MesloLGS Nerd Font Mono
+    family: Menlo
   bold:
-    family: MesloLGS Nerd Font Mono
+    family: Menlo
   italic:
-    family: MesloLGS Nerd Font Mono
+    family: Menlo
 
   # Point size
   size: 15.0
@@ -117,7 +117,7 @@ font:
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
     x: 0
-    y: -3
+    y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
