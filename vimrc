@@ -160,7 +160,6 @@ Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-after-object'
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
