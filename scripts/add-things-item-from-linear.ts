@@ -6,11 +6,9 @@ import { readLines } from 'https://deno.land/std@0.202.0/io/mod.ts';
 
 for await (const markdownLink of readLines(Deno.stdin)) {
   let [title, url] = markdownLink.split('](');
-  title = encodeUrl(
-    title.replace('\\[', '[').replace('\\]', ']').split(' : ')[1]
-  );
+  title = title.replace('\\[', '[').replace('\\]', ']').split(' : ')[1];
   url = url.replace(url[url.length - 1], '').replace('https://', 'linear://');
   await exec(
-    `open things:///add?title=${title}&notes=${url}&when=today&show-quick-entry=true&list=FLX%20Websites`
+    `open "things:///add?title=${title}&notes=${url}&when=today&show-quick-entry=true&list=FLX%20Websites"`
   );
 }
