@@ -9,6 +9,6 @@ for await (const markdownLink of readLines(Deno.stdin)) {
   title = title.replace('\\[', '[').replace('\\]', ']').split(' : ')[1];
   url = url.replace(url[url.length - 1], '').replace('https://', 'linear://');
   await exec(
-    `open "things:///add?title=${title}&notes=${url}&when=today&show-quick-entry=true&list=FLX%20Websites"`
+    `open "things:///add?title=${title}&notes=${url}&when=today&show-quick-entry=true&list=FLX Websites"`
   );
 }
