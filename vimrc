@@ -21,6 +21,7 @@ set backspace=indent,eol,start
 set colorcolumn=0
 set encoding=utf-8
 set fillchars=diff:⣿,vert:│
+set guifont=Menlo-Regular:h15
 set hidden
 set laststatus=2
 set lazyredraw
