@@ -1,0 +1,29 @@
+/* Note: Only Finda customers can customize themes. */
+
+/* These styles apply in all modes. */
+:root {
+    --color-background: hsl(0, 0%, 90%);
+    --color-highlight: #af0a0a;
+    --color-text: black;
+
+    /* AnonymousPro ships with Finda. */
+    /* Specify local fonts via their PostScript name. */
+    /* You can also add @font-face declarations for more control */
+    /* See: https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face */
+    --font-family: 'Menlo';
+    --font-size: 18px;
+}
+
+
+/* These values apply in OS X 10.14 (Mojave) light mode. */
+[data-theme='light'] {
+
+}
+
+
+/* These values only apply in OS X 10.14 (Mojave) dark mode. */
+[data-theme='dark'] {
+    --color-highlight: hsl(357,  60%,  60%);
+    --color-background: #2f2f32;
+    --color-text: #bebec5;
+}

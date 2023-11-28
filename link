@@ -19,4 +19,8 @@ ln -sf /Users/nsergeant/Sources/dotfiles/tmux.conf /Users/nsergeant/.tmux.conf
 ln -sf /Users/nsergeant/Sources/dotfiles/vimrc /Users/nsergeant/.config/nvim/init.vim
 ln -sf /Users/nsergeant/Sources/dotfiles/zshrc /Users/nsergeant/.zshrc
 
+ln -sf /Users/nsergeant/Sources/dotfiles/finda/paths_to_search.conf /Users/nsergeant/.finda/paths_to_search.conf
+ln -sf /Users/nsergeant/Sources/dotfiles/finda/shortcut.conf /Users/nsergeant/.finda/shortcut.conf
+ln -sf /Users/nsergeant/Sources/dotfiles/finda/theme.css /Users/nsergeant/.finda/theme.css
+
 echo ✅ Done
