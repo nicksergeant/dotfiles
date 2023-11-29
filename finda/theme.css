@@ -15,7 +15,13 @@
 }
 
 .app {
-  margin: 20% 20% 0%;
+  margin: 20% 0% 0% 40%;
+}
+
+@media (min-width: 3000px) {
+  .app {
+    margin-top: 11%;
+  }
 }
 
 /* These values apply in OS X 10.14 (Mojave) light mode. */
