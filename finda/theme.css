@@ -15,12 +15,12 @@
 }
 
 .app {
-  margin: 20% 0% 0% 40%;
+  margin: 20% 0% 0% 20%;
 }
 
 @media (min-width: 3000px) {
   .app {
-    margin-top: 11%;
+    margin: 11% 0% 0% 40%;
   }
 }
 
