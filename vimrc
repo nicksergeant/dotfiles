@@ -26,7 +26,7 @@ set hidden
 set laststatus=2
 set lazyredraw
 set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮
+set listchars=tab:\ \ ,extends:❯,precedes:❮
 set mouse=a
 set scrolloff=0
 set splitbelow
@@ -92,6 +92,7 @@ set nowrap
 set shiftwidth=2
 set smartindent
 set softtabstop=2
+set tabstop=2
 set textwidth=80
 
 " }}}
@@ -172,6 +173,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 
 call plug#end()
