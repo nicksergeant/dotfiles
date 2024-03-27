@@ -43,7 +43,6 @@ alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
 alias o='open'
 alias pm='python manage.py'
-alias r='make run'
 alias ta='tmux attach -t'
 alias vim='nvim'
 
@@ -168,6 +167,15 @@ m() {
     nvim $@
   else
     nvim .
+  fi
+}
+
+r() {
+  if [ -e Makefile ]
+  then
+    make run
+  else
+    bend reactor serve --update
   fi
 }
 
