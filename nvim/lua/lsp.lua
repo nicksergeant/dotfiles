@@ -83,7 +83,8 @@ if isHubspotMachine then
 else
   require("lspconfig").tsserver.setup {
     root_dir = util.root_pattern("package.json"),
-    single_file_support = false
+    single_file_support = false,
+    capabilities = capabilities
   }
 end
 

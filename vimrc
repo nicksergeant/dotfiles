@@ -179,13 +179,6 @@ Plug 'tpope/vim-surround'
 call plug#end()
 
 " }}}
-" LSP------------------------------------------------------------- {{{
-
-lua <<EOF
-require('lsp')
-EOF
-
-" }}}
 " Color scheme --------------------------------------------------- {{{
 
 syntax on
@@ -563,6 +556,10 @@ augroup END
 
 " }}}
 " LSP and Autocomplete ------------------------------------------- {{{
+
+lua <<EOF
+require('lsp')
+EOF
 
 let g:diagnosticsEnabled = 1
 
