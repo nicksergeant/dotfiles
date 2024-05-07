@@ -9,6 +9,7 @@
 .env
 .hg
 .hgignore
+.obsidian
 .python-version
 .sass-cache
 .vim
@@ -26,3 +27,4 @@ yarn-error.log
 # Gradle Enterprise
 .mvn/.gradle-enterprise/
 .gradle-enterprise/
+.develocity/
