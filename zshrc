@@ -207,8 +207,7 @@ tv() {
 }
 
 wo() {
-  VENV=`cat .venv`
-  source ~/.virtualenvs/$VENV/bin/activate
+  source ~/.virtualenvs/flex/bin/activate
 }
 
 # }}}

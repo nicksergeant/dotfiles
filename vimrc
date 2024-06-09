@@ -244,6 +244,7 @@ let g:ale_fixers = {
   \ 'html': ['prettier'],
   \ 'htmldjango': ['prettier'],
   \ 'javascript': ['prettier'],
+  \ 'javascriptreact': ['prettier'],
   \ 'json': ['prettier'],
   \ 'python': ['black'],
   \ 'scss': ['prettier'],
