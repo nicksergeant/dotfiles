@@ -9,6 +9,7 @@ export EDITOR='nvim'
 export ZSH=~/.oh-my-zsh
 
 export PATH="/Users/nsergeant/.meteor":$PATH
+export PATH="/Users/nsergeant/go/bin":$PATH
 export PATH="/Users/nsergeant/Sources/dotfiles/bin:$PATH"
 export PATH="/Users/nsergeant/Library/Python/3.8/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
@@ -219,7 +220,3 @@ wo() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # }}}
-
-# Added by nex: https://git.hubteam.com/HubSpot/nex
-. ~/.hubspot/shellrc
-export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/bin:/usr/local/bin:/Users/nsergeant/Library/Python/3.8/bin:/Users/nsergeant/Sources/dotfiles/bin:/Users/nsergeant/.meteor:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/bin:/usr/local/bin:/Users/nsergeant/Library/Python/3.8/bin:/Users/nsergeant/Sources/dotfiles/bin:/Users/nsergeant/.meteor:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/opt/homebrew/opt/fzf/bin:/Users/nsergeant/.mint/bin:/Users/nsergeant/.mint/bin

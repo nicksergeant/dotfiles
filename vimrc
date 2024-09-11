@@ -249,6 +249,7 @@ let g:ale_fixers = {
   \ 'python': ['black'],
   \ 'scss': ['prettier'],
   \ 'svelte': ['prettier'],
+  \ 'swift': ['apple-swift-format'],
   \ 'typescript': ['prettier'],
   \ 'typescriptreact': ['prettier'],
   \ }
@@ -258,6 +259,7 @@ let g:ale_linters = {
   \ 'javascript': ['eslint'],
   \ 'markdown': [],
   \ 'scss': [],
+  \ 'swift': ['swiftlint'],
   \ 'typescript': ['eslint'],
   \ 'typescriptreact': ['eslint'],
   \ }
@@ -268,6 +270,8 @@ let g:ale_linters = {
 nnoremap <leader>c<space> :Commentary<cr>
 vnoremap <leader>c<space> :Commentary<cr>
 onoremap <leader>c<space> :Commentary<cr>
+
+autocmd FileType swift setlocal commentstring=//\ %s
 
 " }}}
 " Copy and paste ------------------------------------------------- {{{
@@ -699,6 +703,22 @@ nnoremap <c-p> :cp<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" }}}
+" Swift ---------------------------------------------------------- {{{
+
+lua <<EOF
+    local lspconfig = require('lspconfig')
+    lspconfig.sourcekit.setup {}
+
+    vim.api.nvim_create_autocmd('LspAttach', {
+        desc = 'LSP Actions',
+        callback = function(args)
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover, {noremap = true, silent = true})
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {noremap = true, silent = true})
+        end,
+    })
+EOF
 
 " }}}
 " Treesitter ----------------------------------------------------- {{{
