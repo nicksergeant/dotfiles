@@ -272,6 +272,8 @@ vnoremap <leader>c<space> :Commentary<cr>
 onoremap <leader>c<space> :Commentary<cr>
 
 autocmd FileType swift setlocal commentstring=//\ %s
+autocmd FileType javascriptreact setlocal commentstring={/*\ %s\ */}
+autocmd FileType typescriptreact setlocal commentstring={/*\ %s\ */}
 
 " }}}
 " Copy and paste ------------------------------------------------- {{{
@@ -709,7 +711,13 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 
 lua <<EOF
     local lspconfig = require('lspconfig')
-    lspconfig.sourcekit.setup {}
+    lspconfig.sourcekit.setup {
+      root_dir = lspconfig.util.root_pattern(
+        '.git',
+        'Package.swift',
+        'compile_commands.json'
+      ),
+    }
 
     vim.api.nvim_create_autocmd('LspAttach', {
         desc = 'LSP Actions',
