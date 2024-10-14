@@ -116,7 +116,7 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
-nnoremap <c-p> <c-i>
+nnoremap <c-u> <c-i>
 nnoremap <esc> :nohl<cr>
 nnoremap <leader>we :set wrap!<cr>
 nnoremap <tab> %
@@ -162,6 +162,7 @@ Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-after-object'
+Plug 'justinmk/vim-sneak'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
@@ -705,6 +706,11 @@ nnoremap <c-p> :cp<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" }}}
+" Sneak ---------------------------------------------------------- {{{
+
+let g:sneak#label = 1
 
 " }}}
 " Swift ---------------------------------------------------------- {{{
