@@ -116,7 +116,7 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
-nnoremap <c-u> <c-i>
+nnoremap <c-y> <c-i>
 nnoremap <esc> :nohl<cr>
 nnoremap <leader>we :set wrap!<cr>
 nnoremap <tab> %
@@ -150,6 +150,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'chrisbra/matchit'
 Plug 'dense-analysis/ale'
+Plug 'easymotion/vim-easymotion'
 Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
@@ -162,7 +163,6 @@ Plug 'isomoar/vim-css-to-inline'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-after-object'
-Plug 'justinmk/vim-sneak'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
@@ -317,6 +317,14 @@ augroup cline
 augroup END
 
 " }}}
+" EasyMotion ----------------------------------------------------- {{{
+
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+
+nmap f <Plug>(easymotion-overwin-f2)
+
+" }}}
 " Elixir --------------------------------------------------------- {{{
 
 lua <<EOF
@@ -370,18 +378,6 @@ vnoremap <space> za
 
 " Make zO recursively open whatever fold we're in, even if it's partially open.
 nnoremap zO zczO
-
-" "Focus" the current line.  Basically:
-"
-" 1. Close all folds.
-" 2. Open just the folds containing the current line.
-" 3. Move the line to a little bit (15 lines) above the center of the screen.
-" 4. Pulse the cursor line.  My eyes are bad.
-"
-" This mapping wipes out the z mark, which I never use.
-"
-" I use :sus for the rare times I want to actually background Vim.
-nnoremap f zMzczO`
 
 function! MyFoldText()
     let line = getline(v:foldstart)
@@ -707,11 +703,6 @@ nnoremap <c-p> :cp<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ez :vsplit ~/Sources/dotfiles/zshrc<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-
-" }}}
-" Sneak ---------------------------------------------------------- {{{
-
-let g:sneak#label = 1
 
 " }}}
 " Swift ---------------------------------------------------------- {{{
