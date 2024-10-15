@@ -404,7 +404,8 @@ set foldtext=MyFoldText()
 " }}}
 " Focus ---------------------------------------------------------- {{{
 
-nnoremap <leader>v :Goyo<cr>
+" nnoremap <leader>v :Goyo<cr>
+nnoremap <leader>v :edit /tmp/empty<cr>
 
 let g:goyo_height = '100%'
 let g:goyo_width = 150
