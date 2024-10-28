@@ -13,7 +13,7 @@ function getIsHubspotMachine()
     end
   }):sync()
 
-  return return_val == 0
+  return result == 0
 end
 
 function getLogPath() return vim.lsp.get_log_path() end
@@ -67,7 +67,7 @@ if isHubspotMachine then
       "typescript-language-server", "--log-level",
       "2", "--tsserver-log-verbosity", "terse",
       "--tsserver-log-file", getLogPath(), "--tsserver-path",
-      getTsserverPath(), "--stdio"
+      "/Users/nsergeant/.bpm/packages/hs-typescript/static-1-hs-5-1.56/lib/tsserver.js", "--stdio"
     },
     root_dir = util.root_pattern("package.json"),
     filetypes = {
