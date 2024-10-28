@@ -62,7 +62,7 @@ end
 local isHubspotMachine = getIsHubspotMachine()
 
 if isHubspotMachine then
-  require("lspconfig").tsserver.setup({
+  require("lspconfig").ts_ls.setup({
     cmd = {
       "typescript-language-server", "--log-level",
       "2", "--tsserver-log-verbosity", "terse",
@@ -81,7 +81,7 @@ if isHubspotMachine then
     capabilities = capabilities
   })
 else
-  require("lspconfig").tsserver.setup {
+  require("lspconfig").ts_ls.setup {
     root_dir = util.root_pattern("package.json"),
     single_file_support = false,
     capabilities = capabilities
