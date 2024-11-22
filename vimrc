@@ -160,17 +160,18 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'isomoar/vim-css-to-inline'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-after-object'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nicksergeant/badwolf'
 Plug 'nicksergeant/goyo.vim'
+Plug 'numToStr/Comment.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'onsails/lspkind-nvim'
 Plug 'preservim/nerdtree'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
@@ -266,15 +267,25 @@ let g:ale_linters = {
   \ }
 
 " }}}
-" Commentary ----------------------------------------------------- {{{
+" Comment.nvim ----------------------------------------------------- {{{
 
-nnoremap <leader>c<space> :Commentary<cr>
-vnoremap <leader>c<space> :Commentary<cr>
-onoremap <leader>c<space> :Commentary<cr>
+lua << EOF
+require('Comment').setup {
+  pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+  ignore = '^$',
+  opleader = {
+    line = '<leader>c<space>',
+    block = '<leader>c<space>'
+  }
+}
 
-autocmd FileType swift setlocal commentstring=//\ %s
-autocmd FileType javascriptreact setlocal commentstring={/*\ %s\ */}
-autocmd FileType typescriptreact setlocal commentstring={/*\ %s\ */}
+require('ts_context_commentstring').setup {
+  enable_autocmd = false,
+}
+EOF
+" nnoremap <leader>c<space> :Commentary<cr>
+" vnoremap <leader>c<space> :Commentary<cr>
+" onoremap <leader>c<space> :Commentary<cr>
 
 " }}}
 " Copy and paste ------------------------------------------------- {{{
@@ -725,7 +736,19 @@ lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
   highlight = { enable = true, disable = { "markdown" } },
-  ignore_install = { "haskell", "phpdoc" }
+  ignore_install = { "haskell", "phpdoc" },
+  context_commentstring = {
+    config = {
+      javascript = {
+        __default = '// %s',
+        jsx_element = '{/* %s */}',
+        jsx_fragment = '{/* %s */}',
+        jsx_attribute = '// %s',
+        comment = '// %s',
+      },
+      typescript = { __default = '// %s', __multiline = '/* %s */' },
+    }
+  }
 }
 EOF
 
