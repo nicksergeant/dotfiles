@@ -283,9 +283,6 @@ require('ts_context_commentstring').setup {
   enable_autocmd = false,
 }
 EOF
-" nnoremap <leader>c<space> :Commentary<cr>
-" vnoremap <leader>c<space> :Commentary<cr>
-" onoremap <leader>c<space> :Commentary<cr>
 
 " }}}
 " Copy and paste ------------------------------------------------- {{{
