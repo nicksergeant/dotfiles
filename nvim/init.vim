@@ -178,6 +178,13 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 
+" Avante
+Plug 'HakonHarnes/img-clip.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'stevearc/dressing.nvim'
+Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
+
 call plug#end()
 
 " }}}
@@ -264,6 +271,14 @@ let g:ale_linters = {
   \ 'typescript': ['eslint'],
   \ 'typescriptreact': ['eslint'],
   \ }
+
+" }}}
+" Avante ------------------------------------------------------------ {{{
+
+lua << EOF
+require('avante_lib').load()
+require('avante').setup()
+EOF
 
 " }}}
 " Comment.nvim ----------------------------------------------------- {{{
