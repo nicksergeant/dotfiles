@@ -223,3 +223,6 @@ wo() {
 
 # Added by nex: https://git.hubteam.com/HubSpot/nex
 . ~/.hubspot/shellrc
+
+# Added by Windsurf
+export PATH="/Users/nsergeant/.codeium/windsurf/bin:$PATH"
