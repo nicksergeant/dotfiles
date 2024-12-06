@@ -15,6 +15,7 @@
   "editor.scrollbar.vertical": "hidden",
   "editor.scrollbar.verticalScrollbarSize": 0,
   "editor.showFoldingControls": "never",
+  "editor.stickyScroll.enabled": false,
   "editor.tabSize": 2,
   "eslint.quiet": true,
   "explorer.confirmDragAndDrop": false,
