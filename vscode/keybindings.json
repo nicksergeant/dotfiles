@@ -10,12 +10,12 @@
     "when": "hasSearchResult"
   },
   {
-    "key": "cmd+enter",
-    "command": "workbench.action.toggleFullScreen"
-  },
-  {
     "key": "alt+n",
     "command": "editor.action.marker.next",
     "when": "editorFocus"
+  },
+  {
+    "key": "cmd+w",
+    "command": "workbench.action.closeEditorsAndGroup"
   }
 ]

@@ -350,5 +350,6 @@
     "typescript.tsserver.nodePath",
     "update.mode",
     "workbench.hover.delay"
-  ]
+  ],
+  "workbench.editor.showTabs": "single"
 }
