@@ -1,0 +1,72 @@
+{
+  "name": "Badwolf",
+  "type": "dark",
+  "colors": {
+    "editor.background": "#1c1b1a",
+    "editor.foreground": "#FFFFFF",
+    "editorLineNumber.foreground": "#857f78",
+    "editor.selectionBackground": "#2c78bf60",
+    "editor.lineHighlightBackground": "#2c2827",
+    "editorCursor.foreground": "#00b8ff",
+    "editorCursor.background": "#000000",
+    "titleBar.activeBackground": "#1c1b1a",
+    "statusBar.background": "#1c1b1a",
+    "sideBar.background": "#1c1b1a"
+  },
+  "tokenColors": [
+    {
+      "scope": ["comment", "punctuation.definition.comment"],
+      "settings": {
+        "foreground": "#857f78"
+      }
+    },
+    {
+      "scope": ["string", "string.quoted"],
+      "settings": {
+        "foreground": "#99ad6a"
+      }
+    },
+    {
+      "scope": ["keyword", "storage.type", "storage.modifier"],
+      "settings": {
+        "foreground": "#ff2c4b"
+      }
+    },
+    {
+      "scope": ["entity.name.function", "support.function"],
+      "settings": {
+        "foreground": "#ffa724"
+      }
+    },
+    {
+      "scope": ["variable", "variable.language"],
+      "settings": {
+        "foreground": "#FFFFFF"
+      }
+    },
+    {
+      "scope": ["constant.numeric", "constant.language"],
+      "settings": {
+        "foreground": "#fade3e"
+      }
+    },
+    {
+      "scope": ["entity.name.type", "support.type"],
+      "settings": {
+        "foreground": "#88633f"
+      }
+    },
+    {
+      "scope": "constant.character.escape",
+      "settings": {
+        "foreground": "#ff9eb8"
+      }
+    },
+    {
+      "scope": ["punctuation", "meta.brace"],
+      "settings": {
+        "foreground": "#f8f6f2"
+      }
+    }
+  ]
+}

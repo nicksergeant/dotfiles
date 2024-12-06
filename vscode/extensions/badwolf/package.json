@@ -1,0 +1,21 @@
+{
+    "name": "badwolf-theme",
+    "displayName": "Badwolf Theme",
+    "description": "Badwolf color theme for VS Code",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.0.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "contributes": {
+        "themes": [
+            {
+                "label": "Badwolf",
+                "uiTheme": "vs-dark",
+                "path": "./themes/badwolf-color-theme.json"
+            }
+        ]
+    }
+}
