@@ -42,34 +42,14 @@
   "typescript.tsserver.nodePath": "/Users/nsergeant/.bpm/packages/node-20-11-0/static-1.1/bin/node",
   "update.mode": "start",
   "vim.hlsearch": true,
-  "vim.searchHighlightColor": "#00a2ff",
   "window.customTitleBarVisibility": "never",
   "window.nativeFullScreen": false,
   "workbench.colorTheme": "Badwolf",
+  "workbench.editor.showTabs": "single",
   "workbench.hover.delay": 500,
   "workbench.statusBar.visible": false,
   "files.associations": {
     "en.lyaml": "yaml"
-  },
-  "editor.tokenColorCustomizations": {
-    "textMateRules": [
-      {
-        "scope": "support.type.property-name",
-        "settings": {
-          "foreground": "#FFFFFF"
-        }
-      }
-    ]
-  },
-  "workbench.colorCustomizations": {
-    "editor.findMatchBackground": "#00a2ff00",
-    "editor.findMatchHighlightBackground": "#00a2ff00",
-    "editor.findRangeHighlightBackground": "#00a2ff00",
-    "editor.rangeHighlightBackground": "#00a2ff00",
-    "editor.searchEditorFindMatch": "#00a2ff00",
-    "editor.wordHighlightBackground": "#00a2ff00",
-    "editor.wordHighlightStrongBackground": "#00a2ff00",
-    "search.matchBackground": "#00a2ff"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -91,6 +71,20 @@
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorCustomizations": {
+    "editor.wordHighlightBorder": "#ffdb02",
+    "editor.findMatchHighlightBorder": "#ffdb02"
+  },
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "support.type.property-name",
+        "settings": {
+          "foreground": "#FFFFFF"
+        }
+      }
+    ]
   },
   "vim.insertModeKeyBindings": [
     {
@@ -350,6 +344,5 @@
     "typescript.tsserver.nodePath",
     "update.mode",
     "workbench.hover.delay"
-  ],
-  "workbench.editor.showTabs": "single"
+  ]
 }
