@@ -1,1 +1,440 @@
-{}
+{
+  "editor.fontSize": 15,
+    "editor.accessibilitySupport": "off",
+    "editor.glyphMargin": false,
+    "editor.guides.indentation": false,
+    "editor.hover.enabled": false,
+    "editor.lightbulb.enabled": "off",
+    "editor.lineHeight": 1.2,
+    "editor.lineNumbers": "off",
+    "breadcrumbs.enabled": false,
+    "editor.matchBrackets": "never",
+    "editor.occurrencesHighlight": "off",
+    "editor.scrollbar.vertical": "hidden",
+    "editor.scrollbar.verticalScrollbarSize": 0,
+    "editor.showFoldingControls": "never",
+    "editor.tabSize": 2,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    "javascript.preferences.quoteStyle": "single",
+    "javascript.suggest.includeAutomaticOptionalChainCompletions": true,
+    "prettier.enableDebugLogs": true,
+    "prettier.requireConfig": true,
+    "terminal.integrated.fontSize": 15,
+    "typescript.disableAutomaticTypeAcquisition": true,
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.suggest.includeAutomaticOptionalChainCompletions": false,
+    "window.nativeFullScreen": false,
+    "files.associations": {
+        "en.lyaml": "yaml"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[mdx]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "hubspot.frontend.settings-excluded-from-enforcement": [
+      "[javascript].editor.defaultFormatter",
+      "[javascript].editor.formatOnSave",
+      "[json].editor.defaultFormatter",
+      "[json].editor.formatOnSave",
+      "[jsonc].editor.defaultFormatter",
+      "[jsonc].editor.formatOnSave",
+      "[mdx].editor.defaultFormatter",
+      "[mdx].editor.formatOnSave",
+      "[typescript].editor.defaultFormatter",
+      "[typescript].editor.formatOnSave",
+      "[typescriptreact].editor.defaultFormatter",
+      "[typescriptreact].editor.formatOnSave",
+      "[yaml].editor.defaultFormatter",
+      "[yaml].editor.formatOnSave",
+      "diffEditor.ignoreTrimWhitespace",
+      "editor.tabSize",
+      "eslint.quiet",
+      "files.associations",
+      "files.insertFinalNewline",
+      "files.trimTrailingWhitespace",
+      "github-enterprise.uri",
+      "gitlens.remotes",
+      "javascript.preferences.quoteStyle",
+      "javascript.suggest.includeAutomaticOptionalChainCompletions",
+      "prettier.enableDebugLogs",
+      "prettier.requireConfig",
+      "search.followSymlinks",
+      "typescript.preferences.quoteStyle",
+      "typescript.suggest.includeAutomaticOptionalChainCompletions",
+      "typescript.tsserver.log",
+      "typescript.tsserver.maxTsServerMemory",
+      "typescript.tsserver.nodePath",
+      "update.mode",
+      "workbench.hover.delay"
+    ],
+    "vim.insertModeKeyBindings": [
+      {
+        "before": [
+          "<C-l>",
+        ],
+        "commands": [
+          {
+            "command": "editor.action.insertSnippet",
+            "args": {
+              "snippet": "console.log($1)$0"
+            }
+          }
+        ]
+      },
+    ],
+    "vim.normalModeKeyBindings": [
+      {
+        "before": [
+          "M",
+        ],
+        "after": [
+          "0",
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "w"
+        ],
+        "commands": [
+          {
+            "command": "editor.action.toggleWordWrap"
+          }
+        ]
+      },
+      {
+        "before": [
+          "H"
+        ],
+        "after": [
+          "^"
+        ]
+      },
+      {
+        "before": [
+          "L"
+        ],
+        "after": [
+          "$"
+        ]
+      },
+      {
+        "before": [
+          "tab"
+        ],
+        "after": [
+          "%"
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "a"
+        ],
+        "commands": [
+          {
+            "command": "workbench.action.findInFiles"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "A"
+        ],
+        "commands": [
+          {
+            "command": "editor.action.addSelectionToNextFindMatch"
+          },
+          {
+            "command": "workbench.action.findInFiles"
+          }
+        ]
+      },
+      {
+        "before": [
+          "<C-j>"
+        ],
+        "commands": [
+          {
+            "command": "workbench.action.navigateDown"
+          }
+        ]
+      },
+      {
+        "before": [
+          "<C-k>"
+        ],
+        "commands": [
+          {
+            "command": "workbench.action.navigateUp"
+          }
+        ]
+      },
+      {
+        "before": [
+          "<C-h>"
+        ],
+        "commands": [
+          {
+            "command": "workbench.action.navigateLeft"
+          }
+        ]
+      },
+      {
+        "before": [
+          "<C-l>"
+        ],
+        "commands": [
+          {
+            "command": "workbench.action.navigateRight"
+          }
+        ]
+      },
+      {
+        "before": [
+          "g",
+          "i"
+        ],
+        "commands": [
+          {
+            "command": "editor.action.showHover"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          ","
+        ],
+        "commands": [
+          {
+            "command": "workbench.action.quickOpen"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "v"
+        ],
+        "commands": [
+          {
+            "command": "workbench.action.toggleZenMode"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "e",
+          "v"
+        ],
+        "commands": [
+          {
+            "command": "workbench.action.openSettingsJson"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "e",
+          "k"
+        ],
+        "commands": [
+          {
+            "command": "workbench.action.openGlobalKeybindings"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "e",
+          "g"
+        ],
+        "commands": [
+          {
+            "command": "gitlens.toggleFileBlame"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "f"
+        ],
+        "commands": [
+          {
+            "command": "workbench.files.action.focusFilesExplorer"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "g"
+        ],
+        "commands": [
+          {
+            "command": "issue.openGithubPermalink"
+          }
+        ]
+      },
+      {
+        "before": [
+          ";"
+        ],
+        "after": [
+          "esc"
+        ],
+        "commands": [
+          {
+            "command": "editor.action.formatDocument"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "c",
+          ","
+        ],
+        "after": [
+          "esc"
+        ],
+        "commands": [
+          {
+            "command": ":noh"
+          }
+        ]
+      },
+      {
+        "before": [
+          "esc"
+        ],
+        "after": [
+          "esc"
+        ],
+        "commands": [
+          {
+            "command": ":noh"
+          }
+        ]
+      },
+      {
+        "before": [
+          "g",
+          "o"
+        ],
+        "after": [
+          "g",
+          "d"
+        ]
+      },
+      {
+        "before": [
+          "g",
+          "s"
+        ],
+        "after": [
+          "*",
+          "N"
+        ]
+      },
+      {
+        "before": ["c", "s", "/"],
+        "after": ["c", "g", "n"]
+    }
+    ],
+    "vim.visualModeKeyBindings": [
+      {
+        "before": [
+          "tab"
+        ],
+        "after": [
+          "%"
+        ]
+      },
+      {
+        "before": [
+          "<C-t>"
+        ],
+        "commands": [
+          {
+            "command": "editor.action.sortLinesAscending"
+          }
+        ]
+      },
+      {
+        "before": [
+          ",",
+          "g"
+        ],
+        "commands": [
+          {
+            "command": "issue.openGithubPermalink"
+          }
+        ]
+      },
+    ],
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.inlineSuggest.enabled": true,
+    "security.workspace.trust.enabled": false,
+    "search.followSymlinks": false,
+    "github-enterprise.uri": "https://git.hubteam.com/",
+    "typescript.tsserver.log": "terse",
+    "update.mode": "start",
+    "typescript.tsserver.maxTsServerMemory": 16543,
+    "typescript.tsserver.nodePath": "/Users/nsergeant/.bpm/packages/node-20-11-0/static-1.1/bin/node",
+    "workbench.hover.delay": 500,
+    "eslint.quiet": true,
+    "editor.cursorBlinking": "solid",
+    "workbench.colorTheme": "Badwolf",
+    "workbench.colorCustomizations": {
+      "editor.findMatchBackground": "#00a2ff00",
+      "editor.findMatchHighlightBackground": "#00a2ff00",
+      "editor.wordHighlightBackground": "#00a2ff00",
+      "editor.wordHighlightStrongBackground": "#00a2ff00",
+      "editor.findRangeHighlightBackground": "#00a2ff00",
+      "editor.rangeHighlightBackground": "#00a2ff00",
+      "editor.searchEditorFindMatch": "#00a2ff00",
+      "search.matchBackground": "#00a2ff"
+    },
+        "vim.hlsearch": true,
+    "vim.searchHighlightColor": "#00a2ff",
+    "explorer.confirmDragAndDrop": false,
+    "editor.tokenColorCustomizations": {
+    "textMateRules": [{
+        "scope": "support.type.property-name",
+        "settings": {
+            "foreground": "#FFFFFF"
+        }
+    }],
+},
+"workbench.statusBar.visible": false,
+"window.customTitleBarVisibility": "never",
+}
