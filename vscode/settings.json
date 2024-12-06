@@ -285,6 +285,10 @@
     {
       "before": ["c", "s", "/"],
       "after": ["c", "g", "n"]
+    },
+    {
+      "before": ["tab"],
+      "after": ["%"]
     }
   ],
   "vim.visualModeKeyBindings": [
