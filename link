@@ -13,4 +13,7 @@ ln -sf /Users/nsergeant/Sources/dotfiles/nvim /Users/nsergeant/.config/nvim
 ln -sf /Users/nsergeant/Sources/dotfiles/tmux.conf /Users/nsergeant/.tmux.conf
 ln -sf /Users/nsergeant/Sources/dotfiles/zshrc /Users/nsergeant/.zshrc
 
+ln -sf /Users/nsergeant/Sources/dotfiles/vscode/settings.json /Users/nsergeant/Library/Application\ Support/Cursor/User/settings.json
+ln -sf /Users/nsergeant/Sources/dotfiles/vscode/keybindings.json /Users/nsergeant/Library/Application\ Support/Cursor/User/keybindings.json
+
 echo ✅ Done
