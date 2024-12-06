@@ -295,6 +295,17 @@
       },
       {
         "before": [
+          "m",
+          "v"
+        ],
+        "commands": [
+          {
+            "command": "editor.action.rename"
+          }
+        ]
+      },
+      {
+        "before": [
           ",",
           "g"
         ],
