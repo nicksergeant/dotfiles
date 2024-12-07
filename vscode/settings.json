@@ -289,9 +289,21 @@
     {
       "before": ["tab"],
       "after": ["%"]
-    }
+    },
+    {
+      "before": ["W"],
+      "after": ["v", "a", "t"]
+    },
   ],
   "vim.visualModeKeyBindings": [
+    {
+      "before": ["H"],
+      "after": ["^"]
+    },
+    {
+      "before": ["L"],
+      "after": ["$"]
+    },
     {
       "before": ["tab"],
       "after": ["%"]
