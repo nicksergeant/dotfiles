@@ -367,5 +367,7 @@
     "typescript.tsserver.nodePath",
     "update.mode",
     "workbench.hover.delay"
-  ]
+  ],
+  "vim.matchpairs": "(:),{:},[:],<:>",
+  "vim.useSystemClipboard": true
 }
