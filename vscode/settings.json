@@ -104,6 +104,14 @@
       "after": ["0"]
     },
     {
+      "before": [",", "."],
+      "commands": [
+        {
+          "command": "workbench.action.showAllSymbols"
+        }
+      ]
+    },
+    {
       "before": [",", "w"],
       "commands": [
         {
