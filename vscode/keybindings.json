@@ -28,5 +28,13 @@
   {
     "key": "alt+cmd+t",
     "command": "-workbench.action.closeOtherEditors"
+  },
+  {
+    "key": "alt+2",
+    "command": "workbench.action.editorLayoutTwoColumns"
+  },
+  {
+    "key": "alt+3",
+    "command": "workbench.action.editorLayoutThreeColumns"
   }
 ]
