@@ -12,10 +12,9 @@
   {
     "key": "alt+n",
     "command": "editor.action.marker.next",
-    "when": "editorFocus"
   },
   {
-    "key": "cmd+w",
-    "command": "workbench.action.closeEditorsAndGroup"
+    "key": "alt+p",
+    "command": "editor.action.marker.prev",
   }
 ]

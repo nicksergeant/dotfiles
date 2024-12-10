@@ -45,7 +45,6 @@
   "window.customTitleBarVisibility": "never",
   "window.nativeFullScreen": false,
   "workbench.colorTheme": "Badwolf",
-  "workbench.editor.showTabs": "single",
   "workbench.hover.delay": 500,
   "workbench.statusBar.visible": false,
   "files.associations": {
