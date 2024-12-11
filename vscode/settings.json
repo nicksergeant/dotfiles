@@ -1,6 +1,7 @@
 {
   "breadcrumbs.enabled": false,
   "editor.accessibilitySupport": "off",
+  "editor.colorDecorators": false,
   "editor.cursorBlinking": "solid",
   "editor.fontSize": 15,
   "editor.glyphMargin": false,
@@ -18,6 +19,7 @@
   "editor.stickyScroll.enabled": false,
   "editor.tabSize": 2,
   "eslint.quiet": true,
+  "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
@@ -42,11 +44,16 @@
   "typescript.tsserver.nodePath": "/Users/nsergeant/.bpm/packages/node-20-11-0/static-1.1/bin/node",
   "update.mode": "start",
   "vim.hlsearch": true,
+  "vim.matchpairs": "(:),{:},[:],<:>",
+  "vim.useSystemClipboard": true,
   "window.customTitleBarVisibility": "never",
   "window.nativeFullScreen": false,
   "workbench.colorTheme": "Badwolf",
   "workbench.hover.delay": 500,
   "workbench.statusBar.visible": false,
+  "editor.codeActionsOnSave": {
+    "source.removeUnusedImports": "explicit"
+  },
   "files.associations": {
     "en.lyaml": "yaml"
   },
@@ -368,7 +375,4 @@
     "update.mode",
     "workbench.hover.delay"
   ],
-  "vim.matchpairs": "(:),{:},[:],<:>",
-  "vim.useSystemClipboard": true,
-  "editor.colorDecorators": false
 }
