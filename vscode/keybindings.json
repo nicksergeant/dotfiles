@@ -36,5 +36,9 @@
   {
     "key": "alt+3",
     "command": "workbench.action.editorLayoutThreeColumns"
+  },
+  {
+    "key": "ctrl+shift+cmd+w",
+    "command": "workbench.action.closeEditorsInOtherGroups"
   }
 ]

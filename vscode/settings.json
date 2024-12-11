@@ -208,6 +208,7 @@
     {
       "before": [",", "v"],
       "commands": [
+        { "command": "workbench.action.closeEditorsInOtherGroups" },
         {
           "command": "workbench.action.toggleZenMode"
         }
@@ -307,7 +308,7 @@
     {
       "before": ["W"],
       "after": ["v", "a", "t"]
-    },
+    }
   ],
   "vim.visualModeKeyBindings": [
     {
@@ -374,5 +375,5 @@
     "typescript.tsserver.nodePath",
     "update.mode",
     "workbench.hover.delay"
-  ],
+  ]
 }
