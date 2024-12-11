@@ -209,7 +209,7 @@
       "before": [",", "v"],
       "commands": [
         {
-          "command": "workbench.action.files.newUntitledFile"
+          "command": "workbench.action.toggleZenMode"
         }
       ]
     },
