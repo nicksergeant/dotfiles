@@ -281,6 +281,14 @@
       ]
     },
     {
+      "before": [",", "c", "space"],
+      "commands": [
+        {
+          "command": "editor.action.commentLine"
+        }
+      ]
+    },
+    {
       "before": ["esc"],
       "after": ["esc"],
       "commands": [
@@ -336,6 +344,14 @@
       "commands": [
         {
           "command": "issue.openGithubPermalink"
+        }
+      ]
+    },
+    {
+      "before": [",", "c", "space"],
+      "commands": [
+        {
+          "command": "editor.action.commentLine"
         }
       ]
     }
