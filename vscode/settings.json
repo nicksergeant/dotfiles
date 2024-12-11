@@ -369,5 +369,6 @@
     "workbench.hover.delay"
   ],
   "vim.matchpairs": "(:),{:},[:],<:>",
-  "vim.useSystemClipboard": true
+  "vim.useSystemClipboard": true,
+  "editor.colorDecorators": false
 }
