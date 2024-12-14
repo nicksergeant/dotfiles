@@ -10,14 +10,6 @@
     "when": "hasSearchResult"
   },
   {
-    "key": "alt+n",
-    "command": "editor.action.marker.next",
-  },
-  {
-    "key": "alt+p",
-    "command": "editor.action.marker.prev",
-  },
-  {
     "key": "shift+cmd+w",
     "command": "-workbench.action.closeWindow"
   },
@@ -40,5 +32,24 @@
   {
     "key": "ctrl+shift+cmd+w",
     "command": "workbench.action.closeEditorsInOtherGroups"
+  },
+  {
+    "key": "alt+f8",
+    "command": "-editor.action.marker.next",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+p",
+    "command": "editor.action.marker.prev",
+    "when": "editorFocus"
+  },
+  {
+    "key": "shift+alt+f8",
+    "command": "-editor.action.marker.prev",
+    "when": "editorFocus"
+  },
+  {
+    "key": "shift+alt+n",
+    "command": "editor.action.marker.next"
   }
 ]

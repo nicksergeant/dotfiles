@@ -1,9 +1,9 @@
 {
-  "breadcrumbs.enabled": false,
   "editor.accessibilitySupport": "off",
   "editor.colorDecorators": false,
   "editor.cursorBlinking": "solid",
   "editor.fontSize": 15,
+  "editor.formatOnSave": true,
   "editor.glyphMargin": false,
   "editor.guides.indentation": false,
   "editor.hover.enabled": false,
@@ -16,11 +16,11 @@
   "editor.scrollbar.vertical": "hidden",
   "editor.scrollbar.verticalScrollbarSize": 0,
   "editor.showFoldingControls": "never",
-  "editor.stickyScroll.enabled": false,
   "editor.tabSize": 2,
   "eslint.quiet": true,
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
+  "files.autoSave": "onFocusChange",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "git.autofetch": true,
@@ -103,6 +103,16 @@
           }
         }
       ]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["j"],
+      "after": ["g", "j"]
+    },
+    {
+      "before": ["k"],
+      "after": ["g", "k"]
     }
   ],
   "vim.normalModeKeyBindings": [
@@ -316,6 +326,14 @@
     {
       "before": ["W"],
       "after": ["v", "a", "t"]
+    },
+    {
+      "before": ["g", "m"],
+      "commands": [
+        {
+          "command": "editor.emmet.action.matchTag"
+        }
+      ]
     }
   ],
   "vim.visualModeKeyBindings": [
