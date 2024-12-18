@@ -71,15 +71,15 @@ bend-multi() {
   bend reactor serve $(echo $selected_packages[@]) --update
 }
 
-zle -N fzf-git-branches-widget
+# zle -N fzf-git-branches-widget
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-messages --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-alias bs="bend-multi"
-bindkey '^G' fzf-file-widget
-bindkey '^J' fzf-cd-widget
-bindkey '^O' fzf-git-branches-widget
+# alias bs="bend-multi"
+# bindkey '^G' fzf-file-widget
+# bindkey '^J' fzf-cd-widget
+# bindkey '^O' fzf-git-branches-widget
 
 # }}}
 # Functions ------------------------------------------ {{{
