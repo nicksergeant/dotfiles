@@ -51,5 +51,14 @@
   {
     "key": "shift+alt+n",
     "command": "editor.action.marker.next"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "-workbench.action.terminal.openNativeConsole",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "workbench.panel.composerViewPane2.view.focus"
   }
 ]

@@ -1,5 +1,4 @@
 {
-  "diffEditor.renderSideBySide": false,
   "editor.accessibilitySupport": "off",
   "editor.colorDecorators": false,
   "editor.cursorBlinking": "solid",
@@ -30,6 +29,7 @@
   "github-enterprise.uri": "https://git.hubteam.com/",
   "javascript.preferences.quoteStyle": "single",
   "javascript.suggest.includeAutomaticOptionalChainCompletions": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
   "prettier.enableDebugLogs": true,
   "prettier.requireConfig": true,
   "search.followSymlinks": false,
