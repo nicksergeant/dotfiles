@@ -30,7 +30,7 @@
   "javascript.preferences.quoteStyle": "single",
   "javascript.suggest.includeAutomaticOptionalChainCompletions": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "prettier.enableDebugLogs": true,
+  "prettier.prettierPath": "./node_modules/prettier",
   "prettier.requireConfig": true,
   "search.followSymlinks": false,
   "security.workspace.trust.enabled": false,
