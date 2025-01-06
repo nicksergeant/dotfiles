@@ -47,7 +47,6 @@
   "update.mode": "start",
   "vim.hlsearch": true,
   "vim.matchpairs": "(:),{:},[:],<:>",
-  "vim.useSystemClipboard": true,
   "window.customTitleBarVisibility": "never",
   "window.nativeFullScreen": false,
   "workbench.colorTheme": "Badwolf",
