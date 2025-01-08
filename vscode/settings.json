@@ -17,7 +17,6 @@
   "editor.scrollbar.verticalScrollbarSize": 0,
   "editor.showFoldingControls": "never",
   "editor.tabSize": 2,
-  "eslint.quiet": true,
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "files.autoSave": "onFocusChange",
