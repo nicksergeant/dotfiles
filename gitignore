@@ -28,3 +28,61 @@ yarn-error.log
 .mvn/.gradle-enterprise/
 .gradle-enterprise/
 .develocity/
+# added by nex
+*~
+# added by nex
+*.orig
+# added by nex
+*.egg-info
+# added by nex
+.pydevproject
+# added by nex
+.venv
+# added by nex
+venv/
+# added by nex
+*.egg
+# added by nex
+*.egg-info/
+# added by nex
+.ipynb_checkpoints
+# added by nex
+.coverage
+# added by nex
+.coverage.*
+# added by nex
+nosetests.xml
+# added by nex
+.Python
+# added by nex
+pip-log.txt
+# added by nex
+node_modules/
+# added by nex
+npm-debug.log
+# added by nex
+target/
+# added by nex
+dist/
+# added by nex
+.vscode/
+# added by nex
+*.hprof
+# added by nex
+.classpath
+# added by nex
+.project
+# added by nex
+.settings
+# added by nex
+.factorypath
+# added by nex
+.checkstyle
+# added by nex
+.idea
+# added by nex
+*.iml
+# added by nex
+hadoop-keytabs/
+# added by nex
+hadoop-krb5-configs/
