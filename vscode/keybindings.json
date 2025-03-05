@@ -60,5 +60,22 @@
   {
     "key": "shift+cmd+c",
     "command": "workbench.panel.composerViewPane2.view.focus"
+  },
+  {
+    "key": "shift+cmd+,",
+    "command": "workbench.action.switchWindow"
+  },
+  {
+    "key": "ctrl+w",
+    "command": "-workbench.action.switchWindow"
+  },
+  {
+    "key": "cmd+l",
+    "command": "-aichat.newchataction"
+  },
+  {
+    "key": "cmd+l",
+    "command": "workbench.panel.composerViewPane2",
+    "when": "viewContainer.workbench.panel.composerViewPane2.enabled"
   }
 ]

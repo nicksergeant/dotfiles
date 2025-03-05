@@ -404,5 +404,10 @@
     "typescript.tsserver.nodePath",
     "update.mode",
     "workbench.hover.delay"
-  ]
+  ],
+  "workbench.editor.showTabs": "single",
+  "html.autoClosingTags": false,
+  "javascript.autoClosingTags": false,
+  "typescript.autoClosingTags": false,
+  "makefile.configureOnOpen": false
 }
