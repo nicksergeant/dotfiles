@@ -27,15 +27,19 @@
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "github-enterprise.uri": "https://git.hubteam.com/",
+  "html.autoClosingTags": false,
+  "javascript.autoClosingTags": false,
   "javascript.preferences.quoteStyle": "single",
   "javascript.suggest.includeAutomaticOptionalChainCompletions": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
+  "makefile.configureOnOpen": false,
   "prettier.prettierPath": "./node_modules/prettier",
   "prettier.requireConfig": true,
   "search.followSymlinks": false,
   "security.workspace.trust.enabled": false,
   "security.workspace.trust.untrustedFiles": "open",
   "terminal.integrated.fontSize": 14,
+  "typescript.autoClosingTags": false,
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.quoteStyle": "single",
@@ -50,6 +54,7 @@
   "window.customTitleBarVisibility": "never",
   "window.nativeFullScreen": false,
   "workbench.colorTheme": "Badwolf",
+  "workbench.editor.showTabs": "single",
   "workbench.hover.delay": 500,
   "workbench.statusBar.visible": false,
   "editor.codeActionsOnSave": {
@@ -404,10 +409,5 @@
     "typescript.tsserver.nodePath",
     "update.mode",
     "workbench.hover.delay"
-  ],
-  "workbench.editor.showTabs": "single",
-  "html.autoClosingTags": false,
-  "javascript.autoClosingTags": false,
-  "typescript.autoClosingTags": false,
-  "makefile.configureOnOpen": false
+  ]
 }
