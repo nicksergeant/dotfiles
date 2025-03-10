@@ -75,7 +75,6 @@
   },
   {
     "key": "cmd+l",
-    "command": "workbench.panel.composerViewPane2",
-    "when": "viewContainer.workbench.panel.composerViewPane2.enabled"
+    "command": "composer.openAsPane"
   }
 ]
