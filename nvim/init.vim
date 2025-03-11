@@ -137,8 +137,6 @@ vnoremap <c-t> :sort i<cr>
 vnoremap H ^
 vnoremap L g_
 
-tnoremap <esc> <c-\><c-n>
-
 " Use <tab> for matching things.
 map <tab> %
 silent! unmap [%
