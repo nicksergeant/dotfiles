@@ -13,6 +13,7 @@ export PATH="/Users/nsergeant/go/bin":$PATH
 export PATH="/Users/nsergeant/Sources/dotfiles/bin:$PATH"
 export PATH="/Users/nsergeant/Library/Python/3.8/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export PATH="/Applications/Alacritty Shell.app/Contents/MacOS:$PATH"
 export PATH="/usr/local/bin:$PATH"
 
 if [ "$(uname -p)" = "arm" ]
@@ -86,29 +87,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Functions ------------------------------------------ {{{
 
 unalias gd
-
-build_alacritty() {
-  rm -rf ~/Sources/alacritty && \
-  rm -rf /Applications/Alacritty.app && \
-  rm -rf /Applications/Alacritty\ Notes.app && \
-  rm -rf /Applications/Alacritty\ Shell.app && \
-  rm -rf /Applications/Alacritty\ Vim.app && \
-  cd ~/Sources && \
-  git clone git@github.com:alacritty/alacritty.git && \
-  cd alacritty && \
-  rustup update && \
-  rustup target add x86_64-apple-darwin && \
-  rustup target add aarch64-apple-darwin && \
-  cargo check --target=x86_64-apple-darwin && \
-  cargo check --target=aarch64-apple-darwin && \
-  make dmg-universal && \
-  cp -r target/release/osx/Alacritty.app /Applications/Alacritty.app && \
-  codesign --remove-signature /Applications/Alacritty.app && \
-  sudo codesign --force --deep --sign - /Applications/Alacritty.app && \
-  cp -r /Applications/Alacritty.app /Applications/Alacritty\ Notes.app && \
-  cp -r /Applications/Alacritty.app /Applications/Alacritty\ Shell.app && \
-  cp -r /Applications/Alacritty.app /Applications/Alacritty\ Vim.app
-}
 
 f() {
   _z fl
