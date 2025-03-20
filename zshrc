@@ -88,6 +88,14 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 unalias gd
 
+c() {
+  if [ "$@" ] ; then
+    cursor $@
+  else
+    cursor .
+  fi
+}
+
 f() {
   _z fl
   wo
