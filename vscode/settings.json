@@ -38,7 +38,7 @@
   "search.followSymlinks": false,
   "security.workspace.trust.enabled": false,
   "security.workspace.trust.untrustedFiles": "open",
-  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.fontSize": 15,
   "typescript.autoClosingTags": false,
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.enablePromptUseWorkspaceTsdk": true,
@@ -53,7 +53,6 @@
   "vim.matchpairs": "(:),{:},[:],<:>",
   "window.customTitleBarVisibility": "never",
   "window.nativeFullScreen": false,
-  "workbench.colorTheme": "Badwolf",
   "workbench.editor.showTabs": "single",
   "workbench.hover.delay": 500,
   "workbench.statusBar.visible": false,
@@ -409,5 +408,8 @@
     "typescript.tsserver.nodePath",
     "update.mode",
     "workbench.hover.delay"
-  ]
+  ],
+  "workbench.colorTheme": "Badwolf",
+  "chat.editor.fontSize": 15,
+  "markdown.preview.fontSize": 15
 }
