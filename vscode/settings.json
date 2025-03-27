@@ -216,6 +216,14 @@
       ]
     },
     {
+      "before": [",", "r"],
+      "commands": [
+        {
+          "command": "workbench.action.quickOpen"
+        }
+      ]
+    },
+    {
       "before": [",", "v"],
       "commands": [
         { "command": "workbench.action.closeEditorsInOtherGroups" },
