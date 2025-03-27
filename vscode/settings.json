@@ -53,6 +53,7 @@
   "vim.matchpairs": "(:),{:},[:],<:>",
   "window.customTitleBarVisibility": "never",
   "window.nativeFullScreen": false,
+  "workbench.colorTheme": "Badwolf",
   "workbench.editor.showTabs": "single",
   "workbench.hover.delay": 500,
   "workbench.statusBar.visible": false,
@@ -335,6 +336,27 @@
       ]
     }
   ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["u"],
+      "after": [],
+      "commands": [
+        {
+          "command": "undo",
+          "args": []
+        }
+      ]
+    },
+    {
+      "before": ["<C-r>"],
+      "after": [],
+      "commands": [
+        {
+          "command": "redo",
+          "args": []
+        }
+      ],
+  }],
   "vim.visualModeKeyBindings": [
     {
       "before": ["H"],
@@ -409,7 +431,4 @@
     "update.mode",
     "workbench.hover.delay"
   ],
-  "workbench.colorTheme": "Badwolf",
-  "chat.editor.fontSize": 15,
-  "markdown.preview.fontSize": 15
 }
