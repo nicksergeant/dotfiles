@@ -780,9 +780,3 @@ augroup filetype_zsh
 augroup END
 
 " }}}
-
-" Imports -------------------------------------------------------- {{{
-
-source ~/.env-vimrc
-
-" }}}

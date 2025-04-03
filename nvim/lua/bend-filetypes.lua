@@ -8,19 +8,12 @@ local jsReact = "javascriptreact"
 local tsReact = "typescriptreact"
 
 M.defaultConfig = {
-  [jsJsx] = true,
-  [js] = true,
-  [ts] = true,
-  [tsJsx] = true,
-  [jsReact] = true,
-  [tsReact] = true
-}
-
-M.filetypesThatNeedJsxSupport = {
-  [jsJsx] = true,
-  [tsJsx] = true,
-  [jsReact] = true,
-  [tsReact] = true
+    [jsJsx] = true,
+    [js] = true,
+    [ts] = true,
+    [tsJsx] = true,
+    [jsReact] = true,
+    [tsReact] = true
 }
 
 return M

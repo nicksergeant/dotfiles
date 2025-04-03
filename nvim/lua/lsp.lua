@@ -62,12 +62,15 @@ end
 local isHubspotMachine = getIsHubspotMachine()
 
 if isHubspotMachine then
+  local bend = require("bend")
+  bend.setup()
+
   require("lspconfig").ts_ls.setup({
     cmd = {
       "typescript-language-server", "--log-level",
       "2", "--tsserver-log-verbosity", "terse",
       "--tsserver-log-file", getLogPath(), "--tsserver-path",
-      "/Users/nsergeant/.bpm/packages/hs-typescript/static-1-hs-5-1.79/lib/tsserver.js", "--stdio"
+      bend.getTsServerPathForCurrentFile(), "--stdio"
     },
     root_dir = util.root_pattern("package.json"),
     filetypes = {
