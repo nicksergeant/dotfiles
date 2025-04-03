@@ -76,5 +76,9 @@
   {
     "key": "cmd+l",
     "command": "composer.openAsPane"
+  },
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
   }
 ]

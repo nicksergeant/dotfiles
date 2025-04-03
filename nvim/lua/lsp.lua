@@ -67,7 +67,7 @@ if isHubspotMachine then
       "typescript-language-server", "--log-level",
       "2", "--tsserver-log-verbosity", "terse",
       "--tsserver-log-file", getLogPath(), "--tsserver-path",
-      "/Users/nsergeant/.bpm/packages/hs-typescript/static-1-hs-5-1.56/lib/tsserver.js", "--stdio"
+      "/Users/nsergeant/.bpm/packages/hs-typescript/static-1-hs-5-1.79/lib/tsserver.js", "--stdio"
     },
     root_dir = util.root_pattern("package.json"),
     filetypes = {

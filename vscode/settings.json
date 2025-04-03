@@ -363,8 +363,9 @@
           "command": "redo",
           "args": []
         }
-      ],
-  }],
+      ]
+    }
+  ],
   "vim.visualModeKeyBindings": [
     {
       "before": ["H"],
@@ -439,4 +440,5 @@
     "update.mode",
     "workbench.hover.delay"
   ],
+  "hubspot.frontend.jumpToTestFile.createTestFileWhenNotFound": true
 }
