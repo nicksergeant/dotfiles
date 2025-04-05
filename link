@@ -9,7 +9,7 @@ ln -sn /Users/nsergeant/Sources/dotfiles/nvim /Users/nsergeant/.config/nvim
 ln -sf /Users/nsergeant/Sources/dotfiles/alacritty.toml /Users/nsergeant/.config/alacritty/alacritty.toml
 ln -sf /Users/nsergeant/Sources/dotfiles/ctags.ctags /Users/nsergeant/.config/ctags/ctags.ctags
 ln -sf /Users/nsergeant/Sources/dotfiles/gitignore /Users/nsergeant/.gitignore
-ln -sf /Users/nsergeant/Sources/dotfiles/gitconfig /Users/nsergeant/.gitconfig
+# ln -sf /Users/nsergeant/Sources/dotfiles/gitconfig /Users/nsergeant/.gitconfig
 ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.edn /Users/nsergeant/.config/karabiner.edn
 ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.json /Users/nsergeant/.config/karabiner/karabiner.json
 ln -sf /Users/nsergeant/Sources/dotfiles/tmux.conf /Users/nsergeant/.tmux.conf
