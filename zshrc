@@ -205,7 +205,7 @@ wo() {
 . ~/.env
 . ~/Sources/z/z.sh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
 
 # }}}
 
