@@ -74,7 +74,7 @@
     "command": "-aichat.newchataction"
   },
   {
-    "key": "cmd+i",
+    "key": "cmd+l",
     "command": "composerMode.agent"
   }
 ]
