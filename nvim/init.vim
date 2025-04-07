@@ -183,10 +183,12 @@ call plug#end()
 
 " }}}
 " Color scheme --------------------------------------------------- {{{
+
 syntax on
 set termguicolors
 set background=dark
 silent! colorscheme badwolf
+highlight WinSeparator guifg=#8a8a8a
 
 " }}}
 " Wildmenu ------------------------------------------------------- {{{
@@ -662,6 +664,7 @@ autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 " }}}
 " NERDtree ------------------------------------------------------- {{{
 
+noremap  <s-q> :NERDTreeToggle<cr>
 noremap  <leader>f :NERDTreeFind<cr>
 
 augroup nerdtree
