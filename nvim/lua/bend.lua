@@ -89,70 +89,38 @@ local function startBendProcess(rootsArray, sessionPath)
 	return newJob
 end
 
-function M.check_start_javascript_lsp(sessionPath)
-	log.info("bend", "Checking if we need to start a process")
-	local bufnr = vim.api.nvim_get_current_buf()
-
-	local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
-	-- Filter which files we are considering.
-	if ft == nil or not filetypes[ft] then
-		log.info(
-			"bend",
-			"found this filetype that isnt what we're looking for: " .. (ft or "nil") .. " for buffer number: " .. bufnr
-		)
-		return
-	end
-
-	-- Try to find our root directory. We will define this as a directory which contains
-	-- .git. Another choice would be to check for `package.json`, or for `node_modules`.
-	local path = vim.api.nvim_buf_get_name(bufnr)
-	local root_dir = vim.fs.dirname(vim.fs.find({ ".git" }, { upward = true, path = path })[1])
-
-	-- We couldn't find a root directory, so ignore this file.
+function M.check_start_javascript_lsp(session_path)
+	local root_dir = vim.fn.getcwd()
 	if not root_dir then
 		log.info("bend", "we couldnt find a root directory, ending")
 		return
 	end
 
-	-- if the current root_dir is not in the current_project_roots, then we must stop the current process and start a new one with the new root
-	if not has_value(current_project_roots, root_dir) then
-		log.info("bend", "detected new root, shutting down current process and starting another")
+	local all_relevant_static_confs = vim.fs.find(function(name, path)
+			return name:match('.*static_conf%.json$') and vim.fn.isdirectory(path .. "/.git") == 1
+		end,
+		{ path = root_dir, limit = math.huge })
 
-		shutdownCurrentProcess()
-
-		table.insert(current_project_roots, root_dir)
-
-		current_process = startBendProcess(current_project_roots, sessionPath)
-
-		log.info("bend", "started new process, " .. vim.inspect(current_process))
-		log.info("bend", "current roots" .. vim.inspect(current_project_roots))
+	local all_directories = {}
+	for _, path in ipairs(all_relevant_static_confs) do
+		table.insert(all_directories, vim.fs.dirname(path))
 	end
+
+	log.info("bend", "starting a new process")
+	current_process = startBendProcess(all_directories, session_path)
 end
 
-M.commandName = "BufEnter"
-local function setupAutocommands()
-	log.info("bend", "setting up autocommands")
-	local sessionPath = "/tmp/.hubspot/vim/client-key-" ..
+local function start_process()
+	local session_path = "/tmp/.hubspot/vim/client-key-" ..
 		os.date('%Y%m%d-%H%M%S') .. "-" .. math.random(1000000000)
-	vim.fn.setenv("BEND_SESSION_PATH", sessionPath)
+	vim.fn.setenv("BEND_SESSION_PATH", session_path)
 
 	local group = vim.api.nvim_create_augroup("bend.nvim", { clear = true })
 
-	log.info("bend", "group created")
-	vim.api.nvim_create_autocmd(M.commandName, {
-		group = group,
-		desc = "bend.nvim will check if it needs to start a new process on the event: " .. M.commandName,
-		callback = function()
-			local data = {
-				buf = vim.fn.expand("<abuf>"),
-				file = vim.fn.expand("<afile>"),
-				match = vim.fn.expand("<amatch>"),
-			}
-			vim.schedule(function()
-				M.check_start_javascript_lsp(sessionPath)
-			end)
-		end,
-	})
+	-- schedule this thing to run
+	vim.schedule(function()
+		M.check_start_javascript_lsp(session_path)
+	end)
 	vim.api.nvim_create_autocmd("VimLeavePre", {
 		group = group,
 		desc = "shut down bend process before exiting",
@@ -170,7 +138,7 @@ function M.stop()
 end
 
 function M.setup()
-	setupAutocommands()
+	start_process()
 end
 
 function M.reset()
@@ -179,7 +147,6 @@ function M.reset()
 		'"reset" called - running LspStop, cancelling current bend process, resetting roots, and running LspStart'
 	)
 	vim.cmd("LspStop")
-	current_project_roots = {}
 	shutdownCurrentProcess()
 	vim.cmd("LspStart")
 	print('Open a new file, or re-open an existing one with ":e" for bend.nvim to start a new process')
