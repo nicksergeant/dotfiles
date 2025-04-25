@@ -3,21 +3,7 @@ local M = {}
 local Job = require("plenary.job")
 local log = require("vim.lsp.log")
 
-local filetypes = require("bend-filetypes").defaultConfig
-
-local uv = vim.loop
-
-local current_project_roots = {}
 local current_process = nil
-
-local function has_value(tab, val)
-	for index, value in ipairs(tab) do
-		if value == val then
-			return true
-		end
-	end
-	return false
-end
 
 local function reduce_array(arr, fn, init)
 	local acc = init
@@ -36,7 +22,7 @@ local jobId = 0
 local function shutdownCurrentProcess()
 	if current_process then
 		log.info("bend", "shutting down current process")
-		uv.kill(-current_process.pid, uv.constants.SIGTERM)
+		vim.uv.kill(-current_process.pid, uv.constants.SIGTERM)
 		current_process = nil
 	end
 end
@@ -90,16 +76,58 @@ local function startBendProcess(rootsArray, sessionPath)
 end
 
 function M.check_start_javascript_lsp(session_path)
-	local root_dir = vim.fn.getcwd()
-	if not root_dir then
-		log.info("bend", "we couldnt find a root directory, ending")
+	-- only setup once per instance
+	if current_process then
 		return
 	end
 
+	local root_dir = vim.fn.getcwd()
+	if not root_dir then
+		log.error("bend", "we couldnt find a root directory, ending")
+		return
+	end
+
+	-- first, search up to see what you can find a static_conf file that is siblings with the .git directory
 	local all_relevant_static_confs = vim.fs.find(function(name, path)
-			return name:match('.*static_conf%.json$') and vim.fn.isdirectory(path .. "/.git") == 1
+			return vim.fn.isdirectory(path .. "/.git") == 1 and name == "static_conf.json"
 		end,
-		{ path = root_dir, limit = math.huge })
+		{ path = root_dir, upward = true, stop = "/.git", type = "file" })
+
+	-- if we don't have parent dirs, then search the children
+	-- NOTE: we are making some assumptions about multi root workspaces. Namely, that all projects are direct
+	-- children of the root directory, so something like
+	-- root_dir
+	--    |
+	--    |-- payment-method-components
+	--    |-- transactions-experience-ui
+	--    |-- subscriptions-experience-ui
+
+	if #all_relevant_static_confs == 0 then
+		local handle = vim.uv.fs_scandir(root_dir)
+		if handle then
+			while true do
+				local name, type = vim.uv.fs_scandir_next(handle)
+				if not name then
+					break
+				end
+
+				if type == 'directory' then
+					local full_path = root_dir .. "/" .. name
+					local git_path = full_path .. "/.git"
+					local static_conf_path = full_path .. "/static_conf.json"
+					if vim.fn.isdirectory(git_path) == 1 and vim.fn.filereadable(static_conf_path) == 1 then
+						table.insert(all_relevant_static_confs, static_conf_path)
+					end
+				end
+			end
+		end
+	end
+
+	-- if we still have nothing, then don't start anything
+	if #all_relevant_static_confs == 0 then
+		log.info("bend", "could not find any bend repositories for path " .. root_dir)
+		return
+	end
 
 	local all_directories = {}
 	for _, path in ipairs(all_relevant_static_confs) do
@@ -107,29 +135,31 @@ function M.check_start_javascript_lsp(session_path)
 	end
 
 	log.info("bend", "starting a new process")
+
+	-- create a session path and start the new session
 	current_process = startBendProcess(all_directories, session_path)
 end
 
-local function start_process()
+local function setup_auto_commands()
+	-- schedule this thing to run
 	local session_path = "/tmp/.hubspot/vim/client-key-" ..
 		os.date('%Y%m%d-%H%M%S') .. "-" .. math.random(1000000000)
 	vim.fn.setenv("BEND_SESSION_PATH", session_path)
 
 	local group = vim.api.nvim_create_augroup("bend.nvim", { clear = true })
 
-	-- schedule this thing to run
 	vim.schedule(function()
 		M.check_start_javascript_lsp(session_path)
 	end)
+
 	vim.api.nvim_create_autocmd("VimLeavePre", {
 		group = group,
-		desc = "shut down bend process before exiting",
+		desc = "Shut down bend process before exiting",
 		callback = function()
 			vim.schedule(M.stop)
 		end,
 	})
 
-	log.info("bend", "autocommand created")
 	log.info("bend", "Bend plugin intialized")
 end
 
@@ -138,7 +168,7 @@ function M.stop()
 end
 
 function M.setup()
-	start_process()
+	setup_auto_commands()
 end
 
 function M.reset()
@@ -161,7 +191,7 @@ function M.getTsServerPathForCurrentFile()
 	local bufnr = vim.api.nvim_get_current_buf()
 	local path = vim.api.nvim_buf_get_name(bufnr)
 
-	local unused, file, ft = SplitFilename(path)
+	local _, _, ft = SplitFilename(path)
 
 	local filetypes = {
 		["js"] = true,
