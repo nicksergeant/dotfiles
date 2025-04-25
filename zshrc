@@ -155,6 +155,7 @@ gl() {
 gs() {
   if [ -d .git ]
   then
+    echo "Branch: $(git branch --show-current)"
     git status -s
   else
     find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && echo "Branch: $(git branch --show-current)" && git status -s && echo)' \;

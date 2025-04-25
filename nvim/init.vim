@@ -151,7 +151,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'chrisbra/matchit'
 Plug 'dense-analysis/ale'
 Plug 'easymotion/vim-easymotion'
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -172,7 +172,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'onsails/lspkind-nvim'
 Plug 'preservim/nerdtree'
-" Plug 'supermaven-inc/supermaven-nvim'
+Plug 'supermaven-inc/supermaven-nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
@@ -689,7 +689,7 @@ EOF
 " Supermaven --------------------------------------------------------- {{{
 
 lua <<EOF
--- require("supermaven-nvim").setup({})
+require("supermaven-nvim").setup({})
 EOF
 
 " }}}
