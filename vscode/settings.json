@@ -440,5 +440,6 @@
     "update.mode",
     "workbench.hover.delay"
   ],
-  "hubspot.frontend.jumpToTestFile.createTestFileWhenNotFound": true
+  "hubspot.frontend.jumpToTestFile.createTestFileWhenNotFound": true,
+  "hubspot.bend.autoUpdateDependencies": true
 }
