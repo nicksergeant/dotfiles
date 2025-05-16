@@ -104,6 +104,15 @@
   },
   "vim.insertModeKeyBindings": [
     {
+      "before": ["esc"],
+      "after": ["esc"],
+      "commands": [
+        {
+          "command": ":noh"
+        }
+      ]
+    },
+    {
       "before": ["<C-l>"],
       "commands": [
         {
