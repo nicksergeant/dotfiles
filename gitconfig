@@ -1,7 +1,6 @@
 [alias]
   co = checkout
   merge = merge --no-ff
-  pull = pull origin --rebase
   pushf = push --force-with-lease
 [color]
   branch = auto

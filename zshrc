@@ -146,9 +146,10 @@ gd() {
 gl() {
   if [ -d .git ]
   then
-    git pull
+    BRANCH=$(git branch --show-current)
+    git fetch origin $BRANCH && git rebase origin/$BRANCH
   else
-    find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git pull && echo)' \;
+    find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && BRANCH=$(git branch --show-current) && git fetch origin $BRANCH && git rebase origin/$BRANCH && echo)' \;
   fi
 }
 
