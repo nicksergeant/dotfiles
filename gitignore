@@ -23,6 +23,7 @@ node_modules
 tags
 tags.*
 yarn-error.log
+.claude
 
 # Gradle Enterprise
 .mvn/.gradle-enterprise/
