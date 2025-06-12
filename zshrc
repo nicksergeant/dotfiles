@@ -149,7 +149,7 @@ gl() {
     BRANCH=$(git branch --show-current)
     git fetch origin $BRANCH && git rebase origin/$BRANCH
   else
-    find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && BRANCH=$(git branch --show-current) && git fetch origin $BRANCH && git rebase origin/$BRANCH && echo)' \;
+    find . -maxdepth 1 -mindepth 1 -type d ! -name '.claude' -exec sh -c '(echo {} && cd {} && BRANCH=$(git branch --show-current) && git fetch origin $BRANCH && git rebase origin/$BRANCH && echo)' \;
   fi
 }
 
@@ -158,7 +158,7 @@ gs() {
   then
     git status -s
   else
-    find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && echo "Branch: $(git branch --show-current)" && git status -s && echo)' \;
+    find . -maxdepth 1 -mindepth 1 -type d ! -name '.claude' -exec sh -c '(echo {} && cd {} && echo "Branch: $(git branch --show-current)" && git status -s && echo)' \;
   fi
 }
 
