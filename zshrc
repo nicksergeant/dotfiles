@@ -89,6 +89,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 unalias gd
 unalias gl
+unalias gcam
 
 c() {
   if [ "$@" ] ; then
@@ -208,6 +209,28 @@ tv() {
 
 wo() {
   source ~/.virtualenvs/flex/bin/activate
+}
+
+gcam() {
+  # Get the staged diff
+  local diff=$(git diff --cached)
+  
+  # Check if there are staged changes
+  if [ -z "$diff" ]; then
+    echo "No staged changes to commit"
+    return 1
+  fi
+  
+  # Generate commit message using Claude and edit it with nvim via vipe
+  local final_msg=$(echo "$diff" | claude -p "Generate a simple, straightforward git commit message for these changes. Be concise but specific about what was changed. Do not be overly detailed. Return only the commit message without any explanation or formatting." --output-format text | EDITOR=nvim vipe)
+  
+  # If the message is not empty, commit with it
+  if [ -n "$final_msg" ]; then
+    git commit -m "$final_msg"
+  else
+    echo "Commit aborted (empty message)"
+    return 1
+  fi
 }
 
 # }}}
