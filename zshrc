@@ -74,15 +74,74 @@ bend-multi() {
   bend reactor serve $(echo $selected_packages[@]) --update
 }
 
-# zle -N fzf-git-branches-widget
+fzf-open-with-app-widget() {
+  local selected_item app_choice apps
+  
+  # Use fd for fast file finding with built-in filtering
+  # Start with current directory, then add all other results
+  selected_item=$( (echo "$PWD"; fd . ~ --type f --type d --max-depth 6 \
+    --exclude Library \
+    --exclude Pictures \
+    --exclude Music \
+    --exclude node_modules \
+    --exclude '.*' \
+    2>/dev/null) | \
+    fzf --prompt="Select file/folder: " --height=40% --reverse)
+  
+  # Exit if no selection
+  if [ -z "$selected_item" ]; then
+    zle reset-prompt
+    return 0
+  fi
+  
+  # Curated list of applications
+  # Add "cd to directory" as first option
+  apps="📁 cd to directory
+Pixelmator Pro
+Finder
+TextEdit
+Chromium
+HandBrake
+Numbers
+Preview
+Raycast"
+  
+  # Let user choose an application
+  app_choice=$(echo "$apps" | fzf --prompt="Choose action: " --height=40% --reverse)
+  
+  # Exit if no app selected
+  if [ -z "$app_choice" ]; then
+    zle reset-prompt
+    return 0
+  fi
+  
+  # Handle cd to directory option
+  if [[ "$app_choice" == "📁 cd to directory" ]]; then
+    if [[ -d "$selected_item" ]]; then
+      BUFFER="cd ${(q)selected_item}"
+    else
+      # If it's a file, cd to its parent directory
+      BUFFER="cd ${(q)$(dirname "$selected_item")}"
+    fi
+    zle accept-line
+  else
+    # Open the selected item with the chosen application
+    if [[ -d "/Applications/${app_choice}.app" ]]; then
+      open -a "${app_choice}" "$selected_item"
+    else
+      # Try opening with the cask name directly
+      open -a "${app_choice}" "$selected_item" 2>/dev/null || echo "Could not open with ${app_choice}"
+    fi
+    zle reset-prompt
+  fi
+}
+
+zle -N fzf-open-with-app-widget
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-messages --glob "!.git/*"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # alias bs="bend-multi"
-# bindkey '^G' fzf-file-widget
-# bindkey '^J' fzf-cd-widget
-# bindkey '^O' fzf-git-branches-widget
+bindkey '^G' fzf-open-with-app-widget
 
 # }}}
 # Functions ------------------------------------------ {{{
