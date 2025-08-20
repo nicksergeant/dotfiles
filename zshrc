@@ -225,7 +225,7 @@ gcam() {
   fi
   
   # Generate commit message using Claude and edit it with nvim via vipe
-  local final_msg=$(echo "$diff" | claude -p "Generate a simple, straightforward git commit message for these changes. Be concise but specific about what was changed. Do not be overly detailed. Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Return only the commit message without any explanation or formatting." --output-format text | EDITOR=nvim vipe)
+  local final_msg=$(echo "$diff" | claude -p "Generate a simple, straightforward git commit message for these changes. Be concise but specific about what was changed. Include specific keywords and technical terms (function names, file types, configuration settings, etc.) that would be useful for searching commit history later. Do not be overly detailed. Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Return only the commit message without any explanation or formatting." --output-format text | EDITOR=nvim vipe)
   
   # If the message is not empty, commit with it
   if [ -n "$final_msg" ]; then
