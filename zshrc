@@ -212,12 +212,15 @@ wo() {
 }
 
 gcam() {
+  # Stage all changes
+  git add -A
+  
   # Get the staged diff
   local diff=$(git diff --cached)
   
   # Check if there are staged changes
   if [ -z "$diff" ]; then
-    echo "No staged changes to commit"
+    echo "No changes to commit"
     return 1
   fi
   
