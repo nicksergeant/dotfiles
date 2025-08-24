@@ -291,7 +291,7 @@ Main change description.
 - Second detail
 - Third detail
 
-Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Return only the commit message without any explanation or formatting." --output-format text | EDITOR=nvim vipe)
+Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Do not include any co-authorship or attribution to Claude/AI in the commit message. Return only the commit message without any explanation or formatting." --output-format text | EDITOR=nvim vipe)
   
   # If the message is not empty, commit with it
   if [ -n "$final_msg" ]; then
