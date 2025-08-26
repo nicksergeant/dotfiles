@@ -291,6 +291,21 @@ Main change description.
 - Second detail
 - Third detail
 
+IMPORTANT: Focus only on material changes to the logic and functionality. DO NOT mention:
+- Basic imports or hook usage (e.g., 'Imported useEffect', 'Added useState')
+- Standard code structure changes that are obvious from the diff
+- Trivial refactoring details that don't affect functionality
+- Implementation details that are self-evident from reading the code
+
+DO mention:
+- New features or capabilities added
+- Bug fixes and what issue they resolve
+- Performance improvements and their impact
+- Changes to business logic or algorithms
+- API changes or new integrations
+- Security improvements
+- User-facing changes
+
 Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Do not include any co-authorship or attribution to Claude/AI in the commit message. Return only the commit message without any explanation or formatting." --output-format text | EDITOR=nvim vipe)
   
   # If the message is not empty, commit with it
