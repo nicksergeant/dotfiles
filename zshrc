@@ -319,13 +319,16 @@ Focus on WHAT changed and WHY it matters, not WHERE it changed (the diff already
 
 Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Do not include any co-authorship or attribution to Claude/AI in the commit message. Return only the commit message without any explanation or formatting. Remember: FIRST LINE MUST BE ≤72 CHARACTERS." --output-format text | EDITOR=nvim vipe)
   
-  # If the message is not empty, commit with it
-  if [ -n "$final_msg" ]; then
-    git commit -m "$final_msg"
-  else
-    echo "Commit aborted (empty message)"
+  # Check if the message is empty or contains "Execution error"
+  if [ -z "$final_msg" ] || [[ "$final_msg" == "Execution error"* ]]; then
+    echo "Commit aborted (Claude API failed or returned empty message)"
+    # Unstage the changes
+    git reset HEAD
     return 1
   fi
+  
+  # If we have a valid message, commit with it
+  git commit -m "$final_msg"
 }
 
 # }}}
