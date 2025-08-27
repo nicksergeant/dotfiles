@@ -284,8 +284,12 @@ gcam() {
   fi
   
   # Generate commit message using Claude and edit it with nvim via vipe
-  local final_msg=$(echo "$diff" | claude -p "Generate a git commit message for these changes. Be specific about what was changed. Include specific keywords and technical terms (function names, file types, configuration settings, etc.) that would be useful for searching commit history later. If the changes are substantial or involve multiple related modifications, use bullet points to organize the details. For simple changes, a single sentence is fine. For complex changes with multiple aspects, use a format like:
-Main change description.
+  local final_msg=$(echo "$diff" | claude -p "Generate a git commit message for these changes. Be specific about what was changed. Include specific keywords and technical terms (function names, file types, configuration settings, etc.) that would be useful for searching commit history later.
+
+CRITICAL: The FIRST LINE must be NO MORE THAN 72 CHARACTERS to fit GitHub PR titles. This is mandatory.
+
+If the changes are substantial or involve multiple related modifications, use bullet points to organize the details. For simple changes, a single sentence is fine. For complex changes with multiple aspects, use a format like:
+Main change description (max 72 chars).
 
 - First detail
 - Second detail
@@ -313,7 +317,7 @@ Focus on WHAT changed and WHY it matters, not WHERE it changed (the diff already
 - BAD: 'Modified UserProfile component'
 - GOOD: 'Added email validation to user profile form'
 
-Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Do not include any co-authorship or attribution to Claude/AI in the commit message. Return only the commit message without any explanation or formatting." --output-format text | EDITOR=nvim vipe)
+Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Do not include any co-authorship or attribution to Claude/AI in the commit message. Return only the commit message without any explanation or formatting. Remember: FIRST LINE MUST BE ≤72 CHARACTERS." --output-format text | EDITOR=nvim vipe)
   
   # If the message is not empty, commit with it
   if [ -n "$final_msg" ]; then
