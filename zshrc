@@ -299,21 +299,46 @@ gcam() {
   fi
   
   # Generate commit message using Claude and edit it with nvim
-  local final_msg=$(echo "$diff" | claude -p "Generate a git commit message. FIRST LINE: ≤72 chars (GitHub PR title limit).
+  local final_msg=$(echo "$diff" | claude -p "Generate a git commit message for these changes. Be specific about what was changed. Include specific keywords and technical terms (function names, file types, configuration settings, etc.) that would be useful for searching commit history later.
 
-Focus on WHY the change was made, not just WHAT changed. The diff shows what; explain the purpose, problem solved, or improvement made.
+CRITICAL: The FIRST LINE must be NO MORE THAN 72 CHARACTERS to fit GitHub PR titles. This is mandatory.
 
-Good examples:
-- 'Fix race condition causing duplicate API calls'
-- 'Prevent memory leak in event listener cleanup'
-- 'Allow users to customize notification preferences'
+If the changes are substantial or involve multiple related modifications, use bullet points to organize the details. For simple changes, a single sentence is fine. For complex changes with multiple aspects, use a format like:
+Main change description (max 72 chars).
 
-Bad examples:
-- 'Update Button component'
-- 'Change variable name from x to y'
-- 'Add useState hook'
+- First detail
+- Second detail
+- Third detail
 
-Include searchable keywords (function names, features, errors fixed). For complex changes, use bullets after the first line. Return only the message text." --output-format text | edit_pipe)
+IMPORTANT: Focus on the PURPOSE and IMPACT of changes. Explain WHY the change was needed based on what you can infer from the diff:
+- What problem does this solve?
+- What capability does this add?
+- What improvement does this make?
+- What issue or limitation does this address?
+
+DO NOT mention:
+- Basic imports or hook usage (e.g., 'Imported useEffect', 'Added useState')
+- Standard code structure changes that are obvious from the diff
+- Trivial refactoring details that don't affect functionality
+- Implementation details that are self-evident from reading the code
+- Redundant file/component names (e.g., 'Updated Button in FileButton.tsx' - just describe WHAT changed)
+
+DO mention:
+- New features or capabilities added
+- Bug fixes and what issue they resolve
+- Performance improvements and their impact
+- Changes to business logic or algorithms
+- API changes or new integrations
+- Security improvements
+- User-facing changes
+
+Focus on WHAT changed and WHY it matters, not WHERE it changed (the diff already shows that). For example:
+- BAD: 'Updated Button component in FileButton.tsx'
+- GOOD: 'Fixed button inline margin from new marginInline prop'
+- BAD: 'Modified UserProfile component'
+- GOOD: 'Added email validation to user profile form'
+
+Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Do not include any co-authorship or attribution to Claude/AI in the commit message. Return only the commit message without any explanation or formatting. Remember: FIRST LINE MUST BE ≤72 CHARACTERS." --output-format text | edit_pipe)
   
   # Check if the message is empty or contains "Execution error"
   if [ -z "$final_msg" ] || [[ "$final_msg" == "Execution error"* ]]; then
