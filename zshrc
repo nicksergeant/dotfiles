@@ -270,6 +270,21 @@ wo() {
   source ~/.virtualenvs/flex/bin/activate
 }
 
+# Simple vipe replacement - edit piped input in an editor
+edit_pipe() {
+  local tmpfile=$(mktemp)
+  trap "rm -f $tmpfile" EXIT
+  
+  # Read stdin into temp file
+  cat > "$tmpfile"
+  
+  # Open in editor (default to nvim if EDITOR not set)
+  ${EDITOR:-nvim} "$tmpfile" < /dev/tty > /dev/tty
+  
+  # Output the edited content
+  cat "$tmpfile"
+}
+
 gcam() {
   # Stage all changes
   git add -A
@@ -283,41 +298,22 @@ gcam() {
     return 1
   fi
   
-  # Generate commit message using Claude and edit it with nvim via vipe
-  local final_msg=$(echo "$diff" | claude -p "Generate a git commit message for these changes. Be specific about what was changed. Include specific keywords and technical terms (function names, file types, configuration settings, etc.) that would be useful for searching commit history later.
+  # Generate commit message using Claude and edit it with nvim
+  local final_msg=$(echo "$diff" | claude -p "Generate a git commit message. FIRST LINE: ≤72 chars (GitHub PR title limit).
 
-CRITICAL: The FIRST LINE must be NO MORE THAN 72 CHARACTERS to fit GitHub PR titles. This is mandatory.
+Focus on WHY the change was made, not just WHAT changed. The diff shows what; explain the purpose, problem solved, or improvement made.
 
-If the changes are substantial or involve multiple related modifications, use bullet points to organize the details. For simple changes, a single sentence is fine. For complex changes with multiple aspects, use a format like:
-Main change description (max 72 chars).
+Good examples:
+- 'Fix race condition causing duplicate API calls'
+- 'Prevent memory leak in event listener cleanup'
+- 'Allow users to customize notification preferences'
 
-- First detail
-- Second detail
-- Third detail
+Bad examples:
+- 'Update Button component'
+- 'Change variable name from x to y'
+- 'Add useState hook'
 
-IMPORTANT: Focus only on material changes to the logic and functionality. DO NOT mention:
-- Basic imports or hook usage (e.g., 'Imported useEffect', 'Added useState')
-- Standard code structure changes that are obvious from the diff
-- Trivial refactoring details that don't affect functionality
-- Implementation details that are self-evident from reading the code
-- Redundant file/component names (e.g., 'Updated Button in FileButton.tsx' - just describe WHAT changed)
-
-DO mention:
-- New features or capabilities added
-- Bug fixes and what issue they resolve
-- Performance improvements and their impact
-- Changes to business logic or algorithms
-- API changes or new integrations
-- Security improvements
-- User-facing changes
-
-Focus on WHAT changed and WHY it matters, not WHERE it changed (the diff already shows that). For example:
-- BAD: 'Updated Button component in FileButton.tsx'
-- GOOD: 'Fixed button inline margin from new marginInline prop'
-- BAD: 'Modified UserProfile component'
-- GOOD: 'Added email validation to user profile form'
-
-Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Do not include any co-authorship or attribution to Claude/AI in the commit message. Return only the commit message without any explanation or formatting. Remember: FIRST LINE MUST BE ≤72 CHARACTERS." --output-format text | EDITOR=nvim vipe)
+Include searchable keywords (function names, features, errors fixed). For complex changes, use bullets after the first line. Return only the message text." --output-format text | edit_pipe)
   
   # Check if the message is empty or contains "Execution error"
   if [ -z "$final_msg" ] || [[ "$final_msg" == "Execution error"* ]]; then
