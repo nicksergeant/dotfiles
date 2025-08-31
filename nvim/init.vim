@@ -250,6 +250,7 @@ let g:ale_fixers = {
   \ 'javascriptreact': ['prettier'],
   \ 'json': ['prettier'],
   \ 'python': ['black'],
+  \ 'rust': ['rustfmt'],
   \ 'scss': ['prettier'],
   \ 'svelte': ['prettier'],
   \ 'swift': ['apple-swift-format'],
@@ -261,6 +262,7 @@ let g:ale_linters = {
   \ 'htmldjango': [],
   \ 'javascript': ['eslint'],
   \ 'markdown': [],
+  \ 'rust': ['cargo'],
   \ 'scss': [],
   \ 'swift': ['swiftlint'],
   \ 'typescript': ['eslint'],
@@ -706,6 +708,30 @@ command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
 
 nnoremap <c-n> :cn<cr>
 nnoremap <c-p> :cp<cr>
+
+" }}}
+" Rust --------------------------------------------------------- {{{
+
+lua <<EOF
+require('lspconfig').rust_analyzer.setup({
+  settings = {
+    ['rust-analyzer'] = {
+      cargo = {
+        buildScripts = {
+          enable = true,
+        },
+      },
+      procMacro = {
+        enable = true,
+      },
+      checkOnSave = {
+        command = "clippy",
+      },
+    }
+  }
+})
+EOF
+
 
 " }}}
 " Source files --------------------------------------------------- {{{

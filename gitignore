@@ -87,3 +87,5 @@ dist/
 hadoop-keytabs/
 # added by nex
 hadoop-krb5-configs/
+
+reference
