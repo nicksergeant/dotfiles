@@ -15,6 +15,7 @@ export PATH="/Users/nsergeant/Library/Python/3.8/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export PATH="/Applications/Alacritty Shell.app/Contents/MacOS:$PATH"
 export PATH="/usr/local/bin:$PATH"
+export PATH="/Applications/Love.app/Contents/MacOS:$PATH"
 
 if [ "$(uname -p)" = "arm" ]
 then
@@ -44,7 +45,6 @@ alias gp='git push -u origin HEAD'
 alias i='make shell'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
-alias love="/Applications/Love.app/Contents/MacOS/love"
 alias o='open'
 alias pm='python manage.py'
 alias s='supabase'
@@ -234,7 +234,7 @@ m() {
 r() {
   if [ -e Makefile ]
   then
-    make run
+    make run "$@"
   else
     bend reactor serve --update
   fi
