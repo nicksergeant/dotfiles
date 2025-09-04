@@ -249,6 +249,7 @@ let g:ale_fixers = {
   \ 'javascript': ['prettier'],
   \ 'javascriptreact': ['prettier'],
   \ 'json': ['prettier'],
+  \ 'lua': ['stylua'],
   \ 'python': ['black'],
   \ 'rust': ['rustfmt'],
   \ 'scss': ['prettier'],
@@ -261,6 +262,7 @@ let g:ale_linters = {
   \ 'html': [],
   \ 'htmldjango': [],
   \ 'javascript': ['eslint'],
+  \ 'lua': ['luacheck'],
   \ 'markdown': [],
   \ 'rust': ['cargo'],
   \ 'scss': [],
@@ -656,6 +658,25 @@ sources = cmp.config.sources({
 })
 })
 EOF
+
+" }}}
+" Lua --------------------------------------------------------- {{{
+
+lua <<EOF
+require('lspconfig').lua_ls.setup({
+  settings = {
+    Lua = {
+      runtime = { version = 'LuaJIT' },
+      diagnostics = { globals = {'love', 'DEBUG'} },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false,
+      },
+    },
+  }
+})
+EOF
+
 
 " }}}
 " Miscellaneous -------------------------------------------------- {{{

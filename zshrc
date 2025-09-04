@@ -44,6 +44,7 @@ alias gp='git push -u origin HEAD'
 alias i='make shell'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
+alias love="/Applications/Love.app/Contents/MacOS/love"
 alias o='open'
 alias pm='python manage.py'
 alias s='supabase'
