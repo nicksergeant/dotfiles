@@ -308,14 +308,10 @@ If the changes are substantial or involve multiple related modifications, use bu
 Main change description (max 72 chars).
 
 - First detail
-- Second detail
+- Second detail  
 - Third detail
 
-IMPORTANT: Focus on the PURPOSE and IMPACT of changes. Explain WHY the change was needed based on what you can infer from the diff:
-- What problem does this solve?
-- What capability does this add?
-- What improvement does this make?
-- What issue or limitation does this address?
+IMPORTANT: When writing descriptions or bullet points, DO NOT artificially break lines for length. Write each bullet point or paragraph as one continuous line without manual line breaks. Let the terminal/editor handle line wrapping naturally.
 
 DO NOT mention:
 - Basic imports or hook usage (e.g., 'Imported useEffect', 'Added useState')
@@ -323,21 +319,23 @@ DO NOT mention:
 - Trivial refactoring details that don't affect functionality
 - Implementation details that are self-evident from reading the code
 - Redundant file/component names (e.g., 'Updated Button in FileButton.tsx' - just describe WHAT changed)
+- Conjectures or assumptions about why a change was made
+- Potential benefits or use cases unless they are clearly evident from the code
 
 DO mention:
-- New features or capabilities added
-- Bug fixes and what issue they resolve
-- Performance improvements and their impact
+- New features or capabilities added (stick to facts visible in the diff)
+- Bug fixes and what specific issue they resolve (if evident from the code)
+- Performance improvements with specific metrics if shown in the code
 - Changes to business logic or algorithms
 - API changes or new integrations
 - Security improvements
 - User-facing changes
 
-Focus on WHAT changed and WHY it matters, not WHERE it changed (the diff already shows that). For example:
-- BAD: 'Updated Button component in FileButton.tsx'
-- GOOD: 'Fixed button inline margin from new marginInline prop'
-- BAD: 'Modified UserProfile component'
-- GOOD: 'Added email validation to user profile form'
+Focus on WHAT changed, not WHY it might be useful. Avoid speculation about the developer's intent or the benefits of the change. For example:
+- BAD: 'Enables fine-grained positioning for pixel-perfect alignment'
+- GOOD: 'Holding shift reduces movement speed to 100 (from 200)'
+- BAD: 'Improves control in tight spaces or when precision matters'
+- GOOD: Just omit this - it's speculation
 
 Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Do not include any co-authorship or attribution to Claude/AI in the commit message. Return only the commit message without any explanation or formatting. Remember: FIRST LINE MUST BE ≤72 CHARACTERS." --output-format text | edit_pipe)
   
