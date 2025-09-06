@@ -304,14 +304,16 @@ gcam() {
 
 CRITICAL: The FIRST LINE must be NO MORE THAN 72 CHARACTERS to fit GitHub PR titles. This is mandatory.
 
-If the changes are substantial or involve multiple related modifications, use bullet points to organize the details. For simple changes, a single sentence is fine. For complex changes with multiple aspects, use a format like:
+ALWAYS use bullet points for the detailed description when there are multiple changes or aspects to describe. Avoid writing long paragraphs. Use a format like:
 Main change description (max 72 chars).
 
-- First detail
-- Second detail  
-- Third detail
+- First specific change or detail
+- Second specific change or detail  
+- Third specific change or detail
 
-IMPORTANT: When writing descriptions or bullet points, DO NOT artificially break lines for length. Write each bullet point or paragraph as one continuous line without manual line breaks. Let the terminal/editor handle line wrapping naturally.
+Even for moderately complex changes, prefer bullet points over paragraphs to improve readability and make the commit history easier to scan.
+
+IMPORTANT: When writing descriptions or bullet points, DO NOT artificially break lines for length. Write each bullet point as one continuous line without manual line breaks. Let the terminal/editor handle line wrapping naturally.
 
 DO NOT mention:
 - Basic imports or hook usage (e.g., 'Imported useEffect', 'Added useState')
