@@ -300,46 +300,19 @@ gcam() {
   fi
   
   # Generate commit message using Claude and edit it with nvim
-  local final_msg=$(echo "$diff" | claude -p "Generate a git commit message for these changes. Be specific about what was changed. Include specific keywords and technical terms (function names, file types, configuration settings, etc.) that would be useful for searching commit history later.
+  local final_msg=$(echo "$diff" | claude -p "Write a git commit message for ONLY these staged changes (not the entire branch).
 
-CRITICAL: The FIRST LINE must be NO MORE THAN 72 CHARACTERS to fit GitHub PR titles. This is mandatory.
+First line: ≤72 chars (for GitHub PR titles)
+Body: Use bullet points for multiple changes
 
-ALWAYS use bullet points for the detailed description when there are multiple changes or aspects to describe. Avoid writing long paragraphs. Use a format like:
-Main change description (max 72 chars).
+Focus on WHAT changed (facts from the diff):
+- Feature additions, bug fixes, API changes
+- Performance/security improvements
+- Business logic or algorithm changes
 
-- First specific change or detail
-- Second specific change or detail  
-- Third specific change or detail
+Skip obvious things like imports, basic refactoring, or speculation about intent.
 
-Even for moderately complex changes, prefer bullet points over paragraphs to improve readability and make the commit history easier to scan.
-
-IMPORTANT: When writing descriptions or bullet points, DO NOT artificially break lines for length. Write each bullet point as one continuous line without manual line breaks. Let the terminal/editor handle line wrapping naturally.
-
-DO NOT mention:
-- Basic imports or hook usage (e.g., 'Imported useEffect', 'Added useState')
-- Standard code structure changes that are obvious from the diff
-- Trivial refactoring details that don't affect functionality
-- Implementation details that are self-evident from reading the code
-- Redundant file/component names (e.g., 'Updated Button in FileButton.tsx' - just describe WHAT changed)
-- Conjectures or assumptions about why a change was made
-- Potential benefits or use cases unless they are clearly evident from the code
-
-DO mention:
-- New features or capabilities added (stick to facts visible in the diff)
-- Bug fixes and what specific issue they resolve (if evident from the code)
-- Performance improvements with specific metrics if shown in the code
-- Changes to business logic or algorithms
-- API changes or new integrations
-- Security improvements
-- User-facing changes
-
-Focus on WHAT changed, not WHY it might be useful. Avoid speculation about the developer's intent or the benefits of the change. For example:
-- BAD: 'Enables fine-grained positioning for pixel-perfect alignment'
-- GOOD: 'Holding shift reduces movement speed to 100 (from 200)'
-- BAD: 'Improves control in tight spaces or when precision matters'
-- GOOD: Just omit this - it's speculation
-
-Use proper sentences with correct capitalization and punctuation, including periods at the end of sentences. Do not include any co-authorship or attribution to Claude/AI in the commit message. Return only the commit message without any explanation or formatting. Remember: FIRST LINE MUST BE ≤72 CHARACTERS." --output-format text | edit_pipe)
+Return only the commit message, no explanations." --output-format text | edit_pipe)
   
   # Check if the message is empty or contains "Execution error"
   if [ -z "$final_msg" ] || [[ "$final_msg" == "Execution error"* ]]; then
