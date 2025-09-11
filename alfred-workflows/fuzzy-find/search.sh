@@ -51,10 +51,12 @@ while IFS= read -r path; do
         echo ","
     fi
     
-    basename=$(basename "$path")
+    basename=$(basename "$path" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g' | tr '\r' ' ')
     [ -z "$basename" ] && basename="$path"
     
-    display_path="${path/#$HOME/~}"
+    display_path="${path/#$HOME/~}" 
+    display_path=$(echo "$display_path" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g' | tr '\r' ' ')
+    path_escaped=$(echo "$path" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g' | tr '\r' ' ')
     
     if [ -d "$path" ]; then
         icon_type="fileicon"
@@ -68,11 +70,11 @@ while IFS= read -r path; do
     {
         "title": "$basename",
         "subtitle": "$display_path",
-        "arg": "$path",
+        "arg": "$path_escaped",
         "type": "file",
         "icon": {
             "type": "$icon_type",
-            "path": "$path"
+            "path": "$path_escaped"
         },
         "valid": true
     }
