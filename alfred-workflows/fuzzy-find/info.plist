@@ -123,7 +123,11 @@
 				<key>modsmode</key>
 				<integer>0</integer>
 				<key>relatedAppsMode</key>
-				<integer>0</integer>
+				<integer>1</integer>
+				<key>relatedApps</key>
+				<array>
+					<string>com.runningwithcrayons.Alfred</string>
+				</array>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.hotkey</string>
@@ -208,7 +212,7 @@ Examples:
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.1.0</string>
+	<string>1.1.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/nicksergeant/dotfiles/tree/master/alfred-workflows/fuzzy-find</string>
 	<key>uidata</key>
