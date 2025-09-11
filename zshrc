@@ -85,7 +85,6 @@ fzf-open-with-app-widget() {
     --exclude Pictures \
     --exclude Music \
     --exclude node_modules \
-    --exclude '.*' \
     2>/dev/null) | \
     fzf --prompt="Select file/folder: " --height=40% --reverse)
   

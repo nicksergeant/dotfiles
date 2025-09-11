@@ -35,7 +35,6 @@ else
         --exclude Pictures \
         --exclude Music \
         --exclude node_modules \
-        --exclude '.*' \
         2>/dev/null) > "$CACHE_FILE"
     results=$(cat "$CACHE_FILE" | fzf --filter "$query" | head -10)
 fi
