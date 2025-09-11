@@ -208,8 +208,39 @@ Examples:
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.0.0</string>
+	<string>1.1.0</string>
 	<key>webaddress</key>
-	<string>https://github.com/nicksergeant</string>
+	<string>https://github.com/nicksergeant/dotfiles/tree/master/alfred-workflows/fuzzy-find</string>
+	<key>uidata</key>
+	<dict>
+		<key>58B6B1AC-5DD8-4B2B-A168-47A5F2C5CC3C</key>
+		<dict>
+			<key>xpos</key>
+			<real>50</real>
+			<key>ypos</key>
+			<real>200</real>
+		</dict>
+		<key>A2D3B5FA-9B12-4F1E-8C23-1A2B3C4D5E6F</key>
+		<dict>
+			<key>xpos</key>
+			<real>300</real>
+			<key>ypos</key>
+			<real>200</real>
+		</dict>
+		<key>HOTKEY-REFRESH</key>
+		<dict>
+			<key>xpos</key>
+			<real>50</real>
+			<key>ypos</key>
+			<real>50</real>
+		</dict>
+		<key>REFRESH-SCRIPT</key>
+		<dict>
+			<key>xpos</key>
+			<real>300</real>
+			<key>ypos</key>
+			<real>50</real>
+		</dict>
+	</dict>
 </dict>
 </plist>

@@ -1,7 +1,7 @@
 .PHONY: build install clean
 
 build:
-	@zip -r fuzzy-find.alfredworkflow info.plist search.sh README.md
+	@zip -r fuzzy-find.alfredworkflow info.plist search.sh README.md icon.png
 	@echo "✓ Built fuzzy-find.alfredworkflow"
 
 install: build

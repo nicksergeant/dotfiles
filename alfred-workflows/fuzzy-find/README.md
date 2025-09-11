@@ -11,6 +11,12 @@ Blazing fast fuzzy file/folder search for Alfred using `fd` and `fzf`.
 
 ## Installation
 
+### Quick Install
+
+[Download the latest workflow](https://github.com/nicksergeant/dotfiles/raw/refs/heads/master/alfred-workflows/fuzzy-find/fuzzy-find.alfredworkflow) and double-click to install.
+
+### Build from Source
+
 1. Install dependencies:
    ```bash
    brew install fd fzf
