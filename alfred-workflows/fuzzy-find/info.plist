@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.nicksergeant.fuzzy-find</string>
+	<key>connections</key>
+	<dict>
+		<key>58B6B1AC-5DD8-4B2B-A168-47A5F2C5CC3C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A2D3B5FA-9B12-4F1E-8C23-1A2B3C4D5E6F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Nick Sergeant</string>
+	<key>description</key>
+	<string>Blazing fast fuzzy file/folder search using fd and fzf</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Fuzzy Find</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>f</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>./search.sh "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Fuzzy search files and folders</string>
+				<key>title</key>
+				<string>Search files/folders</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>58B6B1AC-5DD8-4B2B-A168-47A5F2C5CC3C</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>openwith</key>
+				<string></string>
+				<key>sourcefile</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openfile</string>
+			<key>uid</key>
+			<string>A2D3B5FA-9B12-4F1E-8C23-1A2B3C4D5E6F</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Fast file and folder search using fd with fuzzy matching.
+
+Requirements:
+- fd (install with: brew install fd)
+- Python 3 (for fuzzy matching)
+
+Usage:
+Type 'f' followed by your search query. Supports fuzzy matching similar to fzf.
+
+Examples:
+- f pub v2 (matches "public/flxwebsites-v2")
+- f dcalc (matches "distance calculator.xlsx")
+- f nar (matches "Notes and Reference")</string>
+	<key>uidata</key>
+	<dict>
+		<key>58B6B1AC-5DD8-4B2B-A168-47A5F2C5CC3C</key>
+		<dict>
+			<key>xpos</key>
+			<real>180</real>
+			<key>ypos</key>
+			<real>50</real>
+		</dict>
+		<key>A2D3B5FA-9B12-4F1E-8C23-1A2B3C4D5E6F</key>
+		<dict>
+			<key>xpos</key>
+			<real>380</real>
+			<key>ypos</key>
+			<real>50</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/nicksergeant</string>
+</dict>
+</plist>
