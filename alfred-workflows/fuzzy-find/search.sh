@@ -28,7 +28,7 @@ CACHE_FILE="/tmp/alfred_fd_cache"
 CACHE_AGE=86400
 
 if [ -f "$CACHE_FILE" ] && [ $(($(date +%s) - $(stat -f %m "$CACHE_FILE" 2>/dev/null || echo 0))) -lt $CACHE_AGE ]; then
-    results=$(cat "$CACHE_FILE" | fzf --filter "$query" | head -20)
+    results=$(cat "$CACHE_FILE" | fzf --filter "$query" | head -10)
 else
     (echo "$PWD"; fd . ~ --max-depth 6 \
         --exclude Library \
@@ -37,7 +37,7 @@ else
         --exclude node_modules \
         --exclude '.*' \
         2>/dev/null) > "$CACHE_FILE"
-    results=$(cat "$CACHE_FILE" | fzf --filter "$query" | head -20)
+    results=$(cat "$CACHE_FILE" | fzf --filter "$query" | head -10)
 fi
 
 echo '{"items": ['
