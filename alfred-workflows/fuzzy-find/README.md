@@ -6,7 +6,7 @@ Blazing fast fuzzy file/folder search for Alfred using `fd` and `fzf`.
 
 - True fuzzy matching like `fzf` (e.g., "pub v2" → "public/flxwebsites-v2")
 - Abbreviation matching (e.g., "nar" → "Notes and Reference")
-- Cached file indexing for instant results (60-second cache)
+- Cached file indexing for instant results (24-hour cache, refresh with hotkey)
 - Respects common exclusions (node_modules, dotfiles, Library, etc.)
 
 ## Installation
@@ -40,6 +40,6 @@ make clean   # Remove build artifacts
 ## Configuration
 
 Edit `search.sh` to customize:
-- Cache duration (default: 60 seconds)
+- Cache duration (default: 24 hours / 86400 seconds)
 - Search depth (default: 6 levels)
 - Excluded directories

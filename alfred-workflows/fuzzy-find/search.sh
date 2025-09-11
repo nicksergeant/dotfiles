@@ -2,6 +2,10 @@
 
 query="$1"
 
+if [ -n "$query" ]; then
+    echo "$query" > /tmp/alfred_fd_last_query
+fi
+
 check_deps() {
     if ! command -v fd &> /dev/null; then
         echo '{"items": [{"title": "fd not found", "subtitle": "Please install fd with: brew install fd", "valid": false}]}'
@@ -21,7 +25,7 @@ if [ -z "$query" ]; then
 fi
 
 CACHE_FILE="/tmp/alfred_fd_cache"
-CACHE_AGE=60
+CACHE_AGE=86400
 
 if [ -f "$CACHE_FILE" ] && [ $(($(date +%s) - $(stat -f %m "$CACHE_FILE" 2>/dev/null || echo 0))) -lt $CACHE_AGE ]; then
     results=$(cat "$CACHE_FILE" | fzf --filter "$query" | head -20)
