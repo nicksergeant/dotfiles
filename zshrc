@@ -303,7 +303,7 @@ gcam() {
   local final_msg=$(echo "$diff" | claude -p "Write a git commit message for ONLY these staged changes (not the entire branch).
 
 First line: ≤72 chars (for GitHub PR titles)
-Body: Use bullet points for multiple changes
+Body: Use dashes (-) for bullet points (GitHub requirement)
 
 Focus on WHAT changed (facts from the diff):
 - Feature additions, bug fixes, API changes
@@ -311,6 +311,7 @@ Focus on WHAT changed (facts from the diff):
 - Business logic or algorithm changes
 
 Skip obvious things like imports, basic refactoring, or speculation about intent.
+Use only dashes (-) for bullet points, never other symbols.
 
 Return only the commit message, no explanations." --output-format text | edit_pipe)
   
