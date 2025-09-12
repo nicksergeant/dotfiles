@@ -299,7 +299,7 @@ gcam() {
   fi
   
   # Generate commit message using Claude and edit it with nvim
-  local final_msg=$(echo "$diff" | claude -p "Write a git commit message for ONLY these staged changes (not the entire branch).
+  local final_msg=$(echo "$diff" | claude --model sonnet -p "Write a git commit message for ONLY these staged changes (not the entire branch).
 
 First line: ≤150 chars (longer is fine if GitHub wraps)
 Body: Use dashes (-) for bullet points (GitHub requirement)
