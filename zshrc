@@ -17,6 +17,11 @@ export PATH="/Applications/Alacritty Shell.app/Contents/MacOS:$PATH"
 export PATH="/usr/local/bin:$PATH"
 export PATH="/Applications/Love.app/Contents/MacOS:$PATH"
 
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
 if [ "$(uname -p)" = "arm" ]
 then
   export PATH="/opt/homebrew/bin:$PATH"
@@ -311,6 +316,9 @@ Focus on WHAT changed (facts from the diff):
 
 Skip obvious things like imports, basic refactoring, or speculation about intent.
 Use only dashes (-) for bullet points, never other symbols.
+
+CRITICAL: Do NOT mention Claude, AI, or any AI assistance in the commit message.
+The message should appear to be written by a human developer.
 
 Return only the commit message, no explanations." --output-format text | edit_pipe)
   
