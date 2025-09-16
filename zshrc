@@ -85,7 +85,7 @@ fzf-open-with-app-widget() {
   
   # Use fd for fast file finding with built-in filtering
   # Start with current directory, then add all other results
-  selected_item=$( (echo "$PWD"; fd . ~ --type f --type d --max-depth 6 \
+  selected_item=$( (echo "$PWD"; fd . ~ --type f --type d --max-depth 7 \
     --exclude Library \
     --exclude Pictures \
     --exclude Music \

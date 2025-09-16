@@ -212,7 +212,7 @@ Examples:
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>1.1.2</string>
+	<string>1.1.3</string>
 	<key>webaddress</key>
 	<string>https://github.com/nicksergeant/dotfiles/tree/master/alfred-workflows/fuzzy-find</string>
 	<key>uidata</key>

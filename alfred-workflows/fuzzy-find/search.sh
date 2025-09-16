@@ -30,7 +30,7 @@ CACHE_AGE=86400
 if [ -f "$CACHE_FILE" ] && [ $(($(date +%s) - $(stat -f %m "$CACHE_FILE" 2>/dev/null || echo 0))) -lt $CACHE_AGE ]; then
     results=$(cat "$CACHE_FILE" | fzf --filter "$query" | head -10)
 else
-    (echo "$PWD"; fd . ~ --max-depth 6 \
+    (echo "$PWD"; fd . ~ --max-depth 7 \
         --exclude Library \
         --exclude Pictures \
         --exclude Music \
