@@ -306,16 +306,22 @@ gcam() {
   # Generate commit message using Claude and edit it with nvim
   local final_msg=$(echo "$diff" | claude --model sonnet -p "Write a git commit message for ONLY these staged changes (not the entire branch).
 
-First line: ≤150 chars (longer is fine if GitHub wraps)
-Body: Use dashes (-) for bullet points (GitHub requirement)
+COMMIT TITLE (first line):
+- Write a comprehensive, descriptive title that gives a clear overview of the change
+- Aim for clarity over brevity - use the full 150 characters if needed
+- Example: 'Refactor authentication flow to support OAuth2 and improve token refresh handling'
+- GitHub will wrap long titles nicely, so don't artificially shorten them
 
-Focus on WHAT changed (facts from the diff):
-- Feature additions, bug fixes, API changes
-- Performance/security improvements
-- Business logic or algorithm changes
+COMMIT BODY:
+- For simple, focused changes: Often the title alone is sufficient
+- For complex changes: Add a brief paragraph explaining the 'why' or important context
+- ONLY use bullet points (-) when you have:
+  * Multiple disconnected changes that need separate explanation
+  * A large refactor touching many components
+  * Several distinct bug fixes or features in one commit
+- Avoid bullet points for routine changes that the title already describes
 
-Skip obvious things like imports, basic refactoring, or speculation about intent.
-Use only dashes (-) for bullet points, never other symbols.
+Focus on WHAT changed and WHY it matters. Skip obvious implementation details.
 
 CRITICAL: Do NOT mention Claude, AI, or any AI assistance in the commit message.
 The message should appear to be written by a human developer.
