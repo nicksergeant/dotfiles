@@ -2,11 +2,6 @@
 draw_bold_text_with_bright_colors = false
 
 [[keyboard.bindings]]
-chars = "\u001b\r"
-key = "Return"
-mods = "Shift"
-
-[[keyboard.bindings]]
 action = "Paste"
 key = "Paste"
 
