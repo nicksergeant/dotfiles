@@ -306,6 +306,12 @@ gcam() {
   # Generate commit message using Claude and edit it with nvim
   local final_msg=$(echo "$diff" | claude --model sonnet -p "Write a git commit message for ONLY these staged changes (not the entire branch).
 
+CRITICAL RULES - NEVER VIOLATE THESE:
+- NEVER write 'Generated with Claude', 'AI-generated', or ANY mention of AI/Claude/LLM/automation
+- NEVER add emojis or special formatting markers that suggest AI generation
+- Write as if YOU are the developer who made these changes
+- The message must appear 100% human-written with no hints of AI involvement
+
 COMMIT TITLE (first line):
 - Write a comprehensive, descriptive title that gives a clear overview of the change
 - Aim for clarity over brevity - use the full 150 characters if needed
@@ -322,9 +328,6 @@ COMMIT BODY:
 - Avoid bullet points for routine changes that the title already describes
 
 Focus on WHAT changed and WHY it matters. Skip obvious implementation details.
-
-CRITICAL: Do NOT mention Claude, AI, or any AI assistance in the commit message.
-The message should appear to be written by a human developer.
 
 Return only the commit message, no explanations." --output-format text | edit_pipe)
   
