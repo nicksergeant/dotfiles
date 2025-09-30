@@ -252,23 +252,65 @@ tn() {
 }
 
 ts() {
-  tmux new-session -d -s shell -n shell
-  tmux send-keys -t shell C-l
-  tmux split-window -t shell -h
-  tmux send-keys -t shell C-l
-  tmux new-window -n servers
-  tmux send-keys -t servers C-l
-  tmux split-window -t servers -h
-  tmux send-keys -t servers C-l
-  tmux next-window
-  tmux attach
+  if [ -f ~/.isHubspotMachine ]; then
+    # HubSpot machine setup
+    # Shell window: two panes side by side
+    tmux new-session -d -s shell -n shell
+    tmux split-window -t shell:shell -h -c ~/src
+    tmux send-keys -t shell:shell.0 C-l
+    tmux send-keys -t shell:shell.1 C-l
+
+    # Servers window: two panes side by side
+    tmux new-window -t shell: -n servers
+    tmux split-window -t shell:servers -h -c ~/src
+    tmux send-keys -t shell:servers.0 C-l
+    tmux send-keys -t shell:servers.1 C-l
+  else
+    # Non-HubSpot machine setup
+    # Shell window: left pane, right side split into flxwebsites/studio
+    tmux new-session -d -s shell -n shell
+    tmux split-window -t shell:shell -h -c ~/Code/flxwebsites
+    tmux split-window -t shell:shell.1 -v -c ~/Code/studio
+    tmux send-keys -t shell:shell.0 C-l
+    tmux send-keys -t shell:shell.1 C-l
+    tmux send-keys -t shell:shell.2 C-l
+
+    # Servers window: left pane, then right split into top/bottom with make run
+    tmux new-window -t shell: -n servers
+    tmux split-window -t shell:servers -h -c ~/Code/flxwebsites
+    tmux send-keys -t shell:servers.1 'make run' Enter
+    tmux split-window -t shell:servers.1 -v -c ~/Code/studio
+    tmux send-keys -t shell:servers.2 'make run' Enter
+    tmux send-keys -t shell:servers.0 C-l
+  fi
+
+  tmux select-window -t shell:shell
+  tmux attach -t shell
 }
 
 tv() {
-  tmux new-session -d -s vim -n settings-ui
-  tmux send-keys j Space settings-ui Enter
-  tmux send-keys m Enter
-  tmux attach
+  if [ -f ~/.isHubspotMachine ]; then
+    # HubSpot machine setup
+    tmux new-session -d -s vim -n src -c ~/src
+    tmux send-keys -t vim:src.0 'nvim .' Enter
+    tmux split-window -t vim:src -h -c ~/src
+    tmux send-keys -t vim:src.1 'claude' Enter
+  else
+    # Non-HubSpot machine setup
+    tmux new-session -d -s vim -n flxwebsites -c ~/Code/flxwebsites
+    tmux send-keys -t vim:flxwebsites.0 'nvim .' Enter
+    tmux split-window -t vim:flxwebsites -h -c ~/Code/flxwebsites
+    tmux send-keys -t vim:flxwebsites.1 'claude' Enter
+
+    tmux new-window -t vim -n studio -c ~/Code/studio
+    tmux send-keys -t vim:studio.0 'nvim .' Enter
+    tmux split-window -t vim:studio -h -c ~/Code/studio
+    tmux send-keys -t vim:studio.1 'claude' Enter
+
+    tmux select-window -t vim:flxwebsites
+  fi
+
+  tmux attach -t vim
 }
 
 wo() {
