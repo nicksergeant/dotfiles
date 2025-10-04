@@ -135,7 +135,11 @@ export default function Command() {
               <ActionPanel>
                 <Action.Open target={filePath} title="Open" />
                 <Action.ShowInFinder path={filePath} />
-                <Action.CopyToClipboard content={filePath} title="Copy Path" />
+                <Action.CopyToClipboard
+                  content={filePath}
+                  title="Copy Path"
+                  shortcut={{ modifiers: ["cmd"], key: "c" }}
+                />
                 <Action.ToggleQuickLook shortcut={{ modifiers: ["cmd"], key: "y" }} />
                 <Action
                   title={showDetails ? "Hide Details" : "Show Details"}
