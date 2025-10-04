@@ -140,7 +140,7 @@ export default function Command() {
         }
 
         const isImage = isImageFile(filePath);
-        const markdown = isImage ? `<img src="${encodeURI(filePath)}" style="height: 100%;" />` : undefined;
+        const markdown = isImage ? `<img src="${encodeURI(filePath)}" height="184" />` : undefined;
 
         return (
           <List.Item
