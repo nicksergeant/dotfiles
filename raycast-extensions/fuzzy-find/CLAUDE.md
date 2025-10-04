@@ -18,13 +18,14 @@ npm run lint     # Run linter
 
 The extension consists of:
 
-1. **src/search-files-folders.tsx** - Main React component that:
+1. **src/index.tsx** - Main React component that:
    - Caches fd output to `/tmp/raycast_fd_cache` (24-hour TTL)
    - Uses `useExec` hook to shell out to `fzf --filter` for fuzzy matching
    - Renders results in a `List` component with detail view
    - Shows file metadata (size, dates, type)
    - Displays image previews using HTML `<img>` tags in markdown
    - Limits results to 10 items (`head -10`)
+   - Supports manual cache refresh with Cmd+R
 
 2. **package.json** - Extension manifest that:
    - Defines the "Search Files" command
@@ -37,7 +38,17 @@ The extension consists of:
 - Cache file: `/tmp/raycast_fd_cache`
 - Cache age: 24 hours (86400000 ms)
 - Auto-refresh: Checks on component mount via `needsCacheRefresh()`
+- Manual refresh: Cmd+R deletes cache and calls `revalidateCache()`
 - Manual clear: `rm /tmp/raycast_fd_cache`
+
+### Cache Refresh Implementation (Cmd+R)
+- Uses `isRefreshing` state flag to track manual refresh
+- Deletes cache file via `unlinkSync(CACHE_FILE)`
+- Calls `revalidateCache()` to explicitly rebuild cache
+- Uses `searchKey` state to force search re-execution after rebuild
+- `searchKey` is appended as a comment to search command: `... | head -10 # ${searchKey}`
+- When searchKey changes (0→1→2...), useExec sees it as a new command and re-runs
+- This prevents stale results when refreshing with the same query multiple times
 
 ### Search Scope
 - Starts from current directory and home (~)
@@ -50,11 +61,12 @@ The extension consists of:
 - Raycast extensions don't have Homebrew in PATH
 
 ### Image Preview
-- Images detected by extension (.jpg, .jpeg, .png, .gif, .webp, .bmp, .svg, .ico, .tiff, .heic)
+- Images detected by extension (defined in `IMAGE_EXTENSIONS` constant)
 - Displayed using HTML in markdown: `<img src="${encodeURI(filePath)}" style="height: 100%;" />`
 - **Must use `encodeURI()` for paths with spaces**
 - Raycast markdown does NOT support local file paths in standard markdown syntax (`![](path)`)
 - HTML `<img>` tags work for local files
+- `height: 100%` style ensures images fill the detail panel properly
 
 ### Action Requirements
 - All `Action` components require a `title` prop at runtime (even if TypeScript types mark it optional)

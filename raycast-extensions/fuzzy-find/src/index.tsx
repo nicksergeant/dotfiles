@@ -2,13 +2,14 @@ import { ActionPanel, Action, List, showToast, Toast, Icon } from "@raycast/api"
 import { useExec, useCachedState } from "@raycast/utils";
 import { useState, useEffect } from "react";
 import { basename, dirname } from "path";
-import { existsSync, statSync } from "fs";
+import { existsSync, statSync, unlinkSync } from "fs";
 
 const CACHE_FILE = "/tmp/raycast_fd_cache";
 const CACHE_AGE = 24 * 60 * 60 * 1000;
 const HOME = process.env.HOME || "~";
 const FD_PATH = "/opt/homebrew/bin/fd";
 const FZF_PATH = "/opt/homebrew/bin/fzf";
+const IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".svg", ".ico", ".tiff", ".heic"];
 
 const BUILD_CACHE_CMD = `(echo "$PWD"; ${FD_PATH} . ${HOME} --max-depth 7 \
   --exclude Library \
@@ -42,16 +43,17 @@ const formatDate = (date: Date): string => {
 };
 
 const isImageFile = (filePath: string): boolean => {
-  const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".svg", ".ico", ".tiff", ".heic"];
-  return imageExtensions.some((ext) => filePath.toLowerCase().endsWith(ext));
+  return IMAGE_EXTENSIONS.some((ext) => filePath.toLowerCase().endsWith(ext));
 };
 
 export default function Command() {
   const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState<string[]>([]);
   const [showDetails, setShowDetails] = useCachedState("show-details", true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [searchKey, setSearchKey] = useState(0);
 
-  const { isLoading: isCaching } = useExec("sh", ["-c", BUILD_CACHE_CMD], {
+  const { isLoading: isCaching, revalidate: revalidateCache } = useExec("sh", ["-c", BUILD_CACHE_CMD], {
     execute: needsCacheRefresh(),
     onError: (error) => {
       showToast({
@@ -59,14 +61,52 @@ export default function Command() {
         title: "Failed to build file cache",
         message: error.message,
       });
+      setIsRefreshing(false);
     },
   });
 
   const { data: searchData, isLoading: isSearching } = useExec(
     "sh",
-    ["-c", `cat ${CACHE_FILE} | ${FZF_PATH} --filter "${searchText}" | head -10`],
-    { execute: searchText.length > 0 && !isCaching },
+    ["-c", `cat ${CACHE_FILE} | ${FZF_PATH} --filter "${searchText}" | head -10 # ${searchKey}`],
+    {
+      execute: searchText.length > 0 && !isCaching,
+    },
   );
+
+  const handleRefreshCache = () => {
+    try {
+      if (existsSync(CACHE_FILE)) {
+        unlinkSync(CACHE_FILE);
+      }
+      setResults([]);
+      setIsRefreshing(true);
+      showToast({
+        style: Toast.Style.Animated,
+        title: "Rebuilding cache...",
+      });
+      revalidateCache();
+    } catch (error) {
+      showToast({
+        style: Toast.Style.Failure,
+        title: "Failed to refresh cache",
+        message: error instanceof Error ? error.message : "Unknown error",
+      });
+      setIsRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isRefreshing && !isCaching) {
+      showToast({
+        style: Toast.Style.Success,
+        title: "Cache refreshed",
+      });
+      setIsRefreshing(false);
+      if (searchText.length > 0) {
+        setSearchKey((prev) => prev + 1);
+      }
+    }
+  }, [isCaching, isRefreshing]);
 
   useEffect(() => {
     if (searchData && searchText) {
@@ -96,11 +136,11 @@ export default function Command() {
           stats = statSync(filePath);
           fileType = stats.isDirectory() ? "Folder" : "File";
         } catch {
-          // File might have been deleted
+          // Deleted file
         }
 
         const isImage = isImageFile(filePath);
-        const markdown = isImage ? `<img src="${encodeURI(filePath)}" />` : undefined;
+        const markdown = isImage ? `<img src="${encodeURI(filePath)}" style="height: 100%;" />` : undefined;
 
         return (
           <List.Item
@@ -141,6 +181,12 @@ export default function Command() {
                   shortcut={{ modifiers: ["cmd"], key: "c" }}
                 />
                 <Action.ToggleQuickLook shortcut={{ modifiers: ["cmd"], key: "y" }} />
+                <Action
+                  title="Refresh Cache"
+                  icon={Icon.ArrowClockwise}
+                  shortcut={{ modifiers: ["cmd"], key: "r" }}
+                  onAction={handleRefreshCache}
+                />
                 <Action
                   title={showDetails ? "Hide Details" : "Show Details"}
                   icon={Icon.AppWindowSidebarLeft}

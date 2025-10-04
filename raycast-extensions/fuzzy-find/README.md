@@ -53,23 +53,28 @@ npm run dev
 
 - **⌘Y** - Quick Look preview
 - **⌘⇧D** - Toggle detail view
+- **⌘R** - Refresh cache
 - **↵** - Open file/folder
 - **⌘↵** - Show in Finder
 - **⌘C** - Copy file path
 
 ## Cache Management
 
-The extension caches file paths at `/tmp/raycast_fd_cache` for 24 hours. To clear the cache:
+The extension caches file paths at `/tmp/raycast_fd_cache` for 24 hours.
 
+**Manual refresh:**
+- Press **⌘R** within the extension to rebuild the cache immediately
+
+**Terminal refresh:**
 ```bash
 rm /tmp/raycast_fd_cache
 ```
 
-The cache will automatically rebuild on next use.
+The cache will automatically rebuild on next use or after 24 hours.
 
 ## Configuration
 
-Edit `src/search-files-folders.tsx` to customize:
+Edit `src/index.tsx` to customize:
 - Cache duration (default: 24 hours)
 - Search depth (default: 7 levels)
 - Excluded directories

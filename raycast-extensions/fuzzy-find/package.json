@@ -15,7 +15,7 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "search-files-folders",
+      "name": "index",
       "title": "Search Files",
       "subtitle": "File Search",
       "description": "Search for files and folders on your Mac.",
