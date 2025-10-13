@@ -52,7 +52,7 @@ alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
 alias o='open'
 alias pm='python manage.py'
-alias s='supabase'
+alias s='npx supabase'
 alias ta='tmux attach -t'
 alias vim='nvim'
 

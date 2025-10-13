@@ -341,7 +341,7 @@ nmap f <Plug>(easymotion-overwin-f2)
 " Elixir --------------------------------------------------------- {{{
 
 lua <<EOF
-require('lspconfig').elixirls.setup({
+vim.lsp.config('elixirls', {
     cmd = {"/opt/homebrew/bin/elixir-ls"},
     settings = {
       elixirLS = {
@@ -350,13 +350,14 @@ require('lspconfig').elixirls.setup({
       }
     }
 })
+vim.lsp.enable('elixirls')
 EOF
 
 " }}}
 " Emmet ---------------------------------------------------------- {{{
 
 lua <<EOF
-require('lspconfig').emmet_ls.setup({
+vim.lsp.config('emmet_ls', {
     filetypes = {
         'css',
         'heex',
@@ -378,6 +379,7 @@ require('lspconfig').emmet_ls.setup({
       },
     }
 })
+vim.lsp.enable('emmet_ls')
 EOF
 
 " }}}
@@ -663,7 +665,7 @@ EOF
 " Lua --------------------------------------------------------- {{{
 
 lua <<EOF
-require('lspconfig').lua_ls.setup({
+vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
       runtime = { version = 'LuaJIT' },
@@ -675,6 +677,7 @@ require('lspconfig').lua_ls.setup({
     },
   }
 })
+vim.lsp.enable('lua_ls')
 EOF
 
 
@@ -704,7 +707,7 @@ let NERDTreeMinimalMenu=1
 " Python --------------------------------------------------------- {{{
 
 lua <<EOF
-require('lspconfig').pyright.setup{}
+vim.lsp.enable('pyright')
 EOF
 
 " }}}
@@ -734,7 +737,7 @@ nnoremap <c-p> :cp<cr>
 " Rust --------------------------------------------------------- {{{
 
 lua <<EOF
-require('lspconfig').rust_analyzer.setup({
+vim.lsp.config('rust_analyzer', {
   settings = {
     ['rust-analyzer'] = {
       cargo = {
@@ -751,6 +754,7 @@ require('lspconfig').rust_analyzer.setup({
     }
   }
 })
+vim.lsp.enable('rust_analyzer')
 EOF
 
 
@@ -765,14 +769,15 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " Swift ---------------------------------------------------------- {{{
 
 lua <<EOF
-    local lspconfig = require('lspconfig')
-    lspconfig.sourcekit.setup {
-      root_dir = lspconfig.util.root_pattern(
+    local util = require('lspconfig/util')
+    vim.lsp.config('sourcekit', {
+      root_dir = util.root_pattern(
         '.git',
         'Package.swift',
         'compile_commands.json'
       ),
-    }
+    })
+    vim.lsp.enable('sourcekit')
 EOF
 
 " }}}
@@ -782,7 +787,7 @@ lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
   highlight = { enable = true },
-  ignore_install = { "haskell", "phpdoc" },
+  ignore_install = { "haskell", "phpdoc", "ipkg" },
   context_commentstring = {
     config = {
       javascript = {

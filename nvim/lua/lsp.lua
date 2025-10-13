@@ -65,7 +65,7 @@ if isHubspotMachine then
   local bend = require("bend")
   bend.setup()
 
-  require("lspconfig").ts_ls.setup({
+  vim.lsp.config('ts_ls', {
     cmd = {
       "typescript-language-server", "--log-level",
       "2", "--tsserver-log-verbosity", "terse",
@@ -83,20 +83,23 @@ if isHubspotMachine then
     },
     capabilities = capabilities
   })
+  vim.lsp.enable('ts_ls')
 else
-  require("lspconfig").ts_ls.setup {
+  vim.lsp.config('ts_ls', {
     root_dir = util.root_pattern("package.json"),
-    single_file_support = false,
+    workspace_required = true,
     capabilities = capabilities
-  }
+  })
+  vim.lsp.enable('ts_ls')
 end
 
-require("lspconfig").graphql.setup {}
-require("lspconfig").tailwindcss.setup {}
-require("lspconfig").yamlls.setup {}
-require("lspconfig").denols.setup {
+vim.lsp.enable('graphql')
+vim.lsp.enable('tailwindcss')
+vim.lsp.enable('yamlls')
+vim.lsp.config('denols', {
   root_dir = util.root_pattern("deno.json", "deno.jsonc")
-}
+})
+vim.lsp.enable('denols')
 
 require("lspkind").init({})
 
