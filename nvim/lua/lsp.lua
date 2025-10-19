@@ -72,7 +72,7 @@ if isHubspotMachine then
       "--tsserver-log-file", getLogPath(), "--tsserver-path",
       bend.getTsServerPathForCurrentFile(), "--stdio"
     },
-    root_dir = util.root_pattern("package.json"),
+    root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
     filetypes = {
       "javascript", "javascriptreact", "javascript.jsx", "typescript",
       "typescriptreact", "typescript.tsx"
@@ -86,8 +86,12 @@ if isHubspotMachine then
   vim.lsp.enable('ts_ls')
 else
   vim.lsp.config('ts_ls', {
-    root_dir = util.root_pattern("package.json"),
-    workspace_required = true,
+    cmd = { "typescript-language-server", "--stdio" },
+    filetypes = {
+      "javascript", "javascriptreact", "javascript.jsx", "typescript",
+      "typescriptreact", "typescript.tsx"
+    },
+    root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
     capabilities = capabilities
   })
   vim.lsp.enable('ts_ls')
@@ -96,10 +100,6 @@ end
 vim.lsp.enable('graphql')
 vim.lsp.enable('tailwindcss')
 vim.lsp.enable('yamlls')
-vim.lsp.config('denols', {
-  root_dir = util.root_pattern("deno.json", "deno.jsonc")
-})
-vim.lsp.enable('denols')
 
 require("lspkind").init({})
 

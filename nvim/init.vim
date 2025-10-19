@@ -769,13 +769,8 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " Swift ---------------------------------------------------------- {{{
 
 lua <<EOF
-    local util = require('lspconfig/util')
     vim.lsp.config('sourcekit', {
-      root_dir = util.root_pattern(
-        '.git',
-        'Package.swift',
-        'compile_commands.json'
-      ),
+      root_markers = { '.git', 'Package.swift', 'compile_commands.json' },
     })
     vim.lsp.enable('sourcekit')
 EOF
