@@ -348,12 +348,18 @@ gcam() {
   # Generate commit message using Claude and edit it with nvim
   local final_msg=$(echo "$diff" | claude --model haiku -p "Write a git commit message for ONLY these staged changes (not the entire branch).
 
+OUTPUT FORMAT - CRITICAL:
+- Return ONLY plain text - no markdown, no code blocks, no formatting
+- NEVER use triple backticks (\`\`\`) or any markdown code block syntax
+- Do NOT wrap the output in any kind of code fence or formatting markers
+- Just write the commit message as plain text and nothing else
+
 CRITICAL RULES - NEVER VIOLATE THESE:
 - NEVER write 'Generated with Claude', 'AI-generated', or ANY mention of AI/Claude/LLM/automation
 - NEVER add emojis or special formatting markers that suggest AI generation
 - Write as if YOU are the developer who made these changes
 - The message must appear 100% human-written with no hints of AI involvement
-- NEVER add triple backtick code blocks (\`\`\`) - write plain text only
+- NO code blocks (\`\`\`), NO markdown formatting, PLAIN TEXT ONLY
 
 COMMIT TITLE (first line):
 - Write a comprehensive, descriptive title that gives a clear overview of the change
@@ -373,7 +379,7 @@ COMMIT BODY:
 
 Focus on WHAT changed and WHY it matters. Skip obvious implementation details.
 
-Return only the commit message, no explanations." --output-format text | edit_pipe)
+REMINDER: Return ONLY the plain text commit message. No code blocks, no markdown, no formatting." --output-format text | edit_pipe)
   
   # Check if the message is empty or contains "Execution error"
   if [ -z "$final_msg" ] || [[ "$final_msg" == "Execution error"* ]]; then
