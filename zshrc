@@ -51,8 +51,9 @@ alias i='make shell'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
 alias o='open'
+alias p='pnpm'
 alias pm='python manage.py'
-alias s='npx supabase'
+alias s='pnpm supabase'
 alias ta='tmux attach -t'
 alias vim='nvim'
 
@@ -177,10 +178,6 @@ fj() {
 fr() {
   f
   make run
-}
-
-n() {
-  _z not
 }
 
 on() {
