@@ -13,6 +13,7 @@ export PATH="/Users/nsergeant/go/bin":$PATH
 export PATH="/Users/nsergeant/Sources/dotfiles/bin:$PATH"
 export PATH="/Users/nsergeant/Library/Python/3.8/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export PATH="/Applications/Alacritty Shell.app/Contents/MacOS:$PATH"
 export PATH="/usr/local/bin:$PATH"
 export PATH="/Applications/Love.app/Contents/MacOS:$PATH"
