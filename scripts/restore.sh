@@ -1,6 +1,18 @@
 #!/bin/bash
 set -e
 
+# Safety check: only allow restore on backup machine
+ALLOWED_HOST="mba.local"
+CURRENT_HOST=$(hostname)
+
+if [[ "$CURRENT_HOST" != "$ALLOWED_HOST" ]]; then
+    echo "ERROR: Restore script can only run on ${ALLOWED_HOST}"
+    echo "       Current host: ${CURRENT_HOST}"
+    echo ""
+    echo "This prevents accidentally overwriting files on your primary machine."
+    exit 1
+fi
+
 # Find DMG files in ~/Downloads
 DMG_FILES=(~/Downloads/*.dmg)
 
@@ -37,32 +49,18 @@ echo "    Mounted at: ${MOUNT_POINT}"
 echo ""
 
 # Restore destinations
-RESTORE_BASE="$HOME/Restored"
-RESTORE_DOCS="${RESTORE_BASE}/Documents"
-RESTORE_GDRIVE="${RESTORE_BASE}/Google Drive"
+RESTORE_DOCS="$HOME/Documents"
+RESTORE_GDRIVE="$HOME/Google Drive"
 
-# Check for existing restore directories
-EXISTING_DIRS=()
-[[ -d "$RESTORE_DOCS" ]] && EXISTING_DIRS+=("$RESTORE_DOCS")
-[[ -d "$RESTORE_GDRIVE" ]] && EXISTING_DIRS+=("$RESTORE_GDRIVE")
-
-if [[ ${#EXISTING_DIRS[@]} -gt 0 ]]; then
-    echo "WARNING: Existing restore directories found:"
-    printf "         %s\n" "${EXISTING_DIRS[@]}"
-    echo ""
-    read -p "Delete these and continue? (y/n) " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        echo "Aborting."
-        hdiutil eject "$MOUNT_POINT"
-        exit 1
-    fi
-    rm -rf "$RESTORE_DOCS" "$RESTORE_GDRIVE"
-fi
-
-# Create restore directories
+# Create restore directories if they don't exist
 mkdir -p "$RESTORE_DOCS"
 mkdir -p "$RESTORE_GDRIVE"
+
+echo "==> Restoring to:"
+echo "    ${RESTORE_DOCS}"
+echo "    ${RESTORE_GDRIVE}"
+echo "    (rsync will skip existing unchanged files)"
+echo ""
 
 # Restore Documents
 if [[ -d "${MOUNT_POINT}/Documents" ]]; then
@@ -98,7 +96,6 @@ echo "  ${RESTORE_GDRIVE}"
 echo ""
 echo "NEXT STEPS:"
 echo "  1. Verify restored files"
-echo "  2. Move to final locations if desired"
-echo "  3. Delete the DMG from ~/Downloads:"
+echo "  2. Delete the DMG from ~/Downloads:"
 echo "     rm \"${DMG_FILE}\""
 echo ""
