@@ -13,76 +13,40 @@ if [[ "$CURRENT_HOST" != "$ALLOWED_HOST" ]]; then
     exit 1
 fi
 
-# Find DMG files in ~/Downloads
-DMG_FILES=(~/Downloads/*.dmg)
+# Find 7z files in ~/Downloads
+ARCHIVE_FILES=(~/Downloads/*.7z)
 
 # Check if glob matched anything
-if [[ ! -e "${DMG_FILES[0]}" ]]; then
-    echo "ERROR: No .dmg files found in ~/Downloads"
+if [[ ! -e "${ARCHIVE_FILES[0]}" ]]; then
+    echo "ERROR: No .7z files found in ~/Downloads"
     exit 1
 fi
 
-# Check for exactly one DMG
-if [[ ${#DMG_FILES[@]} -gt 1 ]]; then
-    echo "ERROR: Multiple .dmg files found in ~/Downloads:"
-    printf "       %s\n" "${DMG_FILES[@]}"
+# Check for exactly one archive
+if [[ ${#ARCHIVE_FILES[@]} -gt 1 ]]; then
+    echo "ERROR: Multiple .7z files found in ~/Downloads:"
+    printf "       %s\n" "${ARCHIVE_FILES[@]}"
     echo ""
-    echo "Please ensure only one .dmg file exists and try again."
+    echo "Please ensure only one .7z file exists and try again."
     exit 1
 fi
 
-DMG_FILE="${DMG_FILES[0]}"
-echo "==> Found backup: $(basename "$DMG_FILE")"
+ARCHIVE_FILE="${ARCHIVE_FILES[0]}"
+echo "==> Found backup: $(basename "$ARCHIVE_FILE")"
 echo ""
 
-# Mount the encrypted DMG (will prompt for password)
-echo "==> Mounting DMG (enter password when prompted)..."
-MOUNT_OUTPUT=$(hdiutil attach "$DMG_FILE" -nobrowse)
-MOUNT_POINT=$(echo "$MOUNT_OUTPUT" | grep -o '/Volumes/.*' | head -1)
-
-if [[ -z "$MOUNT_POINT" ]]; then
-    echo "ERROR: Failed to mount DMG"
+# Check 7zz is installed
+if ! command -v 7zz &> /dev/null; then
+    echo "ERROR: 7zz not found. Install with: brew install 7zip"
     exit 1
 fi
 
-echo "    Mounted at: ${MOUNT_POINT}"
+# Extract to home directory
+echo "==> Extracting archive (enter password when prompted)..."
+echo "    Restoring to: $HOME"
+echo "    (existing files will be overwritten)"
 echo ""
-
-# Restore destinations
-RESTORE_DOCS="$HOME/Documents"
-RESTORE_GDRIVE="$HOME/Google Drive"
-
-# Create restore directories if they don't exist
-mkdir -p "$RESTORE_DOCS"
-mkdir -p "$RESTORE_GDRIVE"
-
-echo "==> Restoring to:"
-echo "    ${RESTORE_DOCS}"
-echo "    ${RESTORE_GDRIVE}"
-echo "    (rsync will skip existing unchanged files)"
-echo ""
-
-# Restore Documents
-if [[ -d "${MOUNT_POINT}/Documents" ]]; then
-    echo "==> Restoring Documents..."
-    rsync -aP "${MOUNT_POINT}/Documents/" "$RESTORE_DOCS/"
-else
-    echo "WARNING: Documents not found in backup, skipping."
-fi
-
-# Restore Google Drive
-if [[ -d "${MOUNT_POINT}/Google Drive" ]]; then
-    echo ""
-    echo "==> Restoring Google Drive..."
-    rsync -aP "${MOUNT_POINT}/Google Drive/" "$RESTORE_GDRIVE/"
-else
-    echo "WARNING: Google Drive not found in backup, skipping."
-fi
-
-# Unmount
-echo ""
-echo "==> Unmounting DMG..."
-hdiutil eject "$MOUNT_POINT"
+7zz x "$ARCHIVE_FILE" -o"$HOME" -y
 
 # Done
 echo ""
@@ -91,11 +55,12 @@ echo "Restore complete!"
 echo "========================================"
 echo ""
 echo "Restored to:"
-echo "  ${RESTORE_DOCS}"
-echo "  ${RESTORE_GDRIVE}"
+echo "  ~/Documents"
+echo "  ~/Google Drive"
+echo "  ~/Library/Mail"
 echo ""
 echo "NEXT STEPS:"
 echo "  1. Verify restored files"
-echo "  2. Delete the DMG from ~/Downloads:"
-echo "     rm \"${DMG_FILE}\""
+echo "  2. Delete the archive from ~/Downloads:"
+echo "     rm \"${ARCHIVE_FILE}\""
 echo ""
