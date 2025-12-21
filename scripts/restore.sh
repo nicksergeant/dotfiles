@@ -41,6 +41,25 @@ RESTORE_BASE="$HOME/Restored"
 RESTORE_DOCS="${RESTORE_BASE}/Documents"
 RESTORE_GDRIVE="${RESTORE_BASE}/Google Drive"
 
+# Check for existing restore directories
+EXISTING_DIRS=()
+[[ -d "$RESTORE_DOCS" ]] && EXISTING_DIRS+=("$RESTORE_DOCS")
+[[ -d "$RESTORE_GDRIVE" ]] && EXISTING_DIRS+=("$RESTORE_GDRIVE")
+
+if [[ ${#EXISTING_DIRS[@]} -gt 0 ]]; then
+    echo "WARNING: Existing restore directories found:"
+    printf "         %s\n" "${EXISTING_DIRS[@]}"
+    echo ""
+    read -p "Delete these and continue? (y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Aborting."
+        hdiutil eject "$MOUNT_POINT"
+        exit 1
+    fi
+    rm -rf "$RESTORE_DOCS" "$RESTORE_GDRIVE"
+fi
+
 # Create restore directories
 mkdir -p "$RESTORE_DOCS"
 mkdir -p "$RESTORE_GDRIVE"
