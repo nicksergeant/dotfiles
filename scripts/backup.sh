@@ -107,18 +107,21 @@ fi
 
 unset PASSWORD PASSWORD_CONFIRM
 
+# Upload to Backblaze B2
+echo ""
+echo "==> Uploading to Backblaze B2..."
+rclone copy "$FINAL_ARCHIVE" b2: -P
+
 # Done
 echo ""
 echo "========================================"
 echo "Backup complete!"
 echo "========================================"
 echo ""
-echo "Final archive: ${FINAL_ARCHIVE}"
+echo "Uploaded: ${FINAL_ARCHIVE}"
 echo ""
 echo "NEXT STEPS:"
-echo "  1. Upload to Backblaze B2:"
-echo "     b2 upload-file <bucket-name> ${FINAL_ARCHIVE} ${BACKUP_NAME}.7z"
-echo ""
-echo "  2. Delete local backup after upload:"
+echo "  1. Verify upload in B2 console"
+echo "  2. Delete local backup:"
 echo "     rm ${FINAL_ARCHIVE}"
 echo ""

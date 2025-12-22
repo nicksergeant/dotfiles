@@ -13,27 +13,34 @@ if [[ "$CURRENT_HOST" != "$ALLOWED_HOST" ]]; then
     exit 1
 fi
 
-# Find 7z files in ~/Downloads
-ARCHIVE_FILES=(~/Downloads/*.7z)
+# Derive backup name from current month and year
+MONTH_YEAR=$(date +"%B%Y")
+BACKUP_NAME="${MONTH_YEAR}Backup.7z"
+ARCHIVE_FILE="$HOME/Downloads/${BACKUP_NAME}"
 
-# Check if glob matched anything
-if [[ ! -e "${ARCHIVE_FILES[0]}" ]]; then
-    echo "ERROR: No .7z files found in ~/Downloads"
-    exit 1
-fi
-
-# Check for exactly one archive
-if [[ ${#ARCHIVE_FILES[@]} -gt 1 ]]; then
-    echo "ERROR: Multiple .7z files found in ~/Downloads:"
-    printf "       %s\n" "${ARCHIVE_FILES[@]}"
-    echo ""
-    echo "Please ensure only one .7z file exists and try again."
-    exit 1
-fi
-
-ARCHIVE_FILE="${ARCHIVE_FILES[0]}"
-echo "==> Found backup: $(basename "$ARCHIVE_FILE")"
+echo "==> Looking for backup: ${BACKUP_NAME}"
 echo ""
+
+# Check rclone is installed
+if ! command -v rclone &> /dev/null; then
+    echo "ERROR: rclone not found. Install with: brew install rclone"
+    exit 1
+fi
+
+# Download from B2 if not already present
+if [[ -f "$ARCHIVE_FILE" ]]; then
+    echo "==> Found local copy: ${ARCHIVE_FILE}"
+    echo ""
+else
+    echo "==> Downloading from Backblaze B2..."
+    rclone copy "b2:${BACKUP_NAME}" "$HOME/Downloads/" -P
+
+    if [[ ! -f "$ARCHIVE_FILE" ]]; then
+        echo "ERROR: Failed to download ${BACKUP_NAME} from B2"
+        exit 1
+    fi
+    echo ""
+fi
 
 # Check 7zz is installed
 if ! command -v 7zz &> /dev/null; then
