@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+# Confirm 1Password exports
+echo "Have you exported both 1Password vaults to ~/Documents? (y/n)"
+read -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "Please export your 1Password vaults first, then re-run."
+    exit 1
+fi
+
 # Derive backup name from current month and year
 MONTH_YEAR=$(date +"%B%Y")
 BACKUP_NAME="${MONTH_YEAR}Backup"
