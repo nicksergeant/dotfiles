@@ -84,9 +84,28 @@ done
 
 # Create encrypted, compressed archive
 echo "==> Creating encrypted archive..."
-echo "    You will be prompted to set a password."
+echo "    (excluding node_modules, .git, __pycache__, .venv)"
 echo ""
-7zz a -p -mhe=on "$FINAL_ARCHIVE" "${SOURCES_TO_BACKUP[@]}"
+
+# Prompt for password securely
+read -s -p "Enter password: " PASSWORD
+echo ""
+read -s -p "Confirm password: " PASSWORD_CONFIRM
+echo ""
+
+if [[ "$PASSWORD" != "$PASSWORD_CONFIRM" ]]; then
+    echo "ERROR: Passwords do not match."
+    exit 1
+fi
+
+7zz a -p"$PASSWORD" -mhe=on \
+    -xr!node_modules \
+    -xr!.git \
+    -xr!__pycache__ \
+    -xr!.venv \
+    "$FINAL_ARCHIVE" "${SOURCES_TO_BACKUP[@]}"
+
+unset PASSWORD PASSWORD_CONFIRM
 
 # Done
 echo ""
