@@ -67,6 +67,7 @@ function processInlineFormatting(text) {
   });
 
   processed = processed
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
     .replace(/\*\*([^\*\n]+?)\*\*/g, '<strong>$1</strong>')
     .replace(/__([^_\n]+?)__/g, '<strong>$1</strong>')
     .replace(/\*([^\*\n]+?)\*/g, '<em>$1</em>')
