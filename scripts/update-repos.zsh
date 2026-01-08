@@ -3,14 +3,14 @@
 ################################################################################
 # update-repos.zsh
 #
-# Updates git repositories in the current directory that are on the main branch
-# with no local changes by pulling the latest from origin/main.
+# Updates git repositories by fetching and rebasing from origin.
 #
 # USAGE:
 #   ./update-repos.zsh
 #
 # WHAT IT DOES:
-#   - Scans immediate subdirectories of the current directory for git repositories
+#   - If run inside a git repo: fetches and rebases the current branch from origin
+#   - If run in a parent directory: scans subdirectories for git repositories
 #   - For repos on main branch with no uncommitted or unpushed changes:
 #     * Fetches from origin/main
 #     * Pulls if behind origin
@@ -127,6 +127,13 @@ process_repo() {
 
 main() {
     local src_dir="$(pwd)"
+
+    # If we're in a git repo, just fetch and rebase the current branch
+    if [[ -d .git ]]; then
+        local branch=$(git branch --show-current)
+        git fetch origin "$branch" && git rebase "origin/$branch"
+        return
+    fi
 
     local repos=()
     for dir in "$src_dir"/*/; do
