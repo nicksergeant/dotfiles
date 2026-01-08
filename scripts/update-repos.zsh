@@ -11,22 +11,22 @@
 # WHAT IT DOES:
 #   - If run inside a git repo: fetches and rebases the current branch from origin
 #   - If run in a parent directory: scans subdirectories for git repositories
-#   - For repos on main branch with no uncommitted or unpushed changes:
-#     * Fetches from origin/main
+#   - For repos on main or master branch with no uncommitted or unpushed changes:
+#     * Fetches from origin
 #     * Pulls if behind origin
 #     * Reports update status
 #   - Processes repos concurrently in batches of 20 for performance
 #
 # REPOS ARE SKIPPED IF:
-#   - Not on the main branch
+#   - Not on main or master branch
 #   - Have uncommitted changes (modified, staged, or untracked files)
-#   - Have unpushed commits (local commits ahead of origin/main)
-#   - origin/main doesn't exist
+#   - Have unpushed commits (local commits ahead of origin)
+#   - origin branch doesn't exist
 #
 # OUTPUT:
 #   - Real-time status with color-coded symbols:
 #     ✓ (green)  - Successfully pulled new commits
-#     • (blue)   - Already up-to-date with origin/main
+#     • (blue)   - Already up-to-date with origin
 #     ⊘ (yellow) - Skipped (see reasons above)
 #     ✗ (red)    - Error occurred during processing
 #   - Summary line showing counts for each category
@@ -77,7 +77,7 @@ process_repo() {
         return 1
     fi
 
-    if [[ "$current_branch" != "main" ]]; then
+    if [[ "$current_branch" != "main" && "$current_branch" != "master" ]]; then
         printf "SKIPPED\t%s\t%s\n" "$repo_name" "on ${current_branch}" > "$result_file"
         return 0
     fi
@@ -87,25 +87,25 @@ process_repo() {
         return 0
     fi
 
-    git fetch origin main >/dev/null 2>&1
+    git fetch origin "$current_branch" >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
         printf "ERROR\t%s\t%s\n" "$repo_name" "fetch failed" > "$result_file"
         return 1
     fi
 
-    git rev-parse origin/main >/dev/null 2>&1
+    git rev-parse "origin/$current_branch" >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        printf "SKIPPED\t%s\t%s\n" "$repo_name" "no origin/main" > "$result_file"
+        printf "SKIPPED\t%s\t%s\n" "$repo_name" "no origin/${current_branch}" > "$result_file"
         return 0
     fi
 
-    local unpushed=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo "0")
+    local unpushed=$(git rev-list --count "origin/$current_branch..HEAD" 2>/dev/null || echo "0")
     if [[ $unpushed -gt 0 ]]; then
         printf "SKIPPED\t%s\t%s\n" "$repo_name" "${unpushed} unpushed commit(s)" > "$result_file"
         return 0
     fi
 
-    local behind=$(git rev-list --count HEAD..origin/main 2>/dev/null)
+    local behind=$(git rev-list --count "HEAD..origin/$current_branch" 2>/dev/null)
     if [[ $? -ne 0 ]]; then
         printf "ERROR\t%s\t%s\n" "$repo_name" "cannot compare with origin" > "$result_file"
         return 1
@@ -116,7 +116,7 @@ process_repo() {
         return 0
     fi
 
-    git pull origin main >/dev/null 2>&1
+    git pull origin "$current_branch" >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
         printf "ERROR\t%s\t%s\n" "$repo_name" "pull failed" > "$result_file"
         return 1
