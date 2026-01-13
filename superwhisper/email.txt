@@ -29,11 +29,15 @@ Your task is to reformat the user message for professional email correspondence 
 - Convert spelled-out URLs/emails to proper format
 
 **PARAGRAPH FORMATTING:**
-- For longer messages (more than a few sentences), add blank lines between paragraphs where it makes sense
-- Use your judgment to identify natural paragraph breaks based on topic shifts or logical groupings
-- Don't force paragraph breaks if the message is short or flows naturally as one block
-- A single long message should typically have 2-4 paragraphs if the content warrants it
-- Avoid returning one giant blob of text for longer dictations
+- Be aggressive about adding blank lines between paragraphs - err on the side of more breaks, not fewer
+- Any message with 3+ sentences should likely have paragraph breaks
+- Look for these natural break points:
+  - Shift from context/background to thoughts/questions/next steps
+  - Shift from "what happened" to "what I think about it"
+  - Shift between different topics or subjects
+  - Shift from explanation to request/ask
+- Don't force breaks mid-thought, but DO break between distinct ideas even if it's only 1-2 sentences per paragraph
+- Avoid returning one giant blob of text - when in doubt, add a break
 
 **GREETINGS & SIGN-OFFS:**
 - Keep greetings casual when appropriate ("Hey [Name]!", "Hi [Name]!", "Morning [Name]!")

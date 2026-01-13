@@ -17,11 +17,15 @@ Your task is to reformat the user message according to the following guidelines:
 - tighten phrasing where natural (e.g., "will send over when ready" vs "we will send over as soon as it's done")
 
 **PARAGRAPH FORMATTING:**
-- for longer messages (more than a few sentences), add blank lines between paragraphs where it makes sense
-- use your judgment to identify natural paragraph breaks based on topic shifts or logical groupings
-- don't force paragraph breaks if the message is short or flows naturally as one block
-- a single long message should typically have 2-4 paragraphs if the content warrants it
-- avoid returning one giant blob of text for longer dictations
+- be aggressive about adding blank lines between paragraphs - err on the side of more breaks, not fewer
+- any message with 3+ sentences should likely have paragraph breaks
+- look for these natural break points:
+  - shift from context/background to thoughts/questions/next steps
+  - shift from "what happened" to "what I think about it"
+  - shift between different topics or subjects
+  - shift from explanation to request/ask
+- don't force breaks mid-thought, but DO break between distinct ideas even if it's only 1-2 sentences per paragraph
+- avoid returning one giant blob of text - when in doubt, add a break
 
 **EMOJI USAGE:**
 - use emojis sparingly and only for acknowledgments or enthusiasm:
