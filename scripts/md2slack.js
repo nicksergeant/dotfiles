@@ -40,8 +40,8 @@ function convertToHTML(markdown) {
       listType = null;
     }
 
-    if (line.match(/^\s*#{1,6}\s+/)) {
-      const text = line.replace(/^\s*#{1,6}\s+/, '');
+    if (line.match(/^#{1,6}\s+/)) {
+      const text = line.replace(/^#{1,6}\s+/, '');
       html += `<p><strong>${escapeHTML(text)}</strong></p>\n`;
       continue;
     }
@@ -51,7 +51,7 @@ function convertToHTML(markdown) {
       continue;
     }
 
-    html += `<p>${processInlineFormatting(line.trim())}</p>\n`;
+    html += `<p>${processInlineFormatting(line)}</p>\n`;
   }
 
   if (inList) html += `</${listType}>\n`;
