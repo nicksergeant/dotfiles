@@ -3,14 +3,48 @@
 import { execSync, spawnSync } from 'child_process';
 
 function convertToHTML(markdown) {
-  let html = '<html><body style="background-color: white;">\n';
+  let html = '<html><head><meta charset="UTF-8"></head><body style="background-color: white;">\n';
   const lines = markdown.split('\n');
   let inList = false;
   let listType = null;
+  let inCodeBlock = false;
 
-  for (const line of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const prevLine = i > 0 ? lines[i - 1] : '';
+    const nextLine = i < lines.length - 1 ? lines[i + 1] : '';
+
+    // Handle code fence markers
+    if (line.trim().match(/^```/)) {
+      if (!inCodeBlock) {
+        inCodeBlock = true;
+        html += '<blockquote>\n';
+      } else {
+        html += '</blockquote>\n';
+        inCodeBlock = false;
+      }
+      continue;
+    }
+
+    // Code block content as blockquote paragraphs
+    if (inCodeBlock) {
+      if (!line.trim()) {
+        // Auto-close on blank line (handles unclosed fences)
+        html += '</blockquote>\n<p></p>\n';
+        inCodeBlock = false;
+        continue;
+      }
+      html += `<p>${escapeHTML(line)}</p>\n`;
+      continue;
+    }
+
     const unorderedMatch = line.match(/^(\s*)[-*]\s+(.+)$/);
     const orderedMatch = line.match(/^(\s*)\d+\.\s+(.+)$/);
+
+    // Skip horizontal rules
+    if (line.trim().match(/^-{3,}$|^\*{3,}$|^_{3,}$/)) {
+      continue;
+    }
 
     if (unorderedMatch) {
       if (!inList || listType !== 'ul') {
@@ -40,8 +74,9 @@ function convertToHTML(markdown) {
       listType = null;
     }
 
-    if (line.match(/^#{1,6}\s+/)) {
-      const text = line.replace(/^#{1,6}\s+/, '');
+    // Explicit markdown headers (with optional leading whitespace)
+    if (line.match(/^\s*#{1,6}\s+/)) {
+      const text = line.replace(/^\s*#{1,6}\s+/, '');
       html += `<p><strong>${escapeHTML(text)}</strong></p>\n`;
       continue;
     }
@@ -51,17 +86,28 @@ function convertToHTML(markdown) {
       continue;
     }
 
-    html += `<p>${processInlineFormatting(line)}</p>\n`;
+    // Implicit headers: short lines with blank lines before and after
+    const trimmed = line.trim();
+    const isShort = trimmed.length < 80;
+    const prevEmpty = !prevLine.trim();
+    const nextEmpty = !nextLine.trim() || nextLine.match(/^(\s*)[-*\d]/);
+    if (isShort && prevEmpty && nextEmpty && !trimmed.match(/[.!?]$/)) {
+      html += `<p><strong>${processInlineFormatting(trimmed)}</strong></p>\n`;
+      continue;
+    }
+
+    html += `<p>${processInlineFormatting(line.trim())}</p>\n`;
   }
 
   if (inList) html += `</${listType}>\n`;
+  if (inCodeBlock) html += '</blockquote>\n';
   html += '</body></html>';
   return html;
 }
 
 function processInlineFormatting(text) {
   const codes = [];
-  let processed = text.replace(/`([^`\n]+?)`/g, (match, code) => {
+  let processed = text.replace(/`([^`\n]+?)`/g, (_, code) => {
     codes.push(code);
     return `<<<CODE_${codes.length - 1}>>>`;
   });
@@ -94,15 +140,16 @@ try {
   }
 
   const html = convertToHTML(markdown);
-  const rtfResult = spawnSync('sh', ['-c', `echo ${JSON.stringify(html)} | textutil -stdin -format html -convert rtf -stdout`], {
-    encoding: 'utf8'
+  const rtfResult = spawnSync('textutil', ['-stdin', '-format', 'html', '-convert', 'rtf', '-stdout'], {
+    encoding: 'utf8',
+    input: html
   });
 
   if (rtfResult.error) throw rtfResult.error;
 
   const rtfData = rtfResult.stdout;
   const appleScript = `
-    set the clipboard to {«class RTF »:«data RTF ${Buffer.from(rtfData).toString('hex')}», string:"${markdown.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"}
+    set the clipboard to {«class RTF »:«data RTF ${Buffer.from(rtfData).toString('hex')}», string:"${markdown.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n')}"}
   `;
 
   const asResult = spawnSync('osascript', ['-e', appleScript]);
