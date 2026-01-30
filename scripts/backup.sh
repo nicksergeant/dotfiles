@@ -19,6 +19,7 @@ SOURCE_DIRS=(
     "$HOME/Documents"
     "$HOME/Google Drive"
     "$HOME/Library/Mail"
+    "$HOME/Sources"
 )
 
 # Paths
