@@ -115,7 +115,14 @@ fi
     -xr!.venv \
     "$FINAL_ARCHIVE" "${SOURCES_TO_BACKUP[@]}"
 
+EXITCODE=$?
 unset PASSWORD PASSWORD_CONFIRM
+
+# 7zip exit codes: 0=success, 1=warning (non-fatal), 2+=fatal error
+if [[ $EXITCODE -ge 2 ]]; then
+    echo "ERROR: 7zip failed with exit code $EXITCODE"
+    exit 1
+fi
 
 # Upload to Backblaze B2
 echo ""
