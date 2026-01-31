@@ -59,11 +59,19 @@ if ! command -v 7zz &> /dev/null; then
 fi
 
 # Extract to home directory
-echo "==> Extracting archive (enter password when prompted)..."
+echo "==> Extracting archive..."
 echo "    Restoring to: $HOME"
 echo "    (existing files will be overwritten)"
 echo ""
-7zz x "$ARCHIVE_FILE" -o"$HOME" -y
+
+# Prompt for password securely
+read -s -p "Enter password: " PASSWORD
+echo ""
+echo ""
+
+7zz x -p"$PASSWORD" "$ARCHIVE_FILE" -o"$HOME" -y
+
+unset PASSWORD
 
 # Done
 echo ""
