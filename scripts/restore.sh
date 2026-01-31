@@ -16,29 +16,39 @@ fi
 # Derive backup name from current month and year
 MONTH_YEAR=$(date +"%B%Y")
 BACKUP_NAME="${MONTH_YEAR}Backup.7z"
-ARCHIVE_FILE="$HOME/Downloads/${BACKUP_NAME}"
+EXTERNAL_VOLUME="/Volumes/Backup"
+EXTERNAL_ARCHIVE="${EXTERNAL_VOLUME}/${BACKUP_NAME}"
+LOCAL_ARCHIVE="$HOME/Downloads/${BACKUP_NAME}"
 
 echo "==> Looking for backup: ${BACKUP_NAME}"
 echo ""
 
-# Check rclone is installed
-if ! command -v rclone &> /dev/null; then
-    echo "ERROR: rclone not found. Install with: brew install rclone"
-    exit 1
-fi
-
-# Download from B2 if not already present
-if [[ -f "$ARCHIVE_FILE" ]]; then
-    echo "==> Found local copy: ${ARCHIVE_FILE}"
+# Check if external backup drive is connected and has the current backup
+if [[ -f "$EXTERNAL_ARCHIVE" ]]; then
+    echo "==> Found on external drive: ${EXTERNAL_ARCHIVE}"
+    ARCHIVE_FILE="$EXTERNAL_ARCHIVE"
     echo ""
+# Check if already downloaded locally
+elif [[ -f "$LOCAL_ARCHIVE" ]]; then
+    echo "==> Found local copy: ${LOCAL_ARCHIVE}"
+    ARCHIVE_FILE="$LOCAL_ARCHIVE"
+    echo ""
+# Otherwise download from B2
 else
+    # Check rclone is installed
+    if ! command -v rclone &> /dev/null; then
+        echo "ERROR: rclone not found. Install with: brew install rclone"
+        exit 1
+    fi
+
     echo "==> Downloading from Backblaze B2..."
     rclone copy "b2:${BACKUP_NAME}" "$HOME/Downloads/" -P
 
-    if [[ ! -f "$ARCHIVE_FILE" ]]; then
+    if [[ ! -f "$LOCAL_ARCHIVE" ]]; then
         echo "ERROR: Failed to download ${BACKUP_NAME} from B2"
         exit 1
     fi
+    ARCHIVE_FILE="$LOCAL_ARCHIVE"
     echo ""
 fi
 
@@ -65,9 +75,14 @@ echo "Restored to:"
 echo "  ~/Documents"
 echo "  ~/Google Drive"
 echo "  ~/Library/Mail"
+echo "  ~/Sources"
 echo ""
 echo "NEXT STEPS:"
 echo "  1. Verify restored files"
-echo "  2. Delete the archive from ~/Downloads:"
-echo "     rm \"${ARCHIVE_FILE}\""
+if [[ "$ARCHIVE_FILE" == "$LOCAL_ARCHIVE" ]]; then
+    echo "  2. Delete the archive from ~/Downloads:"
+    echo "     rm \"${ARCHIVE_FILE}\""
+else
+    echo "  2. Archive used from external drive (no cleanup needed)"
+fi
 echo ""
