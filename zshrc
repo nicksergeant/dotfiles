@@ -344,7 +344,7 @@ gcam() {
   fi
   
   # Generate commit message using Claude and edit it with nvim
-  local final_msg=$(echo "$diff" | exec claude --settings '{"fastMode": true}' --model opus -p "Write a git commit message for ONLY these staged changes (not the entire branch).
+  local final_msg=$(echo "$diff" | exec claude --model opus -p "Write a git commit message for ONLY these staged changes (not the entire branch).
 
 OUTPUT FORMAT - CRITICAL:
 - Return ONLY plain text - no markdown, no code blocks, no formatting
