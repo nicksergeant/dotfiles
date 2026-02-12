@@ -11,6 +11,11 @@ on resize_app_window(app_name, win_position, win_size)
 end resize_app_window
 
 on run
+	# Remember which app is currently focused
+	tell application "System Events"
+		set originalApp to name of first application process whose frontmost is true
+	end tell
+
 	tell application "Finder"
 		set screen_bounds to bounds of window of desktop
 		set screen_width to item 3 of screen_bounds
@@ -101,16 +106,16 @@ on run
 		resize_app_window("Things", center_position, center_size)
 	end if
 	
-	# Focus Slack, then hide all other apps
-	if application "Slack" is running then
-		tell application "Slack" to activate
-	end if
+	# Hide all other apps, then refocus the originally focused app
 	tell application "System Events"
-		set allProcesses to every process whose visible is true and name is not "Slack" and name is not "Finder"
+		set allProcesses to every process whose visible is true and name is not originalApp and name is not "Finder"
 		repeat with proc in allProcesses
 			set visible of proc to false
 		end repeat
 		set visible of every process whose name is "alacritty" to false
+	end tell
+	tell application "System Events" to tell process originalApp
+		set frontmost to true
 	end tell
 end run
 
