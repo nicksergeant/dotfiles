@@ -101,19 +101,17 @@ on run
 		resize_app_window("Things", center_position, center_size)
 	end if
 	
-	# Hide all apps except Chrome
+	# Focus Chrome, then hide all other apps
+	if application "Google Chrome" is running then
+		tell application "Google Chrome" to activate
+	end if
 	tell application "System Events"
 		set allProcesses to every process whose visible is true and name is not "Google Chrome" and name is not "Finder"
 		repeat with proc in allProcesses
 			set visible of proc to false
 		end repeat
-		if exists process "Alacritty Shell"  then set visible of process "Alacritty Shell" to false
+		if exists process "Alacritty Shell" then set visible of process "Alacritty Shell" to false
 		if exists process "Alacritty Vim" then set visible of process "Alacritty Vim" to false
 	end tell
-	
-	# Bring Chrome to front
-	if application "Google Chrome" is running then
-		tell application "Google Chrome" to activate
-	end if
 end run
 
