@@ -110,8 +110,10 @@ on run
 		repeat with proc in allProcesses
 			set visible of proc to false
 		end repeat
-		if exists process "Alacritty Shell" then set visible of process "Alacritty Shell" to false
-		if exists process "Alacritty Vim" then set visible of process "Alacritty Vim" to false
+		set alacrittyProcesses to every process whose name is "alacritty"
+		repeat with proc in alacrittyProcesses
+			set visible of proc to false
+		end repeat
 	end tell
 end run
 
