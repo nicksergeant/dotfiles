@@ -110,10 +110,7 @@ on run
 		repeat with proc in allProcesses
 			set visible of proc to false
 		end repeat
-		set alacrittyProcesses to every process whose name is "alacritty"
-		repeat with proc in alacrittyProcesses
-			set visible of proc to false
-		end repeat
+		set visible of every process whose name is "alacritty" to false
 	end tell
 end run
 
