@@ -3,7 +3,6 @@ on resize_app_window(app_name, win_position, win_size)
 		tell application "System Events" to tell process app_name
 			set frontmost to true
 		end tell
-		delay 0.1
 		tell application "System Events" to tell process app_name
 			set position of (every window) to {item 1 of win_position, item 2 of win_position}
 			set size of (every window) to {item 1 of win_size, item 2 of win_size}
@@ -108,6 +107,8 @@ on run
 		repeat with proc in allProcesses
 			set visible of proc to false
 		end repeat
+		if exists process "Alacritty Shell"  then set visible of process "Alacritty Shell" to false
+		if exists process "Alacritty Vim" then set visible of process "Alacritty Vim" to false
 	end tell
 	
 	# Bring Chrome to front
