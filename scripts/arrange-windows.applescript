@@ -1,8 +1,12 @@
+property should_focus : false
+
 on resize_app_window(app_name, win_position, win_size)
 	if application app_name is running then
-		tell application "System Events" to tell process app_name
-			set frontmost to true
-		end tell
+		if my should_focus then
+			tell application "System Events" to tell process app_name
+				set frontmost to true
+			end tell
+		end if
 		tell application "System Events" to tell process app_name
 			set position of (every window) to {item 1 of win_position, item 2 of win_position}
 			set size of (every window) to {item 1 of win_size, item 2 of win_size}
@@ -10,11 +14,19 @@ on resize_app_window(app_name, win_position, win_size)
 	end if
 end resize_app_window
 
-on run
+on run argv
+	# Check for --focus flag
+	repeat with arg in argv
+		if arg as text is "--focus" then set my should_focus to true
+	end repeat
+
 	# Remember which app is currently focused
-	tell application "System Events"
-		set originalApp to name of first application process whose frontmost is true
-	end tell
+	set originalApp to ""
+	if should_focus then
+		tell application "System Events"
+			set originalApp to name of first application process whose frontmost is true
+		end tell
+	end if
 
 	tell application "Finder"
 		set screen_bounds to bounds of window of desktop
@@ -106,16 +118,18 @@ on run
 		resize_app_window("Things", center_position, center_size)
 	end if
 	
-	# Hide all other apps, then refocus the originally focused app
-	tell application "System Events"
-		set allProcesses to every process whose visible is true and name is not originalApp and name is not "Finder"
-		repeat with proc in allProcesses
-			set visible of proc to false
-		end repeat
-		set visible of every process whose name is "alacritty" to false
-	end tell
-	tell application "System Events" to tell process originalApp
-		set frontmost to true
-	end tell
+	if should_focus then
+		# Hide all other apps, then refocus the originally focused app
+		tell application "System Events"
+			set allProcesses to every process whose visible is true and name is not originalApp and name is not "Finder"
+			repeat with proc in allProcesses
+				set visible of proc to false
+			end repeat
+			set visible of every process whose name is "alacritty" to false
+		end tell
+		tell application "System Events" to tell process originalApp
+			set frontmost to true
+		end tell
+	end if
 end run
 
