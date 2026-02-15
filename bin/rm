@@ -2,8 +2,12 @@
 # Wrapper that sends files to macOS Trash instead of permanently deleting them.
 # Protects against accidental rm -rf from scripts, including AI-generated ones.
 # Uses macos-trash (brew install macos-trash).
+#
+# Safety: blocks trashing /, ~, and direct children of ~ (e.g. ~/Documents).
+# Deeper paths like ~/Sources/project/node_modules are allowed.
 
 TRASH="/opt/homebrew/opt/macos-trash/bin/trash"
+HOME_DIR="$HOME"
 
 if [ ! -x "$TRASH" ]; then
   echo "rm wrapper: macos-trash not found at $TRASH" >&2
@@ -25,5 +29,40 @@ if [ ${#paths[@]} -eq 0 ]; then
   echo "rm wrapper: no files specified" >&2
   exit 1
 fi
+
+# Check each path against protected locations
+for p in "${paths[@]}"; do
+  # Resolve to absolute path (without requiring the path to exist)
+  if [[ "$p" = /* ]]; then
+    abs="$p"
+  else
+    abs="$PWD/$p"
+  fi
+
+  # Normalize: remove trailing slashes and collapse // and /./ sequences
+  abs="${abs%/}"
+  while [[ "$abs" == *"//" ]]; do abs="${abs//\/\///}"; done
+  abs="${abs//\/.\///}"
+
+  # Block root
+  if [ -z "$abs" ] || [ "$abs" = "/" ]; then
+    echo "rm wrapper: BLOCKED — refusing to trash /" >&2
+    exit 1
+  fi
+
+  # Block home directory itself
+  if [ "$abs" = "$HOME_DIR" ]; then
+    echo "rm wrapper: BLOCKED — refusing to trash home directory ($HOME_DIR)" >&2
+    exit 1
+  fi
+
+  # Block direct children of home (e.g. ~/Documents, ~/Sources, ~/Code)
+  parent="$(dirname "$abs")"
+  if [ "$parent" = "$HOME_DIR" ]; then
+    echo "rm wrapper: BLOCKED — refusing to trash $abs (direct child of home directory)" >&2
+    echo "rm wrapper: If you really mean it, use /bin/rm" >&2
+    exit 1
+  fi
+done
 
 exec "$TRASH" "${paths[@]}"
