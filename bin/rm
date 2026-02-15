@@ -29,6 +29,15 @@ if [ ${#paths[@]} -eq 0 ]; then
   exit 1
 fi
 
+# Block path traversal and ambiguous references
+for p in "${paths[@]}"; do
+  if [[ "$p" == *".."* ]] || [[ "$p" == "." ]] || [[ "$p" == "./"* ]] || [[ "$p" == "*" ]] || [[ "$p" == "/*" ]]; then
+    echo "rm wrapper: BLOCKED — path traversal and relative dot paths not allowed: $p" >&2
+    echo "rm wrapper: Use explicit file/directory names only" >&2
+    exit 1
+  fi
+done
+
 # Check each path against protected locations
 for p in "${paths[@]}"; do
   # Resolve to absolute path (without requiring the path to exist)
