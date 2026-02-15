@@ -285,7 +285,7 @@ The `gcam` function provides AI-powered commit messages:
 ## Important Guidelines for Claude Code
 
 ### Commit Messages
-**Never attribute Claude or any other AI tooling in commit messages.** Write commits as if the changes were authored by you directly. Commit messages should reflect the actual changes made without mentioning AI assistance or Claude Code.
+**Never attribute Claude or any other AI tooling in commit messages.** Write commits as if the changes were authored by you directly. Commit messages should reflect the actual changes made without mentioning AI assistance or Claude Code. Do not include `Co-Authored-By` lines referencing Claude or any AI.
 
 ## File Modification Status
 
