@@ -62,6 +62,7 @@ alias p='pnpm'
 alias pm='python manage.py'
 alias s='pnpm supabase'
 alias ta='tmux attach -t'
+alias rm='/opt/homebrew/opt/macos-trash/bin/trash'
 alias vim='nvim'
 
 # }}}

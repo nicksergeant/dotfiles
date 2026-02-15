@@ -1,0 +1,29 @@
+#!/bin/bash
+# Wrapper that sends files to macOS Trash instead of permanently deleting them.
+# Protects against accidental rm -rf from scripts, including AI-generated ones.
+# Uses macos-trash (brew install macos-trash).
+
+TRASH="/opt/homebrew/opt/macos-trash/bin/trash"
+
+if [ ! -x "$TRASH" ]; then
+  echo "rm wrapper: macos-trash not found at $TRASH" >&2
+  echo "Install with: brew install macos-trash" >&2
+  echo "Falling back to /bin/rm" >&2
+  exec /bin/rm "$@"
+fi
+
+# Collect non-flag arguments (the actual file/directory paths)
+paths=()
+for arg in "$@"; do
+  case "$arg" in
+    -*) ;; # skip flags
+    *) paths+=("$arg") ;;
+  esac
+done
+
+if [ ${#paths[@]} -eq 0 ]; then
+  echo "rm wrapper: no files specified" >&2
+  exit 1
+fi
+
+exec "$TRASH" "${paths[@]}"
