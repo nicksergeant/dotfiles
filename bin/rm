@@ -65,8 +65,10 @@ for p in "${paths[@]}"; do
   fi
 
   # Block direct children of home (e.g. ~/Documents, ~/Sources, ~/Code)
+  # Exception: allow dotfiles (e.g. ~/.zcompdump, ~/.cache) for automated cleanup
   parent="$(dirname "$abs")"
-  if [ "$parent" = "$HOME_DIR" ]; then
+  basename="$(basename "$abs")"
+  if [ "$parent" = "$HOME_DIR" ] && [[ "$basename" != .* ]]; then
     echo "rm wrapper: BLOCKED — refusing to trash $abs (direct child of home directory)" >&2
     echo "rm wrapper: If you really mean it, use /bin/rm" >&2
     exit 1
