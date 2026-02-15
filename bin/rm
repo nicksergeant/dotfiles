@@ -12,8 +12,7 @@ HOME_DIR="$HOME"
 if [ ! -x "$TRASH" ]; then
   echo "rm wrapper: macos-trash not found at $TRASH" >&2
   echo "Install with: brew install macos-trash" >&2
-  echo "Falling back to /bin/rm" >&2
-  exec /bin/rm "$@"
+  exit 1
 fi
 
 # Collect non-flag arguments (the actual file/directory paths)
