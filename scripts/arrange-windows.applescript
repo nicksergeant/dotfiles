@@ -1,11 +1,16 @@
 property should_focus : false
+property reopen_ignore : {"Finder", "Raycast"}
 
 on resize_app_window(app_name, win_position, win_size)
 	if application app_name is running then
+		if my should_focus and app_name is not in my reopen_ignore then
+			tell application app_name to reopen
+		end if
 		if my should_focus then
 			tell application "System Events" to tell process app_name
 				set frontmost to true
 			end tell
+			delay 0.05
 		end if
 		tell application "System Events" to tell process app_name
 			set position of (every window) to {item 1 of win_position, item 2 of win_position}
