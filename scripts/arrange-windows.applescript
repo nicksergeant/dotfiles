@@ -10,7 +10,6 @@ on resize_app_window(app_name, win_position, win_size)
 			tell application "System Events" to tell process app_name
 				set frontmost to true
 			end tell
-			delay 0.05
 		end if
 		tell application "System Events" to tell process app_name
 			set position of (every window) to {item 1 of win_position, item 2 of win_position}
