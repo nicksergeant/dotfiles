@@ -404,3 +404,7 @@ source <(fzf --zsh)
 
 # Added by nex: https://git.hubteam.com/HubSpot/nex
 . ~/.hubspot/shellrc
+
+# Google Cloud SDK
+export CLOUDSDK_PYTHON=/opt/homebrew/bin/python3.13
+export PATH="/opt/homebrew/share/google-cloud-sdk/bin:$PATH"
