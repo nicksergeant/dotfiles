@@ -5,7 +5,7 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Use F1-F12 as standard function keys in Steam and Steam Link",
+                        "description": "Use F1-F9 as standard function keys in Steam and Steam Link",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -191,69 +191,6 @@
                                 "to": [
                                     {
                                         "key_code": "f9",
-                                        "modifiers": ["fn"]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.valvesoftware\\.steam"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "f10",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "f10",
-                                        "modifiers": ["fn"]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.valvesoftware\\.steam"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "f11",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "f11",
-                                        "modifiers": ["fn"]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.valvesoftware\\.steam"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "f12",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "f12",
                                         "modifiers": ["fn"]
                                     }
                                 ],
