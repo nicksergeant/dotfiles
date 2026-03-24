@@ -165,11 +165,7 @@ unalias gl
 unalias gcam
 
 c() {
-  if [ "$@" ] ; then
-    cursor $@
-  else
-    cursor .
-  fi
+  source ~/Sources/dotfiles/scripts/claude-search.zsh "$@"
 }
 
 f() {
