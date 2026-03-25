@@ -20,7 +20,7 @@ fzf=/opt/homebrew/bin/fzf
 preview="$HOME/Sources/dotfiles/scripts/claude-search-preview.py"
 
 # Find matching files, sort by mtime (newest first), keep top 100 to allow for filtered commit convos
-matching_files=$($rg -l --no-heading "$query" "$claude_dir"/*/*.jsonl 2>/dev/null | \
+matching_files=$($rg -li --no-heading "$query" "$claude_dir"/*/*.jsonl 2>/dev/null | \
   xargs -I{} stat -f '%m %N' {} 2>/dev/null | sort -rn | head -100 | awk '{print $2}')
 
 if [[ -z "$matching_files" ]]; then
