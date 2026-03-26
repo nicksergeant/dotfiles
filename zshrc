@@ -6,6 +6,7 @@
 export CFLAGS=-Qunused-arguments
 export CPPFLAGS="-Qunused-arguments"
 export EDITOR='nvim'
+export UV_EXCLUDE_NEWER=$(date -v-10d +%Y-%m-%dT00:00:00Z)
 export ZSH=~/.oh-my-zsh
 
 export PATH="/Users/nsergeant/.meteor":$PATH

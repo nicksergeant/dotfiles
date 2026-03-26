@@ -250,7 +250,7 @@ let g:ale_fixers = {
   \ 'javascriptreact': ['prettier'],
   \ 'json': ['prettier'],
   \ 'lua': ['stylua'],
-  \ 'python': ['black'],
+  \ 'python': ['ruff_format'],
   \ 'rust': ['rustfmt'],
   \ 'scss': ['prettier'],
   \ 'svelte': ['prettier'],
@@ -258,10 +258,14 @@ let g:ale_fixers = {
   \ 'typescript': ['prettier'],
   \ 'typescriptreact': ['prettier'],
   \ }
+let g:ale_python_ruff_executable = '.venv/bin/ruff'
+let g:ale_python_ruff_format_executable = '.venv/bin/ruff'
+
 let g:ale_linters = {
   \ 'html': [],
   \ 'htmldjango': [],
   \ 'javascript': ['eslint'],
+  \ 'python': ['ruff'],
   \ 'lua': ['luacheck'],
   \ 'markdown': [],
   \ 'rust': ['cargo'],
@@ -707,7 +711,19 @@ let NERDTreeMinimalMenu=1
 " Python --------------------------------------------------------- {{{
 
 lua <<EOF
-vim.lsp.enable('pyright')
+vim.lsp.config('ruff', {
+    cmd = { '.venv/bin/ruff', 'server' },
+    filetypes = { 'python' },
+    root_markers = { 'pyproject.toml', '.git' },
+})
+vim.lsp.enable('ruff')
+
+vim.lsp.config('ty', {
+    cmd = { '.venv/bin/ty', 'server' },
+    filetypes = { 'python' },
+    root_markers = { 'pyproject.toml', '.git' },
+})
+vim.lsp.enable('ty')
 EOF
 
 " }}}
