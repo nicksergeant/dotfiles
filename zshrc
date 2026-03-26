@@ -61,7 +61,13 @@ alias npx='pnpm'
 alias o='open'
 alias p='pnpm'
 alias pm='python manage.py'
-alias s='pnpm supabase'
+s() {
+  if [ -f package.json ]; then
+    pnpm supabase "$@"
+  else
+    supabase "$@"
+  fi
+}
 alias ta='tmux attach -t'
 alias rm='/Users/nsergeant/Sources/dotfiles/bin/rm'
 alias vim='nvim'
