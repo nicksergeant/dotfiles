@@ -14,6 +14,7 @@ ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.edn /Users/nsergeant/.config/
 ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.json /Users/nsergeant/.config/karabiner/karabiner.json
 ln -sf /Users/nsergeant/Sources/dotfiles/tmux.conf /Users/nsergeant/.tmux.conf
 ln -sf /Users/nsergeant/Sources/dotfiles/zshrc /Users/nsergeant/.zshrc
+ln -sf /Users/nsergeant/Sources/dotfiles/npmrc /Users/nsergeant/.npmrc
 
 ln -sf /Users/nsergeant/Sources/dotfiles/vscode/settings.json /Users/nsergeant/Library/Application\ Support/Cursor/User/settings.json
 ln -sf /Users/nsergeant/Sources/dotfiles/vscode/keybindings.json /Users/nsergeant/Library/Application\ Support/Cursor/User/keybindings.json
