@@ -1,2 +1,3 @@
 minimum-release-age=14400
 prefer-frozen-lockfile=true
+ignore-scripts=true

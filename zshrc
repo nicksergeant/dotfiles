@@ -6,7 +6,6 @@
 export CFLAGS=-Qunused-arguments
 export CPPFLAGS="-Qunused-arguments"
 export EDITOR='nvim'
-export UV_EXCLUDE_NEWER=$(date -v-10d +%Y-%m-%dT00:00:00Z)
 export UV_FROZEN=1
 export ZSH=~/.oh-my-zsh
 
