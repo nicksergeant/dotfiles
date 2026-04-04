@@ -2,6 +2,7 @@
 """Preview a Claude conversation JSONL file for fzf."""
 
 import json
+import os
 import sys
 from datetime import datetime, timezone
 
@@ -66,6 +67,9 @@ def main():
 
     filepath = sys.argv[1]
     messages = []
+    session_id = os.path.basename(filepath).replace(".jsonl", "")
+    cwd = None
+    title = None
 
     with open(filepath) as f:
         for line in f:
@@ -77,6 +81,12 @@ def main():
             except Exception:
                 continue
 
+            if not cwd and d.get("cwd"):
+                cwd = d["cwd"]
+
+            if d.get("type") == "custom-title":
+                title = d.get("customTitle")
+
             if d.get("type") not in ("user", "assistant"):
                 continue
 
@@ -85,6 +95,12 @@ def main():
                 continue
 
             messages.append((d["type"], text, d.get("timestamp", "")))
+
+    # Header
+    project = os.path.basename(cwd) if cwd else "unknown"
+    name = title or session_id
+    print(f"\033[1m{project}\033[0m  \033[38;5;245m{name}\033[0m")
+    print()
 
     for role, text, ts in reversed(messages[-4:]):
         print_msg(role, text, ts)

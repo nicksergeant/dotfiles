@@ -19,18 +19,31 @@ rg=/opt/homebrew/bin/rg
 fzf=/opt/homebrew/bin/fzf
 preview="$HOME/Sources/dotfiles/scripts/claude-search-preview.py"
 
-# Find matching files, sort by mtime (newest first), keep top 100 to allow for filtered commit convos
-matching_files=$($rg -li --no-heading "$query" "$claude_dir"/*/*.jsonl 2>/dev/null | \
-  xargs -I{} stat -f '%m %N' {} 2>/dev/null | sort -rn | head -100 | awk '{print $2}')
+# Get hit counts per file (rg -c), sort by mtime, take top 100
+hit_counts=$($rg -ci --no-heading "$query" "$claude_dir"/*/*.jsonl 2>/dev/null)
 
-if [[ -z "$matching_files" ]]; then
+if [[ -z "$hit_counts" ]]; then
   echo "No conversations matched \"$query\"."
   return 1
 fi
 
-# Extract metadata from each conversation file, output top 30 after filtering
-results=$(echo "$matching_files" | python3 -c "
-import sys, json, os, time
+# Build file list sorted by mtime, with hit counts
+# hit_counts format: /path/to/file.jsonl:count
+sorted_files=$(echo "$hit_counts" | while IFS=: read -r file count; do
+  mtime=$(stat -f '%m' "$file" 2>/dev/null)
+  echo "$mtime|$count|$file"
+done | sort -t'|' -k1 -rn | head -100)
+
+# Get message counts in bulk with rg (count lines matching "type":"user" or "type":"assistant")
+# Build a temp file list for rg
+file_list=$(echo "$sorted_files" | cut -d'|' -f3)
+msg_counts=$($rg -c --no-heading '"type":"user"\|"type":"assistant"' $=file_list 2>/dev/null; \
+  $rg -c --no-heading '"type":"user"' $=file_list 2>/dev/null; \
+  $rg -c --no-heading '"type":"assistant"' $=file_list 2>/dev/null)
+
+# Pass sorted files (with mtime, hits) to python which only extracts cwd + desc from first few lines
+results=$(echo "$sorted_files" | python3 -c "
+import sys, json, os, time, subprocess
 
 now = time.time()
 results = []
@@ -52,29 +65,71 @@ def extract_text(content):
         return ' '.join(parts)[:200].replace('\n', ' ')
     return str(content)[:200].replace('\n', ' ')
 
-for filepath in sys.stdin:
-    filepath = filepath.strip()
-    if not filepath:
+# Get message counts via rg -c in one shot
+rg = '/opt/homebrew/bin/rg'
+all_files = []
+for line in sys.stdin:
+    parts = line.strip().split('|', 2)
+    if len(parts) != 3:
         continue
+    all_files.append((int(parts[0]), int(parts[1]), parts[2]))
+
+# Batch rg for message counts and custom titles
+file_paths = [f for _, _, f in all_files]
+msg_count_map = {}
+title_map = {}
+if file_paths:
+    proc = subprocess.run(
+        [rg, '-c', '--no-heading', '\"type\":\"user\"|\"type\":\"assistant\"', *file_paths],
+        capture_output=True, text=True
+    )
+    for line in proc.stdout.splitlines():
+        idx = line.rfind(':')
+        if idx > 0:
+            msg_count_map[line[:idx]] = int(line[idx+1:])
+
+    proc = subprocess.run(
+        [rg, '--no-heading', '-m1', '\"custom-title\"', *file_paths],
+        capture_output=True, text=True
+    )
+    for line in proc.stdout.splitlines():
+        idx = line.find('.jsonl:')
+        if idx > 0:
+            fp = line[:idx + 6]
+            try:
+                title_map[fp] = json.loads(line[idx + 7:]).get('customTitle')
+            except Exception:
+                pass
+
+for mtime, hits, filepath in all_files:
     uuid = os.path.basename(filepath).replace('.jsonl', '')
     if uuid.startswith('agent-'):
         continue
 
+    # Only read first 50 lines to find cwd and desc
     cwd = None
     desc = None
-    msg_count = 0
     with open(filepath) as f:
-        for line in f:
-            try:
-                d = json.loads(line)
-            except Exception:
-                continue
-            if not cwd and d.get('cwd'):
-                cwd = d['cwd']
-            if d.get('type') in ('user', 'assistant'):
-                msg_count += 1
-                if not desc and d.get('type') == 'user':
-                    desc = extract_text(d.get('message', {}).get('content', ''))
+        for i, line in enumerate(f):
+            if i > 50:
+                break
+            if not cwd and '\"cwd\"' in line:
+                try:
+                    cwd = json.loads(line).get('cwd')
+                except Exception:
+                    pass
+            if not desc and '\"type\":\"user\"' in line:
+                try:
+                    d = json.loads(line)
+                    if d.get('type') == 'user':
+                        desc = extract_text(d.get('message', {}).get('content', ''))
+                except Exception:
+                    pass
+            if cwd and desc:
+                break
+
+    # Grab custom title via rg (fast, avoids reading whole file in python)
+    title = title_map.get(filepath)
 
     if not cwd:
         continue
@@ -83,13 +138,14 @@ for filepath in sys.stdin:
     if 'Write a git commit message for ONLY these staged changes' in desc:
         continue
 
-    mtime = os.path.getmtime(filepath)
+    msg_count = msg_count_map.get(filepath, 0)
     project = os.path.basename(cwd)
-    results.append((uuid, cwd, project, relative_time(mtime), msg_count, desc))
+    display = title if title else desc
+    results.append((uuid, filepath, cwd, project, relative_time(mtime), msg_count, hits, display))
 
-for uuid, cwd, project, ago, msg_count, desc in results[:30]:
-    line = f'\033[1;34m{project[:14]:<14}\033[0m \033[38;5;245m{ago:<3}\033[0m \033[33m{msg_count:>4}\033[0m  {desc}'
-    print(f'{uuid}|{cwd}|{line}')
+for uuid, filepath, cwd, project, ago, msg_count, hits, display in results[:30]:
+    line = f'\033[1;34m{project[:14]:<14}\033[0m \033[38;5;245m{ago:<3}\033[0m \033[33m{msg_count:>4}\033[0m \033[32m{hits:>4}\033[0m  {display}'
+    print(f'{uuid}|{filepath}|{cwd}|{line}')
 " 2>/dev/null | grep -v '^$')
 
 if [[ -z "$results" ]]; then
@@ -99,9 +155,9 @@ fi
 
 selected=$(echo "$results" | $fzf \
   --delimiter='|' \
-  --with-nth=3 \
+  --with-nth=4 \
   --header="Conversations matching: $query" \
-  --preview="python3 $preview \$(find '$claude_dir' -name {1}.jsonl -type f 2>/dev/null | head -1)" \
+  --preview="python3 $preview {2}" \
   --ansi \
   --preview-window=bottom,40%,wrap)
 
@@ -110,7 +166,7 @@ if [[ -z "$selected" ]]; then
 fi
 
 sel_uuid=$(echo "$selected" | cut -d'|' -f1)
-sel_cwd=$(echo "$selected" | cut -d'|' -f2)
+sel_cwd=$(echo "$selected" | cut -d'|' -f3)
 
 echo "Resuming conversation $sel_uuid in $sel_cwd..."
 cd "$sel_cwd" && claude --resume "$sel_uuid"
