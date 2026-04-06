@@ -102,11 +102,14 @@ def main():
     print(f"\033[1m{project}\033[0m  \033[38;5;245m{name}\033[0m")
     print()
 
-    for role, text, ts in reversed(messages[-4:]):
+    limit = 100
+    recent = messages[-limit:]
+
+    for role, text, ts in reversed(recent):
         print_msg(role, text, ts)
 
-    if len(messages) > 4:
-        skipped = len(messages) - 5
+    if len(messages) > limit:
+        skipped = len(messages) - limit - 1
         print(f"\033[38;5;245m... {skipped} other messages ...\033[0m")
         print()
         role, text, ts = messages[0]

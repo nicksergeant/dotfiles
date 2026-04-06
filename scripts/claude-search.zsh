@@ -106,16 +106,19 @@ for mtime, hits, filepath in all_files:
     if uuid.startswith('agent-'):
         continue
 
-    # Only read first 50 lines to find cwd and desc
+    # Only read first 50 lines to find cwd, branch, and desc
     cwd = None
+    branch = None
     desc = None
     with open(filepath) as f:
         for i, line in enumerate(f):
             if i > 50:
                 break
-            if not cwd and '\"cwd\"' in line:
+            if (not cwd or not branch) and '\"cwd\"' in line:
                 try:
-                    cwd = json.loads(line).get('cwd')
+                    d = json.loads(line)
+                    if not cwd: cwd = d.get('cwd')
+                    if not branch: branch = d.get('gitBranch')
                 except Exception:
                     pass
             if not desc and '\"type\":\"user\"' in line:
@@ -123,9 +126,10 @@ for mtime, hits, filepath in all_files:
                     d = json.loads(line)
                     if d.get('type') == 'user':
                         desc = extract_text(d.get('message', {}).get('content', ''))
+                        if not branch: branch = d.get('gitBranch')
                 except Exception:
                     pass
-            if cwd and desc:
+            if cwd and desc and branch:
                 break
 
     # Grab custom title via rg (fast, avoids reading whole file in python)
@@ -141,10 +145,11 @@ for mtime, hits, filepath in all_files:
     msg_count = msg_count_map.get(filepath, 0)
     project = os.path.basename(cwd)
     display = title if title else desc
-    results.append((uuid, filepath, cwd, project, relative_time(mtime), msg_count, hits, display))
+    results.append((uuid, filepath, cwd, project, branch or '', relative_time(mtime), msg_count, hits, display))
 
-for uuid, filepath, cwd, project, ago, msg_count, hits, display in results[:30]:
-    line = f'\033[1;34m{project[:14]:<14}\033[0m \033[38;5;245m{ago:<3}\033[0m \033[33m{msg_count:>4}\033[0m \033[32m{hits:>4}\033[0m  {display}'
+for uuid, filepath, cwd, project, branch, ago, msg_count, hits, display in results[:30]:
+    br = (branch or '')[:12]
+    line = f'\033[1;34m{project[:14]:<14}\033[0m \033[38;5;245m{ago:<3}\033[0m \033[38;5;245m{br:<12}\033[0m \033[33m{msg_count:>4}\033[0m \033[32m{hits:>4}\033[0m  {display}'
     print(f'{uuid}|{filepath}|{cwd}|{line}')
 " 2>/dev/null | grep -v '^$')
 
