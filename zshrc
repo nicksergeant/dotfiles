@@ -4,6 +4,7 @@
 # Environment ------------------------------------------ {{{
 
 export CFLAGS=-Qunused-arguments
+export CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1
 export CPPFLAGS="-Qunused-arguments"
 export EDITOR='nvim'
 export UV_FROZEN=1
