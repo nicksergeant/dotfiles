@@ -414,3 +414,11 @@ source <(fzf --zsh)
 # Google Cloud SDK
 export CLOUDSDK_PYTHON=/opt/homebrew/bin/python3.13
 export PATH="/opt/homebrew/share/google-cloud-sdk/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/nsergeant/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
