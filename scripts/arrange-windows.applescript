@@ -23,7 +23,7 @@ on run argv
 	repeat with arg in argv
 		if arg as text is "--focus" then set my should_focus to true
 	end repeat
-
+	
 	# Remember which app is currently focused
 	set originalApp to ""
 	if should_focus then
@@ -31,7 +31,7 @@ on run argv
 			set originalApp to name of first application process whose frontmost is true
 		end tell
 	end if
-
+	
 	tell application "Finder"
 		set screen_bounds to bounds of window of desktop
 		set screen_width to item 3 of screen_bounds
@@ -45,11 +45,11 @@ on run argv
 	
 	if screen_width > max_laptop_width then
 		# Monitor+
-		set position_top to 31 + padding
+		set position_top to 30 + padding
 		set full_height to screen_height - position_top - padding
 	else
 		# Laptop
-		set position_top to 34 + padding # Account for The Notch.
+		set position_top to 33 + padding # Account for The Notch.
 		set full_height to screen_height - position_top - padding
 	end if
 	
@@ -84,6 +84,7 @@ on run argv
 	set narrow_half_size to {center_width, two_thirds_height}
 	set thin_left_position to {padding, position_top}
 	
+	resize_app_window("1Password", center_position, center_size)
 	resize_app_window("1Password", center_position, center_size)
 	resize_app_window("Calendar", center_position, center_size)
 	resize_app_window("Chrome", center_position, center_size)
