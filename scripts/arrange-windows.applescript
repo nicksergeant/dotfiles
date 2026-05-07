@@ -87,7 +87,7 @@ on run argv
 	resize_app_window("1Password", center_position, center_size)
 	resize_app_window("1Password", center_position, center_size)
 	resize_app_window("Calendar", center_position, center_size)
-	resize_app_window("Chrome", center_position, center_size)
+	resize_app_window("Chromium", center_position, center_size)
 	resize_app_window("Claude", center_position, center_size)
 	resize_app_window("Google Ads Editor", center_position, center_size)
 	resize_app_window("iA Writer", center_position, center_size)
