@@ -1,3 +1,7 @@
 mutt/accounts
 mutt/cache
 mutt/temp
+
+# `nix build` output symlinks (GC roots into /nix/store) — build artifacts, not source.
+result
+result-*
