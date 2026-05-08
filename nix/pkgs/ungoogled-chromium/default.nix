@@ -37,6 +37,11 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
 
+    # NOTE: this build requires `sandbox = false` in nix.conf. `hdiutil attach`
+    # can't run inside Nix's sandbox — the kernel mount operation isn't
+    # permitted. With `sandbox = relaxed` or `true` the build will fail at the
+    # attach with a non-obvious error. Worth flagging if/when this flake is
+    # ever shared with someone who runs sandboxed.
     mkdir -p mnt
     /usr/bin/hdiutil attach -nobrowse -readonly -mountpoint mnt "$src"
     trap '/usr/bin/hdiutil detach mnt 2>/dev/null || true' EXIT
