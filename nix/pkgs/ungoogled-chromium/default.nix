@@ -1,4 +1,4 @@
-{ stdenv, lib, fetchurl, undmg }:
+{ stdenv, lib, fetchurl }:
 
 let
   source = builtins.fromJSON (builtins.readFile ./source.json);
@@ -14,19 +14,39 @@ stdenv.mkDerivation {
     hash = archSrc.hash;
   };
 
-  nativeBuildInputs = [ undmg ];
-  sourceRoot = ".";
+  # The .dmg ships an already-signed-and-notarized .app from upstream
+  # ("Developer ID Application: Qian Qian (B9A88FL5XJ)", notarization stapled).
+  # We need to preserve that signature end-to-end:
+  #
+  #   1. `undmg` silently strips macOS extended attributes during extraction
+  #      (specifically `com.apple.FinderInfo`, which codesign uses for the
+  #      resource-presence check). Use `hdiutil attach` + `ditto` instead —
+  #      the same path brew cask uses, which preserves xattrs / resource
+  #      forks / symlinks.
+  #
+  #   2. `dontFixup = true` skips the whole fixup phase. Otherwise nixpkgs
+  #      Darwin stdenv runs strip / patch-rpath / signingHook / etc. against
+  #      the .app's Mach-O binaries — those modifications invalidate the
+  #      original codesign hash, which then triggers the signingHook to
+  #      replace the upstream Developer ID signature with an ad-hoc one
+  #      (`Sealed Resources=none, Format=adhoc`). Skipping fixup keeps the
+  #      upstream signature intact.
+  dontUnpack = true;
+  dontFixup = true;
 
   installPhase = ''
     runHook preInstall
+
+    mkdir -p mnt
+    /usr/bin/hdiutil attach -nobrowse -readonly -mountpoint mnt "$src"
+    trap '/usr/bin/hdiutil detach mnt 2>/dev/null || true' EXIT
+
     mkdir -p "$out/Applications"
-    # `ditto` (Apple's bundle-aware copy tool) preserves symlinks, xattrs, and
-    # resource forks inside .app bundles — `cp -R` was breaking the codesign
-    # signature by following Contents/CodeResources (a symlink to
-    # _CodeSignature/CodeResources) and copying it as a regular file, leaving
-    # `codesign --verify` reporting "code has no resources but signature
-    # indicates they must be present" on a fresh-machine launch.
-    /usr/bin/ditto "Chromium.app" "$out/Applications/Chromium.app"
+    /usr/bin/ditto "mnt/Chromium.app" "$out/Applications/Chromium.app"
+
+    /usr/bin/hdiutil detach mnt
+    trap - EXIT
+
     runHook postInstall
   '';
 
