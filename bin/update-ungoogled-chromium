@@ -61,10 +61,26 @@ fi
 pin_changed=false
 [[ "${current_version}" != "${version}" ]] && pin_changed=true
 
+# Detect installed state by attrPath, not by element name. Nix derives the
+# element name from the flake URL — here it's "nix" (from `?dir=nix`), not
+# "ungoogled-chromium". So we can't grep / --regex against the name.
+#
+# `.elements` is an object (keyed by name) on modern Nix, an array on older
+# Nix; normalize both to a list of `value + {_id}` records, then filter by
+# attrPath. `_id` is the element name (modern) or index-as-string (older);
+# `nix profile upgrade <_id>` accepts either form.
+profile_entry=$(nix profile list --json 2>/dev/null | jq -r '
+  .elements
+  | (if type == "object"
+       then to_entries | map(.value + {_id: .key})
+       else to_entries | map(.value + {_id: (.key | tostring)})
+     end)
+  | map(select((.attrPath // "") | test("ungoogled-chromium")))
+  | .[0]._id // empty
+' 2>/dev/null || true)
+
 is_installed=false
-if nix profile list 2>/dev/null | grep -qE '(^|/)ungoogled-chromium($|[^a-zA-Z0-9_-])'; then
-  is_installed=true
-fi
+[[ -n "${profile_entry}" ]] && is_installed=true
 
 # Bump source.json if the pin moved.
 if [[ "${pin_changed}" == "true" ]]; then
@@ -106,8 +122,8 @@ if [[ "${is_installed}" == "false" ]]; then
   echo "" >&2
   echo "(After future upgrades the symlink follows automatically — only run once.)" >&2
 elif [[ "${pin_changed}" == "true" ]]; then
-  echo "Upgrading existing profile entry..." >&2
-  nix profile upgrade --regex 'ungoogled-chromium'
+  echo "Upgrading existing profile entry (${profile_entry})..." >&2
+  nix profile upgrade "${profile_entry}"
 else
   echo "Already pinned to ${version} and installed. Nothing to do." >&2
   exit 0
@@ -115,3 +131,10 @@ fi
 
 echo "" >&2
 echo "Done. ungoogled-chromium pinned to ${version}." >&2
+
+if [[ "${pin_changed}" == "true" ]]; then
+  echo "" >&2
+  echo "Don't forget to commit the bumped pin:" >&2
+  echo "  cd ${DOTFILES} && git add nix/pkgs/ungoogled-chromium/source.json \\" >&2
+  echo "    && git commit -m \"bump ungoogled-chromium to ${version}\" && git push" >&2
+fi
