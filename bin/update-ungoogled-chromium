@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+# update-ungoogled-chromium — bump the pinned ungoogled-chromium binary
+# to the most recent upstream release that's at least MIN_AGE_DAYS old,
+# then install/upgrade the user nix profile entry.
+#
+# Mirrors the pnpm `minimum-release-age=14400` posture (see
+# ~/Code/flxwebsites/docs/updating-dependencies.md, Layer 1) — gives
+# the community time to detect and yank a compromised release before
+# we install it.
+#
+# First run installs; subsequent runs upgrade. Idempotent if already
+# on the eligible version.
+
+set -euo pipefail
+
+REPO="ungoogled-software/ungoogled-chromium-macos"
+MIN_AGE_DAYS=10
+DOTFILES="${HOME}/Sources/dotfiles"
+SOURCE_JSON="${DOTFILES}/nix/pkgs/ungoogled-chromium/source.json"
+FLAKE_PATH="${DOTFILES}/nix"
+
+require() {
+  command -v "$1" >/dev/null 2>&1 || { echo "Required tool '$1' not found in PATH." >&2; exit 1; }
+}
+require gh
+require jq
+require nix
+
+# Find the most recent non-prerelease release that's >= MIN_AGE_DAYS old
+# AND has both arm64 + x86_64 .dmg assets.
+echo "Querying ${REPO} releases..." >&2
+candidate=$(gh api "repos/${REPO}/releases" --jq "
+  [ .[] | select(.prerelease == false) |
+    {
+      tag: .tag_name,
+      published: .published_at,
+      arm64: ([.assets[] | select(.name | test(\"arm64-macos\\\\.dmg\$\")) | .browser_download_url])[0],
+      x86_64: ([.assets[] | select(.name | test(\"x86_64-macos\\\\.dmg\$\")) | .browser_download_url])[0]
+    }
+  ]
+  | map(select(.arm64 != null and .x86_64 != null))
+  | map(select(((now - (.published | fromdate)) / 86400) >= ${MIN_AGE_DAYS}))
+  | first
+")
+
+if [[ -z "${candidate}" || "${candidate}" == "null" ]]; then
+  echo "No eligible release found (>= ${MIN_AGE_DAYS} days old, both arches)." >&2
+  exit 1
+fi
+
+version=$(jq -r .tag <<<"${candidate}")
+published=$(jq -r .published <<<"${candidate}")
+arm64_url=$(jq -r .arm64 <<<"${candidate}")
+x86_64_url=$(jq -r .x86_64 <<<"${candidate}")
+
+# Compare to current pin; skip if unchanged.
+current_version="<none>"
+if [[ -f "${SOURCE_JSON}" ]]; then
+  current_version=$(jq -r '.version // "<none>"' "${SOURCE_JSON}" 2>/dev/null || echo "<none>")
+fi
+
+if [[ "${current_version}" == "${version}" ]]; then
+  echo "Already pinned to ${version} (published ${published}). Nothing to do." >&2
+  exit 0
+fi
+
+echo "Current pin: ${current_version}" >&2
+echo "Bumping to:  ${version} (published ${published}, $(( ($(date +%s) - $(date -j -f '%Y-%m-%dT%H:%M:%SZ' "${published}" +%s 2>/dev/null || gdate -d "${published}" +%s)) / 86400 )) days old)" >&2
+
+# Compute SRI hashes via nix prefetch — downloads + hashes, writes to /nix/store.
+echo "Prefetching arm64 .dmg (${arm64_url})..." >&2
+arm64_hash=$(nix store prefetch-file --json --hash-type sha256 "${arm64_url}" | jq -r .hash)
+
+echo "Prefetching x86_64 .dmg (${x86_64_url})..." >&2
+x86_64_hash=$(nix store prefetch-file --json --hash-type sha256 "${x86_64_url}" | jq -r .hash)
+
+# Write the new source.json (atomic via temp + mv).
+mkdir -p "$(dirname "${SOURCE_JSON}")"
+tmp=$(mktemp)
+jq -n \
+  --arg version "${version}" \
+  --arg published "${published}" \
+  --arg arm64_url "${arm64_url}" \
+  --arg arm64_hash "${arm64_hash}" \
+  --arg x86_64_url "${x86_64_url}" \
+  --arg x86_64_hash "${x86_64_hash}" \
+  '{
+    version: $version,
+    published_at: $published,
+    arm64:  { url: $arm64_url,  hash: $arm64_hash },
+    x86_64: { url: $x86_64_url, hash: $x86_64_hash }
+  }' >"${tmp}"
+mv "${tmp}" "${SOURCE_JSON}"
+echo "Wrote ${SOURCE_JSON}" >&2
+
+# Install or upgrade the user profile entry.
+if nix profile list 2>/dev/null | grep -qE '(^|/)ungoogled-chromium($|[^a-zA-Z0-9_-])'; then
+  echo "Upgrading existing profile entry..." >&2
+  nix profile upgrade --regex 'ungoogled-chromium'
+else
+  echo "Installing for the first time..." >&2
+  nix profile install "${FLAKE_PATH}#ungoogled-chromium"
+  echo "" >&2
+  echo "First-time setup: symlink the .app into /Applications so Spotlight finds it." >&2
+  echo "  ln -sf ~/.nix-profile/Applications/Chromium.app /Applications/Chromium.app" >&2
+  echo "" >&2
+  echo "(After future upgrades the symlink follows automatically — only run once.)" >&2
+fi
+
+echo "" >&2
+echo "Done. ungoogled-chromium pinned to ${version}." >&2

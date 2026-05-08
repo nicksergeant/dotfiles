@@ -1,0 +1,12 @@
+{
+  "version": "147.0.7727.116-1.1",
+  "published_at": "2026-04-27T11:59:58Z",
+  "arm64": {
+    "url": "https://github.com/ungoogled-software/ungoogled-chromium-macos/releases/download/147.0.7727.116-1.1/ungoogled-chromium_147.0.7727.116-1.1_arm64-macos.dmg",
+    "hash": "sha256-w59h9xtlvnKhKeWRvH+CklHg5tONy7aRyiCdHCNk9sU="
+  },
+  "x86_64": {
+    "url": "https://github.com/ungoogled-software/ungoogled-chromium-macos/releases/download/147.0.7727.116-1.1/ungoogled-chromium_147.0.7727.116-1.1_x86_64-macos.dmg",
+    "hash": "sha256-KGSQhzf74iJ3R9Bj8210hgiI71cc6U4rpFEM11UKHrE="
+  }
+}
