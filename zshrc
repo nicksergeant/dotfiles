@@ -55,7 +55,6 @@ source $ZSH/oh-my-zsh.sh
 # }}}
 # Aliases ------------------------------------------ {{{
 
-alias brew="$(brew --prefix)/bin/brew"
 alias deact='deactivate'
 alias gc='hub compare $(git rev-parse --abbrev-ref HEAD)'
 alias gdo='git --no-pager diff HEAD'
@@ -63,7 +62,6 @@ alias glco='get-last-commit'
 alias gp='git push -u origin HEAD'
 alias h='ssh nick@home'
 alias i='make shell'
-alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias j=z
 alias mc-city='ssh -t nick@home "podman exec -i minecraft-sergeant-city rcon-cli"'
 alias mc-village='ssh -t nick@home "podman exec -i minecraft-sergeant-village rcon-cli"'
