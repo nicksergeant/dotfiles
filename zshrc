@@ -7,6 +7,10 @@ export CFLAGS=-Qunused-arguments
 export CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=1
 export CPPFLAGS="-Qunused-arguments"
 export EDITOR='nvim'
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_GITHUB_API=1
+export HOMEBREW_NO_INSECURE_REDIRECT=1
 export UV_FROZEN=1
 export ZSH=~/.oh-my-zsh
 
@@ -30,6 +34,12 @@ if [ "$(uname -p)" = "arm" ]
 then
   export PATH="/opt/homebrew/bin:$PATH"
 fi
+
+brew() {
+  echo "brew is blocked in this shell — use Nix for installs/upgrades." >&2
+  echo "Emergency bypass: 'command brew ...' or '/opt/homebrew/bin/brew ...'" >&2
+  return 1
+}
 
 # }}}
 # Oh My Zsh ------------------------------------------ {{{
