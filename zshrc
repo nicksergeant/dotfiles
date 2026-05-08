@@ -36,9 +36,23 @@ then
 fi
 
 brew() {
-  echo "brew is blocked in this shell — use Nix for installs/upgrades." >&2
-  echo "Emergency bypass: 'command brew ...' or '/opt/homebrew/bin/brew ...'" >&2
-  return 1
+  case "${1:-}" in
+    "" | list | ls | leaves | deps | uses | info | abv | desc | search | outdated | doctor | home | homepage | help | commands | formulae | casks)
+      command brew "$@"
+      ;;
+    remove | uninstall | rm | autoremove | cleanup)
+      command brew "$@"
+      ;;
+    --version | -v | --prefix | --cellar | --cache | --repository | --caskroom)
+      command brew "$@"
+      ;;
+    *)
+      echo "brew $1 is blocked — use Nix for new installs/upgrades." >&2
+      echo "Allowed: remove/uninstall, autoremove, cleanup, list, leaves, deps, uses, info, search, outdated, doctor, --version, --prefix." >&2
+      echo "Bypass: 'command brew $*'" >&2
+      return 1
+      ;;
+  esac
 }
 
 # }}}
