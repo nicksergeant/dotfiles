@@ -4,7 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-# Cancel any in-flight review for this PR when a new push lands.
 concurrency:
   group: claude-review-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
@@ -18,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     # A failed review (timeout, missing secret on fork PR, etc.) shouldn't block PR merge.
     continue-on-error: true
+    env:
+      HAS_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
     permissions:
       contents: read
       pull-requests: read
@@ -26,28 +27,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        # Pinned to commit SHA — `@v4` is a mutable tag.
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 1
 
-      # On public repos, PRs from forks do NOT receive repo secrets. The token
-      # is empty in that context — skip the run cleanly with a warning instead
-      # of attempting an unauthenticated call.
-      - name: Check for Claude token
-        id: check-token
-        run: |
-          if [ -z "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}" ]; then
-            echo "::warning::CLAUDE_CODE_OAUTH_TOKEN secret not set (fork PR or unconfigured). Skipping Claude review."
-            echo "has_token=false" >> $GITHUB_OUTPUT
-          else
-            echo "has_token=true" >> $GITHUB_OUTPUT
-          fi
-
       - name: Run Claude Code Review
-        if: steps.check-token.outputs.has_token == 'true'
+        if: env.HAS_TOKEN == 'true'
         id: claude-review
-        # Pinned to commit SHA — `@v1` is a mutable tag.
         uses: anthropics/claude-code-action@4e5d8b13ca281a6d163cdb287d8917b216e00d6f # v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
