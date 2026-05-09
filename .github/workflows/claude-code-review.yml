@@ -1,0 +1,125 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+# Cancel any in-flight review for this PR when a new push lands.
+concurrency:
+  group: claude-review-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  claude-review:
+    if: |
+      github.actor != 'dependabot[bot]' &&
+      github.event.pull_request.draft == false
+
+    runs-on: ubuntu-latest
+    # A failed review (timeout, missing secret on fork PR, etc.) shouldn't block PR merge.
+    continue-on-error: true
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        # Pinned to commit SHA — `@v4` is a mutable tag.
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 1
+
+      # On public repos, PRs from forks do NOT receive repo secrets. The token
+      # is empty in that context — skip the run cleanly with a warning instead
+      # of attempting an unauthenticated call.
+      - name: Check for Claude token
+        id: check-token
+        run: |
+          if [ -z "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}" ]; then
+            echo "::warning::CLAUDE_CODE_OAUTH_TOKEN secret not set (fork PR or unconfigured). Skipping Claude review."
+            echo "has_token=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_token=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Claude Code Review
+        if: steps.check-token.outputs.has_token == 'true'
+        id: claude-review
+        # Pinned to commit SHA — `@v1` is a mutable tag.
+        uses: anthropics/claude-code-action@4e5d8b13ca281a6d163cdb287d8917b216e00d6f # v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Review this pull request thoroughly. This repo is `dotfiles` — Nick's personal macOS workstation configuration. **Public repo.** The substantive content:
+
+            - **Nix flake at `nix/`** that pins `nixpkgs` to the `nixos-25.11` stable channel branch and `home-manager` to a specific commit on `release-25.11` (must be ≥10 days old per repo policy). The flake exposes `homeConfigurations.nsergeant` for home-manager, `packages.<system>.ungoogled-chromium` built via the binary-wrap pattern, and `devShells.<system>.default` with the lint battery (nixfmt, statix, deadnix, shellcheck, typos)
+            - **`nix/home.nix`** — minimal home-manager config (deliberately minimal — manages only packages today, not yet shell config / dotfile symlinks; expansion is intentional and incremental, not an oversight)
+            - **`nix/pkgs/ungoogled-chromium/`** — binary-wrap recipe (default.nix + source.json) for upstream releases not in nixpkgs-darwin. Hash-pinned, sandbox-disabled (`__noChroot`) for hdiutil access, `dontFixup = true` to preserve upstream codesign signatures
+            - **`bin/update-ungoogled-chromium`** — bump script with a 10-day age gate against GitHub Releases `published_at`
+            - **Pre-commit hook battery** at `.githooks/pre-commit` + `nix/scripts/check-staged.sh` (nixfmt --check + statix + deadnix + shellcheck + typos + nix flake check) — mirrors the same battery in Nick's private `~/Code/ops` repo
+            - **`zshrc`** — has a deliberate `brew install/upgrade/update/tap` block; only `brew uninstall` + read-only commands are allowed (rationale is supply-chain posture: Homebrew has no minimum-release-age gate, so packages we want come through Nix instead)
+            - **Other dotfiles** — alacritty, tmux, vim/nvim, karabiner, gitconfig, etc.
+
+            If this PR already has prior review comments from you, read them first. Don't re-flag issues that have been fixed by new commits. Focus your new review on the latest changes while still considering full PR context. Catch ALL issues in one comment rather than spreading findings across multiple reviews.
+
+            **Public-repo security — flag aggressively:**
+            - Secrets accidentally committed: API tokens, OAuth credentials, AWS / B2 / Anthropic / OpenAI / GitHub PATs, SSH private keys, ENV files with values
+            - Personal info that shouldn't be public: home address, phone, private IP ranges intended to stay internal, internal hostnames not meant to be exposed
+            - GitHub Actions workflow exposure: `pull_request_target` triggers combined with checkout of PR code (the canonical "pwn request" vulnerability), mutable action refs (`@v1`, `@main`) instead of pinned commit SHAs, missing author allowlists on comment-trigger workflows, missing token-check steps that would let fork PRs run unauthenticated
+            - File permissions that expose secrets at runtime (e.g. world-readable `~/.config/<app>/credentials`)
+
+            **Supply-chain pinning — flag any violation:**
+            - Flake inputs not following the project's pinning posture: `nixpkgs` must point at `nixos-25.11` (channel branch — channel-gated by hydra CI is the trust story); `home-manager` and any non-channel-gated input must point at a commit SHA that is ≥10 days old (mirrors the `bin/update-ungoogled-chromium` 10-day gate)
+            - `inputs.X.follows = "nixpkgs"` missing on transitive inputs that bring their own nixpkgs (causes closure bloat AND can introduce a second un-vetted nixpkgs)
+            - Binary-wrap recipe (`nix/pkgs/<app>/`) missing a SHA-256 hash on `fetchurl`, falling back to `fetchurl { url = ...; }` without `sha256`/`hash`
+            - Bump script (`bin/update-<app>`) missing the 10-day age gate against upstream's `published_at`, OR using the date the script ran instead of the upstream release date
+            - Switching back to `brew install` for tools that have nixpkgs-darwin equivalents (the workstation policy is "Nix first; binary-wrap second; brew uninstall only")
+            - Reverting any input to `nixpkgs-unstable` or `master`
+
+            **Nix correctness:**
+            - Unused inputs in `outputs = { ... }:` patterns (deadnix should catch — flag if the lint battery isn't being run)
+            - Anti-patterns statix would catch (`with builtins; ...` in inappropriate scopes, repeated attr keys instead of nested attr sets, `lib.foldr` instead of `foldr`, etc.)
+            - Hardcoded paths that break on Intel Macs vs Apple Silicon when the config is supposed to support both systems (`forAllSystems` covers both `aarch64-darwin` and `x86_64-darwin`)
+            - `pkgs.callPackage` arguments that don't match the function signature
+            - `home.stateVersion` mismatched with the home-manager input's release branch (must match — `release-25.11` ↔ `home.stateVersion = "25.11"`)
+            - `programs.home-manager.enable = true` missing — without it, the home-manager CLI isn't installed in the profile and steady-state activation falls back to needing `nix run` every time
+
+            **Pre-commit / lint battery drift:**
+            - Tool list in `nix/flake.nix` `devShells.default` diverging from what `nix/scripts/check-staged.sh` actually invokes (e.g. script calls `typos` but devShell doesn't include it)
+            - Pre-commit hook (`.githooks/pre-commit`) skipping nix flake check when nix files are staged, or scoping flake-check at the wrong directory
+
+            **Architectural drift — flag with explicit framing:**
+            - Adding a flake input that isn't channel-gated without applying the 10-day rule
+            - Adding a binary-wrap recipe without a corresponding `bin/update-<app>` script with a 10-day age gate
+            - Migrating away from the dotfiles flake → home-manager pattern back to imperative `nix profile install` for the same package
+            - Anything that breaks the supply-chain story laid out in `nix/flake.nix`'s top-of-file comment block
+
+            **DO NOT comment on:**
+            - Personal style preferences in shell config (prompt theme, color scheme, keybindings, vim plugins, alacritty fonts, tmux status line)
+            - Suggestions to switch dotfiles framework (chezmoi, yadm, dotbot, stow) — Nick uses a custom `link` script intentionally
+            - Suggestions to manage more files via home-manager — the posture is to expand home-manager incrementally; "you should also manage X with home-manager" is not a useful flag unless X is actively broken
+            - Editor / terminal / window-manager taste choices
+            - Wording / formatting in `README.md` or `CLAUDE.md`
+            - Verbose-vs-concise prose unless it's an operational runbook where ambiguity would cause real confusion
+            - Suggesting tests / CI for personal config files
+            - "Why don't you use [other package manager]?" — Nix-on-macOS is the locked posture
+            - Re-asking "have you considered Brewfile / Mise / asdf / volta?" — these are explicit deferrals, not oversights
+            - Renaming things to match someone else's convention
+
+            **Substantive disagreement is welcome:**
+            - The supply-chain posture (10-day gate, channel-only nixpkgs, binary-wrap pattern) is well-considered but not infallible. If you see a real failure mode where it breaks down — a concrete attack the gate doesn't catch, an obvious gap our pin would miss — name it specifically. Don't generic-suggest alternatives.
+            - When challenging, name the assumption that fails and the conditions under which our chosen approach breaks. Generic "have you considered X?" doesn't help; "your 10-day gate is bypassable in scenario Y because Z" does.
+
+            If you find no issues worth flagging, just say "No issues found." and nothing else. Do not summarize what was done well, reiterate changes, describe the PR, or include "LGTM" / "Approved" status language. Your comment should only contain issues that need to be fixed.
+
+            Format your review using GitHub-flavored markdown:
+            - Use headings, bullet points, and structured content — never write issues as walls of text
+            - Link to specific files on the PR branch: `[filename.nix](https://github.com/${{ github.repository }}/blob/${{ github.head_ref }}/path/to/file.nix#L42)`
+            - When suggesting a fix, include a fenced code block showing the recommended change
+            - Use inline backticks for paths, package names, attribute names, and config keys
+
+            Use `gh pr comment` with your Bash tool to leave your review as a comment on the PR.
+
+          claude_args: '--model opus[1m] --effort max --allowed-tools "Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"'
