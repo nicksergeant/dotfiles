@@ -32,20 +32,13 @@ jobs:
           fetch-depth: 1
 
       # On public repos, PRs from forks do NOT receive repo secrets. The token
-      # is empty in that context — skip the run cleanly with a warning instead
-      # of attempting an unauthenticated call.
-      - name: Check for Claude token
-        id: check-token
-        run: |
-          if [ -z "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}" ]; then
-            echo "::warning::CLAUDE_CODE_OAUTH_TOKEN secret not set (fork PR or unconfigured). Skipping Claude review."
-            echo "has_token=false" >> $GITHUB_OUTPUT
-          else
-            echo "has_token=true" >> $GITHUB_OUTPUT
-          fi
-
+      # resolves to '' in that context — the step-level `if:` below evaluates
+      # the secret as a workflow expression (NOT shell-substituted into a
+      # script body), so the value never reaches a rendered command line. The
+      # step is skipped cleanly when the secret is missing, with a
+      # skipped-step badge in the checks UI.
       - name: Run Claude Code Review
-        if: steps.check-token.outputs.has_token == 'true'
+        if: secrets.CLAUDE_CODE_OAUTH_TOKEN != ''
         id: claude-review
         # Pinned to commit SHA — `@v1` is a mutable tag.
         uses: anthropics/claude-code-action@4e5d8b13ca281a6d163cdb287d8917b216e00d6f # v1
