@@ -1,0 +1,5 @@
+# Allowlist for typos (https://github.com/crate-ci/typos).
+# Add false-positive entries below — terms that look like typos to typos's
+# default corrections list but are legitimate jargon.
+
+[default.extend-words]

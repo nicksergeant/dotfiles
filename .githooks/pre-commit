@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Pre-commit hook for dotfiles repo.
+# Install via: make install-hooks
+#
+# Runs:
+#   - .nix files: nixfmt --check + statix check + deadnix --fail
+#   - shell scripts (.sh ext or bash/sh shebang): shellcheck
+#   - all staged text files: typos
+#   - on .nix or flake.lock changes under nix/: nix flake check
+#     (force-evaluates every flake output; catches the broken-attribute
+#     class of bug that pure `nix eval` misses because it's lazy)
+
+set -e
+
+staged_relevant=$(git diff --cached --name-only --diff-filter=ACMR \
+                  | grep -vE '\.(png|jpg|jpeg|gif|webp|ico|pdf|woff2?|ttf|otf|eot|icns|so|dylib)$' \
+                  || true)
+nix_or_lock=$(git diff --cached --name-only --diff-filter=ACMR \
+              | grep -E '^nix/.*\.nix$|^nix/flake\.lock$' || true)
+
+if [ -n "$staged_relevant" ] || [ -n "$nix_or_lock" ]; then
+  # The commit hook env is minimal (no shell rc sourced); ensure nix is on PATH.
+  if ! command -v nix >/dev/null 2>&1; then
+    if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+      # shellcheck disable=SC1091
+      . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    elif [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+      # shellcheck disable=SC1091
+      . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+    fi
+  fi
+
+  if ! command -v nix >/dev/null 2>&1; then
+    echo "ERROR: nix not on PATH. Can't run pre-commit checks." >&2
+    echo "       Source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" >&2
+    echo "       in your shell or skip with 'git commit --no-verify' (NOT recommended)." >&2
+    exit 1
+  fi
+
+  flake_dir="$(git rev-parse --show-toplevel)/nix"
+
+  # Run lint/format/spell battery via the flake's devShell. nix develop
+  # loads tools (nixfmt, statix, deadnix, shellcheck, typos) all pinned via
+  # flake.lock → nixpkgs. Single dev-shell invocation amortizes startup
+  # across all checks.
+  if [ -n "$staged_relevant" ]; then
+    if ! ( cd "$flake_dir" && nix develop --command bash scripts/check-staged.sh ); then
+      echo "" >&2
+      echo "BLOCKED: pre-commit checks failed. Fix the issues above before committing." >&2
+      echo "         (Or skip with 'git commit --no-verify' if you know what you're doing.)" >&2
+      exit 1
+    fi
+  fi
+
+  # Flake validation runs only when .nix or flake.lock changed.
+  if [ -n "$nix_or_lock" ]; then
+    echo "→ nix flake check (force-evaluate every flake output)"
+    if ! ( cd "$flake_dir" && nix flake check ); then
+      echo "" >&2
+      echo "BLOCKED: nix flake check failed. Fix the eval errors above before committing." >&2
+      exit 1
+    fi
+  fi
+fi
