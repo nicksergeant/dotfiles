@@ -12,10 +12,6 @@ on:
 
 jobs:
   claude:
-    # Hard author allowlist on a public repo. Comment-trigger workflows run
-    # in the base-repo context with full secret access regardless of the
-    # commenter's permissions, so we gate at the workflow layer (defense in
-    # depth on top of claude-code-action's internal author check).
     if: |
       github.actor == 'nicksergeant' && (
         (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
@@ -32,18 +28,14 @@ jobs:
       actions: read # Required for Claude to read CI results on PRs
     steps:
       - name: Checkout repository
-        # Pinned to commit SHA — `@v4` is a mutable tag.
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 1
 
       - name: Run Claude Code
         id: claude
-        # Pinned to commit SHA — `@v1` is a mutable tag.
         uses: anthropics/claude-code-action@4e5d8b13ca281a6d163cdb287d8917b216e00d6f # v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-
-          # Allow Claude to read CI results on PRs.
           additional_permissions: |
             actions: read
