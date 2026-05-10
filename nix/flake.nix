@@ -69,14 +69,23 @@
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
+      homeConfig = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [ ./home.nix ];
+      };
     in
     {
       packages.${system}.ungoogled-chromium = pkgs.callPackage ./pkgs/ungoogled-chromium { };
 
-      homeConfigurations."nsergeant" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [ ./home.nix ];
-      };
+      homeConfigurations."nsergeant" = homeConfig;
+
+      # Re-export the activation derivation under `checks` so `nix flake
+      # check` actually walks the home-manager module tree. Without this
+      # the .githooks/pre-commit gate misses bugs in home.nix (typos,
+      # missing options, etc.) — `homeConfigurations` isn't a well-known
+      # flake output and `nix flake check` only force-evaluates the
+      # documented schema (packages / devShells / checks / etc.).
+      checks.${system}.home-config = homeConfig.activationPackage;
 
       # Dev shell with formatter / linter / spell-check tools used by the
       # repo's pre-commit hook (.githooks/pre-commit). All pinned via
