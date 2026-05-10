@@ -17,8 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     # A failed review (timeout, missing secret on fork PR, etc.) shouldn't block PR merge.
     continue-on-error: true
-    env:
-      HAS_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
     permissions:
       contents: read
       pull-requests: read
@@ -32,7 +30,6 @@ jobs:
           fetch-depth: 1
 
       - name: Run Claude Code Review
-        if: env.HAS_TOKEN == 'true'
         id: claude-review
         uses: anthropics/claude-code-action@4e5d8b13ca281a6d163cdb287d8917b216e00d6f # v1
         with:
