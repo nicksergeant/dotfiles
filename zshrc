@@ -75,6 +75,7 @@ alias gdo='git --no-pager diff HEAD'
 alias glco='get-last-commit'
 alias gp='git push -u origin HEAD'
 alias h='ssh nick@home'
+alias hm='home-manager'
 alias hms='home-manager switch --flake ~/Sources/dotfiles/nix'
 alias i='make shell'
 alias j=z
