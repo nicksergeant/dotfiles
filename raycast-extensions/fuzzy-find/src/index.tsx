@@ -8,7 +8,7 @@ const CACHE_FILE = "/tmp/raycast_fd_cache";
 const CACHE_AGE = 24 * 60 * 60 * 1000;
 const HOME = process.env.HOME || "~";
 const FD_PATH = "/opt/homebrew/bin/fd";
-const FZF_PATH = "/opt/homebrew/bin/fzf";
+const FZF_PATH = `${HOME}/.nix-profile/bin/fzf`;
 const IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".svg", ".ico", ".tiff", ".heic"];
 
 const BUILD_CACHE_CMD = `(echo "$PWD"; ${FD_PATH} . ${HOME} --max-depth 7 \

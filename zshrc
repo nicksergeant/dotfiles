@@ -75,6 +75,8 @@ alias gdo='git --no-pager diff HEAD'
 alias glco='get-last-commit'
 alias gp='git push -u origin HEAD'
 alias h='ssh nick@home'
+hm() { home-manager --flake ~/Sources/dotfiles/nix "$@"; }
+alias hms='home-manager switch --flake ~/Sources/dotfiles/nix'
 alias i='make shell'
 alias j=z
 alias mc-city='ssh -t nick@home "podman exec -i minecraft-sergeant-city rcon-cli"'

@@ -56,9 +56,9 @@ The extension consists of:
 - Excludes: Library, Pictures, Music, node_modules
 
 ### Binary Paths
-- **IMPORTANT**: Must use absolute paths for fd and fzf
-- Default: `/opt/homebrew/bin/fd` and `/opt/homebrew/bin/fzf`
-- Raycast extensions don't have Homebrew in PATH
+- **IMPORTANT**: Must use absolute paths for fd and fzf — Raycast extensions don't have Homebrew or `~/.nix-profile/bin` in PATH
+- `fd`: `/opt/homebrew/bin/fd` (still Homebrew-managed)
+- `fzf`: `${HOME}/.nix-profile/bin/fzf` (now Nix-managed via home-manager — see `~/Sources/dotfiles/nix/home.nix`)
 
 ### Image Preview
 - Images detected by extension (defined in `IMAGE_EXTENSIONS` constant)

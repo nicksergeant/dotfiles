@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
-# update-ungoogled-chromium — bump the pinned ungoogled-chromium binary
-# to the most recent upstream release that's at least MIN_AGE_DAYS old,
-# then install/upgrade the user nix profile entry.
+# update-ungoogled-chromium — bump the pinned ungoogled-chromium version
+# in nix/pkgs/ungoogled-chromium/source.json to the most recent upstream
+# release that's at least MIN_AGE_DAYS old, then re-activate home-manager
+# so the new pin lands in the user profile.
 #
-# Mirrors the pnpm `minimum-release-age=14400` posture — gives
-# the community time to detect and yank a compromised release before
-# we install it.
+# Mirrors the pnpm `minimum-release-age=14400` posture — gives the
+# community time to detect and yank a compromised release before we
+# install it.
 #
-# First run installs; subsequent runs upgrade. Idempotent if already
-# on the eligible version.
+# Pre-req: home-manager must already be bootstrapped on this machine.
+# See the "First-time setup" section at the top of nix/flake.nix.
+# Idempotent if already on the eligible version.
 
 set -euo pipefail
 
@@ -26,115 +28,85 @@ require jq
 require nix
 
 # Find the most recent non-prerelease release that's >= MIN_AGE_DAYS old
-# AND has both arm64 + x86_64 .dmg assets.
+# AND has an arm64 .dmg asset.
 echo "Querying ${REPO} releases..." >&2
 candidate=$(gh api "repos/${REPO}/releases" --jq "
   [ .[] | select(.prerelease == false) |
     {
       tag: .tag_name,
       published: .published_at,
-      arm64: ([.assets[] | select(.name | test(\"arm64-macos\\\\.dmg\$\")) | .browser_download_url])[0],
-      x86_64: ([.assets[] | select(.name | test(\"x86_64-macos\\\\.dmg\$\")) | .browser_download_url])[0]
+      url: ([.assets[] | select(.name | test(\"arm64-macos\\\\.dmg\$\")) | .browser_download_url])[0]
     }
   ]
-  | map(select(.arm64 != null and .x86_64 != null))
+  | map(select(.url != null))
   | map(select(((now - (.published | fromdate)) / 86400) >= ${MIN_AGE_DAYS}))
   | first
 ")
 
 if [[ -z "${candidate}" || "${candidate}" == "null" ]]; then
-  echo "No eligible release found (>= ${MIN_AGE_DAYS} days old, both arches)." >&2
+  echo "No eligible release found (>= ${MIN_AGE_DAYS} days old, arm64-macos)." >&2
   exit 1
 fi
 
 version=$(jq -r .tag <<<"${candidate}")
 published=$(jq -r .published <<<"${candidate}")
-arm64_url=$(jq -r .arm64 <<<"${candidate}")
-x86_64_url=$(jq -r .x86_64 <<<"${candidate}")
+url=$(jq -r .url <<<"${candidate}")
 
-# Decide what changed: pin (source.json) and/or installed-state (nix profile).
+# Decide whether the pin moved.
 current_version="<none>"
 if [[ -f "${SOURCE_JSON}" ]]; then
   current_version=$(jq -r '.version // "<none>"' "${SOURCE_JSON}" 2>/dev/null || echo "<none>")
 fi
 
-pin_changed=false
-[[ "${current_version}" != "${version}" ]] && pin_changed=true
-
-# Detect installed state by attrPath, not by element name. Nix derives the
-# element name from the flake URL — here it's "nix" (from `?dir=nix`), not
-# "ungoogled-chromium". So we can't grep / --regex against the name.
-#
-# `.elements` is an object (keyed by name) on modern Nix, an array on older
-# Nix; normalize both to a list of `value + {_id}` records, then filter by
-# attrPath. `_id` is the element name (modern) or index-as-string (older);
-# `nix profile upgrade <_id>` accepts either form.
-profile_entry=$(nix profile list --json 2>/dev/null | jq -r '
-  .elements
-  | (if type == "object"
-       then to_entries | map(.value + {_id: .key})
-       else to_entries | map(.value + {_id: (.key | tostring)})
-     end)
-  | map(select((.attrPath // "") | test("ungoogled-chromium")))
-  | .[0]._id // empty
-' 2>/dev/null || true)
-
-is_installed=false
-[[ -n "${profile_entry}" ]] && is_installed=true
-
-# Bump source.json if the pin moved.
-if [[ "${pin_changed}" == "true" ]]; then
-  echo "Current pin: ${current_version}" >&2
-  echo "Bumping to:  ${version} (published ${published})" >&2
-
-  echo "Prefetching arm64 .dmg..." >&2
-  arm64_hash=$(nix store prefetch-file --json --hash-type sha256 "${arm64_url}" | jq -r .hash)
-
-  echo "Prefetching x86_64 .dmg..." >&2
-  x86_64_hash=$(nix store prefetch-file --json --hash-type sha256 "${x86_64_url}" | jq -r .hash)
-
-  mkdir -p "$(dirname "${SOURCE_JSON}")"
-  tmp=$(mktemp)
-  jq -n \
-    --arg version "${version}" \
-    --arg published "${published}" \
-    --arg arm64_url "${arm64_url}" \
-    --arg arm64_hash "${arm64_hash}" \
-    --arg x86_64_url "${x86_64_url}" \
-    --arg x86_64_hash "${x86_64_hash}" \
-    '{
-      version: $version,
-      published_at: $published,
-      arm64:  { url: $arm64_url,  hash: $arm64_hash },
-      x86_64: { url: $x86_64_url, hash: $x86_64_hash }
-    }' >"${tmp}"
-  mv "${tmp}" "${SOURCE_JSON}"
-  echo "Wrote ${SOURCE_JSON}" >&2
-fi
-
-# Decide install/upgrade/no-op based on (pin_changed, is_installed).
-if [[ "${is_installed}" == "false" ]]; then
-  echo "Installing for the first time..." >&2
-  nix profile install "${FLAKE_PATH}#ungoogled-chromium"
-  echo "" >&2
-  echo "First-time setup: symlink the .app into /Applications so Spotlight finds it." >&2
-  echo "  ln -sf ~/.nix-profile/Applications/Chromium.app /Applications/Chromium.app" >&2
-  echo "" >&2
-  echo "(After future upgrades the symlink follows automatically — only run once.)" >&2
-elif [[ "${pin_changed}" == "true" ]]; then
-  echo "Upgrading existing profile entry (${profile_entry})..." >&2
-  nix profile upgrade "${profile_entry}"
-else
-  echo "Already pinned to ${version} and installed. Nothing to do." >&2
+if [[ "${current_version}" == "${version}" ]]; then
+  echo "Already pinned to ${version}. Nothing to bump." >&2
   exit 0
 fi
 
-echo "" >&2
-echo "Done. ungoogled-chromium pinned to ${version}." >&2
+# Bump source.json.
+echo "Current pin: ${current_version}" >&2
+echo "Bumping to:  ${version} (published ${published})" >&2
 
-if [[ "${pin_changed}" == "true" ]]; then
-  echo "" >&2
-  echo "Don't forget to commit the bumped pin:" >&2
-  echo "  cd ${DOTFILES} && git add nix/pkgs/ungoogled-chromium/source.json \\" >&2
-  echo "    && git commit -m \"bump ungoogled-chromium to ${version}\" && git push" >&2
+echo "Prefetching arm64 .dmg..." >&2
+hash=$(nix store prefetch-file --json --hash-type sha256 "${url}" | jq -r .hash)
+
+mkdir -p "$(dirname "${SOURCE_JSON}")"
+tmp=$(mktemp)
+jq -n \
+  --arg version "${version}" \
+  --arg published "${published}" \
+  --arg url "${url}" \
+  --arg hash "${hash}" \
+  '{
+    version: $version,
+    published_at: $published,
+    url: $url,
+    hash: $hash
+  }' >"${tmp}"
+mv "${tmp}" "${SOURCE_JSON}"
+echo "Wrote ${SOURCE_JSON}" >&2
+
+# Apply via home-manager. ungoogled-chromium is declared in home.nix's
+# home.packages, so home-manager picks up the new pin from the refreshed
+# source.json on activation.
+if ! command -v home-manager >/dev/null 2>&1; then
+  cat >&2 <<EOF
+
+ERROR: home-manager not installed on PATH.
+       Bootstrap home-manager first — see the "First-time setup" section at
+       the top of ${FLAKE_PATH}/flake.nix. The pin in source.json has been
+       updated; bootstrapping will pick it up.
+EOF
+  exit 1
 fi
+
+echo "" >&2
+echo "Activating home-manager to apply the new pin..." >&2
+home-manager switch --flake "${FLAKE_PATH}#nsergeant"
+
+echo "" >&2
+echo "Done. ungoogled-chromium pinned to ${version} and activated via home-manager." >&2
+echo "" >&2
+echo "Don't forget to commit the bumped pin:" >&2
+echo "  cd ${DOTFILES} && git add nix/pkgs/ungoogled-chromium/source.json \\" >&2
+echo "    && git commit -m \"bump ungoogled-chromium to ${version}\" && git push" >&2

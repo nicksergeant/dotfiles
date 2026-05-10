@@ -1,17 +1,18 @@
-{ stdenv, lib, fetchurl }:
+{
+  stdenv,
+  lib,
+  fetchurl,
+}:
 
 let
   source = builtins.fromJSON (builtins.readFile ./source.json);
-  arch = if stdenv.hostPlatform.isAarch64 then "arm64" else "x86_64";
-  archSrc = source.${arch};
 in
 stdenv.mkDerivation {
   pname = "ungoogled-chromium";
-  version = source.version;
+  inherit (source) version;
 
   src = fetchurl {
-    url = archSrc.url;
-    hash = archSrc.hash;
+    inherit (source) url hash;
   };
 
   # The .dmg ships an already-signed-and-notarized .app from upstream
@@ -59,7 +60,7 @@ stdenv.mkDerivation {
     description = "Chromium without Google integration (community macOS binary, wrapped for Nix)";
     homepage = "https://ungoogled-software.github.io/";
     license = lib.licenses.bsd3;
-    platforms = [ "aarch64-darwin" "x86_64-darwin" ];
+    platforms = [ "aarch64-darwin" ];
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
   };
 }
