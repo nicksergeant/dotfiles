@@ -156,7 +156,7 @@ npm run lint     # Linting
 
 **Important Implementation Notes**:
 - Cache file at `/tmp/raycast_fd_cache` (24-hour TTL)
-- Uses absolute paths to `/opt/homebrew/bin/fd` and `/opt/homebrew/bin/fzf` (not in Raycast PATH)
+- Uses absolute paths to `/opt/homebrew/bin/fd` (Homebrew) and `${HOME}/.nix-profile/bin/fzf` (Nix via home-manager) — neither is in Raycast PATH
 - Image previews use HTML `<img>` tags with URL encoding
 - Cmd+R refreshes cache manually
 - Search limited to 10 results, searches from current directory and home, max depth 7
@@ -202,7 +202,7 @@ The dotfiles use a "machine marker" pattern:
 
 ### Absolute Path Dependencies
 Several tools rely on absolute paths not in normal PATH:
-- Raycast extension uses `/opt/homebrew/bin/fd` and `/opt/homebrew/bin/fzf`
+- Raycast extension uses `/opt/homebrew/bin/fd` (Homebrew) and `${HOME}/.nix-profile/bin/fzf` (Nix via home-manager)
 - Karabiner binary at `/Users/nsergeant/Sources/dotfiles/bin/nshift`
 - Screenshot uploader uses `/opt/homebrew/bin/aws`
 

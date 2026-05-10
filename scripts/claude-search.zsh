@@ -16,7 +16,7 @@ if [[ ! -d "$claude_dir" ]]; then
 fi
 
 rg=/opt/homebrew/bin/rg
-fzf=/opt/homebrew/bin/fzf
+fzf=$HOME/.nix-profile/bin/fzf
 preview="$HOME/Sources/dotfiles/scripts/claude-search-preview.py"
 
 # Get hit counts per file (rg -c), sort by mtime, take top 100
