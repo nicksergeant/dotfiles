@@ -28,31 +28,29 @@ require jq
 require nix
 
 # Find the most recent non-prerelease release that's >= MIN_AGE_DAYS old
-# AND has both arm64 + x86_64 .dmg assets.
+# AND has an arm64 .dmg asset.
 echo "Querying ${REPO} releases..." >&2
 candidate=$(gh api "repos/${REPO}/releases" --jq "
   [ .[] | select(.prerelease == false) |
     {
       tag: .tag_name,
       published: .published_at,
-      arm64: ([.assets[] | select(.name | test(\"arm64-macos\\\\.dmg\$\")) | .browser_download_url])[0],
-      x86_64: ([.assets[] | select(.name | test(\"x86_64-macos\\\\.dmg\$\")) | .browser_download_url])[0]
+      url: ([.assets[] | select(.name | test(\"arm64-macos\\\\.dmg\$\")) | .browser_download_url])[0]
     }
   ]
-  | map(select(.arm64 != null and .x86_64 != null))
+  | map(select(.url != null))
   | map(select(((now - (.published | fromdate)) / 86400) >= ${MIN_AGE_DAYS}))
   | first
 ")
 
 if [[ -z "${candidate}" || "${candidate}" == "null" ]]; then
-  echo "No eligible release found (>= ${MIN_AGE_DAYS} days old, both arches)." >&2
+  echo "No eligible release found (>= ${MIN_AGE_DAYS} days old, arm64-macos)." >&2
   exit 1
 fi
 
 version=$(jq -r .tag <<<"${candidate}")
 published=$(jq -r .published <<<"${candidate}")
-arm64_url=$(jq -r .arm64 <<<"${candidate}")
-x86_64_url=$(jq -r .x86_64 <<<"${candidate}")
+url=$(jq -r .url <<<"${candidate}")
 
 # Decide whether the pin moved.
 current_version="<none>"
@@ -70,25 +68,20 @@ echo "Current pin: ${current_version}" >&2
 echo "Bumping to:  ${version} (published ${published})" >&2
 
 echo "Prefetching arm64 .dmg..." >&2
-arm64_hash=$(nix store prefetch-file --json --hash-type sha256 "${arm64_url}" | jq -r .hash)
-
-echo "Prefetching x86_64 .dmg..." >&2
-x86_64_hash=$(nix store prefetch-file --json --hash-type sha256 "${x86_64_url}" | jq -r .hash)
+hash=$(nix store prefetch-file --json --hash-type sha256 "${url}" | jq -r .hash)
 
 mkdir -p "$(dirname "${SOURCE_JSON}")"
 tmp=$(mktemp)
 jq -n \
   --arg version "${version}" \
   --arg published "${published}" \
-  --arg arm64_url "${arm64_url}" \
-  --arg arm64_hash "${arm64_hash}" \
-  --arg x86_64_url "${x86_64_url}" \
-  --arg x86_64_hash "${x86_64_hash}" \
+  --arg url "${url}" \
+  --arg hash "${hash}" \
   '{
     version: $version,
     published_at: $published,
-    arm64:  { url: $arm64_url,  hash: $arm64_hash },
-    x86_64: { url: $x86_64_url, hash: $x86_64_hash }
+    url: $url,
+    hash: $hash
   }' >"${tmp}"
 mv "${tmp}" "${SOURCE_JSON}"
 echo "Wrote ${SOURCE_JSON}" >&2

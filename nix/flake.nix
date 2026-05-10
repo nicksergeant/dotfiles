@@ -67,47 +67,28 @@
       ...
     }:
     let
-      systems = [
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
-      forAllSystems = nixpkgs.lib.genAttrs systems;
+      system = "aarch64-darwin";
+      pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
-          ungoogled-chromium = pkgs.callPackage ./pkgs/ungoogled-chromium { };
-        }
-      );
+      packages.${system}.ungoogled-chromium = pkgs.callPackage ./pkgs/ungoogled-chromium { };
 
       homeConfigurations."nsergeant" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+        inherit pkgs;
         modules = [ ./home.nix ];
       };
 
       # Dev shell with formatter / linter / spell-check tools used by the
       # repo's pre-commit hook (.githooks/pre-commit). All pinned via
       # flake.lock → nixpkgs.
-      devShells = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
-          default = pkgs.mkShell {
-            packages = with pkgs; [
-              nixfmt-rfc-style
-              statix
-              deadnix
-              shellcheck
-              typos
-            ];
-          };
-        }
-      );
+      devShells.${system}.default = pkgs.mkShell {
+        packages = with pkgs; [
+          nixfmt-rfc-style
+          statix
+          deadnix
+          shellcheck
+          typos
+        ];
+      };
     };
 }
