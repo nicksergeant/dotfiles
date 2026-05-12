@@ -107,14 +107,17 @@ alias hm-switch='home-manager switch --flake ~/Sources/dotfiles/nix'
 nix-age() {
   local flake_dir="$HOME/Sources/dotfiles/nix"
   local lock="$flake_dir/flake.lock"
+
   if [[ ! -f $lock ]]; then
     echo "no flake.lock at $lock" >&2
     return 1
   fi
+
   local locked_rev locked_ts ref
   locked_rev=$(jq -r '.nodes.nixpkgs.locked.rev' "$lock")
   locked_ts=$(jq -r '.nodes.nixpkgs.locked.lastModified' "$lock")
   ref=$(jq -r '.nodes.nixpkgs.original.ref' "$lock")
+
   local head_meta head_rev head_ts
   head_meta=$(nix flake metadata "github:NixOS/nixpkgs/$ref" --json --refresh 2>/dev/null) || {
     echo "failed to fetch github:NixOS/nixpkgs/$ref" >&2
@@ -122,19 +125,80 @@ nix-age() {
   }
   head_rev=$(jq -r '.locked.rev' <<<"$head_meta")
   head_ts=$(jq -r '.locked.lastModified' <<<"$head_meta")
+
   local fmt='+%Y-%m-%d %H:%M %Z' now
   now=$(date +%s)
+
   printf 'channel: %s (stable)\n' "$ref"
   printf 'locked:  %s  %s  (%dd old)\n' "${locked_rev:0:12}" "$(date -r "$locked_ts" "$fmt")" $(( (now - locked_ts) / 86400 ))
   printf 'HEAD:    %s  %s  (%dd old)\n' "${head_rev:0:12}" "$(date -r "$head_ts" "$fmt")" $(( (now - head_ts) / 86400 ))
+
   if [[ $locked_rev == "$head_rev" ]]; then
     printf '\nat channel HEAD\n'
   else
     printf '\ndrift:   %dd within stable channel (CVE backports etc.)\n' $(( (head_ts - locked_ts) / 86400 ))
     printf 'update:  nix-update\n'
   fi
+
   printf '\nnote: package feature versions only change at the next channel release\n'
   printf '      (e.g. 26.05). run hm-packages for per-package landing dates.\n'
+}
+
+nix-pkg() {
+  if [[ -z "${1:-}" ]]; then
+    echo "usage: nix-pkg <package-name>" >&2
+    return 1
+  fi
+
+  local pkg=$1 ref pos rel pkgdir stable_json
+  local stable_v unstable_v homepage stable_d unstable_d
+
+  ref=$(jq -r '.nodes.nixpkgs.original.ref' "$HOME/Sources/dotfiles/nix/flake.lock")
+
+  # one combined eval for the 3 stable attrs (version/position/homepage)
+  # instead of three — each `nix eval` reloads the evaluator from scratch
+  # (~300-500ms each), so collapsing saves ~1s. failure here is the
+  # "package not found" path.
+  stable_json=$(nix eval --json "nixpkgs#${pkg}" --apply '
+    p: {
+      version = p.version or null;
+      position = p.meta.position or null;
+      homepage = p.meta.homepage or null;
+    }
+  ' 2>/dev/null) || {
+    echo "package not found: $pkg" >&2
+    return 1
+  }
+  stable_v=$(jq -r '.version // ""' <<<"$stable_json")
+  pos=$(jq -r '.position // ""' <<<"$stable_json")
+  homepage=$(jq -r '.homepage // ""' <<<"$stable_json")
+
+  unstable_v=$(nix eval --raw "github:NixOS/nixpkgs/nixpkgs-unstable#${pkg}.version" 2>/dev/null)
+
+  rel=${pos#/nix/store/*-source/}
+  rel=${rel%:*}
+  pkgdir=$(dirname "$rel")
+
+  if [[ $rel == pkgs/* ]]; then
+    local landed_jq='[.[] | select(.commit.message | test("^" + $pname + "[_0-9]*: ?"))][0].commit.committer.date // "" | split("T")[0]'
+
+    stable_d=$(curl -s "https://api.github.com/repos/NixOS/nixpkgs/commits?path=${pkgdir}&sha=${ref}&per_page=20" \
+      | jq -r --arg pname "$pkg" "$landed_jq" 2>/dev/null)
+
+    unstable_d=$(curl -s "https://api.github.com/repos/NixOS/nixpkgs/commits?path=${pkgdir}&sha=nixpkgs-unstable&per_page=20" \
+      | jq -r --arg pname "$pkg" "$landed_jq" 2>/dev/null)
+  fi
+
+  printf 'package:  %s\n' "$pkg"
+  [[ -n $homepage ]] && printf 'homepage: %s\n' "$homepage"
+
+  printf 'stable (%s):\n' "$ref"
+  printf '  version: %s\n' "$stable_v"
+  [[ -n $stable_d ]] && printf '  landed:  %s\n' "$stable_d"
+
+  printf 'unstable:\n'
+  printf '  version: %s\n' "${unstable_v:-?}"
+  [[ -n $unstable_d ]] && printf '  landed:  %s\n' "$unstable_d"
 }
 
 nix-update() {
