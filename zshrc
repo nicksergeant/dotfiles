@@ -150,16 +150,28 @@ nix-pkg() {
     return 1
   fi
 
+  local lock="$HOME/Sources/dotfiles/nix/flake.lock"
+  if [[ ! -f $lock ]]; then
+    echo "no flake.lock at $lock" >&2
+    return 1
+  fi
+
   local pkg=$1 ref pos rel pkgdir stable_json
   local stable_v unstable_v homepage stable_d unstable_d
 
-  ref=$(jq -r '.nodes.nixpkgs.original.ref' "$HOME/Sources/dotfiles/nix/flake.lock")
+  ref=$(jq -r '.nodes.nixpkgs.original.ref' "$lock")
 
   # one combined eval for the 3 stable attrs (version/position/homepage)
   # instead of three — each `nix eval` reloads the evaluator from scratch
   # (~300-500ms each), so collapsing saves ~1s. failure here is the
   # "package not found" path.
-  stable_json=$(nix eval --json "nixpkgs#${pkg}" --apply '
+  #
+  # explicit github:NixOS/nixpkgs/${ref} (rather than bare nixpkgs#)
+  # keeps the eval and the displayed label on the same source of truth
+  # — flake.lock's nixpkgs.original.ref. otherwise the registry alias
+  # (set in nix-registry.json) could resolve to a different channel
+  # than what we print.
+  stable_json=$(nix eval --json "github:NixOS/nixpkgs/${ref}#${pkg}" --apply '
     p: {
       version = p.version or null;
       position = p.meta.position or null;
