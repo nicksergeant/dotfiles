@@ -100,10 +100,6 @@ alias vim='nvim'
 # }}}
 # Nix ------------------------------------------ {{{
 
-# hm-packages — per-package version + channel-landed-date view. Implemented as
-# a python script in bin/ rather than a shell function because it needs JSON
-# parsing and parallel HTTP fetches.
-
 hm() { home-manager --flake ~/Sources/dotfiles/nix "$@"; }
 
 alias hm-switch='home-manager switch --flake ~/Sources/dotfiles/nix'
@@ -141,9 +137,6 @@ nix-age() {
   printf '      (e.g. 26.05). run hm-packages for per-package landing dates.\n'
 }
 
-# bump flake.lock's nixpkgs pin to current channel HEAD and activate. only
-# nixpkgs is auto-advanced; home-manager has a 10-day bake (see flake.nix
-# header for the manual bump procedure).
 nix-update() {
   ( cd "$HOME/Sources/dotfiles/nix" && nix flake update nixpkgs ) && hm-switch
 }
