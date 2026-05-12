@@ -17,6 +17,7 @@ ln -sf /Users/nsergeant/Sources/dotfiles/karabiner.json /Users/nsergeant/.config
 ln -sf /Users/nsergeant/Sources/dotfiles/tmux.conf /Users/nsergeant/.tmux.conf
 ln -sf /Users/nsergeant/Sources/dotfiles/zshrc /Users/nsergeant/.zshrc
 ln -sf /Users/nsergeant/Sources/dotfiles/nix.conf /Users/nsergeant/.config/nix/nix.conf
+ln -sf /Users/nsergeant/Sources/dotfiles/nix-registry.json /Users/nsergeant/.config/nix/registry.json
 ln -sf /Users/nsergeant/Sources/dotfiles/npmrc /Users/nsergeant/.npmrc
 ln -sf /Users/nsergeant/Sources/dotfiles/uv.toml /Users/nsergeant/.config/uv/uv.toml
 
