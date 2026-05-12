@@ -75,8 +75,6 @@ alias gdo='git --no-pager diff HEAD'
 alias glco='get-last-commit'
 alias gp='git push -u origin HEAD'
 alias h='ssh nick@home'
-hm() { home-manager --flake ~/Sources/dotfiles/nix "$@"; }
-alias hms='home-manager switch --flake ~/Sources/dotfiles/nix'
 alias i='make shell'
 alias j=z
 alias mc-city='ssh -t nick@home "podman exec -i minecraft-sergeant-city rcon-cli"'
@@ -98,6 +96,50 @@ s() {
 alias ta='tmux attach -t'
 alias rm='/Users/nsergeant/Sources/dotfiles/bin/rm'
 alias vim='nvim'
+
+# }}}
+# Nix ------------------------------------------ {{{
+
+# hm-packages — per-package version + channel-landed-date view. Implemented as
+# a python script in bin/ rather than a shell function because it needs JSON
+# parsing and parallel HTTP fetches.
+
+hm() { home-manager --flake ~/Sources/dotfiles/nix "$@"; }
+
+alias hm-switch='home-manager switch --flake ~/Sources/dotfiles/nix'
+
+nix-age() {
+  local flake_dir="$HOME/Sources/dotfiles/nix"
+  local lock="$flake_dir/flake.lock"
+  if [[ ! -f $lock ]]; then
+    echo "no flake.lock at $lock" >&2
+    return 1
+  fi
+  local locked_rev locked_ts ref
+  locked_rev=$(jq -r '.nodes.nixpkgs.locked.rev' "$lock")
+  locked_ts=$(jq -r '.nodes.nixpkgs.locked.lastModified' "$lock")
+  ref=$(jq -r '.nodes.nixpkgs.original.ref' "$lock")
+  local head_meta head_rev head_ts
+  head_meta=$(nix flake metadata "github:NixOS/nixpkgs/$ref" --json --refresh 2>/dev/null) || {
+    echo "failed to fetch github:NixOS/nixpkgs/$ref" >&2
+    return 1
+  }
+  head_rev=$(jq -r '.locked.rev' <<<"$head_meta")
+  head_ts=$(jq -r '.locked.lastModified' <<<"$head_meta")
+  local fmt='+%Y-%m-%d %H:%M %Z' now
+  now=$(date +%s)
+  printf 'channel: %s (stable)\n' "$ref"
+  printf 'locked:  %s  %s  (%dd old)\n' "${locked_rev:0:12}" "$(date -r "$locked_ts" "$fmt")" $(( (now - locked_ts) / 86400 ))
+  printf 'HEAD:    %s  %s  (%dd old)\n' "${head_rev:0:12}" "$(date -r "$head_ts" "$fmt")" $(( (now - head_ts) / 86400 ))
+  if [[ $locked_rev == "$head_rev" ]]; then
+    printf '\nat channel HEAD\n'
+  else
+    printf '\ndrift:   %dd within stable channel (CVE backports etc.)\n' $(( (head_ts - locked_ts) / 86400 ))
+    printf 'update:  cd %s && nix flake update nixpkgs && hm-switch\n' "$flake_dir"
+  fi
+  printf '\nnote: package feature versions only change at the next channel release\n'
+  printf '      (e.g. 26.05). run hm-packages for per-package landing dates.\n'
+}
 
 # }}}
 # Prompt ------------------------------------------ {{{
