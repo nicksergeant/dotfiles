@@ -135,10 +135,17 @@ nix-age() {
     printf '\nat channel HEAD\n'
   else
     printf '\ndrift:   %dd within stable channel (CVE backports etc.)\n' $(( (head_ts - locked_ts) / 86400 ))
-    printf 'update:  cd %s && nix flake update nixpkgs && hm-switch\n' "$flake_dir"
+    printf 'update:  nix-update\n'
   fi
   printf '\nnote: package feature versions only change at the next channel release\n'
   printf '      (e.g. 26.05). run hm-packages for per-package landing dates.\n'
+}
+
+# bump flake.lock's nixpkgs pin to current channel HEAD and activate. only
+# nixpkgs is auto-advanced; home-manager has a 10-day bake (see flake.nix
+# header for the manual bump procedure).
+nix-update() {
+  ( cd "$HOME/Sources/dotfiles/nix" && nix flake update nixpkgs ) && hm-switch
 }
 
 # }}}

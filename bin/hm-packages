@@ -141,15 +141,15 @@ def main():
     ref, locked, head, unstable = channel_info()
     same = locked["rev"] == head["rev"]
 
-    print(f"channel: {ref} (stable)")
-    print(f"locked:   {locked['rev'][:12]}  {fmt_date(locked['ts'])}  ({days_ago(locked['ts'])}d old)")
-    print(f"HEAD:     {head['rev'][:12]}  {fmt_date(head['ts'])}  ({days_ago(head['ts'])}d old)")
-    print(f"unstable: {unstable['rev'][:12]}  {fmt_date(unstable['ts'])}  ({days_ago(unstable['ts'])}d old)")
+    print(f"channel:       {ref} (stable)")
+    print(f"locked:        {locked['rev'][:12]}  {fmt_date(locked['ts'])}  ({days_ago(locked['ts'])}d old)")
+    print(f"stable HEAD:   {head['rev'][:12]}  {fmt_date(head['ts'])}  ({days_ago(head['ts'])}d old)")
+    print(f"unstable HEAD: {unstable['rev'][:12]}  {fmt_date(unstable['ts'])}  ({days_ago(unstable['ts'])}d old)")
     if same:
-        print("at channel HEAD")
+        print("at stable HEAD")
     else:
         drift = (head["ts"] - locked["ts"]) // 86400
-        print(f"drift:    {drift}d within stable channel")
+        print(f"drift:         {drift}d behind stable HEAD")
     print()
 
     locked_pkgs = eval_packages("locked")
@@ -208,7 +208,7 @@ def main():
         ))
 
     print()
-    headers = ("package", "locked", "HEAD", "unstable", "landed on channel", "landed on unstable", "source")
+    headers = ("package", "locked", "stable HEAD", "unstable HEAD", "landed on stable", "landed on unstable", "source")
     widths = [max(len(str(r[i])) for r in [headers, *rows]) for i in range(len(headers))]
     fmt = "  ".join(f"{{:<{w}}}" for w in widths)
     print(fmt.format(*headers))
