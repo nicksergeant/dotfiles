@@ -1,0 +1,228 @@
+#!/usr/bin/env python3
+"""Show home-manager packages with versions + the date each version landed on
+the locked nixpkgs channel.
+
+Reads ~/Sources/dotfiles/nix/flake.lock to find the pinned nixpkgs commit,
+asks nixpkgs for current HEAD of the same channel, and for each home.packages
+entry shows:
+
+  - version on the locked nixpkgs (currently installed)
+  - version on channel HEAD (what `nix flake update nixpkgs` would pull in)
+  - the nixpkgs commit date for the most recent version-bump of this package
+    on each ref (best proxy for "when did this version land on stable")
+
+Custom packages (built from this repo) are shown without a date or HEAD diff.
+"""
+
+import json
+import re
+import subprocess
+import sys
+import urllib.error
+import urllib.parse
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
+from pathlib import Path
+
+FLAKE_DIR = Path.home() / "Sources" / "dotfiles" / "nix"
+LOCK_FILE = FLAKE_DIR / "flake.lock"
+HM_CONFIG = "nsergeant"
+
+EVAL_APPLY = (
+    "pkgs: builtins.toJSON (map (p: { "
+    'name = p.pname or p.name; '
+    'version = p.version or "?"; '
+    'position = p.meta.position or ""; '
+    "}) pkgs)"
+)
+
+
+def die(msg, code=1):
+    print(msg, file=sys.stderr)
+    sys.exit(code)
+
+
+def run(cmd):
+    return subprocess.run(cmd, capture_output=True, text=True, check=False)
+
+
+GITHUB_API = "https://api.github.com/"
+
+
+def fetch_json(url, timeout=15):
+    # defense in depth: only the GitHub API is ever a legitimate target here,
+    # and urllib.request.urlopen otherwise happily handles file://, ftp://,
+    # etc. — keep the blast radius tight.
+    if not url.startswith(GITHUB_API):
+        raise ValueError(f"refusing non-GitHub URL: {url!r}")
+    req = urllib.request.Request(url, headers={"User-Agent": "hm-packages"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.load(r)
+
+
+def days_ago(ts):
+    delta = datetime.now(timezone.utc) - datetime.fromtimestamp(ts, tz=timezone.utc)
+    return delta.days
+
+
+def fmt_date(ts):
+    return datetime.fromtimestamp(ts, tz=timezone.utc).astimezone().strftime("%Y-%m-%d")
+
+
+def resolve_ref(ref):
+    """Resolve a nixpkgs branch ref (e.g. 'nixos-25.11', 'nixpkgs-unstable') to
+    its current HEAD via `nix flake metadata`. Returns {rev, ts}."""
+    print(f"fetching {ref} HEAD...", file=sys.stderr)
+    r = run([
+        "nix", "flake", "metadata",
+        f"github:NixOS/nixpkgs/{ref}",
+        "--json", "--refresh",
+    ])
+    if r.returncode != 0:
+        die(f"failed to fetch github:NixOS/nixpkgs/{ref}:\n{r.stderr}")
+    meta = json.loads(r.stdout)["locked"]
+    return {"rev": meta["rev"], "ts": meta["lastModified"]}
+
+
+def channel_info():
+    if not LOCK_FILE.exists():
+        die(f"no flake.lock at {LOCK_FILE}")
+    lock = json.loads(LOCK_FILE.read_text())
+    nx = lock["nodes"]["nixpkgs"]
+    locked = {"rev": nx["locked"]["rev"], "ts": nx["locked"]["lastModified"]}
+    ref = nx["original"]["ref"]
+    head = resolve_ref(ref)
+    unstable = resolve_ref("nixpkgs-unstable")
+    return ref, locked, head, unstable
+
+
+def eval_packages(label, override_rev=None):
+    print(f"evaluating home.packages on {label}...", file=sys.stderr)
+    cmd = ["nix", "eval", "--raw"]
+    if override_rev:
+        cmd += ["--override-input", "nixpkgs", f"github:NixOS/nixpkgs/{override_rev}"]
+    cmd += [
+        f"{FLAKE_DIR}#homeConfigurations.{HM_CONFIG}.config.home.packages",
+        "--apply", EVAL_APPLY,
+    ]
+    r = run(cmd)
+    if r.returncode != 0:
+        die(f"nix eval failed ({label}):\n{r.stderr}")
+    return json.loads(r.stdout)
+
+
+def classify_position(pos):
+    """Strip /nix/store/HASH-source/ prefix and :LINENO suffix.
+    Returns (origin, relpath); origin is "nixpkgs" if relpath starts with pkgs/,
+    else "custom"."""
+    rel = pos
+    if "-source/" in rel:
+        rel = rel.split("-source/", 1)[1]
+    rel = rel.split(":", 1)[0]
+    origin = "nixpkgs" if rel.startswith("pkgs/") else "custom"
+    return origin, rel
+
+
+def landed_date(pkg_dir, pname, ref):
+    """Most recent commit on pkg_dir under ref whose message matches a version
+    bump for pname (e.g. 'fzf: 0.66.1 -> 0.67.0' or 'pnpm_10: ...'). Falls
+    back to the most recent commit affecting the directory."""
+    query = urllib.parse.urlencode({"path": pkg_dir, "sha": ref, "per_page": "20"})
+    url = f"{GITHUB_API}repos/NixOS/nixpkgs/commits?{query}"
+    try:
+        commits = fetch_json(url)
+    except (urllib.error.URLError, TimeoutError, ValueError):
+        return "?"
+    if not isinstance(commits, list) or not commits:
+        return "?"
+    bump = re.compile(rf"^{re.escape(pname)}[_0-9]*: ?")
+    for c in commits:
+        msg = c.get("commit", {}).get("message", "")
+        if bump.match(msg):
+            return c["commit"]["committer"]["date"].split("T")[0]
+    return commits[0]["commit"]["committer"]["date"].split("T")[0]
+
+
+def main():
+    ref, locked, head, unstable = channel_info()
+    same = locked["rev"] == head["rev"]
+
+    print(f"channel:       {ref} (stable)")
+    print(f"locked:        {locked['rev'][:12]}  {fmt_date(locked['ts'])}  ({days_ago(locked['ts'])}d old)")
+    print(f"stable HEAD:   {head['rev'][:12]}  {fmt_date(head['ts'])}  ({days_ago(head['ts'])}d old)")
+    print(f"unstable HEAD: {unstable['rev'][:12]}  {fmt_date(unstable['ts'])}  ({days_ago(unstable['ts'])}d old)")
+    if same:
+        print("at stable HEAD")
+    else:
+        drift = (head["ts"] - locked["ts"]) // 86400
+        print(f"drift:         {drift}d behind stable HEAD")
+    print()
+
+    locked_pkgs = eval_packages("locked")
+    head_pkgs = locked_pkgs if same else eval_packages(f"{ref} HEAD", override_rev=head["rev"])
+    unstable_pkgs = eval_packages("nixpkgs-unstable", override_rev=unstable["rev"])
+    head_by_name = {p["name"]: p for p in head_pkgs}
+    unstable_by_name = {p["name"]: p for p in unstable_pkgs}
+
+    rows_input = []
+    for p in locked_pkgs:
+        if p["version"] == "?":
+            continue
+        origin, rel = classify_position(p["position"])
+        rows_input.append({
+            "name": p["name"],
+            "lver": p["version"],
+            "hver": head_by_name.get(p["name"], {}).get("version", "?"),
+            "uver": unstable_by_name.get(p["name"], {}).get("version", "?"),
+            "origin": origin,
+            "pkg_dir": "/".join(rel.split("/")[:-1]) if origin == "nixpkgs" else None,
+        })
+
+    queries = []
+    for row in rows_input:
+        if row["origin"] != "nixpkgs":
+            continue
+        queries.append((row, locked["rev"], "locked"))
+        if not same and row["lver"] != row["hver"]:
+            queries.append((row, head["rev"], "head"))
+        if row["uver"] != "?":
+            queries.append((row, unstable["rev"], "unstable"))
+
+    if queries:
+        print(f"fetching landed dates from github ({len(queries)} calls)...", file=sys.stderr)
+        with ThreadPoolExecutor(max_workers=8) as ex:
+            results = list(ex.map(
+                lambda q: landed_date(q[0]["pkg_dir"], q[0]["name"], q[1]),
+                queries,
+            ))
+        for (row, _, which), date in zip(queries, results):
+            row[f"landed_{which}"] = date
+
+    rows = []
+    for row in rows_input:
+        if row["origin"] == "custom":
+            landed_chan = "—"
+            landed_uns = "—"
+        else:
+            l = row.get("landed_locked", "?")
+            h = row.get("landed_head")
+            landed_chan = f"{l} → {h}" if h and h != l else l
+            landed_uns = row.get("landed_unstable", "?")
+        rows.append((
+            row["name"], row["lver"], row["hver"], row["uver"],
+            landed_chan, landed_uns, row["origin"],
+        ))
+
+    print()
+    headers = ("package", "locked", "stable HEAD", "unstable HEAD", "landed on stable", "landed on unstable", "source")
+    widths = [max(len(str(r[i])) for r in [headers, *rows]) for i in range(len(headers))]
+    fmt = "  ".join(f"{{:<{w}}}" for w in widths)
+    print(fmt.format(*headers))
+    print(fmt.format(*("-" * w for w in widths)))
+    for row in rows:
+        print(fmt.format(*row))
+
+
+if __name__ == "__main__":
+    main()

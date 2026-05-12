@@ -8,6 +8,7 @@
 
     packages = [
       pkgs.fzf
+      pkgs.pnpm
       (pkgs.callPackage ./pkgs/ungoogled-chromium { })
     ];
   };
