@@ -19,6 +19,7 @@ import re
 import subprocess
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
@@ -46,7 +47,15 @@ def run(cmd):
     return subprocess.run(cmd, capture_output=True, text=True, check=False)
 
 
+GITHUB_API = "https://api.github.com/"
+
+
 def fetch_json(url, timeout=15):
+    # defense in depth: only the GitHub API is ever a legitimate target here,
+    # and urllib.request.urlopen otherwise happily handles file://, ftp://,
+    # etc. — keep the blast radius tight.
+    if not url.startswith(GITHUB_API):
+        raise ValueError(f"refusing non-GitHub URL: {url!r}")
     req = urllib.request.Request(url, headers={"User-Agent": "hm-packages"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.load(r)
@@ -119,10 +128,8 @@ def landed_date(pkg_dir, pname, ref):
     """Most recent commit on pkg_dir under ref whose message matches a version
     bump for pname (e.g. 'fzf: 0.66.1 -> 0.67.0' or 'pnpm_10: ...'). Falls
     back to the most recent commit affecting the directory."""
-    url = (
-        f"https://api.github.com/repos/NixOS/nixpkgs/commits"
-        f"?path={pkg_dir}&sha={ref}&per_page=20"
-    )
+    query = urllib.parse.urlencode({"path": pkg_dir, "sha": ref, "per_page": "20"})
+    url = f"{GITHUB_API}repos/NixOS/nixpkgs/commits?{query}"
     try:
         commits = fetch_json(url)
     except (urllib.error.URLError, TimeoutError, ValueError):
