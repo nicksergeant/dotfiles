@@ -35,26 +35,6 @@ then
   export PATH="/opt/homebrew/bin:$PATH"
 fi
 
-brew() {
-  case "${1:-}" in
-    "" | list | ls | leaves | deps | uses | info | abv | desc | search | outdated | doctor | home | homepage | help | commands | formulae | casks)
-      command brew "$@"
-      ;;
-    remove | uninstall | rm | autoremove | cleanup)
-      command brew "$@"
-      ;;
-    --version | -v | --prefix | --cellar | --cache | --repository | --caskroom)
-      command brew "$@"
-      ;;
-    *)
-      echo "brew $1 is blocked — use Nix for new installs/upgrades." >&2
-      echo "Allowed: remove/uninstall, autoremove, cleanup, list, leaves, deps, uses, info, search, outdated, doctor, --version, --prefix." >&2
-      echo "Bypass: 'command brew $*'" >&2
-      return 1
-      ;;
-  esac
-}
-
 # }}}
 # Oh My Zsh ------------------------------------------ {{{
 
@@ -564,3 +544,9 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# Keep dotfiles/bin at the very front of PATH (after every other init has run)
+# so wrappers in ~/Sources/dotfiles/bin (brew, rm, etc.) shadow homebrew
+# binaries. Without this, /opt/homebrew/bin ends up earlier in PATH and the
+# wrappers never run.
+export PATH="$HOME/Sources/dotfiles/bin:$PATH"

@@ -1,0 +1,27 @@
+#!/bin/bash
+# Wrapper that blocks brew install/upgrade/tap and other write actions.
+# All new installs/upgrades go through Nix (~/Sources/dotfiles/nix).
+#
+# This wrapper shadows /opt/homebrew/bin/brew via PATH — ~/Sources/dotfiles/bin
+# is re-prepended to PATH at the very end of zshrc so it wins even after
+# /opt/homebrew/bin gets prepended elsewhere during shell init.
+#
+# Protects against accidental installs from scripts, including AI-generated ones.
+# There is intentionally NO documented bypass.
+
+REAL_BREW="/opt/homebrew/bin/brew"
+
+case "${1:-}" in
+  "" | list | ls | leaves | deps | uses | info | abv | desc | search | outdated | doctor | home | homepage | help | commands | formulae | casks | \
+  remove | uninstall | rm | autoremove | cleanup | \
+  --version | -v | --prefix | --cellar | --cache | --repository | --caskroom)
+    exec "$REAL_BREW" "$@"
+    ;;
+  *)
+    echo "brew $1 is blocked. Installs go through Nix (~/Sources/dotfiles/nix)." >&2
+    echo "" >&2
+    echo "LLMs: STOP. Ask the user what to do. Do not bypass this — not via" >&2
+    echo "\`command brew\`, /opt/homebrew/bin/brew, symlinks, or any other path." >&2
+    exit 1
+    ;;
+esac
