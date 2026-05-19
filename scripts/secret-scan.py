@@ -460,7 +460,12 @@ def _scan_credential_file(category: str, path: Path, report: Report) -> None:
     if matches:
         report.add(ALERT, category, ", ".join(matches), label)
         return
-    for m in CRED_KEY_RE.finditer(content):
+    # Normalise camelCase boundaries so npmAuthToken, ossrhPassword,
+    # clientSecret etc. become matchable. The lookbehind guard against
+    # `customtoken` / `mypassword` still fires because those don't have
+    # a lowercase→uppercase transition to split on.
+    normalized = re.sub(r"([a-z])([A-Z])", r"\1_\2", content)
+    for m in CRED_KEY_RE.finditer(normalized):
         value = m.group("value")
         if len(value) < 8:
             continue
@@ -614,19 +619,24 @@ def check_gcloud(report: Report) -> None:
 
 
 def check_npm(report: Report) -> None:
+    # .npmrc holds `//host/:_authToken=<opaque>` for private registries —
+    # no prefix in SECRET_PATTERNS so route through credential-shape detector.
+    # .yarnrc.yml uses camelCase `npmAuthToken:` which the normalisation pass
+    # in _scan_credential_file makes visible.
     category = "npm"
-    _scan_file(category, HOME / ".npmrc", report)
-    _scan_file(category, HOME / ".yarnrc", report)
-    _scan_file(category, HOME / ".yarnrc.yml", report)
-    _scan_file(category, HOME / ".pnpmrc", report)
+    _scan_credential_file(category, HOME / ".npmrc", report)
+    _scan_credential_file(category, HOME / ".yarnrc", report)
+    _scan_credential_file(category, HOME / ".yarnrc.yml", report)
+    _scan_credential_file(category, HOME / ".pnpmrc", report)
 
 
 def check_github(report: Report) -> None:
+    # ~/.gitconfig can hold `[credential] token = <opaque>` from the cache
+    # credential helper; ~/.config/gh/hosts.yml holds `oauth_token: gho_…`
+    # when gh is configured to use file storage instead of keychain.
     category = "GitHub"
-    _scan_file(category, HOME / ".config" / "gh" / "hosts.yml", report,
-               op_template_ok=False)
-    # ~/.gitconfig sometimes carries embedded tokens via URL rewrites.
-    _scan_file(category, HOME / ".gitconfig", report)
+    _scan_credential_file(category, HOME / ".config" / "gh" / "hosts.yml", report)
+    _scan_credential_file(category, HOME / ".gitconfig", report)
 
 
 def check_docker(report: Report) -> None:
@@ -713,9 +723,28 @@ def check_cargo(report: Report) -> None:
 
 def check_ruby(report: Report) -> None:
     # ~/.gem/credentials: YAML `:rubygems_api_key: rubygems_xxx`
-    # ~/.bundle/config: `BUNDLE_<host>: <token>` — both opaque shapes.
     _scan_credential_file("RubyGems", HOME / ".gem" / "credentials", report)
-    _scan_credential_file("Bundler", HOME / ".bundle" / "config", report)
+
+    # ~/.bundle/config uses host-keyed credentials: `BUNDLE_<HOST>__<DOMAIN>: <token>`
+    # where dots in the host become `__`. The credential-name alternation can't
+    # catch this — the key is the literal hostname. Detect any BUNDLE_X__Y: value
+    # while excluding the well-known config-only keys (booleans, paths, flags).
+    bundle = HOME / ".bundle" / "config"
+    if bundle.is_file():
+        content = read_text(bundle) or ""
+        bundle_cred_re = re.compile(
+            r"^BUNDLE_(?!BUILD__|FROZEN|DEPLOYMENT|PATH|JOBS|RETRY|"
+            r"DISABLE_|SILENCE_|GLOBAL_GEM_CACHE|TIMEOUT|FORCE_RUBY_PLATFORM|"
+            r"CACHE_|SET_)[A-Z0-9_]+__[A-Z0-9_]+\s*:\s*\S",
+            re.MULTILINE,
+        )
+        if bundle_cred_re.search(content):
+            report.add(ALERT, "Bundler", "BUNDLE_<host> credential entry",
+                       home_rel(bundle))
+        else:
+            report.add(OK, "Bundler", "no host-keyed credentials", home_rel(bundle))
+    else:
+        report.add(OK, "Bundler", "absent", home_rel(bundle))
 
 
 def check_terraform(report: Report) -> None:
@@ -925,10 +954,11 @@ def check_build_tools(report: Report) -> None:
     else:
         report.add(OK, category, "~/.m2/settings.xml absent")
 
-    # Gradle properties — often holds signing keys, repo tokens
+    # Gradle properties — holds signing.password, nexusPassword, ossrhPassword
+    # (camelCase plaintext credentials) — route through credential-shape detector.
     gradle_props = HOME / ".gradle" / "gradle.properties"
     if gradle_props.is_file():
-        _scan_file(category, gradle_props, report)
+        _scan_credential_file(category, gradle_props, report)
     else:
         report.add(OK, category, "~/.gradle/gradle.properties absent")
 
