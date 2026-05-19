@@ -28,6 +28,8 @@ import argparse
 import json
 import os
 import re
+import sqlite3
+import stat
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -120,6 +122,13 @@ SECRET_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"dop_v1_[A-Fa-f0-9]{64}"),                            "DigitalOcean token"),
     (re.compile(r"glpat-[A-Za-z0-9_-]{20,}"),                          "GitLab PAT"),
     (re.compile(r"SG\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{40,}"),        "SendGrid API key"),
+    (re.compile(r"NRAK-[A-Z0-9]{27}"),                                  "New Relic license key"),
+    (re.compile(r"key-[0-9a-zA-Z]{32}"),                                "Mailgun API key"),
+    (re.compile(r"shp(?:at|ss|ca|pa|sc)_[A-Za-z0-9]{32,}"),            "Shopify token"),
+    (re.compile(r"pul-[0-9a-f]{40}"),                                   "Pulumi access token"),
+    (re.compile(r"r0_[A-Za-z0-9_-]{32,}"),                              "Render API key"),
+    (re.compile(r"pscale_tkn_[A-Za-z0-9]{32,}"),                        "PlanetScale token"),
+    (re.compile(r"hvs\.[A-Za-z0-9_-]{24,}"),                            "Vault service token"),
     (re.compile(r"-----BEGIN (?:OPENSSH |RSA |EC |DSA |ENCRYPTED )?PRIVATE KEY-----"), "private key block"),
     # JWT — only meaningful in env-style contexts; lots of false positives
     # in code/log files, so callers gate this to env scanning.
@@ -411,9 +420,9 @@ def check_aws(report: Report) -> None:
     # plain JSON in these cache dirs — fresh, usable creds a worm can ship whole.
     for cache_dir in (HOME / ".aws" / "sso" / "cache",
                       HOME / ".aws" / "cli" / "cache"):
+        sub = f"{cache_dir.parent.name}/{cache_dir.name}"
         if not cache_dir.is_dir():
-            report.add(OK, category, f"{cache_dir.parent.name}/{cache_dir.name} absent",
-                       home_rel(cache_dir))
+            report.add(OK, category, f"{sub} absent", home_rel(cache_dir))
             continue
         hits: list[str] = []
         for p in cache_dir.glob("*.json"):
@@ -425,10 +434,10 @@ def check_aws(report: Report) -> None:
                 hits.append(p.name)
         if hits:
             report.add(ALERT, category,
-                       f"{len(hits)} cached credential file(s) in {cache_dir.name}",
+                       f"{len(hits)} cached credential file(s) in {sub}",
                        home_rel(cache_dir))
         else:
-            report.add(OK, category, f"{cache_dir.name} cache has no credential files",
+            report.add(OK, category, f"{sub} has no credential files",
                        home_rel(cache_dir))
 
 
@@ -465,6 +474,32 @@ def check_gcloud(report: Report) -> None:
                    sa_hits[0] if len(sa_hits) == 1 else f"{sa_hits[0]} (+{len(sa_hits)-1} more)")
     else:
         report.add(OK, category, "no service-account JSON keys")
+
+    # gcloud stores short-lived access tokens in a SQLite database.
+    tokens_db = base / "access_tokens.db"
+    if tokens_db.is_file():
+        try:
+            conn = sqlite3.connect(f"file:{tokens_db}?mode=ro", uri=True)
+            tables = {r[0] for r in conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            ).fetchall()}
+            has_rows = False
+            for table in tables:
+                try:
+                    if conn.execute(f"SELECT 1 FROM [{table}] LIMIT 1").fetchone():  # noqa: S608
+                        has_rows = True
+                        break
+                except sqlite3.Error:
+                    pass
+            conn.close()
+            if has_rows:
+                report.add(ALERT, category,
+                           "gcloud access token cache non-empty",
+                           home_rel(tokens_db))
+            else:
+                report.add(OK, category, "gcloud token cache empty", home_rel(tokens_db))
+        except sqlite3.Error:
+            report.add(WARN, category, "gcloud token DB unreadable", home_rel(tokens_db))
 
 
 def check_npm(report: Report) -> None:
@@ -663,6 +698,255 @@ def check_shell_history(report: Report) -> None:
         report.add(OK, category, "no token patterns in shell history")
 
 
+def check_shell_configs(report: Report) -> None:
+    category = "shell config"
+    paths: list[Path] = [
+        HOME / ".zshrc", HOME / ".zshenv", HOME / ".zprofile", HOME / ".zlogin",
+        HOME / ".bashrc", HOME / ".bash_profile", HOME / ".bash_login", HOME / ".profile",
+        HOME / ".config" / "fish" / "config.fish",
+    ]
+    fish_conf_d = HOME / ".config" / "fish" / "conf.d"
+    if fish_conf_d.is_dir():
+        paths.extend(fish_conf_d.glob("*.fish"))
+
+    any_alerts = False
+    for path in paths:
+        if not path.is_file():
+            continue
+        content = read_text(path, limit=4_000_000) or ""
+        # Strong patterns anywhere in the file win immediately.
+        matches = find_known_patterns(content)
+        if matches:
+            report.add(ALERT, category, ", ".join(matches), home_rel(path))
+            any_alerts = True
+            continue
+        # Parse export-style assignments for secret-named vars with real values.
+        flagged_names: list[str] = []
+        for _lineno, name, raw in parse_env_text(content):
+            label = env_value_is_secret(name, raw)
+            if label:
+                flagged_names.append(name)
+        if flagged_names:
+            report.add(ALERT, category,
+                       f"exported secret: {', '.join(flagged_names[:3])}",
+                       home_rel(path))
+            any_alerts = True
+    if not any_alerts:
+        report.add(OK, category, "no secret values in shell configs")
+
+
+def check_databases(report: Report) -> None:
+    category = "databases"
+    # pgpass: each non-comment line is hostname:port:database:username:password
+    pgpass = HOME / ".pgpass"
+    if pgpass.is_file():
+        content = read_text(pgpass) or ""
+        real_pw = any(
+            not line.strip().startswith("#")
+            and len(parts := line.strip().split(":")) >= 5
+            and parts[-1] not in ("", "*")
+            for line in content.splitlines()
+            if line.strip()
+        )
+        if real_pw:
+            report.add(ALERT, category, "plaintext password(s) in pgpass", home_rel(pgpass))
+        else:
+            report.add(OK, category, "pgpass uses wildcard or empty passwords", home_rel(pgpass))
+    else:
+        report.add(OK, category, "~/.pgpass absent")
+
+    # my.cnf: look for password= under any section
+    for name in (".my.cnf", "my.cnf"):
+        mycnf = HOME / name
+        if not mycnf.is_file():
+            continue
+        content = read_text(mycnf) or ""
+        if re.search(r"^\s*password\s*=\s*\S", content, re.MULTILINE):
+            report.add(ALERT, category, "plaintext password in my.cnf", home_rel(mycnf))
+        else:
+            report.add(OK, category, "my.cnf has no plain password", home_rel(mycnf))
+        break
+    else:
+        report.add(OK, category, "~/.my.cnf absent")
+
+    # Redis CLI auth URL in REDISCLI_AUTH or redis.conf
+    redis_conf = HOME / ".config" / "redis" / "redis.conf"
+    if redis_conf.is_file():
+        _scan_file(category, redis_conf, report)
+
+
+def check_build_tools(report: Report) -> None:
+    category = "build tools"
+    # Maven settings — <password> elements not wrapped in {encrypted} are plaintext
+    m2_settings = HOME / ".m2" / "settings.xml"
+    if m2_settings.is_file():
+        content = read_text(m2_settings) or ""
+        plaintext_pws = [p for p in re.findall(r"<password>([^<]+)</password>", content)
+                         if p.strip() and not p.strip().startswith("{")]
+        if plaintext_pws:
+            report.add(ALERT, category,
+                       f"{len(plaintext_pws)} plaintext Maven password(s)",
+                       home_rel(m2_settings))
+        else:
+            report.add(OK, category, "Maven settings clean", home_rel(m2_settings))
+    else:
+        report.add(OK, category, "~/.m2/settings.xml absent")
+
+    # Gradle properties — often holds signing keys, repo tokens
+    gradle_props = HOME / ".gradle" / "gradle.properties"
+    if gradle_props.is_file():
+        _scan_file(category, gradle_props, report)
+    else:
+        report.add(OK, category, "~/.gradle/gradle.properties absent")
+
+    # Composer auth.json — github-oauth, http-basic, bearer entries
+    for composer_auth in (HOME / ".composer" / "auth.json",
+                          HOME / ".config" / "composer" / "auth.json"):
+        if not composer_auth.is_file():
+            continue
+        content = read_text(composer_auth) or ""
+        label = home_rel(composer_auth)
+        try:
+            data = json.loads(content or "{}")
+            cred_keys = {"github-oauth", "gitlab-oauth", "bitbucket-oauth",
+                         "http-basic", "bearer", "gitlab-domains"}
+            if cred_keys & set(data.keys()):
+                report.add(ALERT, category, "Composer registry credentials", label)
+            else:
+                report.add(OK, category, "Composer auth empty", label)
+        except json.JSONDecodeError:
+            matches = find_known_patterns(content)
+            if matches:
+                report.add(ALERT, category, ", ".join(matches), label)
+        break
+    else:
+        report.add(OK, category, "Composer auth.json absent")
+
+    # SBT credentials
+    sbt_creds = HOME / ".sbt" / ".credentials"
+    if sbt_creds.is_file():
+        content = read_text(sbt_creds) or ""
+        if re.search(r"^password\s*=\s*\S", content, re.MULTILINE):
+            report.add(ALERT, category, "SBT credentials with password", home_rel(sbt_creds))
+        else:
+            report.add(OK, category, "SBT credentials no plain password", home_rel(sbt_creds))
+
+    # NuGet — may store plaintext API keys
+    for nuget in (HOME / ".nuget" / "NuGet" / "NuGet.Config",
+                  HOME / "Library" / "Application Support" / "NuGet" / "NuGet.Config"):
+        if nuget.is_file():
+            _scan_file(category, nuget, report)
+            break
+
+    # pip config — may embed auth in index-url
+    for pip_conf in (HOME / ".config" / "pip" / "pip.conf",
+                     HOME / "Library" / "Application Support" / "pip" / "pip.conf"):
+        if pip_conf.is_file():
+            content = read_text(pip_conf) or ""
+            if re.search(r"https?://[^@/\s]+:[^@/\s]+@", content):
+                report.add(ALERT, category,
+                           "pip.conf index URL with embedded credentials",
+                           home_rel(pip_conf))
+            else:
+                report.add(OK, category, "pip.conf clean", home_rel(pip_conf))
+            break
+
+
+def check_azure(report: Report) -> None:
+    category = "Azure"
+    azure_dir = HOME / ".azure"
+
+    # MSAL token cache (modern az CLI) — contains access + refresh tokens
+    msal = azure_dir / "msal_token_cache.json"
+    if msal.is_file():
+        size = msal.stat().st_size
+        if size > 0:
+            report.add(ALERT, category,
+                       "MSAL token cache on disk (access + refresh tokens)",
+                       home_rel(msal))
+        else:
+            report.add(OK, category, "MSAL token cache empty", home_rel(msal))
+
+    # Legacy access tokens (az CLI < 2.x)
+    legacy = azure_dir / "accessTokens.json"
+    if legacy.is_file() and legacy.stat().st_size > 0:
+        report.add(ALERT, category,
+                   "legacy accessTokens.json on disk", home_rel(legacy))
+
+    # Service principal credentials
+    sp = azure_dir / "servicePrincipalCredentials.json"
+    if sp.is_file() and sp.stat().st_size > 0:
+        report.add(ALERT, category,
+                   "Service Principal credentials on disk", home_rel(sp))
+
+    if not azure_dir.exists():
+        report.add(OK, category, "~/.azure absent")
+    elif not any((msal.is_file(), legacy.is_file(), sp.is_file())):
+        report.add(OK, category, "no token files in ~/.azure")
+
+
+def check_certificates(report: Report) -> None:
+    category = "certificates"
+    search_dirs = [
+        HOME / ".config" / "ssl",
+        HOME / ".ssl",
+        HOME / "certs",
+        HOME / ".certs",
+        HOME / "certificates",
+        HOME / ".certificates",
+    ]
+    BINARY_KEY_EXTS = {".p12", ".pfx", ".jks", ".keystore"}
+    TEXT_KEY_EXTS   = {".pem", ".key"}
+
+    hits: list[str] = []
+    for d in search_dirs:
+        if not d.is_dir():
+            continue
+        for p in d.rglob("*"):
+            if not p.is_file():
+                continue
+            ext = p.suffix.lower()
+            if ext in BINARY_KEY_EXTS:
+                hits.append(home_rel(p))
+            elif ext in TEXT_KEY_EXTS and starts_with_private_key_header(p):
+                hits.append(home_rel(p))
+
+    if hits:
+        report.add(ALERT, category,
+                   f"{len(hits)} private key / keystore file(s)",
+                   hits[0] if len(hits) == 1 else f"{hits[0]} (+{len(hits)-1} more)")
+    else:
+        report.add(OK, category, "no private keys in certificate directories")
+
+
+def check_file_permissions(report: Report) -> None:
+    category = "permissions"
+    STRICT = [
+        HOME / ".ssh" / "id_rsa",
+        HOME / ".ssh" / "id_ed25519",
+        HOME / ".ssh" / "id_ecdsa",
+        HOME / ".ssh" / "id_dsa",
+        HOME / ".netrc",
+        HOME / ".pgpass",
+        HOME / ".my.cnf",
+        HOME / ".aws" / "credentials",
+        HOME / ".vault-token",
+    ]
+    bad: list[str] = []
+    for path in STRICT:
+        if not path.exists():
+            continue
+        mode = path.stat().st_mode
+        if mode & (stat.S_IRGRP | stat.S_IWGRP | stat.S_IXGRP |
+                   stat.S_IROTH | stat.S_IWOTH | stat.S_IXOTH):
+            bad.append(f"{home_rel(path)} ({oct(mode & 0o777)})")
+    if bad:
+        for entry in bad:
+            report.add(ALERT, category, "group/world-accessible", entry)
+    else:
+        report.add(OK, category, "credential file permissions look correct")
+
+
 # ── project .env scanning ───────────────────────────────────────────────────
 
 
@@ -780,21 +1064,27 @@ def dedupe(items: Iterable[Path]) -> list[Path]:
 
 
 CHECKS = [
-    ("SSH",            check_ssh),
-    ("AWS",            check_aws),
-    ("GCP",            check_gcloud),
-    ("npm / yarn",     check_npm),
-    ("GitHub / git",   check_github),
-    ("Docker",         check_docker),
-    ("Kubernetes",     check_kube),
-    ("Vault",          check_vault),
-    ("PyPI",           check_pypi),
-    ("Cargo",          check_cargo),
-    ("Ruby",           check_ruby),
-    ("Terraform",      check_terraform),
-    ("netrc",          check_netrc),
-    ("misc CLIs",      check_misc_clis),
-    ("shell history",  check_shell_history),
+    ("SSH",             check_ssh),
+    ("AWS",             check_aws),
+    ("GCP",             check_gcloud),
+    ("Azure",           check_azure),
+    ("npm / yarn",      check_npm),
+    ("GitHub / git",    check_github),
+    ("Docker",          check_docker),
+    ("Kubernetes",      check_kube),
+    ("Vault",           check_vault),
+    ("PyPI",            check_pypi),
+    ("Cargo",           check_cargo),
+    ("Ruby",            check_ruby),
+    ("Terraform",       check_terraform),
+    ("netrc",           check_netrc),
+    ("databases",       check_databases),
+    ("build tools",     check_build_tools),
+    ("certificates",    check_certificates),
+    ("misc CLIs",       check_misc_clis),
+    ("shell config",    check_shell_configs),
+    ("shell history",   check_shell_history),
+    ("permissions",     check_file_permissions),
 ]
 
 
