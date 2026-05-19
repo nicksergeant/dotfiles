@@ -27,10 +27,12 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import plistlib
 import re
 import sqlite3
 import stat
 import sys
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterable, Iterator, Optional
@@ -935,6 +937,111 @@ def check_certificates(report: Report) -> None:
         report.add(OK, category, "no private keys in certificate directories")
 
 
+def check_launch_agents(report: Report) -> None:
+    """Flag LaunchAgents whose binary lives in an unusual location.
+
+    Supply-chain worms install persistent agents that poll/exfiltrate
+    indefinitely after the initial install. They change names frequently,
+    so the check is path-based rather than name-based: a plist that runs
+    something from ~/.local/bin/, ~/.config/, /tmp/, or any hidden home
+    directory is suspicious regardless of what it is called.
+    """
+    category = "LaunchAgents"
+    agents_dir = HOME / "Library" / "LaunchAgents"
+    if not agents_dir.is_dir():
+        report.add(OK, category, "~/Library/LaunchAgents absent")
+        return
+
+    # Prefixes considered safe — apps from these locations are trusted.
+    SAFE_PREFIXES = (
+        "/Applications/",
+        "/System/",
+        "/usr/",
+        "/opt/homebrew/",
+        "/opt/local/",
+        str(HOME / "Applications") + "/",
+        str(HOME / "Library" / "Application Support") + "/",
+        "/Library/",
+    )
+    # Prefixes that are always suspicious for a LaunchAgent binary.
+    SUSPICIOUS_PREFIXES = (
+        str(HOME / ".local") + "/",
+        str(HOME / ".config") + "/",
+        str(HOME / ".cache") + "/",
+        "/tmp/",
+        "/var/tmp/",
+        "/private/tmp/",
+    )
+    # Any hidden directory directly under HOME is also suspicious.
+    def _is_hidden_home(p: str) -> bool:
+        h = str(HOME) + "/."
+        return p.startswith(h)
+
+    RECENT_DAYS = 14
+    now = time.time()
+
+    plists = sorted(agents_dir.glob("*.plist"))
+    if not plists:
+        report.add(OK, category, "no user LaunchAgents installed")
+        return
+
+    any_alerts = False
+    for plist in plists:
+        try:
+            with open(plist, "rb") as fh:
+                data = plistlib.load(fh)
+        except Exception:
+            report.add(WARN, category, "unreadable plist", home_rel(plist))
+            continue
+
+        args = data.get("ProgramArguments") or []
+        program = data.get("Program") or (args[0] if args else None)
+        if not program:
+            # XPC service descriptors and empty stub plists (Dropbox/Google
+            # create {} placeholders) legitimately have no Program key.
+            if not data or data.get("MachServices") or data.get("XPCService"):
+                continue
+            report.add(WARN, category, "no Program key", home_rel(plist))
+            continue
+
+        age_days = (now - plist.stat().st_mtime) / 86400
+
+        if any(program.startswith(p) for p in SUSPICIOUS_PREFIXES) or _is_hidden_home(program):
+            report.add(ALERT, category,
+                       f"agent runs from suspicious path",
+                       f"{plist.name} → {program}")
+            any_alerts = True
+        elif not any(program.startswith(p) for p in SAFE_PREFIXES):
+            # Unknown location (e.g. custom home bin, unusual prefix) — worth reviewing.
+            report.add(WARN, category,
+                       f"agent runs from non-standard path",
+                       f"{plist.name} → {program}")
+            any_alerts = True
+        elif age_days < RECENT_DAYS:
+            # Known-safe location but freshly installed — note it without alarming.
+            report.add(INFO, category,
+                       f"recently installed ({age_days:.0f}d ago)",
+                       f"{plist.name} → {program}")
+
+    if not any_alerts:
+        report.add(OK, category, "all LaunchAgents run from known-safe paths")
+
+    # Also scan ~/.local/bin/ for shell scripts — common malware drop point
+    # (e.g. gh-token-monitor.sh from Shai-Hulud). Legitimate package managers
+    # install compiled binaries there, not .sh files.
+    local_bin = HOME / ".local" / "bin"
+    if local_bin.is_dir():
+        sh_scripts = [p for p in local_bin.iterdir()
+                      if p.is_file() and p.suffix == ".sh"]
+        if sh_scripts:
+            for s in sh_scripts:
+                report.add(ALERT, category,
+                           "shell script in ~/.local/bin (common malware drop)",
+                           home_rel(s))
+        else:
+            report.add(OK, category, "no shell scripts in ~/.local/bin")
+
+
 def check_file_permissions(report: Report) -> None:
     category = "permissions"
     STRICT = [
@@ -1100,6 +1207,7 @@ CHECKS = [
     ("misc CLIs",       check_misc_clis),
     ("shell config",    check_shell_configs),
     ("shell history",   check_shell_history),
+    ("LaunchAgents",    check_launch_agents),
     ("permissions",     check_file_permissions),
 ]
 
