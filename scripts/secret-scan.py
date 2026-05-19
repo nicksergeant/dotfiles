@@ -841,37 +841,12 @@ def check_shell_history(report: Report) -> None:
         report.add(OK, category, "no token patterns in shell history")
 
 
-FISH_SET_RE = re.compile(
-    r"^\s*set\s+(?:--?[a-zA-Z][a-zA-Z-]*\s+)*"
-    r"([A-Za-z_][A-Za-z0-9_]*)\s+(.+?)\s*$"
-)
-
-
-def _parse_fish_sets(content: str) -> Iterator[tuple[str, str]]:
-    for line in content.splitlines():
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#"):
-            continue
-        m = FISH_SET_RE.match(line)
-        if not m:
-            continue
-        name, raw = m.group(1), m.group(2)
-        if not raw.startswith(("'", '"')):
-            raw = re.sub(r"\s+#.*$", "", raw)
-        yield name, raw
-
-
 def check_shell_configs(report: Report) -> None:
     category = "shell config"
-    paths: list[Path] = [
+    paths = (
         HOME / ".zshrc", HOME / ".zshenv", HOME / ".zprofile", HOME / ".zlogin",
         HOME / ".bashrc", HOME / ".bash_profile", HOME / ".bash_login", HOME / ".profile",
-        HOME / ".config" / "fish" / "config.fish",
-    ]
-    fish_conf_d = HOME / ".config" / "fish" / "conf.d"
-    if fish_conf_d.is_dir():
-        paths.extend(fish_conf_d.glob("*.fish"))
-
+    )
     any_alerts = False
     for path in paths:
         if not path.is_file():
@@ -882,14 +857,8 @@ def check_shell_configs(report: Report) -> None:
             report.add(ALERT, category, ", ".join(matches), home_rel(path))
             any_alerts = True
             continue
-        flagged_names: list[str] = []
-        if path.suffix == ".fish":
-            assignments = _parse_fish_sets(content)
-        else:
-            assignments = ((name, raw) for _, name, raw in parse_env_text(content))
-        for name, raw in assignments:
-            if env_value_is_secret(name, raw):
-                flagged_names.append(name)
+        flagged_names = [name for _, name, raw in parse_env_text(content)
+                         if env_value_is_secret(name, raw)]
         if flagged_names:
             report.add(ALERT, category,
                        f"exported secret: {', '.join(flagged_names[:3])}",
