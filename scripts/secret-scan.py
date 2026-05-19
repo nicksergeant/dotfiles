@@ -101,8 +101,6 @@ class Report:
 
 # ── pattern library ─────────────────────────────────────────────────────────
 
-# Strong, low-false-positive indicators of a real secret value. Order
-# matters only for the (token-type) labels emitted in alerts.
 SECRET_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"AKIA[0-9A-Z]{16}"),                                  "AWS access key"),
     (re.compile(r"ASIA[0-9A-Z]{16}"),                                  "AWS temp credential"),
@@ -132,15 +130,14 @@ SECRET_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"pscale_tkn_[A-Za-z0-9]{32,}"),                        "PlanetScale token"),
     (re.compile(r"hvs\.[A-Za-z0-9_-]{24,}"),                            "Vault service token"),
     (re.compile(r"-----BEGIN (?:OPENSSH |RSA |EC |DSA |ENCRYPTED )?PRIVATE KEY-----"), "private key block"),
-    # JWT — only meaningful in env-style contexts; lots of false positives
-    # in code/log files, so callers gate this to env scanning.
 ]
 
+# Callers gate JWT — high false-positive rate in code/log files outside
+# env-style contexts.
 JWT_PATTERN = re.compile(
     r"eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"
 )
 
-# Env-var names that strongly imply the value should be sensitive.
 SECRET_NAME_HINT = re.compile(
     r"(password|passwd|secret|token|api[_-]?key|apikey|"
     r"private[_-]?key|access[_-]?key|client[_-]?secret|"
@@ -149,8 +146,8 @@ SECRET_NAME_HINT = re.compile(
     re.IGNORECASE,
 )
 
-# Values that should not count as secrets even if the variable name hints
-# at sensitivity. (PORT=3000, NODE_ENV=production, PASSWORD=changeme).
+# Values that don't count as secrets even when the variable name hints
+# at sensitivity: PORT=3000, NODE_ENV=production, PASSWORD=changeme, etc.
 ENV_NONSECRET_VALUE = re.compile(
     r"^(?:"
     r"true|false|yes|no|on|off|null|none|undefined|nil|"
@@ -163,12 +160,8 @@ ENV_NONSECRET_VALUE = re.compile(
     re.IGNORECASE,
 )
 
-# 1Password CLI references that resolve only under `op run`.
 OP_REF = re.compile(r"^\s*op://[^\s\"']+\s*$")
 
-# Common placeholder words used in example URLs and stub creds. If both
-# user and password parts of a URL are obvious placeholders, the URL is
-# not flagged as carrying embedded credentials.
 PLACEHOLDER_TOKEN = re.compile(
     r"^(?:"
     r"user|username|usr|root|admin|administrator|"
@@ -183,7 +176,6 @@ PLACEHOLDER_TOKEN = re.compile(
     re.IGNORECASE,
 )
 
-# direnv-style export prefix used by .envrc files.
 ENV_LINE = re.compile(
     r"^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$"
 )
@@ -272,29 +264,21 @@ def _is_placeholder_url_cred(value: str) -> bool:
 
 def env_value_is_secret(name: str, raw_value: str,
                         *, strict: bool = False) -> Optional[str]:
-    """Decide whether an env assignment looks like a real secret.
+    """Return a label if the assignment looks like a real secret, else None.
 
-    Returns a short label (e.g. "AWS access key") if the value should
-    trigger an alert, otherwise None.
-
-    `strict=True` restricts detection to the strong SECRET_PATTERNS
-    library — use it for `.env.example` / `.env.template` files where
-    loose heuristics (URL with creds, secret-named field) would just
-    flag placeholder structure.
+    `strict=True` restricts detection to the strong SECRET_PATTERNS library;
+    use it for `.env.example` / `.env.template` files where loose heuristics
+    would just flag placeholder structure.
     """
     v = strip_quotes(raw_value)
     if not v:
         return None
-    # 1Password CLI placeholders — resolved only under `op run`.
     if OP_REF.match(v):
         return None
-    # Pure shell variable substitution — value comes from elsewhere.
     if re.match(r"^\$\{?[A-Za-z_][A-Za-z0-9_]*\}?$", v):
         return None
-    # Filesystem paths — not secrets in themselves.
     if v.startswith(("/", "~/", "./", "../")):
         return None
-    # Strong pattern wins regardless of name or template status.
     for pattern, label in SECRET_PATTERNS:
         if pattern.search(v):
             return label
@@ -302,23 +286,16 @@ def env_value_is_secret(name: str, raw_value: str,
         return "JWT"
     if strict:
         return None
-    # Booleans, numbers, well-known sentinels.
     if ENV_NONSECRET_VALUE.match(v):
         return None
-    # Exact-match placeholders (PASSWORD=password, SECRET=changeme, etc.)
     if PLACEHOLDER_TOKEN.match(v):
         return None
-    # URL with embedded credentials — suppress if both sides are stubs.
     if URL_WITH_CREDS.match(v):
         if _is_placeholder_url_cred(v):
             return None
         return "URL with embedded credentials"
-    # Plain URL with no auth → not a secret.
     if re.match(r"^https?://", v):
         return None
-    # Variable name strongly suggests a secret and the value is something
-    # non-trivial that didn't match any sentinel above. Be conservative —
-    # require a reasonable length so we don't alert on stub values.
     if SECRET_NAME_HINT.search(name) and len(v) >= 12 and " " not in v:
         return "secret-named field with non-template value"
     return None
@@ -334,7 +311,6 @@ def parse_env_text(content: str) -> Iterator[tuple[int, str, str]]:
         if not m:
             continue
         name, raw = m.group(1), m.group(2)
-        # Strip trailing comments only when value is unquoted.
         if not (raw.startswith(("'", '"'))):
             raw = re.sub(r"\s+#.*$", "", raw)
         yield lineno, name, raw
@@ -408,21 +384,15 @@ def _scan_file(category: str, path: Path, report: Report,
     report.add(OK, category, "no known token patterns", label)
 
 
-# Match credential-named fields in INI / TOML / YAML / JSON. Used by
-# `_scan_credential_file` for cred-store files whose token shapes are
-# opaque (no known prefix) but whose surrounding syntax is recognisable.
-# The negative lookbehind blocks matching inside English-letter
-# identifiers (`customtoken`, `mypassword`) but deliberately allows
-# underscore-prefixed compound keys (`rubygems_api_key`, `my_token`)
-# since those almost always are credential references rather than
-# false positives.
+# Lookbehind blocks mid-identifier matches (`customtoken`, `mypassword`)
+# but allows underscore-prefixed compound keys (`rubygems_api_key`).
 CRED_KEY_RE = re.compile(
     r"""
     (?<![A-Za-z])
-    ["']?                    # optional opening quote (JSON-style "key")
+    ["']?
     (?P<key>token|access[_-]?token|api[_-]?key|password|passwd|
             secret|client[_-]?secret|auth[_-]?token|private[_-]?key)
-    ["']?                    # optional closing quote
+    ["']?
     \s*[:=]\s*
     ["']?(?P<value>[^\s"',}\]]+)
     """,
@@ -433,11 +403,10 @@ CRED_KEY_RE = re.compile(
 def _scan_credential_file(category: str, path: Path, report: Report) -> None:
     """Scan a file known to hold credentials.
 
-    Looks for strong patterns (including JWT), then for credential-named
-    fields (token, password, api_key, etc.) with non-template values. Used
-    for cred-store files whose token formats aren't in SECRET_PATTERNS
-    (Fly.io JWT, Databricks `dapi…`, Vercel opaque, etc.) but whose
-    surrounding syntax is recognisable as INI / YAML / TOML / JSON.
+    Catches strong patterns (including JWT) and credential-named fields
+    (token, password, api_key, etc.) with non-template values — for
+    cred-store files whose token formats aren't in SECRET_PATTERNS but
+    whose surrounding syntax is INI / YAML / TOML / JSON.
     """
     label = home_rel(path)
     if not path.exists():
@@ -460,10 +429,8 @@ def _scan_credential_file(category: str, path: Path, report: Report) -> None:
     if matches:
         report.add(ALERT, category, ", ".join(matches), label)
         return
-    # Normalise camelCase boundaries so npmAuthToken, ossrhPassword,
-    # clientSecret etc. become matchable. The lookbehind guard against
-    # `customtoken` / `mypassword` still fires because those don't have
-    # a lowercase→uppercase transition to split on.
+    # Split camelCase so npmAuthToken / clientSecret etc. match without
+    # weakening the lookbehind guard against customtoken / mypassword.
     normalized = re.sub(r"([a-z])([A-Z])", r"\1_\2", content)
     for m in CRED_KEY_RE.finditer(normalized):
         value = m.group("value")
@@ -481,13 +448,11 @@ def _scan_credential_file(category: str, path: Path, report: Report) -> None:
 
 
 def has_non_op_assignments(content: str) -> bool:
-    """True if any meaningful line has content that isn't purely an op:// reference.
+    """True if any meaningful line carries content beyond an op:// reference.
 
-    Handles both KEY=value env files and non-env syntax. Critical for files
-    like .npmrc whose `//registry.npmjs.org/:_authToken=value` lines don't
-    start with an identifier character and so don't parse via parse_env_text.
-    A scanner that only inspected env-shaped lines would mark such a file
-    as "1Password template only" even when it holds a real registry token.
+    Inspects non-env-shaped lines too, since files like .npmrc use
+    `//host/:_authToken=value` lines that don't start with an identifier
+    character.
     """
     for line in content.splitlines():
         stripped = line.strip()
@@ -499,8 +464,6 @@ def has_non_op_assignments(content: str) -> bool:
             if v and not OP_REF.match(v):
                 return True
         else:
-            # Non-env-shaped line — treat as "real" unless the entire stripped
-            # line is just an op:// reference.
             if not OP_REF.match(stripped):
                 return True
     return False
@@ -516,8 +479,7 @@ def check_aws(report: Report) -> None:
     for path in dedupe(candidates):
         _scan_file(category, path, report)
 
-    # SSO access tokens (~8h valid) and assumed-role temp creds are stored as
-    # plain JSON in these cache dirs — fresh, usable creds a worm can ship whole.
+    # SSO + assumed-role temp creds live as plain JSON in these cache dirs.
     for cache_dir in (HOME / ".aws" / "sso" / "cache",
                       HOME / ".aws" / "cli" / "cache"):
         sub = f"{cache_dir.parent.name}/{cache_dir.name}"
@@ -530,7 +492,8 @@ def check_aws(report: Report) -> None:
                 continue
             head = read_text(p, limit=4_000) or ""
             if any(k in head for k in ('"accessToken"', '"AccessKeyId"',
-                                       '"SecretAccessKey"', '"SessionToken"')):
+                                       '"SecretAccessKey"', '"SessionToken"',
+                                       '"clientSecret"')):
                 hits.append(p.name)
         if hits:
             report.add(ALERT, category,
@@ -548,9 +511,8 @@ def check_gcloud(report: Report) -> None:
         report.add(OK, category, "~/.config/gcloud absent")
         return
 
-    # ADC from `gcloud auth application-default login` contains client_secret +
-    # refresh_token — no token shape the pattern library recognises, but the
-    # file itself is a usable credential a worm would ship whole.
+    # ADC carries refresh_token + client_secret in JSON; no recognisable
+    # token prefix but the file as a whole is a usable credential.
     adc = base / "application_default_credentials.json"
     if adc.is_file():
         if adc.stat().st_size > 0:
@@ -560,11 +522,8 @@ def check_gcloud(report: Report) -> None:
     else:
         report.add(OK, category, "ADC file absent", home_rel(adc))
 
-    # Scan for long-lived credential JSONs (service-account keys AND
-    # user-account refresh tokens under legacy_credentials/<email>/adc.json),
-    # skipping ADC which is already handled above. Use whitespace-tolerant
-    # regex rather than literal substrings — compact JSON emitters (no space
-    # after colon) would slip past `'"type": "service_account"'`.
+    # Whitespace-tolerant regex — compact JSON emitters (no space after
+    # colon) would slip past a literal '"type": "service_account"' substring.
     GCLOUD_TYPE_RE = re.compile(
         r'"type"\s*:\s*"(?:service_account|authorized_user)"'
     )
@@ -583,15 +542,12 @@ def check_gcloud(report: Report) -> None:
     else:
         report.add(OK, category, "no service-account or refresh-token JSONs")
 
-    # gcloud auth login stashes user-account refresh tokens in a SQLite DB —
-    # long-lived creds that mint fresh access tokens indefinitely.
     creds_db = base / "credentials.db"
     if creds_db.is_file() and creds_db.stat().st_size > 0:
         report.add(ALERT, category,
                    "gcloud auth login refresh tokens cached",
                    home_rel(creds_db))
 
-    # gcloud stores short-lived access tokens in a SQLite database.
     tokens_db = base / "access_tokens.db"
     if tokens_db.is_file():
         try:
@@ -618,29 +574,32 @@ def check_gcloud(report: Report) -> None:
             report.add(WARN, category, "gcloud token DB unreadable", home_rel(tokens_db))
 
 
+_LEGACY_NPM_AUTH_RE = re.compile(r"(?m)^\s*_auth\s*=\s*\S{8,}")
+
+
 def check_npm(report: Report) -> None:
-    # .npmrc holds `//host/:_authToken=<opaque>` for private registries —
-    # no prefix in SECRET_PATTERNS so route through credential-shape detector.
-    # .yarnrc.yml uses camelCase `npmAuthToken:` which the normalisation pass
-    # in _scan_credential_file makes visible.
     category = "npm"
-    _scan_credential_file(category, HOME / ".npmrc", report)
-    _scan_credential_file(category, HOME / ".yarnrc", report)
-    _scan_credential_file(category, HOME / ".yarnrc.yml", report)
-    _scan_credential_file(category, HOME / ".pnpmrc", report)
+    for path in (HOME / ".npmrc", HOME / ".yarnrc",
+                 HOME / ".yarnrc.yml", HOME / ".pnpmrc"):
+        # npm's legacy `_auth=<base64>` predates _authToken and is still the
+        # default shape for Verdaccio / Nexus / Artifactory. CRED_KEY_RE has
+        # `auth[_-]?token` but no bare `auth`; adding one would noise up
+        # non-credential `auth =` configs.
+        if path.is_file():
+            content = read_text(path) or ""
+            if _LEGACY_NPM_AUTH_RE.search(content):
+                report.add(ALERT, category, "legacy _auth basic-auth on disk",
+                           home_rel(path))
+                continue
+        _scan_credential_file(category, path, report)
 
 
 def check_github(report: Report) -> None:
-    # ~/.gitconfig can hold `[credential] token = <opaque>` from the cache
-    # credential helper; ~/.config/gh/hosts.yml holds `oauth_token: gho_…`
-    # when gh is configured to use file storage instead of keychain.
     category = "GitHub"
     _scan_credential_file(category, HOME / ".config" / "gh" / "hosts.yml", report)
     _scan_credential_file(category, HOME / ".gitconfig", report)
 
-    # `git config credential.helper store` writes plaintext URL-with-creds
-    # to ~/.git-credentials — exactly the at-rest shape a worm grepping for
-    # `https?://[^:]+:[^@]+@` would harvest.
+    # `git config credential.helper store` writes plaintext url-with-creds here.
     for gitcreds in (HOME / ".git-credentials",
                      HOME / ".config" / "git" / "credentials"):
         if not gitcreds.is_file():
@@ -697,12 +656,9 @@ def check_kube(report: Report) -> None:
         return
     content = read_text(cfg) or ""
     label = home_rel(cfg)
-    # Look for inline credential fields. `exec` and modern `auth-provider`
-    # (gke-gcloud-auth-plugin) defer to an external command, but the OIDC
-    # auth-provider config caches id-token / refresh-token / client-secret
-    # inline, and the legacy GCP auth-provider caches access-token between
-    # gcloud invocations — all worm-readable at rest.
-    # client-certificate-data is the *public* client cert and not itself secret.
+    # Catches OIDC + legacy-GCP auth-provider inline tokens; `exec` and
+    # modern gke-gcloud-auth-plugin correctly defer to external commands.
+    # client-certificate-data is the public cert — secret is client-key-data.
     suspicious = re.search(
         r"^\s*(token|(?:access|refresh|id)-token|password|"
         r"client-key-data|client-secret)\s*:\s*\S+",
@@ -732,25 +688,20 @@ def check_vault(report: Report) -> None:
 
 
 def check_pypi(report: Report) -> None:
-    # ~/.pypirc holds `password = pypi-AgEIc…` — opaque shape, no prefix in
-    # SECRET_PATTERNS — route through credential-shape detector.
     _scan_credential_file("PyPI", HOME / ".pypirc", report)
 
 
 def check_cargo(report: Report) -> None:
-    # ~/.cargo/credentials{,.toml}: `token = "<opaque>"` — opaque shape.
     _scan_credential_file("Cargo", HOME / ".cargo" / "credentials", report)
     _scan_credential_file("Cargo", HOME / ".cargo" / "credentials.toml", report)
 
 
 def check_ruby(report: Report) -> None:
-    # ~/.gem/credentials: YAML `:rubygems_api_key: rubygems_xxx`
     _scan_credential_file("RubyGems", HOME / ".gem" / "credentials", report)
 
-    # ~/.bundle/config uses host-keyed credentials: `BUNDLE_<HOST>__<DOMAIN>: <token>`
-    # where dots in the host become `__`. The credential-name alternation can't
-    # catch this — the key is the literal hostname. Detect any BUNDLE_X__Y: value
-    # while excluding the well-known config-only keys (booleans, paths, flags).
+    # Bundler stores credentials as BUNDLE_<HOST>__<DOMAIN>: <token> where the
+    # key is the literal hostname (dots → __). CRED_KEY_RE can't catch that.
+    # Negative lookahead excludes well-known config-only keys.
     bundle = HOME / ".bundle" / "config"
     if bundle.is_file():
         content = read_text(bundle) or ""
@@ -770,13 +721,13 @@ def check_ruby(report: Report) -> None:
 
 
 def check_terraform(report: Report) -> None:
-    # ~/.terraform.d/credentials.tfrc.json: `"token": "<id>.atlasv1.<opaque>"`
     _scan_credential_file("Terraform", HOME / ".terraform.d" / "credentials.tfrc.json",
                           report)
     _scan_credential_file("Terraform", HOME / ".terraformrc", report)
 
 
 def check_netrc(report: Report) -> None:
+    # Note: also where the heroku CLI stashes its API key.
     category = "netrc"
     for name in (".netrc", "_netrc"):
         path = HOME / name
@@ -813,12 +764,9 @@ def check_misc_clis(report: Report) -> None:
         ("HuggingFace",  HOME / ".cache" / "huggingface" / "token"),
         ("GnuPG",        HOME / ".gnupg" / "private-keys-v1.d"),
     ]
-    # Categories whose files are opaque token blobs (no key=value structure) —
-    # existence + non-empty is the credential signal.
+    # Files that are opaque token blobs — existence + non-empty == ALERT.
     EXISTENCE_CATEGORIES = {"HuggingFace", "Supabase"}
-    # Categories whose token shape isn't in SECRET_PATTERNS but whose config
-    # syntax exposes credential-named fields (Fly.io JWT, Databricks `dapi…`,
-    # Vercel opaque, Snowflake `password = …`, etc.).
+    # Token shapes not in SECRET_PATTERNS but syntax exposes a cred field.
     CRED_SHAPE_CATEGORIES = {"Fly.io", "Vercel", "Databricks", "Snowflake",
                              "Linode", "Hetzner", "Wrangler"}
 
@@ -889,13 +837,11 @@ def check_shell_configs(report: Report) -> None:
         if not path.is_file():
             continue
         content = read_text(path, limit=4_000_000) or ""
-        # Strong patterns anywhere in the file win immediately.
         matches = find_known_patterns(content)
         if matches:
             report.add(ALERT, category, ", ".join(matches), home_rel(path))
             any_alerts = True
             continue
-        # Parse export-style assignments for secret-named vars with real values.
         flagged_names: list[str] = []
         for _lineno, name, raw in parse_env_text(content):
             label = env_value_is_secret(name, raw)
@@ -912,7 +858,7 @@ def check_shell_configs(report: Report) -> None:
 
 def check_databases(report: Report) -> None:
     category = "databases"
-    # pgpass: each non-comment line is hostname:port:database:username:password
+    # pgpass format: hostname:port:database:username:password (one per line).
     pgpass = HOME / ".pgpass"
     if pgpass.is_file():
         content = read_text(pgpass) or ""
@@ -930,7 +876,6 @@ def check_databases(report: Report) -> None:
     else:
         report.add(OK, category, "~/.pgpass absent")
 
-    # my.cnf: look for password= under any section
     for name in (".my.cnf", "my.cnf"):
         mycnf = HOME / name
         if not mycnf.is_file():
@@ -944,8 +889,7 @@ def check_databases(report: Report) -> None:
     else:
         report.add(OK, category, "~/.my.cnf absent")
 
-    # redis.conf uses space-separated `requirepass <pw>` / `masterauth <pw>` —
-    # not KEY=VALUE, so _scan_file's SECRET_PATTERNS pass would miss them.
+    # redis.conf uses space-separated `requirepass <pw>` / `masterauth <pw>`.
     redis_conf = HOME / ".config" / "redis" / "redis.conf"
     if redis_conf.is_file():
         content = read_text(redis_conf) or ""
@@ -961,7 +905,7 @@ def check_databases(report: Report) -> None:
 
 def check_build_tools(report: Report) -> None:
     category = "build tools"
-    # Maven settings — <password> elements not wrapped in {encrypted} are plaintext
+    # Maven <password> in {encrypted-form} is safe; bare text is plaintext.
     m2_settings = HOME / ".m2" / "settings.xml"
     if m2_settings.is_file():
         content = read_text(m2_settings) or ""
@@ -976,15 +920,12 @@ def check_build_tools(report: Report) -> None:
     else:
         report.add(OK, category, "~/.m2/settings.xml absent")
 
-    # Gradle properties — holds signing.password, nexusPassword, ossrhPassword
-    # (camelCase plaintext credentials) — route through credential-shape detector.
     gradle_props = HOME / ".gradle" / "gradle.properties"
     if gradle_props.is_file():
         _scan_credential_file(category, gradle_props, report)
     else:
         report.add(OK, category, "~/.gradle/gradle.properties absent")
 
-    # Composer auth.json — github-oauth, http-basic, bearer entries
     for composer_auth in (HOME / ".composer" / "auth.json",
                           HOME / ".config" / "composer" / "auth.json"):
         if not composer_auth.is_file():
@@ -993,8 +934,7 @@ def check_build_tools(report: Report) -> None:
         label = home_rel(composer_auth)
         try:
             data = json.loads(content or "{}")
-            # gitlab-domains is just a list of domain names that extend the default
-            # gitlab.com matcher — not credential material.
+            # gitlab-domains intentionally omitted — it's a domain list, not creds.
             cred_keys = {"github-oauth", "gitlab-oauth", "bitbucket-oauth",
                          "http-basic", "bearer"}
             if cred_keys & set(data.keys()):
@@ -1011,7 +951,6 @@ def check_build_tools(report: Report) -> None:
     else:
         report.add(OK, category, "Composer auth.json absent")
 
-    # SBT credentials
     sbt_creds = HOME / ".sbt" / ".credentials"
     if sbt_creds.is_file():
         content = read_text(sbt_creds) or ""
@@ -1022,7 +961,6 @@ def check_build_tools(report: Report) -> None:
     else:
         report.add(OK, category, "SBT credentials absent", home_rel(sbt_creds))
 
-    # NuGet — may store plaintext API keys
     for nuget in (HOME / ".nuget" / "NuGet" / "NuGet.Config",
                   HOME / "Library" / "Application Support" / "NuGet" / "NuGet.Config"):
         if nuget.is_file():
@@ -1031,7 +969,6 @@ def check_build_tools(report: Report) -> None:
     else:
         report.add(OK, category, "NuGet config absent")
 
-    # pip config — may embed auth in index-url
     for pip_conf in (HOME / ".config" / "pip" / "pip.conf",
                      HOME / "Library" / "Application Support" / "pip" / "pip.conf"):
         if pip_conf.is_file():
@@ -1051,7 +988,6 @@ def check_azure(report: Report) -> None:
     category = "Azure"
     azure_dir = HOME / ".azure"
 
-    # MSAL token cache (modern az CLI) — contains access + refresh tokens
     msal = azure_dir / "msal_token_cache.json"
     if msal.is_file():
         size = msal.stat().st_size
@@ -1113,7 +1049,8 @@ def check_certificates(report: Report) -> None:
                    f"{len(key_hits)} private key file(s)",
                    key_hits[0] if len(key_hits) == 1 else f"{key_hits[0]} (+{len(key_hits)-1} more)")
     if container_hits:
-        # Could be a private keystore or a public truststore — can't tell without parsing.
+        # Binary keystore could be a truststore or a private keystore;
+        # downgrade to WARN since we can't tell without parsing it.
         report.add(WARN, category,
                    f"{len(container_hits)} keystore/truststore file(s) (contents not inspected)",
                    container_hits[0] if len(container_hits) == 1 else f"{container_hits[0]} (+{len(container_hits)-1} more)")
@@ -1122,13 +1059,10 @@ def check_certificates(report: Report) -> None:
 
 
 def check_launch_agents(report: Report) -> None:
-    """Flag LaunchAgents whose binary lives in an unusual location.
+    """Flag LaunchAgents whose binary or args lives in an unusual location.
 
-    Supply-chain worms install persistent agents that poll/exfiltrate
-    indefinitely after the initial install. They change names frequently,
-    so the check is path-based rather than name-based: a plist that runs
-    something from ~/.local/bin/, ~/.config/, /tmp/, or any hidden home
-    directory is suspicious regardless of what it is called.
+    Path-based rather than name-based since persistence-malware names
+    rotate freely; what stays stable is *where* the payload sits.
     """
     category = "LaunchAgents"
     agents_dir = HOME / "Library" / "LaunchAgents"
@@ -1136,7 +1070,6 @@ def check_launch_agents(report: Report) -> None:
         report.add(OK, category, "~/Library/LaunchAgents absent")
         return
 
-    # Prefixes considered safe — apps from these locations are trusted.
     SAFE_PREFIXES = (
         "/Applications/",
         "/System/",
@@ -1147,7 +1080,6 @@ def check_launch_agents(report: Report) -> None:
         str(HOME / "Library" / "Application Support") + "/",
         "/Library/",
     )
-    # Prefixes that are always suspicious for a LaunchAgent binary.
     SUSPICIOUS_PREFIXES = (
         str(HOME / ".local") + "/",
         str(HOME / ".config") + "/",
@@ -1156,12 +1088,12 @@ def check_launch_agents(report: Report) -> None:
         "/var/tmp/",
         "/private/tmp/",
     )
-    # Any hidden directory directly under HOME is also suspicious.
+
     def _is_hidden_home(p: str) -> bool:
-        h = str(HOME) + "/."
-        return p.startswith(h)
+        return p.startswith(str(HOME) + "/.")
 
     RECENT_DAYS = 14
+    INLINE_CMD_FLAGS = {"-c", "-Command", "-e", "--command", "-EncodedCommand"}
     now = time.time()
 
     plists = sorted(agents_dir.glob("*.plist"))
@@ -1181,8 +1113,8 @@ def check_launch_agents(report: Report) -> None:
         args = data.get("ProgramArguments") or []
         program = data.get("Program") or (args[0] if args else None)
         if not program:
-            # XPC service descriptors and empty stub plists (Dropbox/Google
-            # create {} placeholders) legitimately have no Program key.
+            # XPC service descriptors and empty {} placeholder plists
+            # legitimately have no Program key.
             if not data or data.get("MachServices") or data.get("XPCService"):
                 continue
             report.add(WARN, category, "no Program key", home_rel(plist))
@@ -1190,22 +1122,18 @@ def check_launch_agents(report: Report) -> None:
 
         age_days = (now - plist.stat().st_mtime) / 86400
 
-        # Canonical macOS persistence pattern: signed interpreter (/usr/bin/python3,
-        # /usr/bin/env, /bin/bash) as args[0], with the real payload as a path in
-        # args[1:]. Checking only `program` lets these fly under SAFE_PREFIXES,
-        # so we also scan additional args for path-shaped suspicious values.
+        # Canonical wrapper persistence: signed interpreter as args[0]
+        # (e.g. /usr/bin/python3) + real payload path in args[1:]. Checking
+        # only `program` lets the interpreter shield the payload.
         script_paths = [a for a in args[1:]
                         if isinstance(a, str) and a.startswith("/")]
         suspect_paths = [
             p for p in [program, *script_paths]
             if any(p.startswith(s) for s in SUSPICIOUS_PREFIXES) or _is_hidden_home(p)
         ]
-
-        # Inline-command variant: `env bash -c "curl … | sh"` puts no path at
-        # all in args, just an interpreter flag and a string payload. Legit
-        # LaunchAgents that run `-c` are rare enough that an unconditional WARN
-        # is the right default.
-        INLINE_CMD_FLAGS = {"-c", "-Command", "-e", "--command", "-EncodedCommand"}
+        # Inline-command variant: `env bash -c "<payload>"` carries the
+        # payload as a non-path string. WARN unconditionally; legit
+        # LaunchAgents using `-c` are rare.
         inline_cmd = any(isinstance(a, str) and a in INLINE_CMD_FLAGS
                          for a in args[1:])
 
@@ -1220,13 +1148,11 @@ def check_launch_agents(report: Report) -> None:
                        f"{plist.name} → {' '.join(str(a) for a in args[:3])}…")
             any_alerts = True
         elif not any(program.startswith(p) for p in SAFE_PREFIXES):
-            # Unknown location (e.g. custom home bin, unusual prefix) — worth reviewing.
             report.add(WARN, category,
                        f"agent runs from non-standard path",
                        f"{plist.name} → {program}")
             any_alerts = True
         elif age_days < RECENT_DAYS:
-            # Known-safe location but freshly installed — note it without alarming.
             report.add(INFO, category,
                        f"recently installed ({age_days:.0f}d ago)",
                        f"{plist.name} → {program}")
@@ -1235,22 +1161,35 @@ def check_launch_agents(report: Report) -> None:
         report.add(OK, category, "all LaunchAgents run from known-safe paths")
 
 
+_SHELL_NAMES = r"(?:sh|bash|zsh|dash|ksh)"
+_SHELL_SHEBANG_RE = re.compile(
+    rb"^#!\s*(?:/bin/" + _SHELL_NAMES.encode() + rb"\b"
+    rb"|/usr/bin/env\s+" + _SHELL_NAMES.encode() + rb"\b)"
+)
+
+
+def _has_shell_shebang(path: Path) -> bool:
+    try:
+        with open(path, "rb") as fh:
+            head = fh.read(64)
+    except OSError:
+        return False
+    return bool(_SHELL_SHEBANG_RE.match(head))
+
+
 def check_user_bin_scripts(report: Report) -> None:
-    """Flag shell scripts dropped into ~/.local/bin — a common malware drop
-    point (e.g. Shai-Hulud's gh-token-monitor.sh). Legitimate package
-    managers install compiled binaries there, not .sh files. This check is
-    independent of LaunchAgents: a worm can persist via crontab, shell rc,
-    or .zshenv and still drop a payload here.
-    """
     category = "user bin"
     local_bin = HOME / ".local" / "bin"
     if not local_bin.is_dir():
         report.add(OK, category, "~/.local/bin absent")
         return
-    sh_scripts = [p for p in local_bin.iterdir()
-                  if p.is_file() and p.suffix == ".sh"]
-    if sh_scripts:
-        for s in sh_scripts:
+    # pip/pipx and node CLIs install extensionless shell-wrapped launchers
+    # with python3/node shebangs; gate on shell-interpreter shebangs so those
+    # don't false-positive while extensionless shell drop-points still alert.
+    drops = [p for p in local_bin.iterdir()
+             if p.is_file() and (p.suffix == ".sh" or _has_shell_shebang(p))]
+    if drops:
+        for s in drops:
             report.add(ALERT, category,
                        "shell script in ~/.local/bin (common malware drop)",
                        home_rel(s))
@@ -1267,9 +1206,8 @@ def check_file_permissions(report: Report) -> None:
         HOME / ".aws" / "credentials",
         HOME / ".vault-token",
     ]
-    # Discover SSH private keys dynamically — custom-named keys like
-    # ~/.ssh/github_key or ~/.ssh/work_id_rsa would otherwise slip past
-    # the canonical id_rsa / id_ed25519 / id_ecdsa / id_dsa list.
+    # Discover SSH private keys by header sniff — custom-named keys like
+    # ~/.ssh/github_key would slip past a canonical id_rsa/id_ed25519 list.
     ssh_dir = HOME / ".ssh"
     if ssh_dir.is_dir():
         for entry in ssh_dir.iterdir():
@@ -1303,12 +1241,8 @@ SKIP_DIRS = {
     ".direnv", ".idea", ".vscode-test",
 }
 
-# .env-family file names worth scanning. .env.example/.sample/.template are
-# inspected but found secrets there are downgraded to warnings.
 ENV_FILE_RE = re.compile(
-    r"^(?:\.envrc|\.env"
-    r"(?:\.[a-zA-Z0-9._-]+)?"   # .env.local, .env.production etc.
-    r")$"
+    r"^(?:\.envrc|\.env(?:\.[a-zA-Z0-9._-]+)?)$"
 )
 ENV_TEMPLATE_HINT = re.compile(r"(example|sample|template|dist|default)",
                                re.IGNORECASE)
@@ -1321,7 +1255,6 @@ def iter_env_files(roots: Iterable[Path], max_depth: int) -> Iterator[Path]:
             continue
         root_depth = len(root.resolve().parts)
         for dirpath, dirnames, filenames in os.walk(root, followlinks=False):
-            # prune
             dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
             depth = len(Path(dirpath).resolve().parts) - root_depth
             if depth >= max_depth:
@@ -1366,8 +1299,6 @@ def classify_env_file(path: Path) -> tuple[str, str]:
     if real_secret_count:
         summary = f"{real_secret_count} secret value(s) [{', '.join(secret_types[:3])}]"
         if is_template_name:
-            # A real, strong-pattern token (e.g. AKIA…) in a committed
-            # template file is still worth flagging hard.
             return ALERT, f"template-named file but {summary}"
         return ALERT, summary
     if op_count and op_count == sum(1 for _, _, r in assignments
