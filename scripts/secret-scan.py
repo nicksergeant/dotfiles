@@ -638,6 +638,24 @@ def check_github(report: Report) -> None:
     _scan_credential_file(category, HOME / ".config" / "gh" / "hosts.yml", report)
     _scan_credential_file(category, HOME / ".gitconfig", report)
 
+    # `git config credential.helper store` writes plaintext URL-with-creds
+    # to ~/.git-credentials — exactly the at-rest shape a worm grepping for
+    # `https?://[^:]+:[^@]+@` would harvest.
+    for gitcreds in (HOME / ".git-credentials",
+                     HOME / ".config" / "git" / "credentials"):
+        if not gitcreds.is_file():
+            report.add(OK, category, "absent", home_rel(gitcreds))
+            continue
+        content = read_text(gitcreds) or ""
+        if re.search(r"^[a-zA-Z]+://[^:/\s]+:[^@/\s]+@", content, re.MULTILINE):
+            report.add(ALERT, category,
+                       "plaintext credentials in git credential store",
+                       home_rel(gitcreds))
+        elif content.strip():
+            report.add(WARN, category, "non-empty", home_rel(gitcreds))
+        else:
+            report.add(OK, category, "empty", home_rel(gitcreds))
+
 
 def check_docker(report: Report) -> None:
     category = "Docker"
@@ -679,11 +697,15 @@ def check_kube(report: Report) -> None:
         return
     content = read_text(cfg) or ""
     label = home_rel(cfg)
-    # Look for inline tokens / client-key-data; flag exec/auth-provider as
-    # fine because those defer to an external command at use time.
+    # Look for inline credential fields. `exec` and modern `auth-provider`
+    # (gke-gcloud-auth-plugin) defer to an external command, but the OIDC
+    # auth-provider config caches id-token / refresh-token / client-secret
+    # inline, and the legacy GCP auth-provider caches access-token between
+    # gcloud invocations — all worm-readable at rest.
     # client-certificate-data is the *public* client cert and not itself secret.
     suspicious = re.search(
-        r"^\s*(token|password|client-key-data)\s*:\s*\S+",
+        r"^\s*(token|(?:access|refresh|id)-token|password|"
+        r"client-key-data|client-secret)\s*:\s*\S+",
         content, re.MULTILINE,
     )
     if suspicious:
