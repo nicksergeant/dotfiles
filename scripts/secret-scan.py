@@ -574,17 +574,19 @@ def check_gcloud(report: Report) -> None:
             report.add(WARN, category, "gcloud token DB unreadable", home_rel(tokens_db))
 
 
-_LEGACY_NPM_AUTH_RE = re.compile(r"(?m)^\s*_auth\s*=\s*\S{8,}")
+# Both bare `_auth = ...` and scoped `//host/:_auth = "..."` (Verdaccio /
+# Nexus / Artifactory's documented form).
+_LEGACY_NPM_AUTH_RE = re.compile(r"(?m)^(?:\s*|.*?:)_auth\s*=\s*\S{8,}")
 
 
 def check_npm(report: Report) -> None:
+    # npm legacy `_auth=<base64>` is base64(user:password), still the
+    # default shape for Verdaccio / Nexus / Artifactory. CRED_KEY_RE has
+    # `auth[_-]?token` but intentionally not bare `auth` (would noise up
+    # non-credential `auth =` configs), so it's caught here instead.
     category = "npm"
     for path in (HOME / ".npmrc", HOME / ".yarnrc",
                  HOME / ".yarnrc.yml", HOME / ".pnpmrc"):
-        # npm's legacy `_auth=<base64>` predates _authToken and is still the
-        # default shape for Verdaccio / Nexus / Artifactory. CRED_KEY_RE has
-        # `auth[_-]?token` but no bare `auth`; adding one would noise up
-        # non-credential `auth =` configs.
         if path.is_file():
             content = read_text(path) or ""
             if _LEGACY_NPM_AUTH_RE.search(content):
@@ -635,8 +637,12 @@ def check_docker(report: Report) -> None:
             report.add(WARN, category, "config not valid JSON", label)
         return
     auths = data.get("auths", {}) or {}
+    # `auth` is base64(user:pass); `identitytoken` is an OAuth2 refresh token
+    # (ACR, Quay, GitLab CR); `registrytoken` is a short-lived bearer token.
+    INLINE_AUTH_FIELDS = ("auth", "identitytoken", "registrytoken")
     inline_auths = [host for host, v in auths.items()
-                    if isinstance(v, dict) and v.get("auth")]
+                    if isinstance(v, dict)
+                    and any(v.get(k) for k in INLINE_AUTH_FIELDS)]
     helpers_only = bool(data.get("credsStore") or data.get("credHelpers")) and not inline_auths
     if inline_auths:
         report.add(ALERT, category,
@@ -724,6 +730,20 @@ def check_terraform(report: Report) -> None:
     _scan_credential_file("Terraform", HOME / ".terraform.d" / "credentials.tfrc.json",
                           report)
     _scan_credential_file("Terraform", HOME / ".terraformrc", report)
+
+
+def check_nix(report: Report) -> None:
+    category = "Nix"
+    paths = [HOME / ".config" / "nix" / "nix.conf",
+             HOME / ".config" / "nix" / "access-tokens",
+             Path("/etc/nix/nix.conf")]
+    any_present = False
+    for p in paths:
+        if p.is_file():
+            any_present = True
+            _scan_credential_file(category, p, report)
+    if not any_present:
+        report.add(OK, category, "no nix.conf or access-tokens on disk")
 
 
 def check_netrc(report: Report) -> None:
@@ -1353,6 +1373,7 @@ CHECKS = [
     ("Cargo",           check_cargo),
     ("Ruby",            check_ruby),
     ("Terraform",       check_terraform),
+    ("Nix",             check_nix),
     ("netrc",           check_netrc),
     ("databases",       check_databases),
     ("build tools",     check_build_tools),
