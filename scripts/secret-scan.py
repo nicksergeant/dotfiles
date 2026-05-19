@@ -408,12 +408,88 @@ def _scan_file(category: str, path: Path, report: Report,
     report.add(OK, category, "no known token patterns", label)
 
 
+# Match credential-named fields in INI / TOML / YAML / JSON. Used by
+# `_scan_credential_file` for cred-store files whose token shapes are
+# opaque (no known prefix) but whose surrounding syntax is recognisable.
+# The negative lookbehind prevents matching inside identifiers like
+# `my_token` or `customtoken`.
+CRED_KEY_RE = re.compile(
+    r"""
+    (?<![A-Za-z_])
+    (?P<key>token|access[_-]?token|api[_-]?key|password|passwd|
+            secret|client[_-]?secret|auth[_-]?token|private[_-]?key)
+    \s*[:=]\s*
+    ["']?(?P<value>[^\s"',}\]]+)
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
+
+
+def _scan_credential_file(category: str, path: Path, report: Report) -> None:
+    """Scan a file known to hold credentials.
+
+    Looks for strong patterns (including JWT), then for credential-named
+    fields (token, password, api_key, etc.) with non-template values. Used
+    for cred-store files whose token formats aren't in SECRET_PATTERNS
+    (Fly.io JWT, Databricks `dapi…`, Vercel opaque, etc.) but whose
+    surrounding syntax is recognisable as INI / YAML / TOML / JSON.
+    """
+    label = home_rel(path)
+    if path.is_symlink():
+        try:
+            target = path.resolve()
+            label = f"{label} → {home_rel(target)}"
+        except OSError:
+            pass
+    content = read_text(path)
+    if content is None:
+        report.add(WARN, category, "unreadable", label)
+        return
+    if not content.strip():
+        report.add(OK, category, "empty", label)
+        return
+    matches = find_known_patterns(content, include_jwt=True)
+    if matches:
+        report.add(ALERT, category, ", ".join(matches), label)
+        return
+    for m in CRED_KEY_RE.finditer(content):
+        value = m.group("value")
+        if len(value) < 8:
+            continue
+        if value.startswith("op://") or value.startswith("${"):
+            continue
+        if PLACEHOLDER_TOKEN.match(value) or ENV_NONSECRET_VALUE.match(value):
+            continue
+        report.add(ALERT, category,
+                   f"{m.group('key').lower()} field with non-template value",
+                   label)
+        return
+    report.add(OK, category, "no credential patterns", label)
+
+
 def has_non_op_assignments(content: str) -> bool:
-    """True if any KEY=value line has a value that isn't an op:// reference."""
-    for _, _, raw in parse_env_text(content):
-        v = strip_quotes(raw)
-        if v and not OP_REF.match(v):
-            return True
+    """True if any meaningful line has content that isn't purely an op:// reference.
+
+    Handles both KEY=value env files and non-env syntax. Critical for files
+    like .npmrc whose `//registry.npmjs.org/:_authToken=value` lines don't
+    start with an identifier character and so don't parse via parse_env_text.
+    A scanner that only inspected env-shaped lines would mark such a file
+    as "1Password template only" even when it holds a real registry token.
+    """
+    for line in content.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith(("#", ";")):
+            continue
+        m = ENV_LINE.match(line)
+        if m:
+            v = strip_quotes(m.group(2))
+            if v and not OP_REF.match(v):
+                return True
+        else:
+            # Non-env-shaped line — treat as "real" unless the entire stripped
+            # line is just an op:// reference.
+            if not OP_REF.match(stripped):
+                return True
     return False
 
 
@@ -471,20 +547,32 @@ def check_gcloud(report: Report) -> None:
     else:
         report.add(OK, category, "ADC file absent", home_rel(adc))
 
-    # Scan for service-account key JSONs, skipping ADC (already handled above).
-    sa_hits: list[str] = []
+    # Scan for long-lived credential JSONs (service-account keys AND
+    # user-account refresh tokens under legacy_credentials/<email>/adc.json),
+    # skipping ADC which is already handled above.
+    cred_hits: list[str] = []
     for path in base.rglob("*.json"):
         if not path.is_file() or path == adc:
             continue
         head = read_text(path, limit=4_000) or ""
-        if '"type": "service_account"' in head or '"private_key":' in head:
-            sa_hits.append(home_rel(path))
-    if sa_hits:
+        if ('"type": "service_account"' in head
+                or '"type": "authorized_user"' in head
+                or '"private_key":' in head):
+            cred_hits.append(home_rel(path))
+    if cred_hits:
         report.add(ALERT, category,
-                   f"{len(sa_hits)} service-account key file(s)",
-                   sa_hits[0] if len(sa_hits) == 1 else f"{sa_hits[0]} (+{len(sa_hits)-1} more)")
+                   f"{len(cred_hits)} long-lived credential file(s)",
+                   cred_hits[0] if len(cred_hits) == 1 else f"{cred_hits[0]} (+{len(cred_hits)-1} more)")
     else:
-        report.add(OK, category, "no service-account JSON keys")
+        report.add(OK, category, "no service-account or refresh-token JSONs")
+
+    # gcloud auth login stashes user-account refresh tokens in a SQLite DB —
+    # long-lived creds that mint fresh access tokens indefinitely.
+    creds_db = base / "credentials.db"
+    if creds_db.is_file() and creds_db.stat().st_size > 0:
+        report.add(ALERT, category,
+                   "gcloud auth login refresh tokens cached",
+                   home_rel(creds_db))
 
     # gcloud stores short-lived access tokens in a SQLite database.
     tokens_db = base / "access_tokens.db"
@@ -571,8 +659,9 @@ def check_kube(report: Report) -> None:
     label = home_rel(cfg)
     # Look for inline tokens / client-key-data; flag exec/auth-provider as
     # fine because those defer to an external command at use time.
+    # client-certificate-data is the *public* client cert and not itself secret.
     suspicious = re.search(
-        r"^\s*(token|password|client-key-data|client-certificate-data)\s*:\s*\S+",
+        r"^\s*(token|password|client-key-data)\s*:\s*\S+",
         content, re.MULTILINE,
     )
     if suspicious:
@@ -659,6 +748,15 @@ def check_misc_clis(report: Report) -> None:
         ("HuggingFace",  HOME / ".cache" / "huggingface" / "token"),
         ("GnuPG",        HOME / ".gnupg" / "private-keys-v1.d"),
     ]
+    # Categories whose files are opaque token blobs (no key=value structure) —
+    # existence + non-empty is the credential signal.
+    EXISTENCE_CATEGORIES = {"HuggingFace", "Supabase"}
+    # Categories whose token shape isn't in SECRET_PATTERNS but whose config
+    # syntax exposes credential-named fields (Fly.io JWT, Databricks `dapi…`,
+    # Vercel opaque, Snowflake `password = …`, etc.).
+    CRED_SHAPE_CATEGORIES = {"Fly.io", "Vercel", "Databricks", "Snowflake",
+                             "Linode", "Hetzner", "Wrangler"}
+
     seen: set[Path] = set()
     for category, path in targets:
         if path in seen:
@@ -674,16 +772,20 @@ def check_misc_clis(report: Report) -> None:
             else:
                 report.add(OK, category, "no private keys", home_rel(path))
             continue
-        if category == "HuggingFace" and path.is_file():
-            size = path.stat().st_size
-            if size > 0:
+        if category in EXISTENCE_CATEGORIES:
+            if not path.is_file():
+                continue
+            if path.stat().st_size > 0:
                 report.add(ALERT, category, "token cached on disk", home_rel(path))
             else:
                 report.add(OK, category, "empty", home_rel(path))
             continue
         if not path.exists():
             continue
-        _scan_file(category, path, report)
+        if category in CRED_SHAPE_CATEGORIES:
+            _scan_credential_file(category, path, report)
+        else:
+            _scan_file(category, path, report)
 
 
 def check_shell_history(report: Report) -> None:
@@ -819,8 +921,10 @@ def check_build_tools(report: Report) -> None:
         label = home_rel(composer_auth)
         try:
             data = json.loads(content or "{}")
+            # gitlab-domains is just a list of domain names that extend the default
+            # gitlab.com matcher — not credential material.
             cred_keys = {"github-oauth", "gitlab-oauth", "bitbucket-oauth",
-                         "http-basic", "bearer", "gitlab-domains"}
+                         "http-basic", "bearer"}
             if cred_keys & set(data.keys()):
                 report.add(ALERT, category, "Composer registry credentials", label)
             else:
@@ -829,6 +933,8 @@ def check_build_tools(report: Report) -> None:
             matches = find_known_patterns(content)
             if matches:
                 report.add(ALERT, category, ", ".join(matches), label)
+            else:
+                report.add(WARN, category, "auth.json not valid JSON", label)
         break
     else:
         report.add(OK, category, "Composer auth.json absent")
