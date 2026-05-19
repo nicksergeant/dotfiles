@@ -841,6 +841,21 @@ def check_shell_history(report: Report) -> None:
         report.add(OK, category, "no token patterns in shell history")
 
 
+FISH_SET_RE = re.compile(
+    r"^\s*set\s+(?:-[a-zA-Z]+\s+)*([A-Za-z_][A-Za-z0-9_]*)\s+(.+?)\s*$"
+)
+
+
+def _parse_fish_sets(content: str) -> Iterator[tuple[str, str]]:
+    for line in content.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        m = FISH_SET_RE.match(line)
+        if m:
+            yield m.group(1), m.group(2)
+
+
 def check_shell_configs(report: Report) -> None:
     category = "shell config"
     paths: list[Path] = [
@@ -863,9 +878,12 @@ def check_shell_configs(report: Report) -> None:
             any_alerts = True
             continue
         flagged_names: list[str] = []
-        for _lineno, name, raw in parse_env_text(content):
-            label = env_value_is_secret(name, raw)
-            if label:
+        if path.suffix == ".fish":
+            assignments = _parse_fish_sets(content)
+        else:
+            assignments = ((name, raw) for _, name, raw in parse_env_text(content))
+        for name, raw in assignments:
+            if env_value_is_secret(name, raw):
                 flagged_names.append(name)
         if flagged_names:
             report.add(ALERT, category,
@@ -1078,11 +1096,26 @@ def check_certificates(report: Report) -> None:
         report.add(OK, category, "no private keys in certificate directories")
 
 
-def check_launch_agents(report: Report) -> None:
-    """Flag LaunchAgents whose binary or args lives in an unusual location.
+def _plist_strings(obj: object) -> Iterator[str]:
+    if isinstance(obj, str):
+        yield obj
+    elif isinstance(obj, dict):
+        for v in obj.values():
+            yield from _plist_strings(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            yield from _plist_strings(v)
 
-    Path-based rather than name-based since persistence-malware names
-    rotate freely; what stays stable is *where* the payload sits.
+
+def check_launch_agents(report: Report) -> None:
+    """Flag LaunchAgents whose binary or args lives in an unusual location,
+    and scan plist content for embedded credentials.
+
+    Path checks are name-stable (persistence malware names rotate freely;
+    where the payload sits doesn't). The content scan catches the parallel
+    case: hardcoded API tokens in EnvironmentVariables or inline bearer
+    tokens in ProgramArguments — exactly what `find_known_patterns` exists
+    to detect when a worm grepping plist text would harvest them whole.
     """
     category = "LaunchAgents"
     agents_dir = HOME / "Library" / "LaunchAgents"
@@ -1128,6 +1161,15 @@ def check_launch_agents(report: Report) -> None:
                 data = plistlib.load(fh)
         except Exception:
             report.add(WARN, category, "unreadable plist", home_rel(plist))
+            continue
+
+        joined = "\n".join(_plist_strings(data))
+        embedded = find_known_patterns(joined, include_jwt=True)
+        if embedded:
+            report.add(ALERT, category,
+                       f"embedded credential in plist: {', '.join(embedded)}",
+                       home_rel(plist))
+            any_alerts = True
             continue
 
         args = data.get("ProgramArguments") or []
