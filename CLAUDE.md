@@ -287,6 +287,18 @@ The `gcam` function provides AI-powered commit messages:
 ### Commit Messages
 **Never attribute Claude or any other AI tooling in commit messages.** Write commits as if the changes were authored by you directly. Commit messages should reflect the actual changes made without mentioning AI assistance or Claude Code. Do not include `Co-Authored-By` lines referencing Claude or any AI.
 
+### Inline source comments: WHY-non-obvious only, readable cold
+
+A comment in source must be understandable to a future reader with zero context — no conversation, no PR description, no git blame. Don't write comments explaining *why we chose this form over an alternative we rejected* — that's commit-message material. Don't reference the bug, the conversation, or "we tried X first." The source is the present-tense artifact, not the history of how it got there.
+
+Test: if removing the comment loses only "the story of how this code came to be" but doesn't leave the reader confused about what the code does or why a specific line is non-obvious, delete the comment.
+
+- **Good** (WHY non-obvious): `# parent_mode 0700: OpenSSH refuses keys in group/world-readable dirs.`
+- **Bad** (decision rationale): `# Use _scan_credential_file (not _scan_file) because the round-4 fix taught us SECRET_PATTERNS doesn't catch opaque tokens.` ← belongs in the commit message that introduced this line, not next to the line forever.
+- **Bad** (restating obvious code): `# Loop over the targets list` next to `for category, path in targets:`.
+
+Don't add comments to a function/check just to summarise what the very next line of code already says.
+
 ## File Modification Status
 
 Check current state:

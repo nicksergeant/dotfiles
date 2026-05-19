@@ -75,6 +75,7 @@ s() {
 alias ta='tmux attach -t'
 alias rm='/Users/nsergeant/Sources/dotfiles/bin/rm'
 alias vim='nvim'
+alias scanforsecrets='python3 ~/Sources/dotfiles/scripts/secret-scan.py'
 
 # }}}
 # Nix ------------------------------------------ {{{
