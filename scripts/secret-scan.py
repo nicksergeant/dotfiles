@@ -52,7 +52,6 @@ class Style:
 def green(s: str) -> str:  return Style.wrap("32", s)
 def red(s: str) -> str:    return Style.wrap("31", s)
 def yellow(s: str) -> str: return Style.wrap("33", s)
-def blue(s: str) -> str:   return Style.wrap("34", s)
 def dim(s: str) -> str:    return Style.wrap("2", s)
 def bold(s: str) -> str:   return Style.wrap("1", s)
 
@@ -405,13 +404,32 @@ def check_aws(report: Report) -> None:
     for var in ("AWS_SHARED_CREDENTIALS_FILE", "AWS_CONFIG_FILE"):
         if os.environ.get(var):
             candidates.append(Path(os.environ[var]).expanduser())
-    # Also flag service-account-style JSON keys lying around.
     for path in dedupe(candidates):
         _scan_file(category, path, report)
-    sa_dir = HOME / ".config" / "gcloud"
-    if sa_dir.exists():
-        # Handled by check_gcloud
-        pass
+
+    # SSO access tokens (~8h valid) and assumed-role temp creds are stored as
+    # plain JSON in these cache dirs — fresh, usable creds a worm can ship whole.
+    for cache_dir in (HOME / ".aws" / "sso" / "cache",
+                      HOME / ".aws" / "cli" / "cache"):
+        if not cache_dir.is_dir():
+            report.add(OK, category, f"{cache_dir.parent.name}/{cache_dir.name} absent",
+                       home_rel(cache_dir))
+            continue
+        hits: list[str] = []
+        for p in cache_dir.glob("*.json"):
+            if not p.is_file():
+                continue
+            head = read_text(p, limit=4_000) or ""
+            if any(k in head for k in ('"accessToken"', '"AccessKeyId"',
+                                       '"SecretAccessKey"', '"SessionToken"')):
+                hits.append(p.name)
+        if hits:
+            report.add(ALERT, category,
+                       f"{len(hits)} cached credential file(s) in {cache_dir.name}",
+                       home_rel(cache_dir))
+        else:
+            report.add(OK, category, f"{cache_dir.name} cache has no credential files",
+                       home_rel(cache_dir))
 
 
 def check_gcloud(report: Report) -> None:
@@ -420,12 +438,23 @@ def check_gcloud(report: Report) -> None:
     if not base.exists():
         report.add(OK, category, "~/.config/gcloud absent")
         return
-    creds = base / "application_default_credentials.json"
-    _scan_file(category, creds, report, op_template_ok=False)
-    # Scan for any *.json that looks like a service account key.
+
+    # ADC from `gcloud auth application-default login` contains client_secret +
+    # refresh_token — no token shape the pattern library recognises, but the
+    # file itself is a usable credential a worm would ship whole.
+    adc = base / "application_default_credentials.json"
+    if adc.is_file():
+        if adc.stat().st_size > 0:
+            report.add(ALERT, category, "ADC credential cached on disk", home_rel(adc))
+        else:
+            report.add(OK, category, "ADC file empty", home_rel(adc))
+    else:
+        report.add(OK, category, "ADC file absent", home_rel(adc))
+
+    # Scan for service-account key JSONs, skipping ADC (already handled above).
     sa_hits: list[str] = []
     for path in base.rglob("*.json"):
-        if not path.is_file():
+        if not path.is_file() or path == adc:
             continue
         head = read_text(path, limit=4_000) or ""
         if '"type": "service_account"' in head or '"private_key":' in head:
@@ -849,7 +878,7 @@ def main(argv: list[str]) -> int:
             or os.environ.get("NO_COLOR"):
         Style.enabled = False
 
-    if args.scan_dirs is None:
+    if not args.scan_dirs:
         scan_dirs = [HOME / "Code", HOME / "Sources"]
     else:
         scan_dirs = [Path(p).expanduser() for p in args.scan_dirs]
