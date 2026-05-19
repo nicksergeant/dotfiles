@@ -1233,6 +1233,13 @@ def check_user_bin_scripts(report: Report) -> None:
         report.add(OK, category, "no shell scripts in ~/.local/bin")
 
 
+# Categories whose ALERTs describe the file *as* the threat (malware drop,
+# pattern hit inside a config the user owns) rather than a credential store.
+# Perm-checking those files doesn't change the response — leave them out.
+_NON_CRED_ALERT_CATEGORIES = {"LaunchAgents", "user bin", "shell history",
+                              "shell config"}
+
+
 def check_file_permissions(report: Report) -> None:
     category = "permissions"
     STRICT: list[Path] = [
@@ -1251,6 +1258,19 @@ def check_file_permissions(report: Report) -> None:
                     and not entry.name.endswith(".pub")
                     and starts_with_private_key_header(entry)):
                 STRICT.append(entry)
+    # Pick up anything the content checks already ALERTed on so the perm
+    # list auto-tracks coverage instead of drifting from it.
+    seen = set(STRICT)
+    for f in report.alerts():
+        if f.category in _NON_CRED_ALERT_CATEGORIES:
+            continue
+        if not f.detail.startswith("~/"):
+            continue
+        p = HOME / f.detail[2:].split(" ", 1)[0]
+        if p.is_file() and p not in seen:
+            STRICT.append(p)
+            seen.add(p)
+
     bad: list[str] = []
     for path in STRICT:
         if not path.exists():
