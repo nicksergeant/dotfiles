@@ -842,7 +842,8 @@ def check_shell_history(report: Report) -> None:
 
 
 FISH_SET_RE = re.compile(
-    r"^\s*set\s+(?:-[a-zA-Z]+\s+)*([A-Za-z_][A-Za-z0-9_]*)\s+(.+?)\s*$"
+    r"^\s*set\s+(?:--?[a-zA-Z][a-zA-Z-]*\s+)*"
+    r"([A-Za-z_][A-Za-z0-9_]*)\s+(.+?)\s*$"
 )
 
 
@@ -852,8 +853,12 @@ def _parse_fish_sets(content: str) -> Iterator[tuple[str, str]]:
         if not stripped or stripped.startswith("#"):
             continue
         m = FISH_SET_RE.match(line)
-        if m:
-            yield m.group(1), m.group(2)
+        if not m:
+            continue
+        name, raw = m.group(1), m.group(2)
+        if not raw.startswith(("'", '"')):
+            raw = re.sub(r"\s+#.*$", "", raw)
+        yield name, raw
 
 
 def check_shell_configs(report: Report) -> None:
