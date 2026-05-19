@@ -882,10 +882,17 @@ def check_databases(report: Report) -> None:
     else:
         report.add(OK, category, "~/.my.cnf absent")
 
-    # Redis CLI auth URL in REDISCLI_AUTH or redis.conf
+    # redis.conf uses space-separated `requirepass <pw>` / `masterauth <pw>` —
+    # not KEY=VALUE, so _scan_file's SECRET_PATTERNS pass would miss them.
     redis_conf = HOME / ".config" / "redis" / "redis.conf"
     if redis_conf.is_file():
-        _scan_file(category, redis_conf, report)
+        content = read_text(redis_conf) or ""
+        if re.search(r"^\s*(?:requirepass|masterauth)\s+\S", content, re.MULTILINE):
+            report.add(ALERT, category, "plaintext password in redis.conf",
+                       home_rel(redis_conf))
+        else:
+            report.add(OK, category, "redis.conf has no plain password",
+                       home_rel(redis_conf))
 
 
 def check_build_tools(report: Report) -> None:
@@ -1112,10 +1119,21 @@ def check_launch_agents(report: Report) -> None:
 
         age_days = (now - plist.stat().st_mtime) / 86400
 
-        if any(program.startswith(p) for p in SUSPICIOUS_PREFIXES) or _is_hidden_home(program):
+        # Canonical macOS persistence pattern: signed interpreter (/usr/bin/python3,
+        # /usr/bin/env, /bin/bash) as args[0], with the real payload as a path in
+        # args[1:]. Checking only `program` lets these fly under SAFE_PREFIXES,
+        # so we also scan additional args for path-shaped suspicious values.
+        script_paths = [a for a in args[1:]
+                        if isinstance(a, str) and a.startswith("/")]
+        suspect_paths = [
+            p for p in [program, *script_paths]
+            if any(p.startswith(s) for s in SUSPICIOUS_PREFIXES) or _is_hidden_home(p)
+        ]
+
+        if suspect_paths:
             report.add(ALERT, category,
-                       f"agent runs from suspicious path",
-                       f"{plist.name} → {program}")
+                       "agent runs binary/script from suspicious path",
+                       f"{plist.name} → {' '.join(suspect_paths)}")
             any_alerts = True
         elif not any(program.startswith(p) for p in SAFE_PREFIXES):
             # Unknown location (e.g. custom home bin, unusual prefix) — worth reviewing.
@@ -1132,35 +1150,49 @@ def check_launch_agents(report: Report) -> None:
     if not any_alerts:
         report.add(OK, category, "all LaunchAgents run from known-safe paths")
 
-    # Also scan ~/.local/bin/ for shell scripts — common malware drop point
-    # (e.g. gh-token-monitor.sh from Shai-Hulud). Legitimate package managers
-    # install compiled binaries there, not .sh files.
+
+def check_user_bin_scripts(report: Report) -> None:
+    """Flag shell scripts dropped into ~/.local/bin — a common malware drop
+    point (e.g. Shai-Hulud's gh-token-monitor.sh). Legitimate package
+    managers install compiled binaries there, not .sh files. This check is
+    independent of LaunchAgents: a worm can persist via crontab, shell rc,
+    or .zshenv and still drop a payload here.
+    """
+    category = "user bin"
     local_bin = HOME / ".local" / "bin"
-    if local_bin.is_dir():
-        sh_scripts = [p for p in local_bin.iterdir()
-                      if p.is_file() and p.suffix == ".sh"]
-        if sh_scripts:
-            for s in sh_scripts:
-                report.add(ALERT, category,
-                           "shell script in ~/.local/bin (common malware drop)",
-                           home_rel(s))
-        else:
-            report.add(OK, category, "no shell scripts in ~/.local/bin")
+    if not local_bin.is_dir():
+        report.add(OK, category, "~/.local/bin absent")
+        return
+    sh_scripts = [p for p in local_bin.iterdir()
+                  if p.is_file() and p.suffix == ".sh"]
+    if sh_scripts:
+        for s in sh_scripts:
+            report.add(ALERT, category,
+                       "shell script in ~/.local/bin (common malware drop)",
+                       home_rel(s))
+    else:
+        report.add(OK, category, "no shell scripts in ~/.local/bin")
 
 
 def check_file_permissions(report: Report) -> None:
     category = "permissions"
-    STRICT = [
-        HOME / ".ssh" / "id_rsa",
-        HOME / ".ssh" / "id_ed25519",
-        HOME / ".ssh" / "id_ecdsa",
-        HOME / ".ssh" / "id_dsa",
+    STRICT: list[Path] = [
         HOME / ".netrc",
         HOME / ".pgpass",
         HOME / ".my.cnf",
         HOME / ".aws" / "credentials",
         HOME / ".vault-token",
     ]
+    # Discover SSH private keys dynamically — custom-named keys like
+    # ~/.ssh/github_key or ~/.ssh/work_id_rsa would otherwise slip past
+    # the canonical id_rsa / id_ed25519 / id_ecdsa / id_dsa list.
+    ssh_dir = HOME / ".ssh"
+    if ssh_dir.is_dir():
+        for entry in ssh_dir.iterdir():
+            if (entry.is_file()
+                    and not entry.name.endswith(".pub")
+                    and starts_with_private_key_header(entry)):
+                STRICT.append(entry)
     bad: list[str] = []
     for path in STRICT:
         if not path.exists():
@@ -1314,6 +1346,7 @@ CHECKS = [
     ("shell config",    check_shell_configs),
     ("shell history",   check_shell_history),
     ("LaunchAgents",    check_launch_agents),
+    ("user bin",        check_user_bin_scripts),
     ("permissions",     check_file_permissions),
 ]
 
