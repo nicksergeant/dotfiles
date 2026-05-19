@@ -123,7 +123,7 @@ SECRET_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"glpat-[A-Za-z0-9_-]{20,}"),                          "GitLab PAT"),
     (re.compile(r"SG\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{40,}"),        "SendGrid API key"),
     (re.compile(r"NRAK-[A-Z0-9]{27}"),                                  "New Relic license key"),
-    (re.compile(r"key-[0-9a-zA-Z]{32}"),                                "Mailgun API key"),
+    (re.compile(r"(?<![A-Za-z0-9])key-[0-9a-f]{32}(?![A-Za-z0-9])"),    "Mailgun API key"),
     (re.compile(r"shp(?:at|ss|ca|pa|sc)_[A-Za-z0-9]{32,}"),            "Shopify token"),
     (re.compile(r"pul-[0-9a-f]{40}"),                                   "Pulumi access token"),
     (re.compile(r"r0_[A-Za-z0-9_-]{32,}"),                              "Render API key"),
@@ -197,10 +197,19 @@ def home_rel(p: Path) -> str:
         return str(p)
 
 
-def read_text(path: Path, limit: int = 2_000_000) -> Optional[str]:
-    """Read a text file, returning None on error. Caps at `limit` bytes."""
+def read_text(path: Path, limit: int = 2_000_000, *,
+              tail: bool = False) -> Optional[str]:
+    """Read a text file, returning None on error. Caps at `limit` bytes.
+
+    With tail=True, reads the *last* `limit` bytes instead of the first —
+    useful for history files where recent entries are at the end.
+    """
     try:
         with open(path, "rb") as fh:
+            if tail:
+                size = path.stat().st_size
+                if size > limit:
+                    fh.seek(size - limit)
             data = fh.read(limit + 1)
     except (PermissionError, FileNotFoundError, IsADirectoryError, OSError):
         return None
@@ -685,7 +694,7 @@ def check_shell_history(report: Report) -> None:
         path = HOME / name
         if not path.exists():
             continue
-        content = read_text(path, limit=8_000_000)
+        content = read_text(path, limit=8_000_000, tail=True)
         if content is None:
             continue
         matches = find_known_patterns(content)
@@ -867,21 +876,22 @@ def check_azure(report: Report) -> None:
         else:
             report.add(OK, category, "MSAL token cache empty", home_rel(msal))
 
-    # Legacy access tokens (az CLI < 2.x)
-    legacy = azure_dir / "accessTokens.json"
-    if legacy.is_file() and legacy.stat().st_size > 0:
-        report.add(ALERT, category,
-                   "legacy accessTokens.json on disk", home_rel(legacy))
-
-    # Service principal credentials
-    sp = azure_dir / "servicePrincipalCredentials.json"
-    if sp.is_file() and sp.stat().st_size > 0:
-        report.add(ALERT, category,
-                   "Service Principal credentials on disk", home_rel(sp))
+    for path, label in (
+        (azure_dir / "accessTokens.json",               "legacy accessTokens.json"),
+        (azure_dir / "servicePrincipalCredentials.json", "Service Principal credentials"),
+    ):
+        if not path.is_file():
+            continue
+        if path.stat().st_size > 0:
+            report.add(ALERT, category, f"{label} on disk", home_rel(path))
+        else:
+            report.add(OK, category, f"{label} empty", home_rel(path))
 
     if not azure_dir.exists():
         report.add(OK, category, "~/.azure absent")
-    elif not any((msal.is_file(), legacy.is_file(), sp.is_file())):
+    elif not any(p.is_file() for p in (msal,
+                                       azure_dir / "accessTokens.json",
+                                       azure_dir / "servicePrincipalCredentials.json")):
         report.add(OK, category, "no token files in ~/.azure")
 
 
@@ -895,10 +905,11 @@ def check_certificates(report: Report) -> None:
         HOME / "certificates",
         HOME / ".certificates",
     ]
-    BINARY_KEY_EXTS = {".p12", ".pfx", ".jks", ".keystore"}
-    TEXT_KEY_EXTS   = {".pem", ".key"}
+    BINARY_CONTAINER_EXTS = {".p12", ".pfx", ".jks", ".keystore"}
+    TEXT_KEY_EXTS         = {".pem", ".key"}
 
-    hits: list[str] = []
+    key_hits: list[str] = []
+    container_hits: list[str] = []
     for d in search_dirs:
         if not d.is_dir():
             continue
@@ -906,16 +917,21 @@ def check_certificates(report: Report) -> None:
             if not p.is_file():
                 continue
             ext = p.suffix.lower()
-            if ext in BINARY_KEY_EXTS:
-                hits.append(home_rel(p))
+            if ext in BINARY_CONTAINER_EXTS:
+                container_hits.append(home_rel(p))
             elif ext in TEXT_KEY_EXTS and starts_with_private_key_header(p):
-                hits.append(home_rel(p))
+                key_hits.append(home_rel(p))
 
-    if hits:
+    if key_hits:
         report.add(ALERT, category,
-                   f"{len(hits)} private key / keystore file(s)",
-                   hits[0] if len(hits) == 1 else f"{hits[0]} (+{len(hits)-1} more)")
-    else:
+                   f"{len(key_hits)} private key file(s)",
+                   key_hits[0] if len(key_hits) == 1 else f"{key_hits[0]} (+{len(key_hits)-1} more)")
+    if container_hits:
+        # Could be a private keystore or a public truststore — can't tell without parsing.
+        report.add(WARN, category,
+                   f"{len(container_hits)} keystore/truststore file(s) (contents not inspected)",
+                   container_hits[0] if len(container_hits) == 1 else f"{container_hits[0]} (+{len(container_hits)-1} more)")
+    if not key_hits and not container_hits:
         report.add(OK, category, "no private keys in certificate directories")
 
 
