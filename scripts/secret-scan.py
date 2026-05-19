@@ -411,13 +411,18 @@ def _scan_file(category: str, path: Path, report: Report,
 # Match credential-named fields in INI / TOML / YAML / JSON. Used by
 # `_scan_credential_file` for cred-store files whose token shapes are
 # opaque (no known prefix) but whose surrounding syntax is recognisable.
-# The negative lookbehind prevents matching inside identifiers like
-# `my_token` or `customtoken`.
+# The negative lookbehind blocks matching inside English-letter
+# identifiers (`customtoken`, `mypassword`) but deliberately allows
+# underscore-prefixed compound keys (`rubygems_api_key`, `my_token`)
+# since those almost always are credential references rather than
+# false positives.
 CRED_KEY_RE = re.compile(
     r"""
-    (?<![A-Za-z_])
+    (?<![A-Za-z])
+    ["']?                    # optional opening quote (JSON-style "key")
     (?P<key>token|access[_-]?token|api[_-]?key|password|passwd|
             secret|client[_-]?secret|auth[_-]?token|private[_-]?key)
+    ["']?                    # optional closing quote
     \s*[:=]\s*
     ["']?(?P<value>[^\s"',}\]]+)
     """,
@@ -435,6 +440,9 @@ def _scan_credential_file(category: str, path: Path, report: Report) -> None:
     surrounding syntax is recognisable as INI / YAML / TOML / JSON.
     """
     label = home_rel(path)
+    if not path.exists():
+        report.add(OK, category, "absent", label)
+        return
     if path.is_symlink():
         try:
             target = path.resolve()
@@ -692,26 +700,29 @@ def check_vault(report: Report) -> None:
 
 
 def check_pypi(report: Report) -> None:
-    _scan_file("PyPI", HOME / ".pypirc", report)
+    # ~/.pypirc holds `password = pypi-AgEIc…` — opaque shape, no prefix in
+    # SECRET_PATTERNS — route through credential-shape detector.
+    _scan_credential_file("PyPI", HOME / ".pypirc", report)
 
 
 def check_cargo(report: Report) -> None:
-    _scan_file("Cargo", HOME / ".cargo" / "credentials", report,
-               op_template_ok=False)
-    _scan_file("Cargo", HOME / ".cargo" / "credentials.toml", report,
-               op_template_ok=False)
+    # ~/.cargo/credentials{,.toml}: `token = "<opaque>"` — opaque shape.
+    _scan_credential_file("Cargo", HOME / ".cargo" / "credentials", report)
+    _scan_credential_file("Cargo", HOME / ".cargo" / "credentials.toml", report)
 
 
 def check_ruby(report: Report) -> None:
-    _scan_file("RubyGems", HOME / ".gem" / "credentials", report,
-               op_template_ok=False)
-    _scan_file("Bundler", HOME / ".bundle" / "config", report)
+    # ~/.gem/credentials: YAML `:rubygems_api_key: rubygems_xxx`
+    # ~/.bundle/config: `BUNDLE_<host>: <token>` — both opaque shapes.
+    _scan_credential_file("RubyGems", HOME / ".gem" / "credentials", report)
+    _scan_credential_file("Bundler", HOME / ".bundle" / "config", report)
 
 
 def check_terraform(report: Report) -> None:
-    _scan_file("Terraform", HOME / ".terraform.d" / "credentials.tfrc.json",
-               report, op_template_ok=False)
-    _scan_file("Terraform", HOME / ".terraformrc", report)
+    # ~/.terraform.d/credentials.tfrc.json: `"token": "<id>.atlasv1.<opaque>"`
+    _scan_credential_file("Terraform", HOME / ".terraform.d" / "credentials.tfrc.json",
+                          report)
+    _scan_credential_file("Terraform", HOME / ".terraformrc", report)
 
 
 def check_netrc(report: Report) -> None:
