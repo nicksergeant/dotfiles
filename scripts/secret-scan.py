@@ -549,15 +549,19 @@ def check_gcloud(report: Report) -> None:
 
     # Scan for long-lived credential JSONs (service-account keys AND
     # user-account refresh tokens under legacy_credentials/<email>/adc.json),
-    # skipping ADC which is already handled above.
+    # skipping ADC which is already handled above. Use whitespace-tolerant
+    # regex rather than literal substrings — compact JSON emitters (no space
+    # after colon) would slip past `'"type": "service_account"'`.
+    GCLOUD_TYPE_RE = re.compile(
+        r'"type"\s*:\s*"(?:service_account|authorized_user)"'
+    )
+    GCLOUD_PRIVKEY_RE = re.compile(r'"private_key"\s*:')
     cred_hits: list[str] = []
     for path in base.rglob("*.json"):
         if not path.is_file() or path == adc:
             continue
         head = read_text(path, limit=4_000) or ""
-        if ('"type": "service_account"' in head
-                or '"type": "authorized_user"' in head
-                or '"private_key":' in head):
+        if GCLOUD_TYPE_RE.search(head) or GCLOUD_PRIVKEY_RE.search(head):
             cred_hits.append(home_rel(path))
     if cred_hits:
         report.add(ALERT, category,
@@ -730,7 +734,6 @@ def check_netrc(report: Report) -> None:
 
 def check_misc_clis(report: Report) -> None:
     targets: list[tuple[str, Path]] = [
-        ("Heroku",       HOME / ".netrc"),  # heroku stashes here; handled by check_netrc
         ("Fly.io",       HOME / ".fly" / "config.yml"),
         ("Wrangler",     HOME / ".wrangler" / "config" / "default.toml"),
         ("Wrangler",     HOME / ".config" / ".wrangler" / "config" / "default.toml"),
@@ -762,9 +765,6 @@ def check_misc_clis(report: Report) -> None:
         if path in seen:
             continue
         seen.add(path)
-        if category == "Heroku":
-            # Handled inside check_netrc — skip.
-            continue
         if category == "GnuPG":
             if path.is_dir() and any(path.iterdir()):
                 report.add(ALERT, category, "private key material in ~/.gnupg",
@@ -893,6 +893,8 @@ def check_databases(report: Report) -> None:
         else:
             report.add(OK, category, "redis.conf has no plain password",
                        home_rel(redis_conf))
+    else:
+        report.add(OK, category, "redis.conf absent", home_rel(redis_conf))
 
 
 def check_build_tools(report: Report) -> None:
@@ -954,6 +956,8 @@ def check_build_tools(report: Report) -> None:
             report.add(ALERT, category, "SBT credentials with password", home_rel(sbt_creds))
         else:
             report.add(OK, category, "SBT credentials no plain password", home_rel(sbt_creds))
+    else:
+        report.add(OK, category, "SBT credentials absent", home_rel(sbt_creds))
 
     # NuGet — may store plaintext API keys
     for nuget in (HOME / ".nuget" / "NuGet" / "NuGet.Config",
@@ -961,6 +965,8 @@ def check_build_tools(report: Report) -> None:
         if nuget.is_file():
             _scan_file(category, nuget, report)
             break
+    else:
+        report.add(OK, category, "NuGet config absent")
 
     # pip config — may embed auth in index-url
     for pip_conf in (HOME / ".config" / "pip" / "pip.conf",
@@ -974,6 +980,8 @@ def check_build_tools(report: Report) -> None:
             else:
                 report.add(OK, category, "pip.conf clean", home_rel(pip_conf))
             break
+    else:
+        report.add(OK, category, "pip.conf absent")
 
 
 def check_azure(report: Report) -> None:
@@ -1130,10 +1138,23 @@ def check_launch_agents(report: Report) -> None:
             if any(p.startswith(s) for s in SUSPICIOUS_PREFIXES) or _is_hidden_home(p)
         ]
 
+        # Inline-command variant: `env bash -c "curl … | sh"` puts no path at
+        # all in args, just an interpreter flag and a string payload. Legit
+        # LaunchAgents that run `-c` are rare enough that an unconditional WARN
+        # is the right default.
+        INLINE_CMD_FLAGS = {"-c", "-Command", "-e", "--command", "-EncodedCommand"}
+        inline_cmd = any(isinstance(a, str) and a in INLINE_CMD_FLAGS
+                         for a in args[1:])
+
         if suspect_paths:
             report.add(ALERT, category,
                        "agent runs binary/script from suspicious path",
                        f"{plist.name} → {' '.join(suspect_paths)}")
+            any_alerts = True
+        elif inline_cmd:
+            report.add(WARN, category,
+                       "agent runs inline command via interpreter flag",
+                       f"{plist.name} → {' '.join(str(a) for a in args[:3])}…")
             any_alerts = True
         elif not any(program.startswith(p) for p in SAFE_PREFIXES):
             # Unknown location (e.g. custom home bin, unusual prefix) — worth reviewing.
