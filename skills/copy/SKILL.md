@@ -1,6 +1,6 @@
 ---
 name: copy
-description: Copy the most recent assistant output to the clipboard as rich text (HTML + RTF + plain text) via ~/Sources/dotfiles/scripts/md2richtext.js. INVOKE this skill whenever the user types `copy()` (literal, with parens) in a message, alone or paired with brief clarification like "copy() the draft email above". The script preserves bold/italic/lists/links/code; the HTML representation lets Mail.app, Notion, etc. inherit their own compose font, while the RTF representation covers TextEdit, Slack, and other RTF-first targets.
+description: Copy the most recent assistant output to the clipboard as rich text (HTML + RTF + plain text) via ~/Sources/dotfiles/scripts/md2richtext.py. INVOKE this skill whenever the user types `copy()` (literal, with parens) in a message, alone or paired with brief clarification like "copy() the draft email above". The script preserves bold/italic/lists/links/code; the HTML representation lets Mail.app, Notion, etc. inherit their own compose font, while the RTF representation covers TextEdit, Slack, and other RTF-first targets.
 ---
 
 # copy
@@ -23,14 +23,14 @@ Default target: the immediately preceding assistant turn's user-visible text, th
 cat <<'COPY_EOF' | pbcopy
 <the markdown content, verbatim>
 COPY_EOF
-~/Sources/dotfiles/scripts/md2richtext.js
+~/Sources/dotfiles/scripts/md2richtext.py
 ```
 
 6. **Confirm.** One short line: "Copied to clipboard as rich text."
 
 ## How the script works
 
-`md2richtext.js` reads markdown from `pbpaste`, converts to HTML, runs it through `textutil` to produce RTF, strips the RTF font/color tables and `\f/\fs/\cf/\cb` references, and replaces the clipboard with three representations: HTML (`«class HTML»`), RTF (`«class RTF »`), and plain text (`string`).
+`md2richtext.py` reads markdown from `pbpaste`, converts to HTML, runs it through `textutil` to produce RTF, strips the RTF font/color tables and `\f/\fs/\cf/\cb` references, and replaces the clipboard with three representations: HTML (`«class HTML»`), RTF (`«class RTF »`), and plain text (`string`).
 
 Pasting into Mail.app or Notion uses the HTML path, which has no `font-family` declared, so the destination app applies its own composition font (Mail's "Message font" preference, etc.). Pasting into a TextEdit/RTF-only target uses the cleaned RTF. Pasting into a plain-text-only target gets the original markdown.
 
