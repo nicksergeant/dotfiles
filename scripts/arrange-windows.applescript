@@ -91,6 +91,7 @@ on run argv
 	resize_app_window("Claude", center_position, center_size)
 	resize_app_window("Google Ads Editor", center_position, center_size)
 	resize_app_window("iA Writer", center_position, center_size)
+	resize_app_window("Mail", center_position, center_size)
 	resize_app_window("Missive", center_position, center_size)
 	resize_app_window("Music", center_position, center_size)
 	resize_app_window("NetNewsWire", center_position, center_size)
