@@ -115,9 +115,9 @@ function processInlineFormatting(text) {
   processed = processed
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
     .replace(/\*\*([^\*\n]+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/__([^_\n]+?)__/g, '<strong>$1</strong>')
+    .replace(/(?<!\w)__([^_\n]+?)__(?!\w)/g, '<strong>$1</strong>')
     .replace(/\*([^\*\n]+?)\*/g, '<em>$1</em>')
-    .replace(/_([^_\n]+?)_/g, '<em>$1</em>')
+    .replace(/(?<!\w)_([^_\n]+?)_(?!\w)/g, '<em>$1</em>')
     .replace(/<<<CODE_(\d+)>>>/g, (_, index) => `<code>${escapeHTML(codes[index])}</code>`)
     .replace(/&(?!(amp|lt|gt|quot|#\d+);)/g, '&amp;');
 
@@ -130,6 +130,28 @@ function escapeHTML(text) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+// Strip font/color tables and refs so paste adopts the destination's default
+// font instead of bringing its own (avoiding Helvetica/Times New Roman in Mail).
+function cleanRTF(rtf) {
+  for (const prefix of ['{\\fonttbl', '{\\colortbl', '{\\*\\expandedcolortbl']) {
+    const start = rtf.indexOf(prefix);
+    if (start === -1) continue;
+    let depth = 1;
+    let i = start + prefix.length;
+    while (i < rtf.length && depth > 0) {
+      if (rtf[i] === '{') depth++;
+      else if (rtf[i] === '}') depth--;
+      i++;
+    }
+    rtf = rtf.substring(0, start) + rtf.substring(i);
+  }
+  return rtf
+    .replace(/\\f\d+ ?/g, '')
+    .replace(/\\fs\d+ ?/g, '')
+    .replace(/\\cf\d+ ?/g, '')
+    .replace(/\\cb\d+ ?/g, '');
 }
 
 try {
@@ -147,7 +169,7 @@ try {
 
   if (rtfResult.error) throw rtfResult.error;
 
-  const rtfData = rtfResult.stdout;
+  const rtfData = cleanRTF(rtfResult.stdout);
   const appleScript = `
     set the clipboard to {«class RTF »:«data RTF ${Buffer.from(rtfData).toString('hex')}», string:"${markdown.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n')}"}
   `;

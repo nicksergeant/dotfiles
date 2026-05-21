@@ -1,10 +1,16 @@
 #!/bin/bash
 
+mkdir -p /Users/nsergeant/.claude/skills
 mkdir -p /Users/nsergeant/.config/alacritty
 mkdir -p /Users/nsergeant/.config/ctags
 mkdir -p /Users/nsergeant/.config/karabiner
 mkdir -p /Users/nsergeant/.config/nix
 mkdir -p /Users/nsergeant/.config/uv
+
+for skill in /Users/nsergeant/Sources/dotfiles/skills/*/; do
+  name=$(basename "$skill")
+  ln -sfn "/Users/nsergeant/Sources/dotfiles/skills/$name" "/Users/nsergeant/.claude/skills/$name"
+done
 
 ln -sn /Users/nsergeant/Sources/dotfiles/nvim /Users/nsergeant/.config/nvim
 
