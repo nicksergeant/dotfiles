@@ -9,7 +9,7 @@ Default target: the immediately preceding assistant turn's user-visible text, th
 
 ## Workflow
 
-1. **Pick the content.** Default to the previous assistant turn. If that turn produced multiple distinct artifacts (e.g., a code change *and* a draft message), ask the user which one before running — don't guess silently.
+1. **Pick the content.** Default to the previous assistant turn. If that turn produced multiple distinct artifacts (e.g., a code change *and* a draft message), ask the user which one before running; don't guess silently.
 
 2. **Strip non-content meta-chatter.** Don't copy framing like "ready to commit", "want me to do X?", or trailing status lines. Just the substantive content the user is asking to copy.
 
