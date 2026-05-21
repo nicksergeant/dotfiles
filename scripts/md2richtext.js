@@ -30,7 +30,7 @@ function convertToHTML(markdown) {
     if (inCodeBlock) {
       if (!line.trim()) {
         // Auto-close on blank line (handles unclosed fences)
-        html += '</blockquote>\n<p></p>\n';
+        html += '</blockquote>\n';
         inCodeBlock = false;
         continue;
       }
@@ -81,17 +81,19 @@ function convertToHTML(markdown) {
       continue;
     }
 
+    // Skip blank lines — adjacent `<p>` tags already provide vertical spacing,
+    // so emitting `<p></p>` here would double-space everything.
     if (!line.trim()) {
-      html += '<p></p>\n';
       continue;
     }
 
-    // Implicit headers: short lines with blank lines before and after
+    // Implicit headers: short lines with blank lines before and after,
+    // excluding greetings/closings (lines ending in `,`).
     const trimmed = line.trim();
     const isShort = trimmed.length < 80;
     const prevEmpty = !prevLine.trim();
     const nextEmpty = !nextLine.trim() || nextLine.match(/^(\s*)[-*\d]/);
-    if (isShort && prevEmpty && nextEmpty && !trimmed.match(/[.!?]$/)) {
+    if (isShort && prevEmpty && nextEmpty && !trimmed.match(/[.!?,]$/)) {
       html += `<p><strong>${processInlineFormatting(trimmed)}</strong></p>\n`;
       continue;
     }
@@ -170,8 +172,14 @@ try {
   if (rtfResult.error) throw rtfResult.error;
 
   const rtfData = cleanRTF(rtfResult.stdout);
+  const htmlHex = Buffer.from(html).toString('hex');
+  const rtfHex = Buffer.from(rtfData).toString('hex');
+  const plainText = markdown
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, '\\n');
   const appleScript = `
-    set the clipboard to {«class RTF »:«data RTF ${Buffer.from(rtfData).toString('hex')}», string:"${markdown.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n')}"}
+    set the clipboard to {«class HTML»:«data HTML${htmlHex}», «class RTF »:«data RTF ${rtfHex}», string:"${plainText}"}
   `;
 
   const asResult = spawnSync('osascript', ['-e', appleScript]);

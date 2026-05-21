@@ -1,6 +1,6 @@
 ---
 name: copy
-description: Copy the most recent assistant output to the clipboard as rich text (HTML+RTF) via ~/Sources/dotfiles/scripts/md2richtext.js. INVOKE this skill whenever the user types `copy()` (literal, with parens) in a message — alone or paired with brief clarification like "copy() the draft email above". The script preserves bold/italic/lists/links/code and strips the RTF font table so paste adopts the destination app's current composition font (Mail.app, Slack, Notion, etc.).
+description: Copy the most recent assistant output to the clipboard as rich text (HTML + RTF + plain text) via ~/Sources/dotfiles/scripts/md2richtext.js. INVOKE this skill whenever the user types `copy()` (literal, with parens) in a message — alone or paired with brief clarification like "copy() the draft email above". The script preserves bold/italic/lists/links/code; the HTML representation lets Mail.app, Notion, etc. inherit their own compose font, while the RTF representation covers TextEdit, Slack, and other RTF-first targets.
 ---
 
 # copy
@@ -13,7 +13,9 @@ Default target: the immediately preceding assistant turn's user-visible text —
 
 2. **Strip non-content meta-chatter.** Don't copy framing like "ready to commit", "want me to do X?", or trailing status lines. Just the substantive content the user is asking to copy.
 
-3. **Pipe to pbcopy via a quoted heredoc, then run the conversion script.** The quoted delimiter (`'COPY_EOF'`) prevents the shell from interpreting backticks, `$`, or backslashes in the content:
+3. **Use bold sparingly.** Reserve `**bold**` for actual section headings — places where a reader needs a visual landmark to navigate a longer message. Do *not* bold greetings (`Hi Susie,`), closings (`Thanks,`), inline emphasis on a single word, or section intros that are immediately followed by a list. Plain text is the default; bold is a navigational tool, not a flourish.
+
+4. **Pipe to pbcopy via a quoted heredoc, then run the conversion script.** The quoted delimiter (`'COPY_EOF'`) prevents the shell from interpreting backticks, `$`, or backslashes in the content:
 
 ```bash
 cat <<'COPY_EOF' | pbcopy
@@ -22,10 +24,10 @@ COPY_EOF
 ~/Sources/dotfiles/scripts/md2richtext.js
 ```
 
-4. **Confirm.** One short line: "Copied to clipboard as rich text."
+5. **Confirm.** One short line: "Copied to clipboard as rich text."
 
 ## How the script works
 
-`md2richtext.js` reads markdown from `pbpaste`, converts to HTML, runs it through `textutil` to produce RTF, strips the RTF font/color tables and `\f/\fs/\cf/\cb` references, and replaces the clipboard with both HTML and RTF representations plus a plain-text fallback.
+`md2richtext.js` reads markdown from `pbpaste`, converts to HTML, runs it through `textutil` to produce RTF, strips the RTF font/color tables and `\f/\fs/\cf/\cb` references, and replaces the clipboard with three representations: HTML (`«class HTML»`), RTF (`«class RTF »`), and plain text (`string`).
 
-Font-stripping means the destination app uses its own current composition font on paste — there is no need to specify fonts in the output. Pasting into Mail.app picks up whatever you've set in Mail's preferences; pasting into Slack picks up Slack's font; pasting into a plain-text-only app gets the original markdown.
+Pasting into Mail.app or Notion uses the HTML path, which has no `font-family` declared, so the destination app applies its own composition font (Mail's "Message font" preference, etc.). Pasting into a TextEdit/RTF-only target uses the cleaned RTF. Pasting into a plain-text-only target gets the original markdown.
