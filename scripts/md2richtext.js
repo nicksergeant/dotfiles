@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 import { execSync, spawnSync } from 'child_process';
+import { fileURLToPath } from 'url';
 
-function convertToHTML(markdown) {
+export function convertToHTML(markdown) {
   let html = '<html><head><meta charset="UTF-8"></head><body style="background-color: white;">\n';
   const lines = markdown.split('\n');
   let inList = false;
@@ -94,7 +95,7 @@ function convertToHTML(markdown) {
   return html;
 }
 
-function processInlineFormatting(text) {
+export function processInlineFormatting(text) {
   const codes = [];
   let processed = text.replace(/`([^`\n]+?)`/g, (_, code) => {
     codes.push(code);
@@ -113,7 +114,7 @@ function processInlineFormatting(text) {
   return processed;
 }
 
-function escapeHTML(text) {
+export function escapeHTML(text) {
   return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -123,7 +124,7 @@ function escapeHTML(text) {
 
 // Strip font/color tables and refs so paste adopts the destination's default
 // font instead of bringing its own (avoiding Helvetica/Times New Roman in Mail).
-function cleanRTF(rtf) {
+export function cleanRTF(rtf) {
   for (const prefix of ['{\\fonttbl', '{\\colortbl', '{\\*\\expandedcolortbl']) {
     const start = rtf.indexOf(prefix);
     if (start === -1) continue;
@@ -143,37 +144,44 @@ function cleanRTF(rtf) {
     .replace(/\\cb\d+ ?/g, '');
 }
 
-try {
-  const markdown = execSync('pbpaste', { encoding: 'utf8' });
-  if (!markdown.trim()) {
-    console.error('Clipboard is empty');
+function main() {
+  try {
+    const markdown = execSync('pbpaste', { encoding: 'utf8' });
+    if (!markdown.trim()) {
+      console.error('Clipboard is empty');
+      process.exit(1);
+    }
+
+    const html = convertToHTML(markdown);
+    const rtfResult = spawnSync('textutil', ['-stdin', '-format', 'html', '-convert', 'rtf', '-stdout'], {
+      encoding: 'utf8',
+      input: html
+    });
+
+    if (rtfResult.error) throw rtfResult.error;
+
+    const rtfData = cleanRTF(rtfResult.stdout);
+    const htmlHex = Buffer.from(html).toString('hex');
+    const rtfHex = Buffer.from(rtfData).toString('hex');
+    const plainText = markdown
+      .replace(/\\/g, '\\\\')
+      .replace(/"/g, '\\"')
+      .replace(/\n/g, '\\n');
+    const appleScript = `
+      set the clipboard to {«class HTML»:«data HTML${htmlHex}», «class RTF »:«data RTF ${rtfHex}», string:"${plainText}"}
+    `;
+
+    const asResult = spawnSync('osascript', ['-e', appleScript]);
+    if (asResult.error) throw asResult.error;
+
+    console.log('OK');
+  } catch (error) {
+    console.error('Error:', error.message);
     process.exit(1);
   }
+}
 
-  const html = convertToHTML(markdown);
-  const rtfResult = spawnSync('textutil', ['-stdin', '-format', 'html', '-convert', 'rtf', '-stdout'], {
-    encoding: 'utf8',
-    input: html
-  });
-
-  if (rtfResult.error) throw rtfResult.error;
-
-  const rtfData = cleanRTF(rtfResult.stdout);
-  const htmlHex = Buffer.from(html).toString('hex');
-  const rtfHex = Buffer.from(rtfData).toString('hex');
-  const plainText = markdown
-    .replace(/\\/g, '\\\\')
-    .replace(/"/g, '\\"')
-    .replace(/\n/g, '\\n');
-  const appleScript = `
-    set the clipboard to {«class HTML»:«data HTML${htmlHex}», «class RTF »:«data RTF ${rtfHex}», string:"${plainText}"}
-  `;
-
-  const asResult = spawnSync('osascript', ['-e', appleScript]);
-  if (asResult.error) throw asResult.error;
-
-  console.log('OK');
-} catch (error) {
-  console.error('Error:', error.message);
-  process.exit(1);
+// Only run the CLI when invoked directly, not when imported by tests.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main();
 }
