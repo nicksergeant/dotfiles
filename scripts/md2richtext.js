@@ -6,7 +6,6 @@ function convertToHTML(markdown) {
   let html = '<html><head><meta charset="UTF-8"></head><body style="background-color: white;">\n';
   const lines = markdown.split('\n');
   let inList = false;
-  let listType = null;
   let inCodeBlock = false;
 
   for (let i = 0; i < lines.length; i++) {
@@ -38,40 +37,28 @@ function convertToHTML(markdown) {
       continue;
     }
 
-    const unorderedMatch = line.match(/^(\s*)[-*]\s+(.+)$/);
-    const orderedMatch = line.match(/^(\s*)\d+\.\s+(.+)$/);
-
     // Skip horizontal rules
     if (line.trim().match(/^-{3,}$|^\*{3,}$|^_{3,}$/)) {
       continue;
     }
 
-    if (unorderedMatch) {
-      if (!inList || listType !== 'ul') {
-        if (inList) html += `</${listType}>\n`;
+    // Lists: both `- item` and `1. item` syntax render as bulleted lists.
+    // Bullets nest more cleanly and feel less aggressive than numerals.
+    const listMatch =
+      line.match(/^(\s*)[-*]\s+(.+)$/) || line.match(/^(\s*)\d+\.\s+(.+)$/);
+
+    if (listMatch) {
+      if (!inList) {
         html += '<ul>\n';
         inList = true;
-        listType = 'ul';
       }
-      html += `<li>${processInlineFormatting(unorderedMatch[2])}</li>\n`;
+      html += `<li>${processInlineFormatting(listMatch[2])}</li>\n`;
       continue;
     }
 
-    if (orderedMatch) {
-      if (!inList || listType !== 'ol') {
-        if (inList) html += `</${listType}>\n`;
-        html += '<ol>\n';
-        inList = true;
-        listType = 'ol';
-      }
-      html += `<li>${processInlineFormatting(orderedMatch[2])}</li>\n`;
-      continue;
-    }
-
-    if (inList && !unorderedMatch && !orderedMatch) {
-      html += `</${listType}>\n`;
+    if (inList) {
+      html += '</ul>\n';
       inList = false;
-      listType = null;
     }
 
     // Explicit markdown headers (with optional leading whitespace)
@@ -101,7 +88,7 @@ function convertToHTML(markdown) {
     html += `<p>${processInlineFormatting(line.trim())}</p>\n`;
   }
 
-  if (inList) html += `</${listType}>\n`;
+  if (inList) html += '</ul>\n';
   if (inCodeBlock) html += '</blockquote>\n';
   html += '</body></html>';
   return html;
