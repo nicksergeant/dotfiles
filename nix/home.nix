@@ -9,6 +9,7 @@
     packages = [
       pkgs.fzf
       pkgs.nixos-rebuild-ng
+      pkgs.nmap
       pkgs.pnpm
       (pkgs.callPackage ./pkgs/ungoogled-chromium { })
     ];
