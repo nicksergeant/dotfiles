@@ -44,7 +44,7 @@ if [ -n "$staged_relevant" ] || [ -n "$nix_or_lock" ]; then
   # flake.lock → nixpkgs. Single dev-shell invocation amortizes startup
   # across all checks.
   if [ -n "$staged_relevant" ]; then
-    if ! ( cd "$flake_dir" && nix develop --command bash scripts/check-staged.sh ); then
+    if ! ( cd "$flake_dir" && nix develop --no-warn-dirty --command bash scripts/check-staged.sh ); then
       echo "" >&2
       echo "BLOCKED: pre-commit checks failed. Fix the issues above before committing." >&2
       echo "         (Or skip with 'git commit --no-verify' if you know what you're doing.)" >&2
@@ -55,7 +55,7 @@ if [ -n "$staged_relevant" ] || [ -n "$nix_or_lock" ]; then
   # Flake validation runs only when .nix or flake.lock changed.
   if [ -n "$nix_or_lock" ]; then
     echo "→ nix flake check (force-evaluate every flake output)"
-    if ! ( cd "$flake_dir" && nix flake check ); then
+    if ! ( cd "$flake_dir" && nix flake check --no-warn-dirty ); then
       echo "" >&2
       echo "BLOCKED: nix flake check failed. Fix the eval errors above before committing." >&2
       exit 1
