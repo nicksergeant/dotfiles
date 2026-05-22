@@ -8,6 +8,7 @@
 
     packages = [
       pkgs.fzf
+      pkgs.jq
       pkgs.nixos-rebuild-ng
       pkgs.nmap
       pkgs.pnpm
