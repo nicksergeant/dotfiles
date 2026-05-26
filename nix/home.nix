@@ -12,6 +12,7 @@
       pkgs.nixos-rebuild-ng
       pkgs.nmap
       pkgs.pnpm
+      pkgs.shellcheck
       (pkgs.callPackage ./pkgs/ungoogled-chromium { })
     ];
   };
