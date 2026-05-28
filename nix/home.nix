@@ -13,6 +13,7 @@
       pkgs.nmap
       pkgs.pnpm
       pkgs.shellcheck
+      pkgs.wafw00f
       (pkgs.callPackage ./pkgs/ungoogled-chromium { })
     ];
   };
