@@ -13,6 +13,7 @@
       pkgs.nmap
       pkgs.pnpm
       pkgs.shellcheck
+      pkgs.tailwindcss_4
       pkgs.wafw00f
       (pkgs.callPackage ./pkgs/ungoogled-chromium { })
     ];
