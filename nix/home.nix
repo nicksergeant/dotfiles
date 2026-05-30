@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 
 {
   home = {
@@ -7,6 +7,7 @@
     stateVersion = "25.11";
 
     packages = [
+      pkgs-unstable.codex
       pkgs.fzf
       pkgs.jq
       pkgs.nixos-rebuild-ng

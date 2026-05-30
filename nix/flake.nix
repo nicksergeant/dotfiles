@@ -36,6 +36,14 @@
 #
 #   nix flake update nixpkgs
 #
+# nixpkgs-unstable — same hydra gating, used ONLY for pkgs-unstable.codex (the
+# Codex CLI ships official tagged releases that move faster than the stable
+# channel; the nixpkgs package builds from the openai `rust-v*` tag, not GH
+# HEAD). No bake window: the unstable channel is CI-gated and the upstream is a
+# real release. To bump codex, just advance the channel:
+#
+#   nix flake update nixpkgs-unstable
+#
 # home-manager — no equivalent gating, so apply a 10-day bake window (mirrors
 # devex/nix.md and ungoogled-chromium's bin/update script). To bump:
 #
@@ -52,6 +60,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     # Currently pinned: 0d02ec1d  (committed 2026-04-05). See "Bumping inputs"
     # at the top of this file for the bump procedure + 10-day rule.
     home-manager = {
@@ -63,14 +72,17 @@
   outputs =
     {
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       ...
     }:
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
       homeConfig = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
+        extraSpecialArgs = { inherit pkgs-unstable; };
         modules = [ ./home.nix ];
       };
     in
